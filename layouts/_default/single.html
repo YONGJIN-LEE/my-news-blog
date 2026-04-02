@@ -1,0 +1,39 @@
+{{ define "main" }}
+<article class="post-single">
+  <header class="post-header">
+    <span class="post-category">{{ with .Params.category }}{{ . }}{{ end }}</span>
+    <h1>{{ .Title }}</h1>
+    <div class="post-meta">
+      <time>{{ .Date.Format "2006년 01월 02일" }}</time>
+      {{ with .Params.tags }}
+      <div class="post-tags">
+        {{ range . }}<span class="tag">#{{ . }}</span> {{ end }}
+      </div>
+      {{ end }}
+    </div>
+  </header>
+
+  {{ with .Params.thumbnail }}
+  <div class="post-hero">
+    <img src="{{ . }}" alt="{{ $.Title }}" loading="lazy">
+  </div>
+  {{ end }}
+
+  <div class="post-content">
+    {{ .Content }}
+  </div>
+
+  <footer class="post-footer">
+    {{ with .Params.tags }}
+    <div class="post-tags-footer">
+      {{ range . }}<a href="/tags/{{ . }}" class="tag">#{{ . }}</a> {{ end }}
+    </div>
+    {{ end }}
+  </footer>
+</article>
+
+<nav class="post-nav">
+  {{ with .PrevInSection }}<a href="{{ .RelPermalink }}" class="prev">&larr; {{ .Title }}</a>{{ end }}
+  {{ with .NextInSection }}<a href="{{ .RelPermalink }}" class="next">{{ .Title }} &rarr;</a>{{ end }}
+</nav>
+{{ end }}

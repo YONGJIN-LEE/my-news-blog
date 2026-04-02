@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KBS 아침마당 35년 만에 대개편, 어떻게 달라지나 — 오늘의 뉴스 브리핑</title>
+  <meta name="description" content="KBS 아침마당 35년 만에 대개편, 어떻게 달라지나">
+  <meta property="og:title" content="KBS 아침마당 35년 만에 대개편, 어떻게 달라지나 — 오늘의 뉴스 브리핑">
+  <meta property="og:description" content="KBS 아침마당 35년 만에 대개편, 어떻게 달라지나">
+  <meta property="og:image" content="https://picsum.photos/seed/4302/1200/630">
+  <meta property="og:type" content="article">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <style>/* ═══════════════════════════════════════════════════════════════
+   Apple-inspired News Blog — 오늘의 뉴스 브리핑
+   Clean, minimal, content-first design
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ─── Reset & Typography ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --black: #1d1d1f;
+  --gray-900: #2d2d2f;
+  --gray-700: #6e6e73;
+  --gray-500: #86868b;
+  --gray-300: #d2d2d7;
+  --gray-100: #f5f5f7;
+  --white: #ffffff;
+  --blue: #0071e3;
+  --blue-hover: #0077ed;
+  --max-width: 720px;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Pretendard',
+               'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  line-height: 1.5;
+  color: var(--black);
+  background: var(--white);
+}
+
+a { color: var(--blue); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+img { max-width: 100%; height: auto; display: block; }
+
+/* ─── Navigation ─── */
+.site-header {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+}
+
+.site-header .container {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 22px;
+  height: 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.site-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--black);
+  letter-spacing: -0.01em;
+}
+
+.site-title:hover { text-decoration: none; }
+
+.site-header nav { display: flex; gap: 28px; }
+
+.site-header nav a {
+  font-size: 0.8rem;
+  color: var(--gray-700);
+  letter-spacing: -0.01em;
+  transition: color 0.2s;
+}
+
+.site-header nav a:hover { color: var(--black); text-decoration: none; }
+
+/* ─── Main Container ─── */
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 22px;
+}
+
+/* ─── Post List (Index Page) ─── */
+.post-list h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  margin: 56px 0 8px;
+  color: var(--black);
+}
+
+.post-list-subtitle {
+  font-size: 0.95rem;
+  color: var(--gray-500);
+  margin-bottom: 40px;
+}
+
+.post-card {
+  display: flex;
+  gap: 24px;
+  padding: 28px 0;
+  border-top: 1px solid var(--gray-300);
+  transition: opacity 0.2s;
+}
+
+.post-card:last-child { border-bottom: 1px solid var(--gray-300); }
+
+.post-card:hover { opacity: 0.85; }
+
+.post-thumb {
+  flex-shrink: 0;
+  width: 200px;
+  height: 134px;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.post-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.post-card:hover .post-thumb img { transform: scale(1.03); }
+
+.post-info { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+
+.post-meta-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.post-category {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--blue);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.post-date {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+.post-info h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.45;
+  letter-spacing: -0.015em;
+  margin-bottom: 6px;
+}
+
+.post-info h2 a { color: var(--black); }
+.post-info h2 a:hover { color: var(--blue); text-decoration: none; }
+
+.post-summary {
+  font-size: 0.85rem;
+  color: var(--gray-700);
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ─── Featured Post (Top of list) ─── */
+.post-featured {
+  padding: 40px 0 32px;
+  border-bottom: 1px solid var(--gray-300);
+  margin-bottom: 8px;
+}
+
+.post-featured .featured-image {
+  width: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.post-featured .featured-image img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+}
+
+.post-featured h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.35;
+  margin-bottom: 8px;
+}
+
+.post-featured h2 a { color: var(--black); }
+.post-featured h2 a:hover { color: var(--blue); text-decoration: none; }
+
+/* ─── Single Post ─── */
+.post-single {
+  padding: 48px 0 64px;
+}
+
+.post-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.post-header .post-category {
+  font-size: 0.75rem;
+  display: inline-block;
+  margin-bottom: 12px;
+}
+
+.post-header h1 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.3;
+  color: var(--black);
+  margin-bottom: 16px;
+  word-break: keep-all;
+}
+
+.post-meta {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  align-items: center;
+  color: var(--gray-500);
+  font-size: 0.85rem;
+}
+
+.post-hero {
+  margin: 0 0 40px;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.post-hero img {
+  width: 100%;
+  max-height: 480px;
+  object-fit: cover;
+}
+
+/* ─── Post Content ─── */
+.post-content {
+  font-size: 1.05rem;
+  line-height: 1.85;
+  color: var(--gray-900);
+  word-break: keep-all;
+}
+
+.post-content h2 {
+  font-size: 1.45rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 48px 0 16px;
+  color: var(--black);
+}
+
+.post-content h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  margin: 36px 0 12px;
+  color: var(--black);
+}
+
+.post-content p {
+  margin: 16px 0;
+}
+
+.post-content ul, .post-content ol {
+  margin: 16px 0;
+  padding-left: 24px;
+}
+
+.post-content li {
+  margin: 8px 0;
+  line-height: 1.7;
+}
+
+.post-content strong {
+  font-weight: 600;
+  color: var(--black);
+}
+
+.post-content blockquote {
+  margin: 28px 0;
+  padding: 20px 24px;
+  background: var(--gray-100);
+  border-radius: 12px;
+  color: var(--gray-700);
+  font-size: 1rem;
+}
+
+.post-content img {
+  margin: 32px auto;
+  border-radius: 12px;
+}
+
+.post-content hr {
+  border: none;
+  height: 1px;
+  background: var(--gray-300);
+  margin: 40px 0;
+}
+
+/* ─── Tags ─── */
+.post-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.tag {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+.post-tags-footer {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--gray-300);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.post-tags-footer .tag {
+  background: var(--gray-100);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  color: var(--gray-700);
+  transition: background 0.2s;
+}
+
+.post-tags-footer .tag:hover {
+  background: var(--gray-300);
+  text-decoration: none;
+}
+
+/* ─── Post Navigation ─── */
+.post-nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 24px 0 48px;
+  font-size: 0.85rem;
+  border-top: 1px solid var(--gray-300);
+  margin-top: 32px;
+}
+
+.post-nav a { color: var(--blue); }
+
+/* ─── Footer ─── */
+.site-footer {
+  background: var(--gray-100);
+  border-top: 1px solid var(--gray-300);
+}
+
+.site-footer .container {
+  max-width: 980px;
+  padding: 20px 22px;
+  text-align: center;
+}
+
+.site-footer p {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+/* ─── Pagination ─── */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  margin: 40px 0;
+  list-style: none;
+  padding: 0;
+}
+
+.pagination li a, .pagination li span {
+  display: inline-block;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  color: var(--gray-700);
+}
+
+.pagination .active span {
+  background: var(--blue);
+  color: var(--white);
+}
+
+.pagination li a:hover {
+  background: var(--gray-100);
+  text-decoration: none;
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 640px) {
+  .post-card {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .post-thumb {
+    width: 100%;
+    height: 200px;
+    border-radius: 12px;
+  }
+
+  .post-list h1 { font-size: 1.6rem; margin-top: 32px; }
+
+  .post-header h1 { font-size: 1.6rem; }
+
+  .post-single { padding: 32px 0 48px; }
+
+  .post-featured .featured-image img { height: 240px; }
+  .post-featured h2 { font-size: 1.3rem; }
+
+  .post-content { font-size: 1rem; }
+}
+</style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="/index.html" class="site-title">오늘의 뉴스 브리핑</a>
+      <nav>
+        <a href="/index.html">최신</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container">
+    <article class="post-single">
+      <header class="post-header">
+        <span class="post-category"></span>
+        <h1>KBS 아침마당 35년 만에 대개편, 어떻게 달라지나</h1>
+        <div class="post-meta">
+          <time>2026-03-30</time>
+          <div class="post-tags"><span class="tag">#아침마당</span> <span class="tag">#KBS</span> <span class="tag">#KBS1TV</span> <span class="tag">#장수프로그램</span> <span class="tag">#방송개편</span> <span class="tag">#공영방송</span> <span class="tag">#도전꿈의무대</span> <span class="tag">#TV개편</span> <span class="tag">#오늘이슈</span> <span class="tag">#방송뉴스</span></div>
+        </div>
+      </header>
+      
+      <div class="post-hero">
+        <img src="https://picsum.photos/seed/4302/1200/630" alt="KBS 아침마당 35년 만에 대개편, 어떻게 달라지나" loading="lazy">
+      </div>
+      <div class="post-content">
+        <h2> 핵심 요약</h2>
+<ul>
+<li>KBS 1TV 장수 프로그램 '아침마당', 방송 35년여 만에 전면 개편 단행</li>
+<li>3월 30일 서울 여의도 KBS 본관에서 개편 기자간담회 개최</li>
+<li>시청자 트렌드와 방송 환경 변화에 맞춘 새로운 변신 시도</li>
+</ul>
+<h2> 사건/이슈 개요</h2>
+<p>KBS 1TV의 대표 장수 아침 프로그램 '아침마당'이 방송 35년여 만에 전면적인 개편에 나섰습니다. 2026년 3월 30일 오전, 서울 여의도 KBS 본관에서 개편 기자간담회가 열렸으며, 새로운 포맷과 방향성에 대한 공식 발표가 이루어졌습니다. '아침마당'은 1989년 첫 방송을 시작한 이후 35년 넘게 이어져 온 장수 프로그램으로, 중·장년층을 중심으로 높은 인기와 충성도 높은 시청자층을 유지해 온 대표적인 공영방송 프로그램입니다.</p>
+<h2> 상세 내용</h2>
+<h3>아침마당의 역사와 의미</h3>
+<p>'아침마당'은 1989년 KBS 1TV에서 첫 전파를 탄 이후 30여 년간 한국의 아침 방송을 대표하는 프로그램으로 자리잡아 왔습니다. 목요일 '도전 꿈의 무대' 코너는 일반인 성악 경연으로 큰 사랑을 받아 수많은 국민 스타를 배출했습니다. 시청자들의 사연과 노래, 일상을 다루며 가족 친화적이고 따뜻한 이미지로 중·장년층의 대표 프로그램으로 자리해 왔습니다. 공영방송의 공익성을 담아온 프로그램인 만큼 개편에 대한 관심도 남다릅니다.</p>
+<h3>개편의 배경</h3>
+<p>이번 개편의 배경에는 방송 환경의 급격한 변화가 있습니다. OTT 서비스의 확산, 유튜브 등 1인 미디어의 성장으로 전통적인 TV 시청률이 전반적으로 하락하고 있는 추세 속에서, KBS도 프로그램의 체질 개선이 필요하다는 판단을 내린 것으로 보입니다. 동시에 베이비붐 세대의 고령화와 시니어 시청자층의 라이프스타일 변화도 개편 방향에 영향을 미쳤을 것으로 분석됩니다. KBS는 아침 시간대의 경쟁력을 강화하고 새로운 세대 시청자도 끌어들이는 것을 목표로 하고 있습니다.</p>
+<h3>개편의 주요 방향</h3>
+<p>기자간담회에서 밝혀진 개편의 주요 방향은 기존의 따뜻한 생활 밀착형 콘텐츠의 기조를 유지하면서도 현대적인 감각을 더하는 방식으로 진행될 예정입니다. 오랫동안 사랑받아 온 대표 코너들의 정체성은 유지하되, 새로운 코너와 포맷을 도입해 시청자층을 넓히겠다는 구상입니다. 진행자 구성에도 변화가 있을 것으로 알려졌으며, 구체적인 내용은 방송을 통해 순차적으로 공개될 예정입니다.</p>
+<h2> 왜 주목받나?</h2>
+<p>'아침마당'의 개편은 단순히 한 프로그램의 포맷 변화를 넘어, 공영방송 KBS가 변화하는 미디어 환경 속에서 어떻게 살아남을 것인지에 대한 도전과 응답을 상징합니다. 35년 넘게 이어진 장수 프로그램의 개편인 만큼 기존 충성 시청자들의 반응이 주목되는 동시에, 변화를 통해 새로운 시청자를 유입할 수 있을지에 대한 관심도 높습니다. 공영방송의 정체성을 지키면서도 시대적 변화에 발맞추는 균형이 이번 개편의 핵심 과제가 될 것입니다.</p>
+<h2> 앞으로의 전망</h2>
+<p>개편된 '아침마당'은 4월부터 새로운 포맷으로 방송될 것으로 예상됩니다. 초반에는 변화에 대한 기존 시청자들의 반응을 면밀히 살피면서 세부 조정을 거칠 가능성이 높습니다. 개편 성공 여부는 기존 충성 시청자의 이탈 없이 새로운 시청자층을 얼마나 유입시키느냐에 달려 있습니다. 아침마당의 개편이 다른 장수 프로그램들의 변화를 이끄는 도화선이 될 수도 있어 방송업계에서도 주목하고 있습니다.</p>
+<h2> 마무리</h2>
+<p>35년이 넘는 역사를 가진 '아침마당'의 개편 소식, 어떻게 받아들이시나요? 오랫동안 아침마당을 즐겨 보셨던 분들은 변화가 반갑기도 하고 아쉽기도 할 것 같습니다. 개편 후 아침마당이 어떻게 달라질지 기대가 되기도 하고 걱정도 되는 것이 사실입니다. 여러분은 아침마당의 어떤 코너를 가장 좋아하셨나요? 댓글로 의견 남겨 주세요!</p>
+      </div>
+      <footer class="post-footer">
+        <div class="post-tags-footer"><a class="tag">#아침마당</a> <a class="tag">#KBS</a> <a class="tag">#KBS1TV</a> <a class="tag">#장수프로그램</a> <a class="tag">#방송개편</a> <a class="tag">#공영방송</a> <a class="tag">#도전꿈의무대</a> <a class="tag">#TV개편</a> <a class="tag">#오늘이슈</a> <a class="tag">#방송뉴스</a></div>
+      </footer>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 오늘의 뉴스 브리핑</p>
+    </div>
+  </footer>
+</body>
+</html>

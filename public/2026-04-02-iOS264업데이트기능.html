@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>iOS 26.4 정식 출시 새로운 이모티콘과 AI 음악 기능의 모든 것 — 오늘의 뉴스 브리핑</title>
+  <meta name="description" content="iOS 26.4 정식 출시 새로운 이모티콘과 AI 음악 기능의 모든 것">
+  <meta property="og:title" content="iOS 26.4 정식 출시 새로운 이모티콘과 AI 음악 기능의 모든 것 — 오늘의 뉴스 브리핑">
+  <meta property="og:description" content="iOS 26.4 정식 출시 새로운 이모티콘과 AI 음악 기능의 모든 것">
+  <meta property="og:image" content="https://picsum.photos/seed/7477/1200/630">
+  <meta property="og:type" content="article">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <style>/* ═══════════════════════════════════════════════════════════════
+   Apple-inspired News Blog — 오늘의 뉴스 브리핑
+   Clean, minimal, content-first design
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ─── Reset & Typography ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --black: #1d1d1f;
+  --gray-900: #2d2d2f;
+  --gray-700: #6e6e73;
+  --gray-500: #86868b;
+  --gray-300: #d2d2d7;
+  --gray-100: #f5f5f7;
+  --white: #ffffff;
+  --blue: #0071e3;
+  --blue-hover: #0077ed;
+  --max-width: 720px;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Pretendard',
+               'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  line-height: 1.5;
+  color: var(--black);
+  background: var(--white);
+}
+
+a { color: var(--blue); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+img { max-width: 100%; height: auto; display: block; }
+
+/* ─── Navigation ─── */
+.site-header {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+}
+
+.site-header .container {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 22px;
+  height: 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.site-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--black);
+  letter-spacing: -0.01em;
+}
+
+.site-title:hover { text-decoration: none; }
+
+.site-header nav { display: flex; gap: 28px; }
+
+.site-header nav a {
+  font-size: 0.8rem;
+  color: var(--gray-700);
+  letter-spacing: -0.01em;
+  transition: color 0.2s;
+}
+
+.site-header nav a:hover { color: var(--black); text-decoration: none; }
+
+/* ─── Main Container ─── */
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 22px;
+}
+
+/* ─── Post List (Index Page) ─── */
+.post-list h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  margin: 56px 0 8px;
+  color: var(--black);
+}
+
+.post-list-subtitle {
+  font-size: 0.95rem;
+  color: var(--gray-500);
+  margin-bottom: 40px;
+}
+
+.post-card {
+  display: flex;
+  gap: 24px;
+  padding: 28px 0;
+  border-top: 1px solid var(--gray-300);
+  transition: opacity 0.2s;
+}
+
+.post-card:last-child { border-bottom: 1px solid var(--gray-300); }
+
+.post-card:hover { opacity: 0.85; }
+
+.post-thumb {
+  flex-shrink: 0;
+  width: 200px;
+  height: 134px;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.post-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.post-card:hover .post-thumb img { transform: scale(1.03); }
+
+.post-info { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+
+.post-meta-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.post-category {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--blue);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.post-date {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+.post-info h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.45;
+  letter-spacing: -0.015em;
+  margin-bottom: 6px;
+}
+
+.post-info h2 a { color: var(--black); }
+.post-info h2 a:hover { color: var(--blue); text-decoration: none; }
+
+.post-summary {
+  font-size: 0.85rem;
+  color: var(--gray-700);
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ─── Featured Post (Top of list) ─── */
+.post-featured {
+  padding: 40px 0 32px;
+  border-bottom: 1px solid var(--gray-300);
+  margin-bottom: 8px;
+}
+
+.post-featured .featured-image {
+  width: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.post-featured .featured-image img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+}
+
+.post-featured h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.35;
+  margin-bottom: 8px;
+}
+
+.post-featured h2 a { color: var(--black); }
+.post-featured h2 a:hover { color: var(--blue); text-decoration: none; }
+
+/* ─── Single Post ─── */
+.post-single {
+  padding: 48px 0 64px;
+}
+
+.post-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.post-header .post-category {
+  font-size: 0.75rem;
+  display: inline-block;
+  margin-bottom: 12px;
+}
+
+.post-header h1 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.3;
+  color: var(--black);
+  margin-bottom: 16px;
+  word-break: keep-all;
+}
+
+.post-meta {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  align-items: center;
+  color: var(--gray-500);
+  font-size: 0.85rem;
+}
+
+.post-hero {
+  margin: 0 0 40px;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.post-hero img {
+  width: 100%;
+  max-height: 480px;
+  object-fit: cover;
+}
+
+/* ─── Post Content ─── */
+.post-content {
+  font-size: 1.05rem;
+  line-height: 1.85;
+  color: var(--gray-900);
+  word-break: keep-all;
+}
+
+.post-content h2 {
+  font-size: 1.45rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 48px 0 16px;
+  color: var(--black);
+}
+
+.post-content h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  margin: 36px 0 12px;
+  color: var(--black);
+}
+
+.post-content p {
+  margin: 16px 0;
+}
+
+.post-content ul, .post-content ol {
+  margin: 16px 0;
+  padding-left: 24px;
+}
+
+.post-content li {
+  margin: 8px 0;
+  line-height: 1.7;
+}
+
+.post-content strong {
+  font-weight: 600;
+  color: var(--black);
+}
+
+.post-content blockquote {
+  margin: 28px 0;
+  padding: 20px 24px;
+  background: var(--gray-100);
+  border-radius: 12px;
+  color: var(--gray-700);
+  font-size: 1rem;
+}
+
+.post-content img {
+  margin: 32px auto;
+  border-radius: 12px;
+}
+
+.post-content hr {
+  border: none;
+  height: 1px;
+  background: var(--gray-300);
+  margin: 40px 0;
+}
+
+/* ─── Tags ─── */
+.post-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.tag {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+.post-tags-footer {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--gray-300);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.post-tags-footer .tag {
+  background: var(--gray-100);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  color: var(--gray-700);
+  transition: background 0.2s;
+}
+
+.post-tags-footer .tag:hover {
+  background: var(--gray-300);
+  text-decoration: none;
+}
+
+/* ─── Post Navigation ─── */
+.post-nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 24px 0 48px;
+  font-size: 0.85rem;
+  border-top: 1px solid var(--gray-300);
+  margin-top: 32px;
+}
+
+.post-nav a { color: var(--blue); }
+
+/* ─── Footer ─── */
+.site-footer {
+  background: var(--gray-100);
+  border-top: 1px solid var(--gray-300);
+}
+
+.site-footer .container {
+  max-width: 980px;
+  padding: 20px 22px;
+  text-align: center;
+}
+
+.site-footer p {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+/* ─── Pagination ─── */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  margin: 40px 0;
+  list-style: none;
+  padding: 0;
+}
+
+.pagination li a, .pagination li span {
+  display: inline-block;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  color: var(--gray-700);
+}
+
+.pagination .active span {
+  background: var(--blue);
+  color: var(--white);
+}
+
+.pagination li a:hover {
+  background: var(--gray-100);
+  text-decoration: none;
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 640px) {
+  .post-card {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .post-thumb {
+    width: 100%;
+    height: 200px;
+    border-radius: 12px;
+  }
+
+  .post-list h1 { font-size: 1.6rem; margin-top: 32px; }
+
+  .post-header h1 { font-size: 1.6rem; }
+
+  .post-single { padding: 32px 0 48px; }
+
+  .post-featured .featured-image img { height: 240px; }
+  .post-featured h2 { font-size: 1.3rem; }
+
+  .post-content { font-size: 1rem; }
+}
+</style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="/index.html" class="site-title">오늘의 뉴스 브리핑</a>
+      <nav>
+        <a href="/index.html">최신</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container">
+    <article class="post-single">
+      <header class="post-header">
+        <span class="post-category">IT</span>
+        <h1>iOS 26.4 정식 출시 새로운 이모티콘과 AI 음악 기능의 모든 것</h1>
+        <div class="post-meta">
+          <time>2026-04-02</time>
+          <div class="post-tags"></div>
+        </div>
+      </header>
+      
+      <div class="post-hero">
+        <img src="https://picsum.photos/seed/7477/1200/630" alt="iOS 26.4 정식 출시 새로운 이모티콘과 AI 음악 기능의 모든 것" loading="lazy">
+      </div>
+      <div class="post-content">
+        <h2>핵심 요약</h2>
+<p>애플이 아이폰 사용자를 위한 차세대 운영체제인 iOS 26.4 버전을 공식 배포했다. 이번 업데이트는 8개의 개성 넘치는 새로운 이모티콘을 추가했을 뿐만 아니라 인공지능 기술을 활용한 획기적인 음악 추천 및 창작 기능을 탑재한 것이 특징이다. 또한 그동안 보고되었던 주요 시스템 버그들을 수정하여 더욱 쾌적하고 안정적인 사용자 경험을 선사한다.</p>
+<h2>사건/이슈 개요</h2>
+<p>애플은 현지시간 4월 1일 전 세계 아이폰 사용자들을 대상으로 iOS 26.4 업데이트를 실시했다. 매년 정기적으로 진행되는 소규모 업데이트임에도 불구하고 이번 버전은 사용자의 감성을 자극하는 다양한 시각적 요소와 음악이라는 강력한 콘텐츠에 AI 기술을 접목했다는 점에서 화제를 모으고 있다. 특히 창작자들과 음악 애호가들을 위한 맞춤형 기능들이 대거 포함되어 있어 아이폰의 멀티미디어 성능을 한 단계 끌어올렸다는 평가다.</p>
+<h2>상세 내용</h2>
+<h3>감성을 더하는 8개의 새로운 이모티콘</h3>
+<p>이번 업데이트를 통해 추가된 이모티콘은 총 8종으로 현대인들의 다양한 상황과 감정을 섬세하게 표현할 수 있도록 설계되었다. 예를 들어 미묘한 감정을 담은 얼굴 표정부터 일상에서 자주 사용되는 소품들이 고해상도 그래픽으로 재탄생했다. 이는 단순한 시각 도구를 넘어 디지털 소통의 깊이를 더해주는 요소로 작용할 것이다. 사용자는 문자 메시지나 소셜 미디어 활동 시 더욱 풍부한 감성 표현이 가능해졌다.</p>
+<h3>인공지능이 제안하는 나만의 음악 세계</h3>
+<p>가장 눈에 띄는 변화는 AI 음악 기능의 도입이다. 애플 뮤직과 연동된 이 기능은 사용자의 음악 감상 습관뿐만 아니라 현재의 기분이나 날씨 그리고 주변 장소에 어울리는 최적의 플레이리스트를 생성해준다. 더 나아가 AI가 사용자의 취향을 분석해 선호할 만한 멜로디와 비트를 조합하여 짧은 배경음악을 직접 만들어주는 창작 보조 기능까지 제공한다. 이는 전문적인 지식 없이도 누구나 음악적 창의성을 발휘할 수 있는 환경을 만들어준다.</p>
+<h3>아이폰 시스템 안정성 및 버그 수정</h3>
+<p>기능 추가만큼이나 중요한 것이 시스템의 안정성이다. iOS 26.4는 일부 기기에서 발생했던 간헐적인 네트워크 끊김 현상과 배터리 소모 최적화 문제를 해결했다. 특히 특정 앱 실행 시 화면이 멈추거나 튕기는 현상들을 대폭 수정하여 전반적인 시스템 퍼포먼스를 향상시켰다. 애플은 보안 패치도 강화하여 최신 보안 위협으로부터 사용자의 데이터를 더욱 안전하게 보호할 수 있도록 했다.</p>
+<h3>직관적인 인터페이스와 사용자 편의성 강화</h3>
+<p>알림 센터와 제어 센터의 인터페이스도 소폭 개선되었다. 자주 사용하는 기능들을 한눈에 파악하기 쉽게 아이콘 배치를 최적화했으며 터치 반응 속도를 개선하여 손가락 끝에서 느껴지는 조작감을 한층 부드럽게 만들었다. 또한 청각이나 시각에 불편함이 있는 사용자들을 위한 손쉬운 사용 기능들도 보강되어 기술의 혜택이 모든 사용자에게 골고루 돌아갈 수 있도록 배려했다.</p>
+<h2>왜 주목받나?</h2>
+<p>iOS 26.4가 주목받는 이유는 애플이 인공지능을 단순한 기술적 과시가 아닌 실생활의 재미와 감성 영역으로 확장했기 때문이다. 이모티콘은 소소한 즐거움을 주고 AI 음악은 감각적인 만족을 선사한다. 기술이 딱딱하고 어려운 것이 아니라 우리의 일상을 풍요롭게 해주는 동반자라는 메시지를 이번 업데이트를 통해 전달하고 있다. 또한 안정적인 시스템 환경 구축으로 기본기까지 충실히 챙겼다는 점이 긍정적이다.</p>
+<h2>앞으로의 전망</h2>
+<p>애플은 향후에도 OS 업데이트를 통해 AI 기능을 점진적으로 확대할 것으로 보인다. 특히 음악뿐만 아니라 사진이나 영상 편집 분야에서도 AI의 개입이 더 많아질 것이며 사용자의 의도를 미리 파악하여 제안하는 지능형 인터페이스가 주류를 이룰 전망이다. 또한 6월에 열릴 개발자 컨퍼런스인 WWDC에서 공개될 것으로 예상되는 더 큰 규모의 업데이트를 위한 징검다리 역할을 이번 버전이 수행하고 있는 것으로 풀이된다.</p>
+<h2>마무리</h2>
+<p>새로운 이모티콘 하나에 즐거워하고 나만을 위한 음악에 감동하는 경험은 아이폰 사용자들만이 누릴 수 있는 특권이다. iOS 26.4는 기술의 진보가 어떻게 우리의 감성과 연결될 수 있는지를 보여주는 좋은 예시다. 지금 바로 설정 메뉴에서 업데이트를 확인하고 더욱 똑똑해진 아이폰을 만나보길 권한다.</p>
+      </div>
+      <footer class="post-footer">
+        <div class="post-tags-footer"></div>
+      </footer>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 오늘의 뉴스 브리핑</p>
+    </div>
+  </footer>
+</body>
+</html>

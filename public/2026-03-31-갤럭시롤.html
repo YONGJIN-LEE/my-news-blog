@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>삼성 갤럭시 롤 공개! 화면이 늘어나는 폰의 충격 비주얼! — 오늘의 뉴스 브리핑</title>
+  <meta name="description" content="삼성 갤럭시 롤 공개! 화면이 늘어나는 폰의 충격 비주얼!">
+  <meta property="og:title" content="삼성 갤럭시 롤 공개! 화면이 늘어나는 폰의 충격 비주얼! — 오늘의 뉴스 브리핑">
+  <meta property="og:description" content="삼성 갤럭시 롤 공개! 화면이 늘어나는 폰의 충격 비주얼!">
+  <meta property="og:image" content="https://picsum.photos/seed/9776/1200/630">
+  <meta property="og:type" content="article">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <style>/* ═══════════════════════════════════════════════════════════════
+   Apple-inspired News Blog — 오늘의 뉴스 브리핑
+   Clean, minimal, content-first design
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ─── Reset & Typography ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --black: #1d1d1f;
+  --gray-900: #2d2d2f;
+  --gray-700: #6e6e73;
+  --gray-500: #86868b;
+  --gray-300: #d2d2d7;
+  --gray-100: #f5f5f7;
+  --white: #ffffff;
+  --blue: #0071e3;
+  --blue-hover: #0077ed;
+  --max-width: 720px;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Pretendard',
+               'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  line-height: 1.5;
+  color: var(--black);
+  background: var(--white);
+}
+
+a { color: var(--blue); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+img { max-width: 100%; height: auto; display: block; }
+
+/* ─── Navigation ─── */
+.site-header {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+}
+
+.site-header .container {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 22px;
+  height: 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.site-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--black);
+  letter-spacing: -0.01em;
+}
+
+.site-title:hover { text-decoration: none; }
+
+.site-header nav { display: flex; gap: 28px; }
+
+.site-header nav a {
+  font-size: 0.8rem;
+  color: var(--gray-700);
+  letter-spacing: -0.01em;
+  transition: color 0.2s;
+}
+
+.site-header nav a:hover { color: var(--black); text-decoration: none; }
+
+/* ─── Main Container ─── */
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 22px;
+}
+
+/* ─── Post List (Index Page) ─── */
+.post-list h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  margin: 56px 0 8px;
+  color: var(--black);
+}
+
+.post-list-subtitle {
+  font-size: 0.95rem;
+  color: var(--gray-500);
+  margin-bottom: 40px;
+}
+
+.post-card {
+  display: flex;
+  gap: 24px;
+  padding: 28px 0;
+  border-top: 1px solid var(--gray-300);
+  transition: opacity 0.2s;
+}
+
+.post-card:last-child { border-bottom: 1px solid var(--gray-300); }
+
+.post-card:hover { opacity: 0.85; }
+
+.post-thumb {
+  flex-shrink: 0;
+  width: 200px;
+  height: 134px;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.post-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.post-card:hover .post-thumb img { transform: scale(1.03); }
+
+.post-info { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+
+.post-meta-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.post-category {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--blue);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.post-date {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+.post-info h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.45;
+  letter-spacing: -0.015em;
+  margin-bottom: 6px;
+}
+
+.post-info h2 a { color: var(--black); }
+.post-info h2 a:hover { color: var(--blue); text-decoration: none; }
+
+.post-summary {
+  font-size: 0.85rem;
+  color: var(--gray-700);
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ─── Featured Post (Top of list) ─── */
+.post-featured {
+  padding: 40px 0 32px;
+  border-bottom: 1px solid var(--gray-300);
+  margin-bottom: 8px;
+}
+
+.post-featured .featured-image {
+  width: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.post-featured .featured-image img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+}
+
+.post-featured h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.35;
+  margin-bottom: 8px;
+}
+
+.post-featured h2 a { color: var(--black); }
+.post-featured h2 a:hover { color: var(--blue); text-decoration: none; }
+
+/* ─── Single Post ─── */
+.post-single {
+  padding: 48px 0 64px;
+}
+
+.post-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.post-header .post-category {
+  font-size: 0.75rem;
+  display: inline-block;
+  margin-bottom: 12px;
+}
+
+.post-header h1 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.3;
+  color: var(--black);
+  margin-bottom: 16px;
+  word-break: keep-all;
+}
+
+.post-meta {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  align-items: center;
+  color: var(--gray-500);
+  font-size: 0.85rem;
+}
+
+.post-hero {
+  margin: 0 0 40px;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.post-hero img {
+  width: 100%;
+  max-height: 480px;
+  object-fit: cover;
+}
+
+/* ─── Post Content ─── */
+.post-content {
+  font-size: 1.05rem;
+  line-height: 1.85;
+  color: var(--gray-900);
+  word-break: keep-all;
+}
+
+.post-content h2 {
+  font-size: 1.45rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 48px 0 16px;
+  color: var(--black);
+}
+
+.post-content h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  margin: 36px 0 12px;
+  color: var(--black);
+}
+
+.post-content p {
+  margin: 16px 0;
+}
+
+.post-content ul, .post-content ol {
+  margin: 16px 0;
+  padding-left: 24px;
+}
+
+.post-content li {
+  margin: 8px 0;
+  line-height: 1.7;
+}
+
+.post-content strong {
+  font-weight: 600;
+  color: var(--black);
+}
+
+.post-content blockquote {
+  margin: 28px 0;
+  padding: 20px 24px;
+  background: var(--gray-100);
+  border-radius: 12px;
+  color: var(--gray-700);
+  font-size: 1rem;
+}
+
+.post-content img {
+  margin: 32px auto;
+  border-radius: 12px;
+}
+
+.post-content hr {
+  border: none;
+  height: 1px;
+  background: var(--gray-300);
+  margin: 40px 0;
+}
+
+/* ─── Tags ─── */
+.post-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.tag {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+.post-tags-footer {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--gray-300);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.post-tags-footer .tag {
+  background: var(--gray-100);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  color: var(--gray-700);
+  transition: background 0.2s;
+}
+
+.post-tags-footer .tag:hover {
+  background: var(--gray-300);
+  text-decoration: none;
+}
+
+/* ─── Post Navigation ─── */
+.post-nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 24px 0 48px;
+  font-size: 0.85rem;
+  border-top: 1px solid var(--gray-300);
+  margin-top: 32px;
+}
+
+.post-nav a { color: var(--blue); }
+
+/* ─── Footer ─── */
+.site-footer {
+  background: var(--gray-100);
+  border-top: 1px solid var(--gray-300);
+}
+
+.site-footer .container {
+  max-width: 980px;
+  padding: 20px 22px;
+  text-align: center;
+}
+
+.site-footer p {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+/* ─── Pagination ─── */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  margin: 40px 0;
+  list-style: none;
+  padding: 0;
+}
+
+.pagination li a, .pagination li span {
+  display: inline-block;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  color: var(--gray-700);
+}
+
+.pagination .active span {
+  background: var(--blue);
+  color: var(--white);
+}
+
+.pagination li a:hover {
+  background: var(--gray-100);
+  text-decoration: none;
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 640px) {
+  .post-card {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .post-thumb {
+    width: 100%;
+    height: 200px;
+    border-radius: 12px;
+  }
+
+  .post-list h1 { font-size: 1.6rem; margin-top: 32px; }
+
+  .post-header h1 { font-size: 1.6rem; }
+
+  .post-single { padding: 32px 0 48px; }
+
+  .post-featured .featured-image img { height: 240px; }
+  .post-featured h2 { font-size: 1.3rem; }
+
+  .post-content { font-size: 1rem; }
+}
+</style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="/index.html" class="site-title">오늘의 뉴스 브리핑</a>
+      <nav>
+        <a href="/index.html">최신</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container">
+    <article class="post-single">
+      <header class="post-header">
+        <span class="post-category"></span>
+        <h1>삼성 갤럭시 롤 공개! 화면이 늘어나는 폰의 충격 비주얼!</h1>
+        <div class="post-meta">
+          <time>2026-03-31</time>
+          <div class="post-tags"><span class="tag">#삼성전자</span> <span class="tag">#갤럭시롤</span> <span class="tag">#GalaxyRoll</span> <span class="tag">#롤러블폰</span> <span class="tag">#말리는폰</span> <span class="tag">#스마트폰혁신</span> <span class="tag">#갤럭시언팩</span> <span class="tag">#신상폰</span> <span class="tag">#디스플레이기술</span> <span class="tag">#삼성디스플레이</span> <span class="tag">#IT뉴스</span> <span class="tag">#신기술</span> <span class="tag">#테크소식</span> <span class="tag">#멀티태스킹</span> <span class="tag">#갤럭시AI</span></div>
+        </div>
+      </header>
+      
+      <div class="post-hero">
+        <img src="https://picsum.photos/seed/9776/1200/630" alt="삼성 갤럭시 롤 공개! 화면이 늘어나는 폰의 충격 비주얼!" loading="lazy">
+      </div>
+      <div class="post-content">
+        <h2> 핵심 요약 (5개)</h2>
+<p>1. 삼성전자, 세계 최초 상용화 롤러블 스마트폰 '갤럭시 롤(Galaxy Roll)' 전격 공개</p>
+<p>2. 버튼 하나로 6.7인치 화면이 8.1인치로 확장되는 혁신적인 폼팩터 구현</p>
+<p>3. 폴더블 폰의 단점인 주름 문제 완벽 해결, 한층 얇아진 두께와 가벼운 무게</p>
+<p>4. 업그레이드된 갤럭시 AI 탑재로 확장된 화면에 최적화된 멀티태스킹 제공</p>
+<p>5. 오는 5월 글로벌 출시 확정, 프리미엄 스마트폰 시장의 새로운 패러다임 예고</p>
+<h2> 사건/이슈 개요</h2>
+<p>삼성전자가 다시 한번 전 세계 스마트폰 시장을 뒤흔들 혁신적인 기기를 선보였습니다. 오늘 오후 열린 '갤럭시 언팩' 행사에서 삼성전자는 그동안 소문만 무성했던 롤러블 스마트폰 '갤럭시 롤'을 드디어 공개했습니다. 접는 폰(폴더블)의 시대를 연 삼성이 이제는 화면이 돌돌 말려 있다가 필요할 때 옆으로 늘어나는 '말리는 폰'의 시대를 선포한 것입니다. 공개된 갤럭시 롤의 비주얼은 기존 스마트폰의 개념을 완전히 무너뜨릴 만큼 충격적이었으며, 기술의 한계를 뛰어넘었다는 전 세계 미디어들의 찬사가 쏟아지고 있습니다.</p>
+<h2> 상세 내용</h2>
+<h3>혁신적인 롤러블 디스플레이와 폼팩터</h3>
+<p>갤럭시 롤의 가장 큰 특징은 단연 측면으로 확장되는 디스플레이입니다. 평소에는 일반적인 스마트폰과 다를 바 없는 6.7인치 크기이지만, 측면 버튼을 누르거나 제스처를 취하면 내부의 모터가 작동하며 화면이 오른쪽으로 부드럽게 늘어나 8.1인치 태블릿급 크기로 변신합니다. 특히 폴더블 폰의 고질적인 문제였던 화면 중앙의 '주름'이 전혀 없다는 점이 놀랍습니다. 삼성은 이를 위해 특수 강화 유리가 아닌 고기능성 폴리머 소재를 활용한 '인피니티 롤' 디스플레이 기술을 적용했다고 밝혔습니다.</p>
+<h3>강력한 성능과 확장된 화면을 위한 AI</h3>
+<p>내부 스펙 역시 압도적입니다. 퀄컴의 최신형 스냅드래곤 8 5세대 프로세서를 탑재하여 강력한 퍼포먼스를 자랑하며, 롤러블 폼팩터에 최적화된 새로운 UI가 적용되었습니다. 화면이 확장될 때 실행 중인 앱의 레이아웃이 실시간으로 자연스럽게 변하며, 넓어진 화면을 3분할 이상으로 나누어 쓸 수 있는 '멀티태스킹 롤' 기능이 핵심입니다. 또한 갤럭시 AI가 사용자의 사용 패턴을 학습하여, 넓은 화면이 필요한 순간을 미리 감지하고 화면 확장을 제안하는 등 지능적인 경험을 선사합니다.</p>
+<h3>얇은 두께와 가벼운 무게의 비결</h3>
+<p>기존의 폴더블 폰은 접었을 때 두께가 두꺼워지는 단점이 있었으나, 갤럭시 롤은 화면이 겹쳐지는 구조가 아니기에 일반 스마트폰 수준의 얇은 두께를 유지하고 있습니다. 내부의 복잡한 롤링 메커니즘을 소형화하는 데 성공한 덕분입니다. 무게 또한 최신형 티타늄 프레임을 사용하여 경량화에 성공, 장시간 사용해도 손목에 무리가 가지 않도록 설계되었습니다. 배터리 역시 화면 확장 상태를 고려하여 대용량 배터리가 두 부분으로 나뉘어 탑재되었으며, 고속 충전 기술을 통해 충전 스트레스를 최소화했습니다.</p>
+<h3>글로벌 경쟁력과 가격 정책</h3>
+<p>삼성전자는 이번 갤럭시 롤을 통해 중국 업체들과의 폼팩터 경쟁에서 확실한 우위를 점하게 되었습니다. 그동안 롤러블 폰의 시제품은 여러 곳에서 나왔으나, 실질적으로 대량 양산 및 상용화에 성공한 것은 삼성이 처음입니다. 가격은 프리미엄 라인업인 만큼 기존 폴더블 폰보다 다소 높은 200만 원 후반대로 책정될 전망입니다. 하지만 초반 한정판 물량이 조기에 매진될 것으로 예상될 정도로 벌써부터 전 세계 사전 예약 문의가 빗발치고 있습니다.</p>
+<h2> 왜 주목받나?</h2>
+<p>스마트폰 시장이 성숙기에 접어들며 하드웨어적인 혁신이 둔화되었다는 비판이 많았습니다. 이런 상황에서 등장한 갤럭시 롤은 스마트폰의 미래가 여전히 무궁무진하다는 것을 증명했습니다. 특히 태블릿의 대화면과 스마트폰의 휴대성을 한 번에 잡았다는 점에서 모바일 라이프스타일에 큰 변화를 가져올 것으로 보입니다. 또한 삼성이 가진 디스플레이 기술력의 정점을 보여주는 제품이라는 점에서 브랜드 이미지 제고에도 큰 역할을 할 것으로 기대됩니다.</p>
+<h2> 앞으로의 전망</h2>
+<p>갤럭시 롤은 오는 5월 말부터 한국과 미국을 시작으로 글로벌 시장에 순차적으로 출시될 예정입니다. 삼성전자는 갤럭시 롤을 새로운 최상위 플래그십 라인업으로 구축하고, 향후 폴더블과 롤러블이라는 투트랙 전략으로 시장을 선도해 나갈 계획입니다. 전문가들은 이번 갤럭시 롤의 성공 여부에 따라 경쟁사들의 행보도 빨라질 것으로 내다보고 있으며, 스마트폰 케이스나 필름 등 연관 액세서리 시장에서도 대대적인 변화가 일어날 것으로 전망하고 있습니다.</p>
+<h2> 마무리 + 댓글 유도</h2>
+<p>화면이 옆으로 스르르 늘어나는 삼성 갤럭시 롤, 영상으로 보셨나요? 정말 꿈의 기술이 현실이 된 것 같아 소름이 돋네요! 여러분은 접는 폰과 늘어나는 폰 중 어떤 것이 더 끌리시나요? 그리고 200만 원대의 가격, 여러분이라면 구매하실 의사가 있으신지 댓글로 알려주세요!</p>
+      </div>
+      <footer class="post-footer">
+        <div class="post-tags-footer"><a class="tag">#삼성전자</a> <a class="tag">#갤럭시롤</a> <a class="tag">#GalaxyRoll</a> <a class="tag">#롤러블폰</a> <a class="tag">#말리는폰</a> <a class="tag">#스마트폰혁신</a> <a class="tag">#갤럭시언팩</a> <a class="tag">#신상폰</a> <a class="tag">#디스플레이기술</a> <a class="tag">#삼성디스플레이</a> <a class="tag">#IT뉴스</a> <a class="tag">#신기술</a> <a class="tag">#테크소식</a> <a class="tag">#멀티태스킹</a> <a class="tag">#갤럭시AI</a></div>
+      </footer>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 오늘의 뉴스 브리핑</p>
+    </div>
+  </footer>
+</body>
+</html>

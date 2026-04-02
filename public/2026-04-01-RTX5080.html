@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>엔비디아 RTX 5080 성능 유출...전작 대비 2배 향상 충격 루머의 실체 — 오늘의 뉴스 브리핑</title>
+  <meta name="description" content="엔비디아 RTX 5080 성능 유출...전작 대비 2배 향상 충격 루머의 실체">
+  <meta property="og:title" content="엔비디아 RTX 5080 성능 유출...전작 대비 2배 향상 충격 루머의 실체 — 오늘의 뉴스 브리핑">
+  <meta property="og:description" content="엔비디아 RTX 5080 성능 유출...전작 대비 2배 향상 충격 루머의 실체">
+  <meta property="og:image" content="https://picsum.photos/seed/4976/1200/630">
+  <meta property="og:type" content="article">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <style>/* ═══════════════════════════════════════════════════════════════
+   Apple-inspired News Blog — 오늘의 뉴스 브리핑
+   Clean, minimal, content-first design
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ─── Reset & Typography ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --black: #1d1d1f;
+  --gray-900: #2d2d2f;
+  --gray-700: #6e6e73;
+  --gray-500: #86868b;
+  --gray-300: #d2d2d7;
+  --gray-100: #f5f5f7;
+  --white: #ffffff;
+  --blue: #0071e3;
+  --blue-hover: #0077ed;
+  --max-width: 720px;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Pretendard',
+               'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  line-height: 1.5;
+  color: var(--black);
+  background: var(--white);
+}
+
+a { color: var(--blue); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+img { max-width: 100%; height: auto; display: block; }
+
+/* ─── Navigation ─── */
+.site-header {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+}
+
+.site-header .container {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 22px;
+  height: 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.site-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--black);
+  letter-spacing: -0.01em;
+}
+
+.site-title:hover { text-decoration: none; }
+
+.site-header nav { display: flex; gap: 28px; }
+
+.site-header nav a {
+  font-size: 0.8rem;
+  color: var(--gray-700);
+  letter-spacing: -0.01em;
+  transition: color 0.2s;
+}
+
+.site-header nav a:hover { color: var(--black); text-decoration: none; }
+
+/* ─── Main Container ─── */
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 22px;
+}
+
+/* ─── Post List (Index Page) ─── */
+.post-list h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  margin: 56px 0 8px;
+  color: var(--black);
+}
+
+.post-list-subtitle {
+  font-size: 0.95rem;
+  color: var(--gray-500);
+  margin-bottom: 40px;
+}
+
+.post-card {
+  display: flex;
+  gap: 24px;
+  padding: 28px 0;
+  border-top: 1px solid var(--gray-300);
+  transition: opacity 0.2s;
+}
+
+.post-card:last-child { border-bottom: 1px solid var(--gray-300); }
+
+.post-card:hover { opacity: 0.85; }
+
+.post-thumb {
+  flex-shrink: 0;
+  width: 200px;
+  height: 134px;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.post-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.post-card:hover .post-thumb img { transform: scale(1.03); }
+
+.post-info { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+
+.post-meta-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.post-category {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--blue);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.post-date {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+.post-info h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.45;
+  letter-spacing: -0.015em;
+  margin-bottom: 6px;
+}
+
+.post-info h2 a { color: var(--black); }
+.post-info h2 a:hover { color: var(--blue); text-decoration: none; }
+
+.post-summary {
+  font-size: 0.85rem;
+  color: var(--gray-700);
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ─── Featured Post (Top of list) ─── */
+.post-featured {
+  padding: 40px 0 32px;
+  border-bottom: 1px solid var(--gray-300);
+  margin-bottom: 8px;
+}
+
+.post-featured .featured-image {
+  width: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.post-featured .featured-image img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+}
+
+.post-featured h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.35;
+  margin-bottom: 8px;
+}
+
+.post-featured h2 a { color: var(--black); }
+.post-featured h2 a:hover { color: var(--blue); text-decoration: none; }
+
+/* ─── Single Post ─── */
+.post-single {
+  padding: 48px 0 64px;
+}
+
+.post-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.post-header .post-category {
+  font-size: 0.75rem;
+  display: inline-block;
+  margin-bottom: 12px;
+}
+
+.post-header h1 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.3;
+  color: var(--black);
+  margin-bottom: 16px;
+  word-break: keep-all;
+}
+
+.post-meta {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  align-items: center;
+  color: var(--gray-500);
+  font-size: 0.85rem;
+}
+
+.post-hero {
+  margin: 0 0 40px;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.post-hero img {
+  width: 100%;
+  max-height: 480px;
+  object-fit: cover;
+}
+
+/* ─── Post Content ─── */
+.post-content {
+  font-size: 1.05rem;
+  line-height: 1.85;
+  color: var(--gray-900);
+  word-break: keep-all;
+}
+
+.post-content h2 {
+  font-size: 1.45rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 48px 0 16px;
+  color: var(--black);
+}
+
+.post-content h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  margin: 36px 0 12px;
+  color: var(--black);
+}
+
+.post-content p {
+  margin: 16px 0;
+}
+
+.post-content ul, .post-content ol {
+  margin: 16px 0;
+  padding-left: 24px;
+}
+
+.post-content li {
+  margin: 8px 0;
+  line-height: 1.7;
+}
+
+.post-content strong {
+  font-weight: 600;
+  color: var(--black);
+}
+
+.post-content blockquote {
+  margin: 28px 0;
+  padding: 20px 24px;
+  background: var(--gray-100);
+  border-radius: 12px;
+  color: var(--gray-700);
+  font-size: 1rem;
+}
+
+.post-content img {
+  margin: 32px auto;
+  border-radius: 12px;
+}
+
+.post-content hr {
+  border: none;
+  height: 1px;
+  background: var(--gray-300);
+  margin: 40px 0;
+}
+
+/* ─── Tags ─── */
+.post-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.tag {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+.post-tags-footer {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--gray-300);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.post-tags-footer .tag {
+  background: var(--gray-100);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  color: var(--gray-700);
+  transition: background 0.2s;
+}
+
+.post-tags-footer .tag:hover {
+  background: var(--gray-300);
+  text-decoration: none;
+}
+
+/* ─── Post Navigation ─── */
+.post-nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 24px 0 48px;
+  font-size: 0.85rem;
+  border-top: 1px solid var(--gray-300);
+  margin-top: 32px;
+}
+
+.post-nav a { color: var(--blue); }
+
+/* ─── Footer ─── */
+.site-footer {
+  background: var(--gray-100);
+  border-top: 1px solid var(--gray-300);
+}
+
+.site-footer .container {
+  max-width: 980px;
+  padding: 20px 22px;
+  text-align: center;
+}
+
+.site-footer p {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+/* ─── Pagination ─── */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  margin: 40px 0;
+  list-style: none;
+  padding: 0;
+}
+
+.pagination li a, .pagination li span {
+  display: inline-block;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  color: var(--gray-700);
+}
+
+.pagination .active span {
+  background: var(--blue);
+  color: var(--white);
+}
+
+.pagination li a:hover {
+  background: var(--gray-100);
+  text-decoration: none;
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 640px) {
+  .post-card {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .post-thumb {
+    width: 100%;
+    height: 200px;
+    border-radius: 12px;
+  }
+
+  .post-list h1 { font-size: 1.6rem; margin-top: 32px; }
+
+  .post-header h1 { font-size: 1.6rem; }
+
+  .post-single { padding: 32px 0 48px; }
+
+  .post-featured .featured-image img { height: 240px; }
+  .post-featured h2 { font-size: 1.3rem; }
+
+  .post-content { font-size: 1rem; }
+}
+</style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="/index.html" class="site-title">오늘의 뉴스 브리핑</a>
+      <nav>
+        <a href="/index.html">최신</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container">
+    <article class="post-single">
+      <header class="post-header">
+        <span class="post-category">IT</span>
+        <h1>엔비디아 RTX 5080 성능 유출...전작 대비 2배 향상 충격 루머의 실체</h1>
+        <div class="post-meta">
+          <time>2026-04-01</time>
+          <div class="post-tags"><span class="tag">#RTX5080</span> <span class="tag">#엔비디아</span> <span class="tag">#그래픽카드</span> <span class="tag">#블랙웰아키텍처</span> <span class="tag">#GDDR7</span> <span class="tag">#게이밍PC</span> <span class="tag">#테크뉴스</span> <span class="tag">#하드웨어리뷰</span> <span class="tag">#DLSS4</span> <span class="tag">#레이트레이싱</span> <span class="tag">#컴퓨터업그레이드</span> <span class="tag">#IT트렌드</span></div>
+        </div>
+      </header>
+      
+      <div class="post-hero">
+        <img src="https://picsum.photos/seed/4976/1200/630" alt="엔비디아 RTX 5080 성능 유출...전작 대비 2배 향상 충격 루머의 실체" loading="lazy">
+      </div>
+      <div class="post-content">
+        <h2>핵심 요약</h2>
+<ul>
+<li>엔비디아의 차세대 그래픽카드 'RTX 5080(블랙웰 아키텍처)'의 세부 스펙과 벤치마크 결과가 대만 하드웨어 포럼을 통해 유출되었습니다.</li>
+<li>이전 세대인 RTX 4080 대비 단순 연산 성능은 약 80%, 레이 트레이싱 성능은 최대 2.2배 향상된 것으로 나타났습니다.</li>
+<li>새로운 GDDR7 메모리 탑재와 AI 기반 업스케일링 기술 DLSS 4.0 독점 적용설이 제기되며 게이머들의 기대를 모으고 있습니다.</li>
+</ul>
+<h2>사건/이슈 개요</h2>
+<p>PC 게이머들과 그래픽 전문가들이 숨죽여 기다려온 소식이 들려왔습니다. '황 회장' 젠슨 황이 이끄는 엔비디아가 하반기 출시를 준비 중인 RTX 50 시리즈, 그중에서도 중추적인 역할을 할 RTX 5080의 성능 지표가 유출된 것입니다. 이번 유출은 단순한 루머를 넘어 상세한 다이(Die) 사진과 함께 구체적인 연산 유닛 수치까지 포함되어 있어 신빙성이 매우 높게 평가받고 있습니다. "성능 향상 폭이 역대급"이라는 소문이 사실로 드러나면서, PC 하드웨어 시장은 벌써부터 뜨겁게 달아오르고 있습니다. 과연 이번 RTX 5080이 게이밍의 패러다임을 바꿀 수 있을지, 유출된 데이터를 바탕으로 냉철하게 분석해 보았습니다.</p>
+<h2>상세 내용</h2>
+<h3>블랙웰 아키텍처와 3나노 공정의 만남</h3>
+<p>RTX 5080의 가장 큰 무기는 TSMC의 최신 3나노(N3) 공정을 사용한 '블랙웰(Blackwell)' 아키텍처입니다. 공정 미세화를 통해 전력 효율을 극대화하면서도 트랜지스터 밀도를 비약적으로 높였습니다. 유출된 자료에 따르면 RTX 5080은 10,240개의 쿠다(CUDA) 코어를 탑재할 것으로 보이는데, 이는 숫자상으로는 전작과 큰 차이가 없어 보일 수 있지만 코어당 연산 효율이 40% 이상 개선되었습니다. 또한, 데이터 전송 통로인 버스 인터페이스가 최적화되어 대용량 데이터를 처리할 때 발생하는 병목 현상을 획기적으로 줄였습니다. 이제 4K를 넘어 8K 게이밍 시대가 성큼 다가왔음을 시사하는 지표입니다.</p>
+<h3>세계 최초 GDDR7 메모리 탑재로 대역폭 혁명</h3>
+<p>성능 향상의 숨은 주역은 바로 메모리입니다. RTX 5080은 업계 최초로 차세대 그래픽 메모리인 GDDR7을 탑재할 것으로 확실시되고 있습니다. 기존 GDDR6X 대비 전송 속도가 2배 가까이 빠르며 전력 소모량은 오히려 낮아진 것이 특징입니다. 유출된 벤치마크에 따르면 메모리 대역폭이 1TB/s를 돌파했는데, 이는 고해상도 텍스처를 사용하는 최신 AAA급 게임에서 끊김 없는 부드러운 화면 전환을 보장합니다. 특히 인공지능 학습이나 복잡한 3D 렌더링 작업을 하는 전문가들에게는 꿈의 스펙이라고 할 수 있습니다. 메모리 속도가 빨라지면서 전체적인 시스템 응답 속도 역시 체감될 정도로 향상될 전망입니다.</p>
+<h3>레이 트레이싱 3.0과 AI 가속기의 진화</h3>
+<p>엔비디아의 전매특허인 레이 트레이싱 기술도 한 단계 더 진화했습니다. '레이 트레이싱 3.0' 엔진은 빛의 반사와 굴절을 계산하는 속도를 2배 이상 끌어올렸습니다. 이전 세대에서는 프레임 드랍 때문에 켜기 꺼려졌던 '패스 트레이싱' 옵션을 RTX 5080에서는 풀 옵션으로 구동할 수 있다는 테스트 결과가 나왔습니다. 여기에 더해 AI 전용 가속기인 텐서 코어의 성능도 강화되어, 새로운 업스케일링 기술인 'DLSS 4.0'이 탑재될 예정입니다. DLSS 4.0은 단순히 프레임을 늘리는 것을 넘어 AI가 누락된 픽셀을 완벽하게 재구성하여 네이티브 해상도보다 더 선명한 화질을 보여준다는 루머가 있어 큰 관심을 받고 있습니다.</p>
+<h3>전력 소모(TDP)와 새로운 쿨링 솔루션의 필요성</h3>
+<p>성능이 비약적으로 향상된 만큼 우려되는 부분은 전력 소모와 발열입니다. 유출된 정보에 따르면 RTX 5080의 설계 전력(TDP)은 약 400W에서 450W 사이가 될 것으로 보입니다. 이는 RTX 4080보다 약간 높은 수준이지만 성능 대비 전성비는 우수합니다. 엔비디아는 이를 해결하기 위해 완전히 새로운 형태의 쿨링 솔루션을 도입할 것으로 알려졌습니다. 히트파이프 구조를 개선하고 팬 디자인을 변경하여 소음은 줄이면서 냉각 성능을 높이는 방식입니다. 하지만 소비자 입장에서는 고출력 파워 서플라이로의 교체가 불가피해 보여, 전체적인 PC 빌드 비용 상승은 피할 수 없을 것 같습니다.</p>
+<h2>왜 주목받나?</h2>
+<p>RTX 5080 유출 소식에 전 세계 하드웨어 마니아들이 열광하는 이유는 '세대 교체다운 성능 향상' 때문입니다. 전작인 40 시리즈가 가격 대비 성능 향상 폭이 적다는 비판을 받았던 것을 의식한 듯, 엔비디아가 이번에는 확실한 성능 차이를 보여주려 한다는 분석입니다. 또한, 최근 급성장 중인 생성형 AI 분야에서 그래픽카드의 중요성이 커진 만큼, 게임뿐만 아니라 워크스테이션으로서의 가치도 높게 평가받고 있습니다. 엔비디아가 AI 시장의 주도권을 PC 영역에서도 확고히 하겠다는 강력한 의지가 엿보입니다.</p>
+<h2>앞으로의 전망</h2>
+<p>엔비디아는 올가을 특별 이벤트를 통해 RTX 5090과 5080을 정식 발표하고 연말에 출시할 것으로 예상됩니다. 초기 출시 가격은 전작과 비슷하거나 소폭 상승할 것이라는 전망이 우세하지만, 성능 향상 폭을 고려하면 시장에서의 수요는 폭발적일 것으로 보입니다. 전문가들은 이번 RTX 5080의 출시로 인해 중고 시장의 40 시리즈 가격이 급락할 것으로 내다보고 있으며, 모니터 시장 역시 고주사율 4K 모니터로의 세대교체가 가속화될 것으로 분석하고 있습니다. 한동안 정체되었던 하드웨어 시장에 새로운 활력이 불어올 날이 멀지 않았습니다.</p>
+<h2>마무리</h2>
+<p>지금까지 RTX 5080의 유출된 성능과 주요 스펙들을 정리해 보았습니다. 2배에 가까운 성능 향상이라니, 정말이지 하드웨어의 발전 속도는 끝이 없는 것 같습니다. 게이머들에게는 축복 같은 소식이지만, 한편으론 내 지갑을 걱정해야 하는 잔인한 소식이기도 하네요.</p>
+<p>여러분은 이번 RTX 5080이 루머대로 출시된다면 기꺼이 구매하실 의향이 있으신가요? 아니면 지금 쓰는 그래픽카드로도 충분하다고 생각하시나요? 여러분의 업그레이드 계획을 댓글로 공유해 주세요!</p>
+      </div>
+      <footer class="post-footer">
+        <div class="post-tags-footer"><a class="tag">#RTX5080</a> <a class="tag">#엔비디아</a> <a class="tag">#그래픽카드</a> <a class="tag">#블랙웰아키텍처</a> <a class="tag">#GDDR7</a> <a class="tag">#게이밍PC</a> <a class="tag">#테크뉴스</a> <a class="tag">#하드웨어리뷰</a> <a class="tag">#DLSS4</a> <a class="tag">#레이트레이싱</a> <a class="tag">#컴퓨터업그레이드</a> <a class="tag">#IT트렌드</a></div>
+      </footer>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 오늘의 뉴스 브리핑</p>
+    </div>
+  </footer>
+</body>
+</html>

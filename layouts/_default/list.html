@@ -1,0 +1,22 @@
+{{ define "main" }}
+<div class="post-list">
+  <h1>{{ if .IsHome }}최신 포스트{{ else }}{{ .Title }}{{ end }}</h1>
+  {{ range .Paginator.Pages }}
+  <article class="post-card">
+    {{ with .Params.thumbnail }}
+    <div class="post-thumb">
+      <a href="{{ $.RelPermalink }}"><img src="{{ . }}" alt="{{ $.Title }}" loading="lazy"></a>
+    </div>
+    {{ end }}
+    <div class="post-info">
+      <span class="post-category">{{ with .Params.category }}{{ . }}{{ end }}</span>
+      <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+      <p class="post-summary">{{ .Summary }}</p>
+      <time>{{ .Date.Format "2006-01-02" }}</time>
+    </div>
+  </article>
+  {{ end }}
+
+  {{ template "_internal/pagination.html" . }}
+</div>
+{{ end }}

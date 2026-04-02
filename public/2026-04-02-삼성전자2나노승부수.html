@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>삼성전자 2나노 공정으로 승부수? TSMC 병목 현상에 기회 왔다 — 오늘의 뉴스 브리핑</title>
+  <meta name="description" content="삼성전자 2나노 공정으로 승부수? TSMC 병목 현상에 기회 왔다">
+  <meta property="og:title" content="삼성전자 2나노 공정으로 승부수? TSMC 병목 현상에 기회 왔다 — 오늘의 뉴스 브리핑">
+  <meta property="og:description" content="삼성전자 2나노 공정으로 승부수? TSMC 병목 현상에 기회 왔다">
+  <meta property="og:image" content="https://picsum.photos/seed/1370/1200/630">
+  <meta property="og:type" content="article">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <style>/* ═══════════════════════════════════════════════════════════════
+   Apple-inspired News Blog — 오늘의 뉴스 브리핑
+   Clean, minimal, content-first design
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ─── Reset & Typography ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --black: #1d1d1f;
+  --gray-900: #2d2d2f;
+  --gray-700: #6e6e73;
+  --gray-500: #86868b;
+  --gray-300: #d2d2d7;
+  --gray-100: #f5f5f7;
+  --white: #ffffff;
+  --blue: #0071e3;
+  --blue-hover: #0077ed;
+  --max-width: 720px;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Pretendard',
+               'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  line-height: 1.5;
+  color: var(--black);
+  background: var(--white);
+}
+
+a { color: var(--blue); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+img { max-width: 100%; height: auto; display: block; }
+
+/* ─── Navigation ─── */
+.site-header {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+}
+
+.site-header .container {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 22px;
+  height: 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.site-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--black);
+  letter-spacing: -0.01em;
+}
+
+.site-title:hover { text-decoration: none; }
+
+.site-header nav { display: flex; gap: 28px; }
+
+.site-header nav a {
+  font-size: 0.8rem;
+  color: var(--gray-700);
+  letter-spacing: -0.01em;
+  transition: color 0.2s;
+}
+
+.site-header nav a:hover { color: var(--black); text-decoration: none; }
+
+/* ─── Main Container ─── */
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 22px;
+}
+
+/* ─── Post List (Index Page) ─── */
+.post-list h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  margin: 56px 0 8px;
+  color: var(--black);
+}
+
+.post-list-subtitle {
+  font-size: 0.95rem;
+  color: var(--gray-500);
+  margin-bottom: 40px;
+}
+
+.post-card {
+  display: flex;
+  gap: 24px;
+  padding: 28px 0;
+  border-top: 1px solid var(--gray-300);
+  transition: opacity 0.2s;
+}
+
+.post-card:last-child { border-bottom: 1px solid var(--gray-300); }
+
+.post-card:hover { opacity: 0.85; }
+
+.post-thumb {
+  flex-shrink: 0;
+  width: 200px;
+  height: 134px;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.post-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.post-card:hover .post-thumb img { transform: scale(1.03); }
+
+.post-info { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+
+.post-meta-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.post-category {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--blue);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.post-date {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+.post-info h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.45;
+  letter-spacing: -0.015em;
+  margin-bottom: 6px;
+}
+
+.post-info h2 a { color: var(--black); }
+.post-info h2 a:hover { color: var(--blue); text-decoration: none; }
+
+.post-summary {
+  font-size: 0.85rem;
+  color: var(--gray-700);
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ─── Featured Post (Top of list) ─── */
+.post-featured {
+  padding: 40px 0 32px;
+  border-bottom: 1px solid var(--gray-300);
+  margin-bottom: 8px;
+}
+
+.post-featured .featured-image {
+  width: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.post-featured .featured-image img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+}
+
+.post-featured h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.35;
+  margin-bottom: 8px;
+}
+
+.post-featured h2 a { color: var(--black); }
+.post-featured h2 a:hover { color: var(--blue); text-decoration: none; }
+
+/* ─── Single Post ─── */
+.post-single {
+  padding: 48px 0 64px;
+}
+
+.post-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.post-header .post-category {
+  font-size: 0.75rem;
+  display: inline-block;
+  margin-bottom: 12px;
+}
+
+.post-header h1 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.3;
+  color: var(--black);
+  margin-bottom: 16px;
+  word-break: keep-all;
+}
+
+.post-meta {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  align-items: center;
+  color: var(--gray-500);
+  font-size: 0.85rem;
+}
+
+.post-hero {
+  margin: 0 0 40px;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.post-hero img {
+  width: 100%;
+  max-height: 480px;
+  object-fit: cover;
+}
+
+/* ─── Post Content ─── */
+.post-content {
+  font-size: 1.05rem;
+  line-height: 1.85;
+  color: var(--gray-900);
+  word-break: keep-all;
+}
+
+.post-content h2 {
+  font-size: 1.45rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 48px 0 16px;
+  color: var(--black);
+}
+
+.post-content h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  margin: 36px 0 12px;
+  color: var(--black);
+}
+
+.post-content p {
+  margin: 16px 0;
+}
+
+.post-content ul, .post-content ol {
+  margin: 16px 0;
+  padding-left: 24px;
+}
+
+.post-content li {
+  margin: 8px 0;
+  line-height: 1.7;
+}
+
+.post-content strong {
+  font-weight: 600;
+  color: var(--black);
+}
+
+.post-content blockquote {
+  margin: 28px 0;
+  padding: 20px 24px;
+  background: var(--gray-100);
+  border-radius: 12px;
+  color: var(--gray-700);
+  font-size: 1rem;
+}
+
+.post-content img {
+  margin: 32px auto;
+  border-radius: 12px;
+}
+
+.post-content hr {
+  border: none;
+  height: 1px;
+  background: var(--gray-300);
+  margin: 40px 0;
+}
+
+/* ─── Tags ─── */
+.post-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.tag {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+.post-tags-footer {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--gray-300);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.post-tags-footer .tag {
+  background: var(--gray-100);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  color: var(--gray-700);
+  transition: background 0.2s;
+}
+
+.post-tags-footer .tag:hover {
+  background: var(--gray-300);
+  text-decoration: none;
+}
+
+/* ─── Post Navigation ─── */
+.post-nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 24px 0 48px;
+  font-size: 0.85rem;
+  border-top: 1px solid var(--gray-300);
+  margin-top: 32px;
+}
+
+.post-nav a { color: var(--blue); }
+
+/* ─── Footer ─── */
+.site-footer {
+  background: var(--gray-100);
+  border-top: 1px solid var(--gray-300);
+}
+
+.site-footer .container {
+  max-width: 980px;
+  padding: 20px 22px;
+  text-align: center;
+}
+
+.site-footer p {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+/* ─── Pagination ─── */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  margin: 40px 0;
+  list-style: none;
+  padding: 0;
+}
+
+.pagination li a, .pagination li span {
+  display: inline-block;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  color: var(--gray-700);
+}
+
+.pagination .active span {
+  background: var(--blue);
+  color: var(--white);
+}
+
+.pagination li a:hover {
+  background: var(--gray-100);
+  text-decoration: none;
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 640px) {
+  .post-card {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .post-thumb {
+    width: 100%;
+    height: 200px;
+    border-radius: 12px;
+  }
+
+  .post-list h1 { font-size: 1.6rem; margin-top: 32px; }
+
+  .post-header h1 { font-size: 1.6rem; }
+
+  .post-single { padding: 32px 0 48px; }
+
+  .post-featured .featured-image img { height: 240px; }
+  .post-featured h2 { font-size: 1.3rem; }
+
+  .post-content { font-size: 1rem; }
+}
+</style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="/index.html" class="site-title">오늘의 뉴스 브리핑</a>
+      <nav>
+        <a href="/index.html">최신</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container">
+    <article class="post-single">
+      <header class="post-header">
+        <span class="post-category">IT</span>
+        <h1>삼성전자 2나노 공정으로 승부수? TSMC 병목 현상에 기회 왔다</h1>
+        <div class="post-meta">
+          <time>2026-04-02</time>
+          <div class="post-tags"><span class="tag">#삼성전자</span> <span class="tag">#TSMC</span> <span class="tag">#파운드리</span> <span class="tag">#2나노</span> <span class="tag">#GAA</span> <span class="tag">#반도체전쟁</span> <span class="tag">#공급병목</span> <span class="tag">#엔비디아</span> <span class="tag">#애플</span> <span class="tag">#HBM</span> <span class="tag">#턴키솔루션</span> <span class="tag">#AI반도체</span> <span class="tag">#반도체수율</span> <span class="tag">#멀티파운드리</span> <span class="tag">#한국경제</span> <span class="tag">#서울와이어</span> <span class="tag">#삼성주가</span> <span class="tag">#차세대반도체</span> <span class="tag">#기술리더십</span> <span class="tag">#반도체공정</span> <span class="tag">#퀄컴</span> <span class="tag">#구글</span> <span class="tag">#나노공정</span> <span class="tag">#파운드리2.0</span> <span class="tag">#반도체뉴스</span></div>
+        </div>
+      </header>
+      
+      <div class="post-hero">
+        <img src="https://picsum.photos/seed/1370/1200/630" alt="삼성전자 2나노 공정으로 승부수? TSMC 병목 현상에 기회 왔다" loading="lazy">
+      </div>
+      <div class="post-content">
+        <h2>핵심 요약</h2>
+<p>대만의 TSMC가 밀려드는 주문을 감당하지 못해 '공급 병목' 현상을 겪으면서, 삼성전자가 2나노미터(nm) 공정을 앞세워 반격의 기회를 잡았다. 한국경제와 서울와이어 등 주요 경제 매체들에 따르면, 엔비디아와 애플 등 대형 고객사들이 TSMC의 생산 일정 지연으로 인해 삼성전자를 '달콤한 대안'으로 검토하기 시작했다. 삼성전자는 이 기회를 놓치지 않고 2나노 공정의 양산 시점을 앞당기고 수율 확보에 사활을 걸며 파운드리 시장의 판도 변화를 꾀하고 있다.</p>
+<h2>사건/이슈 개요</h2>
+<p>최근 전 세계적인 AI 반도체 수요 폭발로 인해 TSMC의 첨단 공정 가동률은 이미 100%를 넘어선 상태다. 주요 팹리스 업체들이 칩을 받기 위해 1년 이상 대기해야 하는 상황이 벌어지자, 시장의 시선은 자연스럽게 삼성전자로 향하고 있다. 삼성전자는 3나노 공정에서 쌓은 GAA(Gate-All-Around) 기술 노하우를 바탕으로 2나노 공정에서 완벽한 승부수를 던지겠다는 계획이다. 특히 TSMC가 2나노부터 처음 도입하는 GAA 기술을 삼성은 이미 3나노에서 검증했다는 점이 고객사들에게 매력적인 요소로 작용하고 있다.</p>
+<h2>상세 내용</h2>
+<h3>TSMC의 공급 병목과 고객사들의 불안감</h3>
+<p>TSMC의 압도적인 점유율은 오히려 고객사들에게 '단일 공급원 리스크'라는 부메랑이 되어 돌아왔다. 취재 결과, 특정 고객사가 TSMC의 라인을 독점하면서 중소형 팹리스뿐만 아니라 대형 업체들까지 제때 칩을 공급받지 못하는 사태가 속출하고 있다. 확인해보니, 일부 업체들은 신제품 출시 일정을 조정해야 할 정도로 심각한 타격을 입었다. 이러한 상황에서 삼성전자는 '안정적인 공급망 제공'을 약속하며 고객사들과의 접점을 넓히고 있다. "TSMC 꽉 차고, 수요 넘치는" 지금이 삼성에게는 천재일우의 기회인 셈이다.</p>
+<h3>2나노 GAA 공정의 기술적 우위 강조</h3>
+<p>삼성전자의 2나노 전략의 핵심은 'GAA 구조의 성숙도'다. TSMC는 2나노에 이르러서야 기존 핀펫(FinFET) 구조를 버리고 GAA를 도입하지만, 삼성은 이미 3나노 1세대와 2세대를 통해 GAA 기술을 충분히 안정화했다. 확인해보니, 삼성의 2나노 공정은 기존 3나노 대비 성능은 12% 향상되고 전력 효율은 25% 개선된 것으로 나타났다. 삼성전자 관계자는 "GAA 기술만큼은 우리가 TSMC보다 최소 2년 이상 앞서 있다"며 "2나노에서 진정한 기술 리더십을 증명할 것"이라고 자신했다.</p>
+<h3>멀티 파운드리 전략의 확산과 삼성의 수혜</h3>
+<p>리스트 관리 차원에서 생산처를 다변화하는 '멀티 파운드리(Multi-Foundry)' 전략이 업계의 대세로 자리 잡고 있다. 엔비디아 역시 차세대 AI 칩의 일부 물량을 삼성전자에 맡기는 방안을 심도 있게 검토 중인 것으로 알려졌다. 취재 결과, 삼성은 고객사 유치를 위해 파운드리 가격 경쟁력을 높이는 한편, HBM(고대역폭 메모리)과 패키징을 묶은 '턴키(Turn-key) 서비스'를 강화하고 있다. 고객사 입장에서는 설계부터 제조, 패키징까지 한 곳에서 해결할 수 있는 삼성이 매우 경제적인 선택지가 될 수 있다.</p>
+<h3>수율 확보와 대형 수주 성사가 관건</h3>
+<p>기회는 왔지만 넘어야 할 산도 높다. 가장 큰 과제는 역시 '수율(양품 비율)'이다. 아무리 기술력이 좋아도 양산 단계에서 수율이 받쳐주지 않으면 대형 고객사들을 붙잡아둘 수 없다. 과거 4나노 공정 초기 당시 수율 논란으로 고객사를 놓쳤던 아픈 기억이 있는 삼성으로서는 이번 2나노만큼은 무결점 양산을 목표로 하고 있다. 현장 전문가들은 "올해 말까지 공개될 2나노 대형 수주 소식이 삼성 파운드리의 운명을 결정지을 것"이라고 입을 모은다. 구글이나 퀄컴 등과의 대규모 계약 체결 여부가 초미의 관심사다.</p>
+<h2>왜 주목받나?</h2>
+<p>삼성전자의 파운드리 사업은 그동안 TSMC의 그늘에 가려 만년 2위에 머물러 있었다. 하지만 이번 2나노 승부수는 단순한 점유율 확대를 넘어, AI 시대의 핵심 인프라 주도권을 누가 가져가느냐를 결정짓는 중대한 분수령이다. 만약 삼성이 TSMC의 병목 현상을 틈타 대형 고객사들을 대거 유치하는 데 성공한다면, 반도체 시장의 '게임 체인저'로 등극할 수 있다. 이는 삼성전자 주가는 물론 대한민국 경제 전반에 엄청난 파급력을 미칠 대형 호재로 작용할 것이 분명하다.</p>
+<h2>앞으로의 전망</h2>
+<p>삼성전자는 2025년 모바일용 2나노 양산을 시작으로, 2026년 고성능 컴퓨팅(HPC), 2027년 차량용 반도체까지 라인업을 확대할 계획이다. 특히 최근 테슬라 등 자율주행 기업들과의 협력이 강화되고 있어 전용 칩 수주에 대한 기대감도 크다. 전문가들은 삼성이 향후 1~2년 내에 의미 있는 점유율 반등을 이뤄낼 것으로 내다보고 있다. 하지만 TSMC 역시 신공장 증설을 통해 공급 능력을 키우고 있어, 양사 간의 '나노 전쟁'은 더욱 격렬해질 전망이다.</p>
+<h2>마무리</h2>
+<p>TSMC라는 거대한 성벽에 조금씩 균열이 가고 있는 지금, 삼성전자의 2나노 승부수는 매우 시의적절해 보인다. "달콤한 대안"을 넘어 "최고의 선택"으로 자리매김할 수 있을지가 관건이다. 대한민국 반도체의 저력이 다시 한번 세계를 놀라게 할 날을 기대해 본다. 여러분은 삼성전자가 이번 기회를 살려 TSMC를 꺾고 파운드리 1위로 올라설 수 있을 것이라고 보시나? 아니면 여전히 격차를 줄이기엔 역부족이라고 생각하시나? 의견 부탁드린다.</p>
+      </div>
+      <footer class="post-footer">
+        <div class="post-tags-footer"><a class="tag">#삼성전자</a> <a class="tag">#TSMC</a> <a class="tag">#파운드리</a> <a class="tag">#2나노</a> <a class="tag">#GAA</a> <a class="tag">#반도체전쟁</a> <a class="tag">#공급병목</a> <a class="tag">#엔비디아</a> <a class="tag">#애플</a> <a class="tag">#HBM</a> <a class="tag">#턴키솔루션</a> <a class="tag">#AI반도체</a> <a class="tag">#반도체수율</a> <a class="tag">#멀티파운드리</a> <a class="tag">#한국경제</a> <a class="tag">#서울와이어</a> <a class="tag">#삼성주가</a> <a class="tag">#차세대반도체</a> <a class="tag">#기술리더십</a> <a class="tag">#반도체공정</a> <a class="tag">#퀄컴</a> <a class="tag">#구글</a> <a class="tag">#나노공정</a> <a class="tag">#파운드리2.0</a> <a class="tag">#반도체뉴스</a></div>
+      </footer>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 오늘의 뉴스 브리핑</p>
+    </div>
+  </footer>
+</body>
+</html>

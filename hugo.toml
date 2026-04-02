@@ -1,0 +1,20 @@
+baseURL = "https://yourdomain.com/"
+languageCode = "ko-KR"
+title = "오늘의 뉴스 브리핑"
+theme = ""
+defaultContentLanguage = "ko"
+
+[params]
+  description = "최신 뉴스를 빠르고 정확하게 전달합니다"
+  author = "용진"
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+
+[outputs]
+  home = ["HTML", "RSS"]
+
+[pagination]
+  pagerSize = 20

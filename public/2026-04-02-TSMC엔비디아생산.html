@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TSMC 3나노 병목에 엔비디아 50시리즈 생산량 비상! — 오늘의 뉴스 브리핑</title>
+  <meta name="description" content="TSMC 3나노 병목에 엔비디아 50시리즈 생산량 비상!">
+  <meta property="og:title" content="TSMC 3나노 병목에 엔비디아 50시리즈 생산량 비상! — 오늘의 뉴스 브리핑">
+  <meta property="og:description" content="TSMC 3나노 병목에 엔비디아 50시리즈 생산량 비상!">
+  <meta property="og:image" content="https://picsum.photos/seed/2206/1200/630">
+  <meta property="og:type" content="article">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <style>/* ═══════════════════════════════════════════════════════════════
+   Apple-inspired News Blog — 오늘의 뉴스 브리핑
+   Clean, minimal, content-first design
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ─── Reset & Typography ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --black: #1d1d1f;
+  --gray-900: #2d2d2f;
+  --gray-700: #6e6e73;
+  --gray-500: #86868b;
+  --gray-300: #d2d2d7;
+  --gray-100: #f5f5f7;
+  --white: #ffffff;
+  --blue: #0071e3;
+  --blue-hover: #0077ed;
+  --max-width: 720px;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Pretendard',
+               'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  line-height: 1.5;
+  color: var(--black);
+  background: var(--white);
+}
+
+a { color: var(--blue); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+img { max-width: 100%; height: auto; display: block; }
+
+/* ─── Navigation ─── */
+.site-header {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+}
+
+.site-header .container {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 22px;
+  height: 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.site-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--black);
+  letter-spacing: -0.01em;
+}
+
+.site-title:hover { text-decoration: none; }
+
+.site-header nav { display: flex; gap: 28px; }
+
+.site-header nav a {
+  font-size: 0.8rem;
+  color: var(--gray-700);
+  letter-spacing: -0.01em;
+  transition: color 0.2s;
+}
+
+.site-header nav a:hover { color: var(--black); text-decoration: none; }
+
+/* ─── Main Container ─── */
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 22px;
+}
+
+/* ─── Post List (Index Page) ─── */
+.post-list h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  margin: 56px 0 8px;
+  color: var(--black);
+}
+
+.post-list-subtitle {
+  font-size: 0.95rem;
+  color: var(--gray-500);
+  margin-bottom: 40px;
+}
+
+.post-card {
+  display: flex;
+  gap: 24px;
+  padding: 28px 0;
+  border-top: 1px solid var(--gray-300);
+  transition: opacity 0.2s;
+}
+
+.post-card:last-child { border-bottom: 1px solid var(--gray-300); }
+
+.post-card:hover { opacity: 0.85; }
+
+.post-thumb {
+  flex-shrink: 0;
+  width: 200px;
+  height: 134px;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.post-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.post-card:hover .post-thumb img { transform: scale(1.03); }
+
+.post-info { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+
+.post-meta-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.post-category {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--blue);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.post-date {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+.post-info h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.45;
+  letter-spacing: -0.015em;
+  margin-bottom: 6px;
+}
+
+.post-info h2 a { color: var(--black); }
+.post-info h2 a:hover { color: var(--blue); text-decoration: none; }
+
+.post-summary {
+  font-size: 0.85rem;
+  color: var(--gray-700);
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ─── Featured Post (Top of list) ─── */
+.post-featured {
+  padding: 40px 0 32px;
+  border-bottom: 1px solid var(--gray-300);
+  margin-bottom: 8px;
+}
+
+.post-featured .featured-image {
+  width: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.post-featured .featured-image img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+}
+
+.post-featured h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.35;
+  margin-bottom: 8px;
+}
+
+.post-featured h2 a { color: var(--black); }
+.post-featured h2 a:hover { color: var(--blue); text-decoration: none; }
+
+/* ─── Single Post ─── */
+.post-single {
+  padding: 48px 0 64px;
+}
+
+.post-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.post-header .post-category {
+  font-size: 0.75rem;
+  display: inline-block;
+  margin-bottom: 12px;
+}
+
+.post-header h1 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.3;
+  color: var(--black);
+  margin-bottom: 16px;
+  word-break: keep-all;
+}
+
+.post-meta {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  align-items: center;
+  color: var(--gray-500);
+  font-size: 0.85rem;
+}
+
+.post-hero {
+  margin: 0 0 40px;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.post-hero img {
+  width: 100%;
+  max-height: 480px;
+  object-fit: cover;
+}
+
+/* ─── Post Content ─── */
+.post-content {
+  font-size: 1.05rem;
+  line-height: 1.85;
+  color: var(--gray-900);
+  word-break: keep-all;
+}
+
+.post-content h2 {
+  font-size: 1.45rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 48px 0 16px;
+  color: var(--black);
+}
+
+.post-content h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  margin: 36px 0 12px;
+  color: var(--black);
+}
+
+.post-content p {
+  margin: 16px 0;
+}
+
+.post-content ul, .post-content ol {
+  margin: 16px 0;
+  padding-left: 24px;
+}
+
+.post-content li {
+  margin: 8px 0;
+  line-height: 1.7;
+}
+
+.post-content strong {
+  font-weight: 600;
+  color: var(--black);
+}
+
+.post-content blockquote {
+  margin: 28px 0;
+  padding: 20px 24px;
+  background: var(--gray-100);
+  border-radius: 12px;
+  color: var(--gray-700);
+  font-size: 1rem;
+}
+
+.post-content img {
+  margin: 32px auto;
+  border-radius: 12px;
+}
+
+.post-content hr {
+  border: none;
+  height: 1px;
+  background: var(--gray-300);
+  margin: 40px 0;
+}
+
+/* ─── Tags ─── */
+.post-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.tag {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+.post-tags-footer {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--gray-300);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.post-tags-footer .tag {
+  background: var(--gray-100);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  color: var(--gray-700);
+  transition: background 0.2s;
+}
+
+.post-tags-footer .tag:hover {
+  background: var(--gray-300);
+  text-decoration: none;
+}
+
+/* ─── Post Navigation ─── */
+.post-nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 24px 0 48px;
+  font-size: 0.85rem;
+  border-top: 1px solid var(--gray-300);
+  margin-top: 32px;
+}
+
+.post-nav a { color: var(--blue); }
+
+/* ─── Footer ─── */
+.site-footer {
+  background: var(--gray-100);
+  border-top: 1px solid var(--gray-300);
+}
+
+.site-footer .container {
+  max-width: 980px;
+  padding: 20px 22px;
+  text-align: center;
+}
+
+.site-footer p {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+/* ─── Pagination ─── */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  margin: 40px 0;
+  list-style: none;
+  padding: 0;
+}
+
+.pagination li a, .pagination li span {
+  display: inline-block;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  color: var(--gray-700);
+}
+
+.pagination .active span {
+  background: var(--blue);
+  color: var(--white);
+}
+
+.pagination li a:hover {
+  background: var(--gray-100);
+  text-decoration: none;
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 640px) {
+  .post-card {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .post-thumb {
+    width: 100%;
+    height: 200px;
+    border-radius: 12px;
+  }
+
+  .post-list h1 { font-size: 1.6rem; margin-top: 32px; }
+
+  .post-header h1 { font-size: 1.6rem; }
+
+  .post-single { padding: 32px 0 48px; }
+
+  .post-featured .featured-image img { height: 240px; }
+  .post-featured h2 { font-size: 1.3rem; }
+
+  .post-content { font-size: 1rem; }
+}
+</style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="/index.html" class="site-title">오늘의 뉴스 브리핑</a>
+      <nav>
+        <a href="/index.html">최신</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container">
+    <article class="post-single">
+      <header class="post-header">
+        <span class="post-category">IT</span>
+        <h1>TSMC 3나노 병목에 엔비디아 50시리즈 생산량 비상!</h1>
+        <div class="post-meta">
+          <time>2026-04-02</time>
+          <div class="post-tags"><span class="tag">#엔비디아</span> <span class="tag">#TSMC</span> <span class="tag">#반도체</span> <span class="tag">#RTX5090</span> <span class="tag">#블랙웰</span> <span class="tag">#3나노공정</span> <span class="tag">#파운드리</span> <span class="tag">#IT이슈</span> <span class="tag">#GPU품귀</span> <span class="tag">#삼성전자</span> <span class="tag">#인공지능</span> <span class="tag">#테크뉴스</span> <span class="tag">#하드웨어</span> <span class="tag">#컴퓨터사양</span> <span class="tag">#가격상승</span></div>
+        </div>
+      </header>
+      
+      <div class="post-hero">
+        <img src="https://picsum.photos/seed/2206/1200/630" alt="TSMC 3나노 병목에 엔비디아 50시리즈 생산량 비상!" loading="lazy">
+      </div>
+      <div class="post-content">
+        <figure style="text-align:center;margin:32px 0;"><img src="https://picsum.photos/seed/2206/1200/630" alt="TSMC 3나노 병목에 엔비디아 50시리즈 생산량 비상!" style="max-width:100%;border-radius:12px;" loading="lazy"></figure>
+<h2>핵심 요약</h2>
+<p>세계 최대 파운드리 업체인 TSMC의 생산 라인에 과부하가 걸리면서 엔비디아의 차세대 GPU '블랙웰'과 RTX 50 시리즈 생산 계획에 차질이 생겼다. 3나노 공정의 수율 안정화가 예상보다 늦어지고 있는 가운데 엔비디아가 시장 수요를 맞추기 위해 출하량을 조절하고 있다는 소식이 전해졌다. 이는 AI 가속기 시장과 전 세계 게이머들에게 상당한 파장을 일으킬 것으로 보인다.</p>
+<h2>사건/이슈 개요</h2>
+<p>조선비즈의 보도에 따르면 현재 TSMC의 3나노(N3) 공정은 애플, 엔비디아, AMD 등 빅테크 기업들의 주문이 폭주하며 100% 이상의 가동률을 기록 중이다. 하지만 미세 공정의 난이도가 급상승하면서 웨이퍼 한 장당 뽑아낼 수 있는 양질의 칩 개수가 기대에 못 미치는 상황이다. 이 때문에 엔비디아는 핵심 파트너사들에 공급 물량 축소를 통보했으며 이는 결국 IT 시장 전반의 가격 상승으로 이어질 가능성이 크다.</p>
+<h2>상세 내용</h2>
+<h3>3나노 공정 수율 확보의 어려움</h3>
+<p>TSMC가 자랑하는 3나노 공정은 이전 세대보다 트랜지스터 밀도를 비약적으로 높였지만 그만큼 공정 과정이 까다로워졌다. 특히 엔비디아가 사용하는 'N3E' 공정에서 특정 회로의 결함률이 낮아지지 않고 있다는 분석이 나온다. 취재 결과에 따르면 엔비디아는 초기 불량률을 줄이기 위해 설계 수정을 검토하고 있으며 이로 인해 전체적인 생산 스케줄이 1~2개월가량 밀린 상태다.</p>
+<h3>엔비디아의 전략적 공급 조절 카드</h3>
+<p>생산량이 부족해지자 엔비디아는 '선택과 집중' 전략을 선택했다. 수익성이 극도로 높은 기업용 AI 가속기(H200, B200)에 우선권을 주고 상대적으로 마진이 낮은 소비자용 RTX 50 시리즈의 생산 비중을 낮췄다는 소식이다. 이건 게이머들에게는 청천벽력 같은 소리다. 시장에서는 벌써부터 RTX 5090의 출시가가 이전 세대보다 20% 이상 비싸질 것이라는 흉흉한 소문이 돌고 있다.</p>
+<h3>빅테크 기업들의 주문 선점 전쟁</h3>
+<p>상황이 이렇다 보니 애플과 인텔, AMD 등 다른 경쟁사들도 TSMC의 라인을 확보하기 위해 천문학적인 선급금을 지불하며 전쟁을 벌이고 있다. 애플이 이미 아이폰 18용 칩셋 물량의 상당 부분을 선점한 상태라 엔비디아가 비집고 들어갈 틈이 더 좁아졌다. TSMC 내부 관계자의 말에 따르면 현재 예약된 주문만으로도 2027년 상반기까지 일정이 꽉 차 있어 병목 현상은 단기간에 해결되기 어렵다.</p>
+<h3>시장 가격 상승과 암시장 형성 우려</h3>
+<p>물량이 귀해지면 가격이 오르는 건 당연한 이치다. 엔비디아의 공식 공급량이 줄어들면 용산이나 뉴에그 같은 주요 유통가에는 '프리미엄'이 붙어 판매될 확률이 높다. 과거 비트코인 채굴 열풍 때처럼 GPU 한 장을 구하기 위해 정가의 두 배를 지불해야 하는 상황이 재현될 수 있다는 우려가 나오는 이유다. 벌써 일부 도매상들은 재고 확보를 위해 물밑 작업에 들어갔다는 정황도 포착되고 있다.</p>
+<h2>왜 주목받나?</h2>
+<p>지금 전 세계는 AI 혁명의 한복판에 있고 그 심장은 엔비디아의 GPU다. TSMC의 생산 병목은 단순히 그래픽카드 하나 못 사는 문제가 아니라 전 세계 AI 산업의 발전 속도를 늦추는 브레이크가 될 수 있다. 구글, 마이크로소프트, 메타 등 데이터 센터를 구축해야 하는 기업들 입장에서는 GPU 수급 지연이 곧 사업 경쟁력 약화로 이어진다. 반도체 생산 체인의 취약성이 다시 한번 드러난 셈이다.</p>
+<h2>앞으로의 전망</h2>
+<p>TSMC는 부랴부랴 애리조나 공장 가동을 서두르고 있지만 실제 양산까지는 갈 길이 멀다. 엔비디아는 TSMC에만 의존하는 리스크를 줄이기 위해 삼성전자의 3나노 GAA 공정 도입을 진지하게 검토하기 시작했다는 후문이다. 만약 삼성전자가 이번 기회에 수율 안정성을 증명해낸다면 반도체 파운드리 시장의 지형도가 완전히 바뀔 수도 있다. 하지만 당분간 엔비디아 칩의 품귀 현상은 피하기 어려워 보인다.</p>
+<h2>마무리</h2>
+<p>엔비디아 그래픽카드를 기다리던 분들에게는 참 안타까운 소식이다. 기술의 발전이 생산 능력을 앞서가는 현상이 벌어지면서 소비자들이 피해를 보는 구조가 반복되고 있다. 과연 엔비디아가 이 공급 난을 어떻게 해결할지 그리고 삼성전자가 이 틈을 타 역전의 기회를 잡을 수 있을지 정말 궁금해진다. 여러분은 이번 RTX 50 시리즈가 비싸게 나와도 구매하실 계획인가요? 아니면 대안을 찾으실 건가요?</p>
+      </div>
+      <footer class="post-footer">
+        <div class="post-tags-footer"><a class="tag">#엔비디아</a> <a class="tag">#TSMC</a> <a class="tag">#반도체</a> <a class="tag">#RTX5090</a> <a class="tag">#블랙웰</a> <a class="tag">#3나노공정</a> <a class="tag">#파운드리</a> <a class="tag">#IT이슈</a> <a class="tag">#GPU품귀</a> <a class="tag">#삼성전자</a> <a class="tag">#인공지능</a> <a class="tag">#테크뉴스</a> <a class="tag">#하드웨어</a> <a class="tag">#컴퓨터사양</a> <a class="tag">#가격상승</a></div>
+      </footer>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 오늘의 뉴스 브리핑</p>
+    </div>
+  </footer>
+</body>
+</html>
