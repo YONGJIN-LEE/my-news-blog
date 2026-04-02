@@ -137,9 +137,9 @@ def html_header():
     return f"""
   <header class="site-header">
     <div class="container">
-      <a href="/index.html" class="site-title">{SITE_TITLE}</a>
+      <a href="index.html" class="site-title">{SITE_TITLE}</a>
       <nav>
-        <a href="/index.html">최신</a>
+        <a href="index.html">최신</a>
       </nav>
     </div>
   </header>"""
@@ -216,14 +216,14 @@ def render_index(posts):
         <span class="post-date">{p['date'][:10]}</span>
       </div>
       {thumb_html}
-      <h2><a href="/{p['slug']}.html">{p['title']}</a></h2>
+      <h2><a href="{p['slug']}.html">{p['title']}</a></h2>
       <p class="post-summary">{p.get('summary', '')}</p>
     </article>"""
         else:
             thumb = ""
             if p.get("thumbnail"):
                 thumb = f'''<div class="post-thumb">
-              <a href="/{p['slug']}.html"><img src="{p['thumbnail']}" alt="{p['title']}" loading="lazy"></a>
+              <a href="{p['slug']}.html"><img src="{p['thumbnail']}" alt="{p['title']}" loading="lazy"></a>
             </div>'''
 
             cards += f"""
@@ -234,7 +234,7 @@ def render_index(posts):
           <span class="post-category">{p.get('category', '')}</span>
           <span class="post-date">{p['date'][:10]}</span>
         </div>
-        <h2><a href="/{p['slug']}.html">{p['title']}</a></h2>
+        <h2><a href="{p['slug']}.html">{p['title']}</a></h2>
         <p class="post-summary">{p.get('summary', '')}</p>
       </div>
     </article>"""
