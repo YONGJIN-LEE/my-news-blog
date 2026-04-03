@@ -1,0 +1,1600 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>스포츠 — 오늘의 뉴스 브리핑</title>
+  <meta name="description" content="스포츠 카테고리 뉴스">
+  <meta property="og:title" content="스포츠 — 오늘의 뉴스 브리핑">
+  <meta property="og:description" content="스포츠 카테고리 뉴스">
+  
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <style>/* ═══════════════════════════════════════════════════════════════
+   Apple-inspired News Blog — 오늘의 뉴스 브리핑
+   Clean, minimal, content-first design
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ─── Reset & Typography ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --black: #1d1d1f;
+  --gray-900: #2d2d2f;
+  --gray-700: #6e6e73;
+  --gray-500: #86868b;
+  --gray-300: #d2d2d7;
+  --gray-100: #f5f5f7;
+  --white: #ffffff;
+  --blue: #0071e3;
+  --blue-hover: #0077ed;
+  --max-width: 720px;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Pretendard',
+               'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  line-height: 1.5;
+  color: var(--black);
+  background: var(--white);
+}
+
+a { color: var(--blue); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+img { max-width: 100%; height: auto; display: block; }
+
+/* ─── Navigation ─── */
+.site-header {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+}
+
+.site-header .container {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 22px;
+  height: 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.site-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--black);
+  letter-spacing: -0.01em;
+}
+
+.site-title:hover { text-decoration: none; }
+
+.site-header nav { display: flex; gap: 28px; }
+
+.site-header nav a {
+  font-size: 0.8rem;
+  color: var(--gray-700);
+  letter-spacing: -0.01em;
+  transition: color 0.2s;
+}
+
+.site-header nav a:hover { color: var(--black); text-decoration: none; }
+
+/* ─── Category Navigation ─── */
+.category-nav {
+  background: var(--gray-100);
+  border-bottom: 1px solid var(--gray-300);
+  position: sticky;
+  top: 48px;
+  z-index: 9998;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.category-nav::-webkit-scrollbar { display: none; }
+.category-nav { -ms-overflow-style: none; scrollbar-width: none; }
+
+.category-nav .container {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 22px;
+  display: flex;
+  gap: 4px;
+  height: 44px;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.category-nav a {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--gray-700);
+  padding: 6px 14px;
+  border-radius: 20px;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.category-nav a:hover {
+  color: var(--black);
+  background: rgba(0, 0, 0, 0.05);
+  text-decoration: none;
+}
+
+.category-nav a.active {
+  color: var(--white);
+  background: var(--black);
+}
+
+.category-nav a.active:hover {
+  color: var(--white);
+  background: var(--gray-900);
+}
+
+/* ─── Main Container ─── */
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 22px;
+}
+
+/* ─── Post List (Index Page) ─── */
+.post-list h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  margin: 56px 0 8px;
+  color: var(--black);
+}
+
+.post-list-subtitle {
+  font-size: 0.95rem;
+  color: var(--gray-500);
+  margin-bottom: 40px;
+}
+
+.post-card {
+  display: flex;
+  gap: 24px;
+  padding: 28px 0;
+  border-top: 1px solid var(--gray-300);
+  transition: opacity 0.2s;
+}
+
+.post-card:last-child { border-bottom: 1px solid var(--gray-300); }
+
+.post-card:hover { opacity: 0.85; }
+
+.post-thumb {
+  flex-shrink: 0;
+  width: 200px;
+  height: 134px;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.post-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.post-card:hover .post-thumb img { transform: scale(1.03); }
+
+.post-info { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+
+.post-meta-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.post-category {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--blue);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.post-date {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+.post-info h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.45;
+  letter-spacing: -0.015em;
+  margin-bottom: 6px;
+}
+
+.post-info h2 a { color: var(--black); }
+.post-info h2 a:hover { color: var(--blue); text-decoration: none; }
+
+.post-summary {
+  font-size: 0.85rem;
+  color: var(--gray-700);
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ─── Featured Post (Top of list) ─── */
+.post-featured {
+  padding: 40px 0 32px;
+  border-bottom: 1px solid var(--gray-300);
+  margin-bottom: 8px;
+}
+
+.post-featured .featured-image {
+  width: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.post-featured .featured-image img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+}
+
+.post-featured h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.35;
+  margin-bottom: 8px;
+}
+
+.post-featured h2 a { color: var(--black); }
+.post-featured h2 a:hover { color: var(--blue); text-decoration: none; }
+
+/* ─── Single Post ─── */
+.post-single {
+  padding: 48px 0 64px;
+}
+
+.post-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.post-header .post-category {
+  font-size: 0.75rem;
+  display: inline-block;
+  margin-bottom: 12px;
+}
+
+.post-header h1 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.3;
+  color: var(--black);
+  margin-bottom: 16px;
+  word-break: keep-all;
+}
+
+.post-meta {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  align-items: center;
+  color: var(--gray-500);
+  font-size: 0.85rem;
+}
+
+.post-hero {
+  margin: 0 0 40px;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.post-hero img {
+  width: 100%;
+  max-height: 480px;
+  object-fit: cover;
+}
+
+/* ─── Post Content ─── */
+.post-content {
+  font-size: 1.05rem;
+  line-height: 1.85;
+  color: var(--gray-900);
+  word-break: keep-all;
+}
+
+.post-content h2 {
+  font-size: 1.45rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 48px 0 16px;
+  color: var(--black);
+}
+
+.post-content h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  margin: 36px 0 12px;
+  color: var(--black);
+}
+
+.post-content p {
+  margin: 16px 0;
+}
+
+.post-content ul, .post-content ol {
+  margin: 16px 0;
+  padding-left: 24px;
+}
+
+.post-content li {
+  margin: 8px 0;
+  line-height: 1.7;
+}
+
+.post-content strong {
+  font-weight: 600;
+  color: var(--black);
+}
+
+.post-content blockquote {
+  margin: 28px 0;
+  padding: 20px 24px;
+  background: var(--gray-100);
+  border-radius: 12px;
+  color: var(--gray-700);
+  font-size: 1rem;
+}
+
+.post-content img {
+  margin: 32px auto;
+  border-radius: 12px;
+}
+
+.post-content hr {
+  border: none;
+  height: 1px;
+  background: var(--gray-300);
+  margin: 40px 0;
+}
+
+/* ─── Tags ─── */
+.post-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.tag {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+.post-tags-footer {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--gray-300);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.post-tags-footer .tag {
+  background: var(--gray-100);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  color: var(--gray-700);
+  transition: background 0.2s;
+}
+
+.post-tags-footer .tag:hover {
+  background: var(--gray-300);
+  text-decoration: none;
+}
+
+/* ─── Post Navigation ─── */
+.post-nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 24px 0 48px;
+  font-size: 0.85rem;
+  border-top: 1px solid var(--gray-300);
+  margin-top: 32px;
+}
+
+.post-nav a { color: var(--blue); }
+
+/* ─── Footer ─── */
+.site-footer {
+  background: var(--gray-100);
+  border-top: 1px solid var(--gray-300);
+}
+
+.site-footer .container {
+  max-width: 980px;
+  padding: 20px 22px;
+  text-align: center;
+}
+
+.site-footer p {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+/* ─── Pagination ─── */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  margin: 40px 0;
+  list-style: none;
+  padding: 0;
+}
+
+.pagination li a, .pagination li span {
+  display: inline-block;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  color: var(--gray-700);
+}
+
+.pagination .active span {
+  background: var(--blue);
+  color: var(--white);
+}
+
+.pagination li a:hover {
+  background: var(--gray-100);
+  text-decoration: none;
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 640px) {
+  .post-card {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .post-thumb {
+    width: 100%;
+    height: 200px;
+    border-radius: 12px;
+  }
+
+  .post-list h1 { font-size: 1.6rem; margin-top: 32px; }
+
+  .post-header h1 { font-size: 1.6rem; }
+
+  .post-single { padding: 32px 0 48px; }
+
+  .post-featured .featured-image img { height: 240px; }
+  .post-featured h2 { font-size: 1.3rem; }
+
+  .post-content { font-size: 1rem; }
+}
+</style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="index.html" class="site-title">오늘의 뉴스 브리핑</a>
+      <nav>
+        <a href="index.html">홈</a>
+      </nav>
+    </div>
+  </header>
+  
+  <nav class="category-nav">
+    <div class="container">
+      <a href="index.html">전체</a>
+        <a href="category-politics.html">정치</a>
+        <a href="category-society.html">사회</a>
+        <a href="category-economy.html">경제</a>
+        <a href="category-entertainment.html">연예</a>
+        <a href="category-life.html">생활</a>
+        <a href="category-it.html">IT</a>
+        <a href="category-sports.html" class="active">스포츠</a>
+        <a href="category-fashion.html">패션</a>
+        
+    </div>
+  </nav>
+  <main class="container">
+    <div class="post-list">
+      <h1>스포츠</h1>
+      <p class="post-list-subtitle">스포츠 관련 뉴스 62건</p>
+      
+    <article class="post-featured">
+      <div class="post-meta-top">
+        <span class="post-category">스포츠</span>
+        <span class="post-date">2026-04-03</span>
+      </div>
+      <div class="featured-image"><img src="http://imgnews.naver.net/image/144/2025/04/15/0001032654_001_20250415053611968.jpg" alt="SSG 폰세 십자인대 부상 충격! 시즌 아웃 위기에 팀 마운드 비상" loading="lazy"></div>
+      <h2><a href="2026-04-03-폰세십자인대부상.html">SSG 폰세 십자인대 부상 충격! 시즌 아웃 위기에 팀 마운드 비상</a></h2>
+      <p class="post-summary">
+핵심 요약
+
+SSG 랜더스의 핵심 외국인 투수 로버트 폰세가 경기 도중 무릎 부상을 당하며 전력에서 이탈했다.
+정밀 검사 결과 전방 십자인대 손상이 확인되었으며, 현재 완전 파열 여부를 판단하기 위한 추가 검사가 진행 중이다.
+만약 수술이 확정될 경우 사실상 시즌 아웃이 불가피하여 SSG의 선발 로테이션에 거대한 구멍이...</p>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-03-인천Utd김천상무전.html"><img src="http://imgnews.naver.net/image/216/2022/03/10/0000120272_001_20220310220701415.jpg" alt="무고사 선봉 인천Utd 김천상무 잡고 시즌 첫 2연승 질주할까?" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-03</span>
+        </div>
+        <h2><a href="2026-04-03-인천Utd김천상무전.html">무고사 선봉 인천Utd 김천상무 잡고 시즌 첫 2연승 질주할까?</a></h2>
+        <p class="post-summary">
+핵심 요약
+
+인천 유나이티드가 홈에서 김천 상무를 상대로 2026 시즌 첫 연승 달성에 도전한다.
+팀의 상징이자 주포인 무고사가 최전방에서 공격 선봉장 역할을 맡을 예정이다.
+최근 수비 안정화와 미드필더진의 유기적인 패스 플레이가 살아나며 기대감을 높이고 있다.
+상대인 김천 상무는 군 팀 특유의 기동력과 조직력으로 인천...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-03-폰세가족재활.html"><img src="http://imgnews.naver.net/image/144/2025/04/15/0001032654_001_20250415053611968.jpg" alt="폰세 부상 수술 기로... 직관 온 처남과 함께 걷는 눈물의 재활 길" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-03</span>
+        </div>
+        <h2><a href="2026-04-03-폰세가족재활.html">폰세 부상 수술 기로... 직관 온 처남과 함께 걷는 눈물의 재활 길</a></h2>
+        <p class="post-summary">
+핵심 요약
+
+SSG 랜더스의 폰세가 무릎 십자인대 부상으로 결국 수술대에 오를 가능성이 매우 높아졌다.
+경기장을 직접 찾았던 폰세의 처남 역시 현재 부상으로 재활 중인 사실이 알려지며 안타까움을 더하고 있다.
+가족이 동시에 큰 부상을 겪게 된 상황에서 서로가 서로의 페이스메이커가 되어야 하는 운명에 처했다.
+외국인 선수...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-03-K리그살인일정.html"><img src="http://imgnews.naver.net/image/001/2022/01/03/AKR20220103079900002_01_i_P4_20220103120135519.jpg" alt="K리그 살인적인 일정 이대로 괜찮나? 선수협 공식 투쟁 예고에 리그 발칵" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-03</span>
+        </div>
+        <h2><a href="2026-04-03-K리그살인일정.html">K리그 살인적인 일정 이대로 괜찮나? 선수협 공식 투쟁 예고에 리그 발칵</a></h2>
+        <p class="post-summary">
+핵심 요약
+
+한국프로축구선수협의회(FIFPro Korea)가 K리그의 살인적인 경기 일정에 대해 공식적으로 문제를 제기했다.
+선수들이 부상 위험과 컨디션 난조 등 무방비 상태로 노출되어 있다는 점이 핵심이다.
+선수협은 선수들의 권익 보호를 위해 강경한 투쟁까지 불사하겠다는 의지를 밝혔다.
+아시아 챔피언스리그와 리그, 컵...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-화성FC유소년축구.html"><img src="https://picsum.photos/seed/6925/1200/630" alt="벌써 5년' 화성FC 유소년 축구교실 2026 시즌 개막 결국 시작됐다" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-화성FC유소년축구.html">벌써 5년' 화성FC 유소년 축구교실 2026 시즌 개막 결국 시작됐다</a></h2>
+        <p class="post-summary">핵심 요약
+
+화성FC 유소년 축구교실이 창단 5주년을 맞아 2026 시즌 공식 개막을 알렸다.
+지역 내 초등학생을 대상으로 한 이번 프로그램은 역대 최대 규모인 300명이 참여한다.
+전직 프로 선수들로 구성된 코치진이 직접 기술 전수와 인성 교육을 병행한다.
+화성시는 이번 교실을 통해 제2의 손흥민을 발굴하겠다는 강력한 ...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-홍명보손흥민신뢰.html"><img src="https://picsum.photos/seed/5275/1200/630" alt="홍명보 손흥민은 축구대표팀의 중심 한 번도 의심한 적 없어" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-홍명보손흥민신뢰.html">홍명보 손흥민은 축구대표팀의 중심 한 번도 의심한 적 없어</a></h2>
+        <p class="post-summary">핵심 요약
+
+이번 소식은 스포츠계에서 큰 화제가 되고 있는 주요 이슈를 담고 있다.
+팬들과 전문가들 사이에서 다양한 분석과 의견이 쏟아지고 있는 상황이다.
+특히 이번 사안이 향후 스포츠계에 미칠 영향에 대한 논의가 활발하다.
+구체적인 팩트와 수치를 통해 사건의 본질을 정확히 파악하는 것이 중요하다.
+독자 여러분이 궁금해할...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-한화오재원.html"><img src="https://picsum.photos/seed/3397/1200/630" alt="한화 신인 오재원 결국 대형 사고? 이정후 김도영도 못한 출발" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-한화오재원.html">한화 신인 오재원 결국 대형 사고? 이정후 김도영도 못한 출발</a></h2>
+        <p class="post-summary">핵심 요약
+한화 이글스의 '괴물 신인' 오재원이 KBO 리그 데뷔와 동시에 전설적인 기록들을 갈아치우고 있다. 개막 이후 16타석 연속 무삼진이라는, 역대급 천재 타자들로 불리는 이정후나 김도영도 해내지 못한 경이로운 출발을 보인 것이다. 단순히 공을 맞히는 재주를 넘어 신인답지 않은 침착함과 선구안으로 리그 전체를 충격...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-한국축구1000회A매치.html"><img src="https://picsum.photos/seed/5231/1200/630" alt="통산 1000번째 A매치' 한국 축구 금자탑 결국 영국서 새 역사 썼다" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-한국축구1000회A매치.html">통산 1000번째 A매치' 한국 축구 금자탑 결국 영국서 새 역사 썼다</a></h2>
+        <p class="post-summary">핵심 요약
+
+대한민국 축구 국가대표팀이 코트디부아르와의 평가전을 통해 통산 1000번째 A매치를 기록했다.
+1948년 대표팀 창설 이후 약 78년 만에 달성한 위대한 대기록이다.
+이번 경기는 축구의 본고장 영국에서 개최되어 전 세계 축구 팬들의 이목을 집중시켰다.
+홍명보 감독은 1000회 기념 경기에서 다양한 전술적 실험...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-폰세와처남재활.html"><img src="https://picsum.photos/seed/2822/1200/630" alt="폰세의 십자인대 부상, 그 뒤에 숨겨진 '처남과의 기막힌 재활 동행" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-폰세와처남재활.html">폰세의 십자인대 부상, 그 뒤에 숨겨진 '처남과의 기막힌 재활 동행</a></h2>
+        <p class="post-summary">핵심 요약
+
+한화 이글스 코디 폰세가 무릎 부상을 당한 가운데, 그의 처남 또한 같은 부위 재활 중인 것으로 알려졌다.
+스타뉴스의 단독 보도에 따르면, 폰세의 부상 당시 경기장에는 재활 중인 처남이 직관을 와 있었다.
+가족이 동시에 무릎 부상으로 재활하게 된 안타깝고도 기묘한 사연이 화제다.
+폰세는 처남과 서로 격려하며 ...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-폰세부상시즌아웃.html"><img src="https://picsum.photos/seed/7226/1200/630" alt="한화 출신 폰세, 무릎 전방십자인대 부상 1경기 던지고 시즌 아웃 위기" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-폰세부상시즌아웃.html">한화 출신 폰세, 무릎 전방십자인대 부상 1경기 던지고 시즌 아웃 위기</a></h2>
+        <p class="post-summary">핵심 요약
+
+이번 소식은 스포츠계에서 큰 화제가 되고 있는 주요 이슈를 담고 있다.
+팬들과 전문가들 사이에서 다양한 분석과 의견이 쏟아지고 있는 상황이다.
+특히 이번 사안이 향후 스포츠계에 미칠 영향에 대한 논의가 활발하다.
+구체적인 팩트와 수치를 통해 사건의 본질을 정확히 파악하는 것이 중요하다.
+독자 여러분이 궁금해할...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-폰세부상.html"><img src="https://picsum.photos/seed/2408/1200/630" alt="하늘도 무심하지' 코디 폰세, 십자인대 파열로 시즌 아웃 위기" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-폰세부상.html">하늘도 무심하지' 코디 폰세, 십자인대 파열로 시즌 아웃 위기</a></h2>
+        <p class="post-summary">핵심 요약
+
+한화 이글스의 외국인 에이스 코디 폰세가 경기 중 무릎 부상으로 이탈했다.
+정밀 검사 결과 전방 십자인대(ACL) 파열이 확인되어 수술 여부를 검토 중이다.
+이번 부상으로 사실상 2026 시즌 아웃이 유력해지며 팀 전력에 비상이 걸렸다.
+폰세는 지난 시즌 KBO 리그 MVP를 차지했던 팀의 핵심 전력이다.
+구...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-포옛친정조언.html"><img src="https://picsum.photos/seed/7813/1200/630" alt="토트넘 감독 하고 싶어요 외친 K리그 떠난 포옛, 친정 향한 진심 어린 조언" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-포옛친정조언.html">토트넘 감독 하고 싶어요 외친 K리그 떠난 포옛, 친정 향한 진심 어린 조언</a></h2>
+        <p class="post-summary">핵심 요약
+
+이번 소식은 스포츠계에서 큰 화제가 되고 있는 주요 이슈를 담고 있다.
+팬들과 전문가들 사이에서 다양한 분석과 의견이 쏟아지고 있는 상황이다.
+특히 이번 사안이 향후 스포츠계에 미칠 영향에 대한 논의가 활발하다.
+구체적인 팩트와 수치를 통해 사건의 본질을 정확히 파악하는 것이 중요하다.
+독자 여러분이 궁금해할...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-파주지역축구화합.html"><img src="https://picsum.photos/seed/8536/1200/630" alt="개화-파주' 축구로 하나 되는 지역 축구 결국 파주-김해전 대통합" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-파주지역축구화합.html">개화-파주' 축구로 하나 되는 지역 축구 결국 파주-김해전 대통합</a></h2>
+        <p class="post-summary">핵심 요약
+
+파주시민축구단이 김해시청과의 홈경기에서 지역 축구 팬들을 하나로 묶는 특별 이벤트를 개최한다.
+'개화-파주, 축구로 피어나다'라는 슬로건 아래 지역 사회 밀착형 마케팅을 전개한다.
+파주 지역 유소년 축구팀과 동호인들이 대거 참여하는 '축구 축제'의 장이 마련된다.
+이번 경기는 단순한 승부를 넘어 지역 연고 의...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-파주시민축구단.html"><img src="https://picsum.photos/seed/9662/1200/630" alt="개화 그라운드에 피어나는 파주 축구, 세대를 지나 꽃이 되다" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-파주시민축구단.html">개화 그라운드에 피어나는 파주 축구, 세대를 지나 꽃이 되다</a></h2>
+        <p class="post-summary">핵심 요약
+
+이번 소식은 스포츠계에서 큰 화제가 되고 있는 주요 이슈를 담고 있다.
+팬들과 전문가들 사이에서 다양한 분석과 의견이 쏟아지고 있는 상황이다.
+특히 이번 사안이 향후 스포츠계에 미칠 영향에 대한 논의가 활발하다.
+구체적인 팩트와 수치를 통해 사건의 본질을 정확히 파악하는 것이 중요하다.
+독자 여러분이 궁금해할...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-토트넘쓴소리.html"><img src="https://picsum.photos/seed/466/1200/630" alt="강등 위기 토트넘 결국 쓴소리 전북 우승 감독의 경고" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-토트넘쓴소리.html">강등 위기 토트넘 결국 쓴소리 전북 우승 감독의 경고</a></h2>
+        <p class="post-summary">핵심 요약
+프리미어리그의 강팀 토트넘 홋스퍼가 전례 없는 '강등 위기'에 직면했다. 한때 챔피언스리그 결승까지 진출했던 명문 구단이 어쩌다 이 지경이 됐는지 전 세계 축구계가 의아해하고 있다. 이런 상황에서 K리그 전북 현대의 황금기를 이끌었던 우승 감독이 토트넘을 향해 날카로운 '3가지 쓴소리'를 던져 화제다. 단순히 ...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-조현택수제엠블럼.html"><img src="https://picsum.photos/seed/7739/1200/630" alt="울산 HD 조현택, 직접 그린 '수제 엠블럼' 키링 출시... 팬들 사랑에 응답" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-조현택수제엠블럼.html">울산 HD 조현택, 직접 그린 '수제 엠블럼' 키링 출시... 팬들 사랑에 응답</a></h2>
+        <p class="post-summary">핵심 요약
+
+울산 HD의 조현택 선수가 직접 디자인한 '수제 엠블럼'이 실제 구단 굿즈로 출시되었다.
+팬들의 폭발적인 출시 요청에 구단이 화답하며 '조현택 키링' 제작을 결정했다.
+이현민 기자는 "선수의 예술적 감각과 팬들의 소통이 낳은 이색적인 성공 사례"라고 전했다.
+출시 직후 온라인 스토어에서 품절 대란을 일으키며 ...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-장성우시즌1호만루홈런.html"><img src="https://picsum.photos/seed/9291/1200/630" alt="KT 장성우 시즌 1호 만루 홈런 폭발! 한화 문동주 무너뜨린 결정적 한 방" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-장성우시즌1호만루홈런.html">KT 장성우 시즌 1호 만루 홈런 폭발! 한화 문동주 무너뜨린 결정적 한 방</a></h2>
+        <p class="post-summary">핵심 요약
+
+KT 위즈의 안방마님 장성우가 2026 시즌 KBO 리그 제1호 만루 홈런의 주인공이 됐다.
+2일 대전 한화생명이글스파크에서 열린 한화전에서 문동주를 상대로 담장을 넘겼다.
+팀의 중심 타선 역할을 톡톡히 해내며 시즌 초반 부진 탈출의 신호탄을 쐈다.
+한화 선발 문동주는 초반 호투에도 불구하고 만루 홈런 한 방...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-이강인PSG활약.html"><img src="https://picsum.photos/seed/113/1200/630" alt="PSG의 심장' 이강인 프랑스 정복 결국 한국인 최초 신기록 제조기 등극" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-이강인PSG활약.html">PSG의 심장' 이강인 프랑스 정복 결국 한국인 최초 신기록 제조기 등극</a></h2>
+        <p class="post-summary">핵심 요약
+
+파리 생제르맹(PSG)에서 활약 중인 이강인이 프랑스 리그앙 무대에서 한국인 축구 선수의 역사를 새로 쓰고 있다.
+리그앙 최초 한국인 두 자릿수 도움 기록 및 시즌 베스트 11 선정 가능성이 매우 높다.
+팀 동료들과의 완벽한 호흡을 바탕으로 PSG의 공격 전술에서 핵심적인 '플레이메이커' 역할을 수행 중이다....</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-어뢰배트.html"><img src="https://picsum.photos/seed/8177/1200/630" alt="메이저리그 강타한 어뢰 배트 한국에도 등장" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-어뢰배트.html">메이저리그 강타한 어뢰 배트 한국에도 등장</a></h2>
+        <p class="post-summary">핵심 요약
+
+이번 소식은 스포츠계에서 큰 화제가 되고 있는 주요 이슈를 담고 있다.
+팬들과 전문가들 사이에서 다양한 분석과 의견이 쏟아지고 있는 상황이다.
+특히 이번 사안이 향후 스포츠계에 미칠 영향에 대한 논의가 활발하다.
+구체적인 팩트와 수치를 통해 사건의 본질을 정확히 파악하는 것이 중요하다.
+독자 여러분이 궁금해할...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-양민혁토트넘.html"><img src="https://picsum.photos/seed/1329/1200/630" alt="양민혁토트넘" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-양민혁토트넘.html">양민혁토트넘</a></h2>
+        <p class="post-summary">토트넘 이적 소식으로 큰 화제를 모았던 양민혁 선수에 대해 현지에서 다소 충격적인 평가가 나오고 있습니다. 한국 축구의 미래이자 손흥민의 후계자로 기대를 한몸에 받았던 터라 팬들의 걱정이 클 것 같은데요.
+스포츠조선 등 외신 보도를 인용하면 양민혁 선수의 영입을 두고 역대 가장 이상한 영입이라는 혹평이 나오고 있다고 합니...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-양민혁악재.html"><img src="https://picsum.photos/seed/5900/1200/630" alt="양민혁 이적 결국 독이 되나? 역대 가장 이상한 영입 충격 평가" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-양민혁악재.html">양민혁 이적 결국 독이 되나? 역대 가장 이상한 영입 충격 평가</a></h2>
+        <p class="post-summary">핵심 요약
+한국 축구의 차세대 에이스로 기대를 모으며 프리미어리그(PL) 입성을 눈앞에 둔 양민혁에게 청천벽력 같은 소식이 전해졌다. 현지 매체와 전문가들 사이에서 그의 영입을 두고 "역대 가장 이상한 사례"라는 혹평이 쏟아지고 있기 때문이다. 한때 '손흥민의 후계자'로 불리며 장밋빛 미래를 꿈꿨으나, 이제는 PL 팀으로...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-수원삼성레전드.html"><img src="https://picsum.photos/seed/8565/1200/630" alt="수원삼성레전드" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-수원삼성레전드.html">수원삼성레전드</a></h2>
+        <p class="post-summary">수원삼성 팬분들이라면 심장이 뛸 만한 라운드업이 공개됐습니다. 바로 OGFC와 수원삼성 레전드들의 매치 라인업인데요. 참여하는 명단이 그야말로 화려합니다.
+이번 명단에는 나니, 반데사르, 안데르송 등 이름만 들어도 쟁쟁한 해외 스타들이 합류한 것으로 확인됐습니다. 수원삼성의 전설적인 선수들과 이들이 한 경기장에서 뛴다는 ...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-수아레즈MLB기록.html"><img src="https://picsum.photos/seed/4213/1200/630" alt="MLB 최초 기록 작성한 삼성 출신 수아레즈와 ABS 챌린지 끝내기 판정" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-수아레즈MLB기록.html">MLB 최초 기록 작성한 삼성 출신 수아레즈와 ABS 챌린지 끝내기 판정</a></h2>
+        <p class="post-summary">핵심 요약
+
+이번 소식은 스포츠계에서 큰 화제가 되고 있는 주요 이슈를 담고 있다.
+팬들과 전문가들 사이에서 다양한 분석과 의견이 쏟아지고 있는 상황이다.
+특히 이번 사안이 향후 스포츠계에 미칠 영향에 대한 논의가 활발하다.
+구체적인 팩트와 수치를 통해 사건의 본질을 정확히 파악하는 것이 중요하다.
+독자 여러분이 궁금해할...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-손흥민LAFC활약상.html"><img src="https://picsum.photos/seed/3631/1200/630" alt="LAFC의 왕' 손흥민 미국 MLS 점령 결국 득점왕까지 넘보나" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-손흥민LAFC활약상.html">LAFC의 왕' 손흥민 미국 MLS 점령 결국 득점왕까지 넘보나</a></h2>
+        <p class="post-summary">핵심 요약
+
+토트넘을 떠나 미국 로스앤젤레스 FC(LAFC)로 이적한 손흥민 선수가 MLS 무대를 완벽히 장악했다.
+이적 첫 시즌임에도 불구하고 팀의 핵심 공격수로 활약하며 리그 득점 상위권에 이름을 올렸다.
+손흥민의 합류 이후 LAFC의 관중 동원력과 유니폼 판매량이 역대 최고치를 경신 중이다.
+미국 현지 언론은 손흥민...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-성남FC스폰서십.html"><img src="https://picsum.photos/seed/2541/1200/630" alt="성남FC, 기능성 깔창 브랜드 포렉스와 스폰서십 연장 4년 연속 동행" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-성남FC스폰서십.html">성남FC, 기능성 깔창 브랜드 포렉스와 스폰서십 연장 4년 연속 동행</a></h2>
+        <p class="post-summary">핵심 요약
+
+이번 소식은 스포츠계에서 큰 화제가 되고 있는 주요 이슈를 담고 있다.
+팬들과 전문가들 사이에서 다양한 분석과 의견이 쏟아지고 있는 상황이다.
+특히 이번 사안이 향후 스포츠계에 미칠 영향에 대한 논의가 활발하다.
+구체적인 팩트와 수치를 통해 사건의 본질을 정확히 파악하는 것이 중요하다.
+독자 여러분이 궁금해할...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-비니시우스심판폭로.html"><img src="https://picsum.photos/seed/1420/1200/630" alt="비니시우스 심판 판정 폭로 충격 결국 "레알 마드리드 죽이기" 의혹 제기" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-비니시우스심판폭로.html">비니시우스 심판 판정 폭로 충격 결국 "레알 마드리드 죽이기" 의혹 제기</a></h2>
+        <p class="post-summary">핵심 요약
+
+레알 마드리드의 스타 비니시우스 주니오르가 심판진의 편파 판정에 대해 폭탄 발언을 쏟아냈다.
+"심판들이 마드리드에 오면 고의적으로 레알을 상대로 판정한다"며 강한 불만을 표시했다.
+최근 경기에서 발생한 논란의 소지가 있는 판정들에 대해 선수 본인이 직접 입을 열었다.
+이번 발언은 스페인 라리가뿐만 아니라 전 ...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-맨유레전드방한.html"><img src="https://picsum.photos/seed/926/1200/630" alt="맨유 황금기 재현 결국 박지성 옛 동료들 한국 싹 모였다" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-맨유레전드방한.html">맨유 황금기 재현 결국 박지성 옛 동료들 한국 싹 모였다</a></h2>
+        <p class="post-summary">핵심 요약
+축구 팬들의 심장을 다시 뛰게 할 역대급 이벤트가 펼쳐진다. 맨체스터 유나이티드의 전성기를 이끌었던 '황금 세대' 레전드들이 한국 땅을 밟는다는 소식이다. 박지성과 함께 그라운드를 누볐던 전설적인 선수들이 한자리에 모인다는 사실만으로도 국내 축구계는 들썩이고 있다. 단순히 추억을 되새기는 자리를 넘어, 세계적인...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-맨유레전드.html"><img src="https://picsum.photos/seed/4297/1200/630" alt="맨유레전드" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-맨유레전드.html">맨유레전드</a></h2>
+        <p class="post-summary">맨체스터 유나이티드의 황금기를 기억하시는 분들이라면 정말 반가운 소식일 겁니다. 박지성 선수의 옛 동료들이 다시 한자리에 모인다고 하네요.
+한국경제 보도에 따르면 두 명의 젊은 기획자가 박지성 선수의 현역 시절 전성기를 함께했던 동료들을 한데 모으는 데 성공했다고 합니다. 맨유 팬들에게는 그야말로 추억 소환의 시간이 될 ...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-맨시티결별.html"><img src="https://picsum.photos/seed/1611/1200/630" alt="맨시티 레전드 결별 결국 9년 동행 마침표 충격 결정 왜?" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-맨시티결별.html">맨시티 레전드 결별 결국 9년 동행 마침표 충격 결정 왜?</a></h2>
+        <p class="post-summary">핵심 요약
+맨체스터 시티의 '리빙 레전드'가 올여름 팀을 떠나기로 최종 결단을 내렸다. 9년이라는 긴 시간 동안 에티하드 스타디움의 주인공으로 활약하며 팀의 수많은 우승을 이끌었던 핵심 선수의 이별 소식에 전 세계 축구 팬들은 큰 충격에 빠졌다. 구단 역사상 가장 성공적인 시대를 함께했던 그가 왜 지금 결별을 택했는지, ...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-레전드매치라인업.html"><img src="https://picsum.photos/seed/5954/1200/630" alt="나니 반데사르 결국 한국 온다 레전드 매치 라인업 충격" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-레전드매치라인업.html">나니 반데사르 결국 한국 온다 레전드 매치 라인업 충격</a></h2>
+        <p class="post-summary">핵심 요약
+축구 팬들의 상상이 현실이 된다. 세계적인 레전드들이 모인 'OGFC'와 한국 축구의 명가 '수원삼성 레전드' 팀의 맞대결 라인업이 전격 공개됐다. 맨체스터 유나이티드의 전성기를 이끌었던 나니와 에드윈 반 데 사르, 안데르송 등 이름만 들어도 전율이 돋는 스타들이 한국을 방문한다. 이에 맞서는 수원삼성 역시 구...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-김효주강행군.html"><img src="https://picsum.photos/seed/1037/1200/630" alt="김효주 고난주간 예고 미국부터 프랑스까지 강행군 왜?" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-김효주강행군.html">김효주 고난주간 예고 미국부터 프랑스까지 강행군 왜?</a></h2>
+        <p class="post-summary">핵심 요약
+한국 여자 골프의 간판스타 김효주가 그야말로 '역대급 강행군'을 예고했다. 미국에서 한국으로, 그리고 다시 프랑스로 이어지는 3주간의 살인적인 일정이 팬들의 우려를 자아내고 있다. 단순한 이동 거리를 넘어 시차 적응과 체력 소모가 극심한 만큼, 김효주 선수에게 이번 3주는 올 시즌 성패를 가를 중대한 고비가 될...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-강현제MVP.html"><img src="https://picsum.photos/seed/4547/1200/630" alt="강현제 MVP 선정 결국 K리그2 판도 흔드나? 1골 1도움의 위력" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-강현제MVP.html">강현제 MVP 선정 결국 K리그2 판도 흔드나? 1골 1도움의 위력</a></h2>
+        <p class="post-summary">핵심 요약
+하나은행 K리그2 2026 시즌의 초반 기세가 심상치 않다. 그 중심에는 5라운드 MVP로 우뚝 선 강현제 선수가 있다. 소속팀의 승리를 이끄는 결정적인 1골 1도움을 기록하며 리그 최고의 스타로 떠오른 것이다. 단순히 수치상의 활약을 넘어 경기 전체를 지배하는 영향력을 보여준 그의 활약에 축구 전문가들과 팬들...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-WK리그상무.html"><img src="https://picsum.photos/seed/9231/1200/630" alt="여자축구에도 군팀 있다! 권하늘 상사와 이미연 감독이 설명한 상무의 매력" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-WK리그상무.html">여자축구에도 군팀 있다! 권하늘 상사와 이미연 감독이 설명한 상무의 매력</a></h2>
+        <p class="post-summary">핵심 요약
+
+이번 소식은 스포츠계에서 큰 화제가 되고 있는 주요 이슈를 담고 있다.
+팬들과 전문가들 사이에서 다양한 분석과 의견이 쏟아지고 있는 상황이다.
+특히 이번 사안이 향후 스포츠계에 미칠 영향에 대한 논의가 활발하다.
+구체적인 팩트와 수치를 통해 사건의 본질을 정확히 파악하는 것이 중요하다.
+독자 여러분이 궁금해할...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-OTT스포츠팬덤.html"><img src="https://picsum.photos/seed/6005/1200/630" alt="OTT 스포츠 중계 전쟁 결국 팬덤 경쟁으로 번졌다" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-OTT스포츠팬덤.html">OTT 스포츠 중계 전쟁 결국 팬덤 경쟁으로 번졌다</a></h2>
+        <p class="post-summary">핵심 요약
+국내 OTT 시장의 지형도가 스포츠 중계를 중심으로 급격하게 재편되고 있다. 과거 드라마나 영화 같은 오리지널 콘텐츠가 가입자 확보의 핵심이었다면, 이제는 야구, 축구, 골프 등 강력한 팬덤을 보유한 스포츠 중계권 확보가 플랫폼의 생존을 결정짓는 열쇠가 됐다. 쿠팡플레이와 티빙을 필두로 한 국내 OTT 업체들이...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-OTT스포츠중계.html"><img src="https://picsum.photos/seed/7474/1200/630" alt="OTT스포츠중계" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-OTT스포츠중계.html">OTT스포츠중계</a></h2>
+        <p class="post-summary">요즘 스포츠 경기 보려면 어디 가입해야 할지 고민인 분들 많으시죠. 이제는 야구, 축구, 골프까지 국내 OTT 서비스들이 앞다투어 중계권을 가져가면서 스포츠 팬덤 경쟁이 정말 치열해졌네요.
+테크M 보도에 따르면 티빙이나 쿠팡플레이 같은 플랫폼들이 각자 주력 종목을 내세우며 팬들을 끌어모으고 있는데요. 예전처럼 TV만 틀면...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-MLB폰세부상와이스호투.html"><img src="https://picsum.photos/seed/1375/1200/630" alt="MLB 엇갈린 출발, 폰세 무릎 통증으로 이탈한 날 와이스는 무실점 호투" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-MLB폰세부상와이스호투.html">MLB 엇갈린 출발, 폰세 무릎 통증으로 이탈한 날 와이스는 무실점 호투</a></h2>
+        <p class="post-summary">핵심 요약
+
+메이저리그(MLB) 개막 초반 한국계 및 관련 선수들의 희비가 극명하게 엇갈렸다.
+폰세는 경기 도중 심각한 무릎 통증을 호소하며 쓰러져 시즌 운용에 비상이 걸렸다.
+반면 와이스는 2이닝 동안 단 한 점도 내주지 않는 완벽한 투구로 팀의 기대를 모았다.
+전문가들은 폰세의 부상 정도에 따라 소속팀의 선발 로테이션...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-100번째현대가더비.html"><img src="https://picsum.photos/seed/8998/1200/630" alt="100번째 현대가 더비' 울산 HD vs 전북 현대 결국 징크스 깨지나" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-100번째현대가더비.html">100번째 현대가 더비' 울산 HD vs 전북 현대 결국 징크스 깨지나</a></h2>
+        <p class="post-summary">핵심 요약
+
+K리그 역사상 가장 치열한 라이벌전인 '현대가 더비'가 통산 100번째 경기를 맞이한다.
+4월 4일 전주월드컵경기장에서 열리는 이번 맞대결은 양 팀의 자존심이 걸린 한판 승부다.
+울산 HD는 약 1,490일 동안 이어진 '전주성 무승 징크스'를 깨기 위해 총력전을 예고했다.
+현재 리그 득점 선두인 울산의 야고...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-01-한화오재원.html"><img src="https://picsum.photos/seed/3397/1200/630" alt="한화 신인 오재원 16타석 무삼진 대기록" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-01</span>
+        </div>
+        <h2><a href="2026-04-01-한화오재원.html">한화 신인 오재원 16타석 무삼진 대기록</a></h2>
+        <p class="post-summary"> 핵심 요약
+
+한화 이글스의 신인 오재원 선수가 데뷔 후 16타석 동안 단 한 번의 삼진도 당하지 않는 놀라운 기록을 세웠습니다.
+이는 이정후나 김도영 같은 리그 대표 타자들도 해내지 못한 파격적인 출발입니다.
+신인답지 않은 뛰어난 선구안과 컨택 능력을 보여주며 야구 팬들의 이목을 집중시키고 있습니다.
+
+ 사건/이슈 개요...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-01-포옛.html"><img src="https://picsum.photos/seed/8073/1200/630" alt="[포옛] 토트넘 감독직 공개 구애? K리그 선수들에 날린 독설!" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-01</span>
+        </div>
+        <h2><a href="2026-04-01-포옛.html">[포옛] 토트넘 감독직 공개 구애? K리그 선수들에 날린 독설!</a></h2>
+        <p class="post-summary">핵심 요약
+K리그 무대를 경험했던 구스타보 포옛 감독이 친정팀 토트넘 홋스퍼의 감독직을 향한 열망을 드러냈다. 하지만 이 과정에서 K리그에서 뛰고 있는 선수들을 향해 "프리미어리그 수준에 미치는 선수가 없다"는 충격적인 발언을 남겨 논란이 일고 있다. 그의 진심 어린 조언인지, 아니면 K리그를 향한 비하인지 팬들 사이에서...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-01-창원LG우승.html"><img src="https://picsum.photos/seed/4185/1200/630" alt="창원 LG 12년 만에 정규리그 우승 눈앞" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-01</span>
+        </div>
+        <h2><a href="2026-04-01-창원LG우승.html">창원 LG 12년 만에 정규리그 우승 눈앞</a></h2>
+        <p class="post-summary"> 핵심 요약
+
+프로농구 창원 LG 세이커스가 정규리그 우승을 위한 매직넘버를 2로 줄였습니다.
+오는 31일 정관장과의 경기에서 승리한다면 12년 만에 챔피언 자리에 등극하게 됩니다.
+시즌 내내 보여준 탄탄한 조직력과 막판 스퍼트가 결실을 맺기 직전입니다.
+
+ 사건/이슈 개요
+창원 LG 세이커스가 12년이라는 긴 기다림 끝...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-01-오재원.html"><img src="https://picsum.photos/seed/9905/1200/630" alt="[오재원] 이정후도 못한 16타석 무삼진? 한화 신인의 기록 충격!" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-01</span>
+        </div>
+        <h2><a href="2026-04-01-오재원.html">[오재원] 이정후도 못한 16타석 무삼진? 한화 신인의 기록 충격!</a></h2>
+        <p class="post-summary">핵심 요약
+한화 이글스의 '슈퍼 루키' 오재원이 데뷔 이후 16타석 연속 무삼진이라는 놀라운 기록을 이어가고 있다. 이는 KBO 리그의 전설적인 타자들인 이정후나 김도영도 데뷔 초반에 달성하지 못한 대단한 수치다. 신인답지 않은 정교한 컨택 능력과 선구안을 보여주고 있는 오재원의 활약에 야구계 전체가 들썩이고 있다.
+사건...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-01-양민혁현지평가.html"><img src="https://picsum.photos/seed/7339/1200/630" alt="양민혁 영입 논란 현지 혹평 쏟아진 이유" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-01</span>
+        </div>
+        <h2><a href="2026-04-01-양민혁현지평가.html">양민혁 영입 논란 현지 혹평 쏟아진 이유</a></h2>
+        <p class="post-summary"> 핵심 요약
+
+양민혁의 토트넘 영입을 두고 현지에서 '역대 가장 이상한 사례'라는 충격적인 평가가 나왔습니다.
+영입 타이밍과 선수의 활용 방안에 대해 전문가들이 의구심을 표하고 있습니다.
+손흥민의 후계자로 불리던 기대와는 달리 현지 여론은 차갑게 식은 모습입니다.
+
+ 사건/이슈 개요
+영국 현지에서 양민혁 선수의 이적을 바...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-01-양민혁토트넘.html"><img src="https://picsum.photos/seed/1329/1200/630" alt="양민혁 토트넘 이적 후 벼랑 끝 내몰린 사연" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-01</span>
+        </div>
+        <h2><a href="2026-04-01-양민혁토트넘.html">양민혁 토트넘 이적 후 벼랑 끝 내몰린 사연</a></h2>
+        <p class="post-summary"> 핵심 요약
+
+토트넘 이적을 확정 지었던 양민혁 선수가 현지에서 부정적인 평가를 받으며 어려운 상황에 처했습니다.
+프리미어리그로 승격하더라도 완전 영입 가능성이 낮다는 충격적인 분석이 나왔습니다.
+이른바 '가장 이상한 영입 사례'라는 혹평까지 나오며 한국 축구계에 큰 파장이 일고 있습니다.
+
+ 사건/이슈 개요
+한국 축구의...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-01-수원삼성레전드매치.html"><img src="https://picsum.photos/seed/8036/1200/630" alt="수원 삼성 레전드 vs OGFC 확정 라인업 공개" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-01</span>
+        </div>
+        <h2><a href="2026-04-01-수원삼성레전드매치.html">수원 삼성 레전드 vs OGFC 확정 라인업 공개</a></h2>
+        <p class="post-summary"> 핵심 요약
+
+수원 삼성 레전드들과 OGFC의 맞대결을 앞두고 최종 명단이 공개되어 화제입니다.
+나니와 반데사르 그리고 안데르송 등 세계적인 스타들이 대거 합류했습니다.
+축구 팬들의 향수를 자극하는 전설들의 귀환에 경기 예매 열기가 뜨겁습니다.
+
+ 사건/이슈 개요
+축구 팬들이 꿈꿔왔던 매치가 현실이 됩니다. 수원 삼성의 ...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-01-수원삼성레전드.html"><img src="https://picsum.photos/seed/8565/1200/630" alt="[수원삼성 레전드] 반데사르와 나니가 온다? 역대급 라인업 총정리!" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-01</span>
+        </div>
+        <h2><a href="2026-04-01-수원삼성레전드.html">[수원삼성 레전드] 반데사르와 나니가 온다? 역대급 라인업 총정리!</a></h2>
+        <p class="post-summary">핵심 요약
+수원삼성 블루윙즈가 창단 기념 이벤트 경기를 앞두고 역대급 레전드 라인업을 공개했다. '수원삼성 레전드팀'과 맞붙을 상대팀 'OGFC'에는 맨유의 전설 반데사르와 나니, 안데르송 등이 합류하는 것으로 확정되어 축구 팬들을 흥분시키고 있다. 빅버드에서 펼쳐질 전설들의 재회에 벌써부터 티켓 전쟁이 예고되고 있다.
+...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-01-서울팀K리그런.html"><img src="https://picsum.photos/seed/1706/1200/630" alt="서울 팀 K리그 런 상암을 물들인 축구 열기" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-01</span>
+        </div>
+        <h2><a href="2026-04-01-서울팀K리그런.html">서울 팀 K리그 런 상암을 물들인 축구 열기</a></h2>
+        <p class="post-summary"> 핵심 요약
+
+'2026 서울 팀 K리그 런' 행사가 상암동 일대에서 성황리에 마무리되었습니다.
+K리그 전 구단의 유니폼을 입은 팬들이 한자리에 모여 장관을 연출했습니다.
+축구와 러닝을 결합한 새로운 형태의 팬 문화로 큰 호응을 얻었습니다.
+
+ 사건/이슈 개요
+상암벌이 축구공 대신 러닝화 소리로 가득 찼습니다. 최근 개최...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-01-변성환.html"><img src="https://picsum.photos/seed/3909/1200/630" alt="[변성환] K리그로 돌아온 지도자? TSG에서 느낀 내공 공개!" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-01</span>
+        </div>
+        <h2><a href="2026-04-01-변성환.html">[변성환] K리그로 돌아온 지도자? TSG에서 느낀 내공 공개!</a></h2>
+        <p class="post-summary">핵심 요약
+유럽 연수를 마치고 기술연구그룹(TSG)을 통해 K리그 무대로 복귀한 변성환 감독이 화제다. 현장이 아닌 분석관의 눈으로 리그를 바라보며 쌓은 내공과, 이를 바탕으로 '솔직한 지도자'가 되고 싶다는 그의 포부가 축구계에 신선한 울림을 주고 있다. 밖에서 본 K리그는 그에게 어떤 의미였을까?
+사건/이슈 개요
+전 ...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-01-박지성친구들축구팀.html"><img src="https://picsum.photos/seed/6382/1200/630" alt="박지성 친구들과 두 청년의 축구팀 창단 도전기" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-01</span>
+        </div>
+        <h2><a href="2026-04-01-박지성친구들축구팀.html">박지성 친구들과 두 청년의 축구팀 창단 도전기</a></h2>
+        <p class="post-summary"> 핵심 요약
+
+과녁을 들고 뛰던 두 청년이 박지성의 친구들과 손잡고 새로운 축구팀을 창단했습니다.
+축구에 대한 진심과 열정으로 뭉친 이들의 행보가 축구계의 신선한 자극이 되고 있습니다.
+단순한 팀 창단을 넘어 새로운 축구 문화를 만들어가겠다는 포부입니다.
+
+ 사건/이슈 개요
+꿈을 향해 달려온 두 청년의 무모해 보였던 도전...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-01-맨유레전드.html"><img src="https://picsum.photos/seed/4297/1200/630" alt="[맨유 레전드] 박지성 동료들 다시 뭉쳤다? 황금기 재현 속보!" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-01</span>
+        </div>
+        <h2><a href="2026-04-01-맨유레전드.html">[맨유 레전드] 박지성 동료들 다시 뭉쳤다? 황금기 재현 속보!</a></h2>
+        <p class="post-summary">핵심 요약
+맨체스터 유나이티드의 찬란했던 황금기를 함께했던 박지성의 옛 동료들이 특별한 프로젝트를 위해 다시 뭉쳤다. 두 청년 사업가가 기획한 이번 만남에는 나니, 반데사르, 안데르송 등 이름만 들어도 설레는 전설들이 합류하기로 확정되었다. 팬들은 벌써부터 '해버지' 박지성과 함께 그라운드를 누비던 그 시절의 향수에 젖어...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-01-김효주강행군.html"><img src="https://picsum.photos/seed/1037/1200/630" alt="김효주 골프 3주간의 살인적 강행군 예고" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-01</span>
+        </div>
+        <h2><a href="2026-04-01-김효주강행군.html">김효주 골프 3주간의 살인적 강행군 예고</a></h2>
+        <p class="post-summary"> 핵심 요약
+
+골프 스타 김효주 선수가 미국에서 한국 그리고 프랑스로 이어지는 3주 연속 출전 일정을 소화합니다.
+대륙을 넘나드는 이동 거리와 시차 적응이 성적의 최대 변수가 될 것으로 보입니다.
+전문가들은 이번 기간 철저한 컨디션 관리와 체력 안배를 필수 요소로 꼽고 있습니다.
+
+ 사건/이슈 개요
+대한민국을 대표하는 골...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-01-김효주.html"><img src="https://picsum.photos/seed/562/1200/630" alt="[김효주] 미국에서 프랑스까지 3주 강행군? 컨디션 관리 비상!" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-01</span>
+        </div>
+        <h2><a href="2026-04-01-김효주.html">[김효주] 미국에서 프랑스까지 3주 강행군? 컨디션 관리 비상!</a></h2>
+        <p class="post-summary">핵심 요약
+여자 골프의 간판스타 김효주가 살인적인 일정을 앞두고 있다. 미국 대회를 마치고 한국을 거쳐 다시 프랑스로 이동하는 3주 연속 강행군이 예고된 것이다. 이른바 '고난주간'으로 불리는 이번 일정 동안 김효주가 어떻게 컨디션을 관리하고 성적을 낼 수 있을지 전 세계 골프 팬들의 이목이 쏠리고 있다.
+사건/이슈 개요...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-01-강현제.html"><img src="https://picsum.photos/seed/1425/1200/630" alt="[강현제] 서울 이랜드 데뷔전 1골 1도움? MVP 선정된 이유!" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-01</span>
+        </div>
+        <h2><a href="2026-04-01-강현제.html">[강현제] 서울 이랜드 데뷔전 1골 1도움? MVP 선정된 이유!</a></h2>
+        <p class="post-summary">핵심 요약
+K리그2 서울 이랜드 FC의 신성 강현제가 화려한 데뷔전과 함께 라운드 MVP를 거머쥐었다. 데뷔 경기에서 1골 1도움을 기록하며 팀의 승리를 이끈 그는, 신인답지 않은 노련함과 폭발적인 기량으로 리그 전체를 깜짝 놀라게 했다. K리그2 5라운드 최고의 선수로 우뚝 선 강현제의 활약상을 집중 분석했다.
+사건/이...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-01-OTT스포츠중계권.html"><img src="https://picsum.photos/seed/7123/1200/630" alt="OTT 스포츠 중계권 경쟁 야구 축구 골프 전쟁" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-01</span>
+        </div>
+        <h2><a href="2026-04-01-OTT스포츠중계권.html">OTT 스포츠 중계권 경쟁 야구 축구 골프 전쟁</a></h2>
+        <p class="post-summary"> 핵심 요약
+
+국내 OTT 시장에서 스포츠 중계권을 둘러싼 플랫폼 간의 경쟁이 매우 치열해지고 있습니다.
+야구와 축구 그리고 골프까지 각 OTT 서비스가 독점 중계권을 확보하며 팬덤을 끌어모으고 있습니다.
+유료 구독 모델 안착과 이용자 유입을 위한 스포츠 콘텐츠의 중요성이 어느 때보다 커진 상황입니다.
+
+ 사건/이슈 개요...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-01-OTT스포츠.html"><img src="https://picsum.photos/seed/3033/1200/630" alt="[OTT 스포츠] 중계권 전쟁 3파전 결국 승자는 누구? 완벽분석!" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-01</span>
+        </div>
+        <h2><a href="2026-04-01-OTT스포츠.html">[OTT 스포츠] 중계권 전쟁 3파전 결국 승자는 누구? 완벽분석!</a></h2>
+        <p class="post-summary">핵심 요약
+국내 OTT 시장이 야구, 축구, 골프 등 스포츠 중계권을 두고 치열한 3파전에 돌입했다. 티빙, 쿠팡플레이 등 주요 플랫폼들이 막대한 자금을 투입하며 독점 중계권을 확보함에 따라 스포츠 팬덤을 잡기 위한 경쟁이 극에 달하고 있다. 이는 단순한 중계권 확보를 넘어 유료 구독자 유지와 신규 유입을 결정짓는 핵심 ...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-01-K리그2MVP강현제.html"><img src="https://picsum.photos/seed/2741/1200/630" alt="K리그2 5라운드 MVP 서울 이랜드 강현제 선정" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-01</span>
+        </div>
+        <h2><a href="2026-04-01-K리그2MVP강현제.html">K리그2 5라운드 MVP 서울 이랜드 강현제 선정</a></h2>
+        <p class="post-summary"> 핵심 요약
+
+서울 이랜드의 강현제 선수가 K리그2 5라운드 최우수선수(MVP)로 이름을 올렸습니다.
+1골 1도움의 맹활약으로 팀의 승리를 이끌며 라운드 최고의 스타가 되었습니다.
+서울 이랜드는 강현제의 활약에 힘입어 베스트 팀으로도 선정되는 겹경사를 맞았습니다.
+
+ 사건/이슈 개요
+K리그2 무대에서 서울 이랜드의 강현제...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-01-KBOMVP.html"><img src="https://picsum.photos/seed/4602/1200/630" alt="[KBO MVP] 복귀 1경기 만에 시즌아웃? 충격적인 부상 소식 왜?" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-01</span>
+        </div>
+        <h2><a href="2026-04-01-KBOMVP.html">[KBO MVP] 복귀 1경기 만에 시즌아웃? 충격적인 부상 소식 왜?</a></h2>
+        <p class="post-summary">핵심 요약
+KBO 리그의 MVP 출신 스타 선수가 일본 무대와 메이저리그를 거쳐 화려하게 복귀했으나, 단 한 경기 만에 심각한 부상을 당하며 시즌 아웃 위기에 처했다는 충격적인 소식이 전해졌다. 일본 언론조차 이 비극적인 상황에 주목하며 큰 관심을 보이고 있다. 공들여 준비한 복귀 시즌이 허망하게 끝날 수도 있다는 소식에...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-인천Utd연승도전.html"><img src="https://picsum.photos/seed/7688/1200/630" alt="무고사 앞세운 인천 Utd, 김천상무 꺾고 시즌 첫 2연승 노린다" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-인천Utd연승도전.html">무고사 앞세운 인천 Utd, 김천상무 꺾고 시즌 첫 2연승 노린다</a></h2>
+        <p class="post-summary">
+핵심 요약
+
+인천 유나이티드가 4월 2일 홈에서 김천 상무를 상대로 K리그1 경기를 치른다.
+팀의 간판 공격수 무고사가 선발 출격해 득점포 가동을 예고했다.
+지난 경기 승리의 기세를 이어 시즌 첫 2연승 달성을 목표로 하고 있다.
+김천 상무는 군 팀 특유의 기동력과 조직력을 앞세워 인천의 공세를 막아낼 계획이다.
+인천은...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-이정후샌프란시스코호수비.html"><img src="https://picsum.photos/seed/8926/1200/630" alt="샌프란시스코 이정후 '미친 수비'! 몸 날려 팀 구한 '바람의 손자' 현지 극찬" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-이정후샌프란시스코호수비.html">샌프란시스코 이정후 '미친 수비'! 몸 날려 팀 구한 '바람의 손자' 현지 극찬</a></h2>
+        <p class="post-summary">
+핵심 요약
+
+샌프란시스코 자이언츠의 이정후가 샌디에이고전에서 실점을 막아내는 환상적인 호수비를 선보였다.
+5회말 안타성 타구를 몸을 날려 잡아내며 선발 투수의 어깨를 가볍게 했다.
+타격에서는 3타수 무안타 1볼넷으로 다소 아쉬웠으나, 수비력만큼은 메이저리그 최상위권임을 증명했다.
+현지 언론과 팬들은 이정후의 수비 범위를...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-삼성3000승강민호2500경기.html"><img src="https://picsum.photos/seed/5078/1200/630" alt="삼성 라이온즈 통산 3000승 금자탑! 강민호 2500경기 출장 대기록까지 겹경사" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-삼성3000승강민호2500경기.html">삼성 라이온즈 통산 3000승 금자탑! 강민호 2500경기 출장 대기록까지 겹경사</a></h2>
+        <p class="post-summary">
+핵심 요약
+
+삼성 라이온즈가 KBO 리그 역사상 최초로 팀 통산 3,000승이라는 대기록을 달성했다.
+주전 포수 강민호는 역대 최초 2,500경기 출장이라는 전무후무한 기록을 세웠다.
+1일 잠실 두산전에서 승리하며 두 개의 대기록이 동시에 탄생하는 드라마를 썼다.
+삼성의 명문 구단 입지를 다시 한번 증명하는 계기가 되었...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-국대오스트리아전패배.html"><img src="https://picsum.photos/seed/5358/1200/630" alt="한국 축구, 오스트리아 원정 0-1 석패... 월드컵 전 마지막 모의고사 '숙제" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-국대오스트리아전패배.html">한국 축구, 오스트리아 원정 0-1 석패... 월드컵 전 마지막 모의고사 '숙제</a></h2>
+        <p class="post-summary">
+핵심 요약
+
+대한민국 축구 국가대표팀이 3월 31일(현지 시간) 오스트리아와의 친선경기에서 0-1로 패했다.
+후반 3분 마르셀 자비처에게 내준 선제골이 그대로 결승골이 되었다.
+손흥민, 이강인 등 정예 멤버가 총출동했으나 오스트리아의 견고한 수비를 뚫지 못했다.
+3월 A매치 2연전을 모두 패배로 마무리하며 월드컵 본선을...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-광주최연소준프로.html"><img src="https://picsum.photos/seed/9865/1200/630" alt="광주 FC의 미래, 만 16세 MF 박성현 '최연소 준프로' 계약 체결" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-광주최연소준프로.html">광주 FC의 미래, 만 16세 MF 박성현 '최연소 준프로' 계약 체결</a></h2>
+        <p class="post-summary">
+핵심 요약
+
+광주 FC가 팀 역사상 최연소인 만 16세 미드필더 박성현과 준프로 계약을 맺었다.
+박성현은 광주 유스팀인 금호고 소속으로 뛰어난 잠재력을 인정받은 유망주다.
+이번 계약은 광주의 유스 육성 시스템인 '광주형 화수분 축구'의 성과로 평가받는다.
+박성현은 탄탄한 기본기와 창의적인 패스 능력을 갖춘 공격형 미드필...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-오후_MLB폰세부상와이스호투.html"><img src="https://picsum.photos/seed/2294/1200/630" alt="MLB 엇갈린 출발, 폰세 무릎 통증으로 이탈한 날 와이스는 무실점 호투" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-오후_MLB폰세부상와이스호투.html">MLB 엇갈린 출발, 폰세 무릎 통증으로 이탈한 날 와이스는 무실점 호투</a></h2>
+        <p class="post-summary">
+핵심 요약
+
+메이저리그(MLB) 개막 초반 한국계 및 관련 선수들의 희비가 극명하게 엇갈렸다.
+폰세는 경기 도중 심각한 무릎 통증을 호소하며 쓰러져 시즌 운용에 비상이 걸렸다.
+반면 와이스는 2이닝 동안 단 한 점도 내주지 않는 완벽한 투구로 팀의 기대를 모았다.
+전문가들은 폰세의 부상 정도에 따라 소속팀의 선발 로테이...</p>
+      </div>
+    </article>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 오늘의 뉴스 브리핑</p>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>연예 — 오늘의 뉴스 브리핑</title>
+  <meta name="description" content="연예 카테고리 뉴스">
+  <meta property="og:title" content="연예 — 오늘의 뉴스 브리핑">
+  <meta property="og:description" content="연예 카테고리 뉴스">
+  
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <style>/* ═══════════════════════════════════════════════════════════════
+   Apple-inspired News Blog — 오늘의 뉴스 브리핑
+   Clean, minimal, content-first design
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ─── Reset & Typography ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --black: #1d1d1f;
+  --gray-900: #2d2d2f;
+  --gray-700: #6e6e73;
+  --gray-500: #86868b;
+  --gray-300: #d2d2d7;
+  --gray-100: #f5f5f7;
+  --white: #ffffff;
+  --blue: #0071e3;
+  --blue-hover: #0077ed;
+  --max-width: 720px;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Pretendard',
+               'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  line-height: 1.5;
+  color: var(--black);
+  background: var(--white);
+}
+
+a { color: var(--blue); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+img { max-width: 100%; height: auto; display: block; }
+
+/* ─── Navigation ─── */
+.site-header {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+}
+
+.site-header .container {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 22px;
+  height: 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.site-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--black);
+  letter-spacing: -0.01em;
+}
+
+.site-title:hover { text-decoration: none; }
+
+.site-header nav { display: flex; gap: 28px; }
+
+.site-header nav a {
+  font-size: 0.8rem;
+  color: var(--gray-700);
+  letter-spacing: -0.01em;
+  transition: color 0.2s;
+}
+
+.site-header nav a:hover { color: var(--black); text-decoration: none; }
+
+/* ─── Category Navigation ─── */
+.category-nav {
+  background: var(--gray-100);
+  border-bottom: 1px solid var(--gray-300);
+  position: sticky;
+  top: 48px;
+  z-index: 9998;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.category-nav::-webkit-scrollbar { display: none; }
+.category-nav { -ms-overflow-style: none; scrollbar-width: none; }
+
+.category-nav .container {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 22px;
+  display: flex;
+  gap: 4px;
+  height: 44px;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.category-nav a {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--gray-700);
+  padding: 6px 14px;
+  border-radius: 20px;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.category-nav a:hover {
+  color: var(--black);
+  background: rgba(0, 0, 0, 0.05);
+  text-decoration: none;
+}
+
+.category-nav a.active {
+  color: var(--white);
+  background: var(--black);
+}
+
+.category-nav a.active:hover {
+  color: var(--white);
+  background: var(--gray-900);
+}
+
+/* ─── Main Container ─── */
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 22px;
+}
+
+/* ─── Post List (Index Page) ─── */
+.post-list h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  margin: 56px 0 8px;
+  color: var(--black);
+}
+
+.post-list-subtitle {
+  font-size: 0.95rem;
+  color: var(--gray-500);
+  margin-bottom: 40px;
+}
+
+.post-card {
+  display: flex;
+  gap: 24px;
+  padding: 28px 0;
+  border-top: 1px solid var(--gray-300);
+  transition: opacity 0.2s;
+}
+
+.post-card:last-child { border-bottom: 1px solid var(--gray-300); }
+
+.post-card:hover { opacity: 0.85; }
+
+.post-thumb {
+  flex-shrink: 0;
+  width: 200px;
+  height: 134px;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.post-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.post-card:hover .post-thumb img { transform: scale(1.03); }
+
+.post-info { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+
+.post-meta-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.post-category {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--blue);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.post-date {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+.post-info h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.45;
+  letter-spacing: -0.015em;
+  margin-bottom: 6px;
+}
+
+.post-info h2 a { color: var(--black); }
+.post-info h2 a:hover { color: var(--blue); text-decoration: none; }
+
+.post-summary {
+  font-size: 0.85rem;
+  color: var(--gray-700);
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ─── Featured Post (Top of list) ─── */
+.post-featured {
+  padding: 40px 0 32px;
+  border-bottom: 1px solid var(--gray-300);
+  margin-bottom: 8px;
+}
+
+.post-featured .featured-image {
+  width: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.post-featured .featured-image img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+}
+
+.post-featured h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.35;
+  margin-bottom: 8px;
+}
+
+.post-featured h2 a { color: var(--black); }
+.post-featured h2 a:hover { color: var(--blue); text-decoration: none; }
+
+/* ─── Single Post ─── */
+.post-single {
+  padding: 48px 0 64px;
+}
+
+.post-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.post-header .post-category {
+  font-size: 0.75rem;
+  display: inline-block;
+  margin-bottom: 12px;
+}
+
+.post-header h1 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.3;
+  color: var(--black);
+  margin-bottom: 16px;
+  word-break: keep-all;
+}
+
+.post-meta {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  align-items: center;
+  color: var(--gray-500);
+  font-size: 0.85rem;
+}
+
+.post-hero {
+  margin: 0 0 40px;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.post-hero img {
+  width: 100%;
+  max-height: 480px;
+  object-fit: cover;
+}
+
+/* ─── Post Content ─── */
+.post-content {
+  font-size: 1.05rem;
+  line-height: 1.85;
+  color: var(--gray-900);
+  word-break: keep-all;
+}
+
+.post-content h2 {
+  font-size: 1.45rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 48px 0 16px;
+  color: var(--black);
+}
+
+.post-content h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  margin: 36px 0 12px;
+  color: var(--black);
+}
+
+.post-content p {
+  margin: 16px 0;
+}
+
+.post-content ul, .post-content ol {
+  margin: 16px 0;
+  padding-left: 24px;
+}
+
+.post-content li {
+  margin: 8px 0;
+  line-height: 1.7;
+}
+
+.post-content strong {
+  font-weight: 600;
+  color: var(--black);
+}
+
+.post-content blockquote {
+  margin: 28px 0;
+  padding: 20px 24px;
+  background: var(--gray-100);
+  border-radius: 12px;
+  color: var(--gray-700);
+  font-size: 1rem;
+}
+
+.post-content img {
+  margin: 32px auto;
+  border-radius: 12px;
+}
+
+.post-content hr {
+  border: none;
+  height: 1px;
+  background: var(--gray-300);
+  margin: 40px 0;
+}
+
+/* ─── Tags ─── */
+.post-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.tag {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+.post-tags-footer {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--gray-300);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.post-tags-footer .tag {
+  background: var(--gray-100);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  color: var(--gray-700);
+  transition: background 0.2s;
+}
+
+.post-tags-footer .tag:hover {
+  background: var(--gray-300);
+  text-decoration: none;
+}
+
+/* ─── Post Navigation ─── */
+.post-nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 24px 0 48px;
+  font-size: 0.85rem;
+  border-top: 1px solid var(--gray-300);
+  margin-top: 32px;
+}
+
+.post-nav a { color: var(--blue); }
+
+/* ─── Footer ─── */
+.site-footer {
+  background: var(--gray-100);
+  border-top: 1px solid var(--gray-300);
+}
+
+.site-footer .container {
+  max-width: 980px;
+  padding: 20px 22px;
+  text-align: center;
+}
+
+.site-footer p {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+/* ─── Pagination ─── */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  margin: 40px 0;
+  list-style: none;
+  padding: 0;
+}
+
+.pagination li a, .pagination li span {
+  display: inline-block;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  color: var(--gray-700);
+}
+
+.pagination .active span {
+  background: var(--blue);
+  color: var(--white);
+}
+
+.pagination li a:hover {
+  background: var(--gray-100);
+  text-decoration: none;
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 640px) {
+  .post-card {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .post-thumb {
+    width: 100%;
+    height: 200px;
+    border-radius: 12px;
+  }
+
+  .post-list h1 { font-size: 1.6rem; margin-top: 32px; }
+
+  .post-header h1 { font-size: 1.6rem; }
+
+  .post-single { padding: 32px 0 48px; }
+
+  .post-featured .featured-image img { height: 240px; }
+  .post-featured h2 { font-size: 1.3rem; }
+
+  .post-content { font-size: 1rem; }
+}
+</style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="index.html" class="site-title">오늘의 뉴스 브리핑</a>
+      <nav>
+        <a href="index.html">홈</a>
+      </nav>
+    </div>
+  </header>
+  
+  <nav class="category-nav">
+    <div class="container">
+      <a href="index.html">전체</a>
+        <a href="category-politics.html">정치</a>
+        <a href="category-society.html">사회</a>
+        <a href="category-economy.html">경제</a>
+        <a href="category-entertainment.html" class="active">연예</a>
+        <a href="category-life.html">생활</a>
+        <a href="category-it.html">IT</a>
+        <a href="category-sports.html">스포츠</a>
+        <a href="category-fashion.html">패션</a>
+        
+    </div>
+  </nav>
+  <main class="container">
+    <div class="post-list">
+      <h1>연예</h1>
+      <p class="post-list-subtitle">연예 관련 뉴스 7건</p>
+      
+    <article class="post-featured">
+      <div class="post-meta-top">
+        <span class="post-category">연예</span>
+        <span class="post-date">2026-04-03</span>
+      </div>
+      <div class="featured-image"><img src="http://imgnews.naver.net/image/382/2026/04/02/0001265861_002_20260402092007447.jpg" alt="한선화 고스트스튜디오 전속계약 10년 전 인연 다시 잇는 의리의 재회 결국 통했다" loading="lazy"></div>
+      <h2><a href="2026-04-03-한선화전속계약.html">한선화 고스트스튜디오 전속계약 10년 전 인연 다시 잇는 의리의 재회 결국 통했다</a></h2>
+      <p class="post-summary">![[공식] 한선화, 고스트 스튜디오와 전속계약](http://imgnews.naver.net/image/382/2026/04/02/0001265861_002_20260402092007447.jpg)
+핵심 요약
+배우 한선화가 고스트스튜디오와 전속계약을 체결하며 새로운 도약을 예고했다. 이번 계약은 과거 10년 전 함께했던...</p>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-03-김지영동상이몽.html"><img src="http://imgnews.naver.net/image/117/2026/04/02/0004050099_001_20260402112014930.jpg" alt="혼전임신 김지영 동상이몽2 출연 결혼 2개월 만의 반전 일상 공개 여러 가지로 해롭다?" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">연예</span>
+          <span class="post-date">2026-04-03</span>
+        </div>
+        <h2><a href="2026-04-03-김지영동상이몽.html">혼전임신 김지영 동상이몽2 출연 결혼 2개월 만의 반전 일상 공개 여러 가지로 해롭다?</a></h2>
+        <p class="post-summary">
+핵심 요약
+배우 김지영이 SBS 예능 프로그램 '동상이몽 시즌2 - 너는 내 운명'에 출연하여 결혼 2개월 만의 신혼 생활과 혼전 임신 비하인드를 전격 공개했다. 당초 달콤할 것만 같았던 신혼의 환상은 잠시뿐, 그녀가 털어놓은 현실적인 고민과 돌변한 일상은 시청자들의 큰 관심을 끌고 있다. "여러 가지로 해롭다"며 솔직...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-한보배결혼.html"><img src="https://picsum.photos/seed/365/1200/630" alt="마수리 한보배 8년 열애 끝 결혼식 사진 공개와 축하 물결" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">연예</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-한보배결혼.html">마수리 한보배 8년 열애 끝 결혼식 사진 공개와 축하 물결</a></h2>
+        <p class="post-summary">핵심 요약
+
+이번 소식은 현재 우리 사회와 정치권에서 가장 뜨거운 감자로 떠오른 주요 이슈이다.
+많은 국민의 관심이 집중되고 있으며, 각계각층에서 활발한 논의가 이루어지고 있다.
+특히 이번 사안이 가지는 사회적 의미와 향후 미칠 파장에 대한 분석이 중요하다.
+구체적인 사실관계와 데이터를 바탕으로 이슈의 본질을 정확히 들여...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-조이현바른연애길잡이.html"><img src="https://picsum.photos/seed/6228/1200/630" alt="조이현 지우학2 이어 바른연애 길잡이 주연 캐스팅" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">연예</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-조이현바른연애길잡이.html">조이현 지우학2 이어 바른연애 길잡이 주연 캐스팅</a></h2>
+        <p class="post-summary">핵심 요약
+
+배우 조이현이 인기 웹툰 원작 드라마 '바른연애 길잡이'의 여주인공으로 낙점됐다.
+'지금 우리 학교는 2' 촬영 이후 차기작으로 선택하며 대세 행보를 이어간다.
+원작 캐릭터와의 완벽한 싱크로율로 팬들의 기대감이 폭발하고 있다.
+청춘 로맨스물의 새로운 아이콘으로 부상하며 글로벌 스타 입지를 굳힐 전망이다.
+
+사...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-아이유변우석웨딩화보.html"><img src="https://picsum.photos/seed/9751/1200/630" alt="아이유 변우석 21세기 대군 부부 웨딩 화보 공개" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">연예</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-아이유변우석웨딩화보.html">아이유 변우석 21세기 대군 부부 웨딩 화보 공개</a></h2>
+        <p class="post-summary">핵심 요약
+
+톱스타 아이유와 대세 배우 변우석의 역대급 웨딩 화보가 공개되어 화제다.
+'21세기 대군부인'이라는 콘셉트로 진행된 이번 화보는 고전미와 현대미의 조화를 보여준다.
+두 사람의 완벽한 비주얼 조합에 국내외 팬들의 폭발적인 반응이 이어지고 있다.
+가상의 '대군 부부'를 연상시키는 로맨틱한 분위기가 대중의 상상력을...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-아이유_변우석_웨딩화보.html"><img src="https://picsum.photos/seed/2269/1200/630" alt="아이유와 변우석의 미리보는 웨딩화보 비주얼 조합" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">연예</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-아이유_변우석_웨딩화보.html">아이유와 변우석의 미리보는 웨딩화보 비주얼 조합</a></h2>
+        <p class="post-summary">연예계에서 보기만 해도 눈이 정화되는 조합이 탄생했네요. 바로 아이유와 변우석의 웨딩화보 소식인데요. 21세기 대군부인이라는 컨셉으로 공개된 이번 화보는 벌써부터 팬들 사이에서 뜨거운 반응을 얻고 있습니다.
+두 사람의 독보적인 분위기가 웨딩 화보라는 컨셉과 만나면서 정말 영화의 한 장면 같은 느낌을 주더라고요. 비주얼 합...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-아이돌출신배우결혼.html"><img src="https://picsum.photos/seed/1688/1200/630" alt="아이돌 출신 유명 여배우 매니저와 30년 인연 결실" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">연예</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-아이돌출신배우결혼.html">아이돌 출신 유명 여배우 매니저와 30년 인연 결실</a></h2>
+        <p class="post-summary">핵심 요약
+
+아이돌 그룹 출신의 유명 여배우가 오랜 시간 함께한 매니저와 백년가약을 맺는다.
+두 사람의 첫 만남은 무려 30년 전 롯데 광고 촬영 현장이었던 것으로 밝혀졌다.
+연예계 동료들과 팬들은 긴 세월을 돌고 돌아 맺어진 이들의 영화 같은 사랑에 축복을 보내고 있다.
+신뢰를 바탕으로 한 스타와 매니저의 결혼 소식은 ...</p>
+      </div>
+    </article>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 오늘의 뉴스 브리핑</p>
+    </div>
+  </footer>
+</body>
+</html>

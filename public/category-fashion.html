@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>패션 — 오늘의 뉴스 브리핑</title>
+  <meta name="description" content="패션 카테고리 뉴스">
+  <meta property="og:title" content="패션 — 오늘의 뉴스 브리핑">
+  <meta property="og:description" content="패션 카테고리 뉴스">
+  
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <style>/* ═══════════════════════════════════════════════════════════════
+   Apple-inspired News Blog — 오늘의 뉴스 브리핑
+   Clean, minimal, content-first design
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ─── Reset & Typography ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --black: #1d1d1f;
+  --gray-900: #2d2d2f;
+  --gray-700: #6e6e73;
+  --gray-500: #86868b;
+  --gray-300: #d2d2d7;
+  --gray-100: #f5f5f7;
+  --white: #ffffff;
+  --blue: #0071e3;
+  --blue-hover: #0077ed;
+  --max-width: 720px;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Pretendard',
+               'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  line-height: 1.5;
+  color: var(--black);
+  background: var(--white);
+}
+
+a { color: var(--blue); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+img { max-width: 100%; height: auto; display: block; }
+
+/* ─── Navigation ─── */
+.site-header {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+}
+
+.site-header .container {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 22px;
+  height: 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.site-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--black);
+  letter-spacing: -0.01em;
+}
+
+.site-title:hover { text-decoration: none; }
+
+.site-header nav { display: flex; gap: 28px; }
+
+.site-header nav a {
+  font-size: 0.8rem;
+  color: var(--gray-700);
+  letter-spacing: -0.01em;
+  transition: color 0.2s;
+}
+
+.site-header nav a:hover { color: var(--black); text-decoration: none; }
+
+/* ─── Category Navigation ─── */
+.category-nav {
+  background: var(--gray-100);
+  border-bottom: 1px solid var(--gray-300);
+  position: sticky;
+  top: 48px;
+  z-index: 9998;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.category-nav::-webkit-scrollbar { display: none; }
+.category-nav { -ms-overflow-style: none; scrollbar-width: none; }
+
+.category-nav .container {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 22px;
+  display: flex;
+  gap: 4px;
+  height: 44px;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.category-nav a {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--gray-700);
+  padding: 6px 14px;
+  border-radius: 20px;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.category-nav a:hover {
+  color: var(--black);
+  background: rgba(0, 0, 0, 0.05);
+  text-decoration: none;
+}
+
+.category-nav a.active {
+  color: var(--white);
+  background: var(--black);
+}
+
+.category-nav a.active:hover {
+  color: var(--white);
+  background: var(--gray-900);
+}
+
+/* ─── Main Container ─── */
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 22px;
+}
+
+/* ─── Post List (Index Page) ─── */
+.post-list h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  margin: 56px 0 8px;
+  color: var(--black);
+}
+
+.post-list-subtitle {
+  font-size: 0.95rem;
+  color: var(--gray-500);
+  margin-bottom: 40px;
+}
+
+.post-card {
+  display: flex;
+  gap: 24px;
+  padding: 28px 0;
+  border-top: 1px solid var(--gray-300);
+  transition: opacity 0.2s;
+}
+
+.post-card:last-child { border-bottom: 1px solid var(--gray-300); }
+
+.post-card:hover { opacity: 0.85; }
+
+.post-thumb {
+  flex-shrink: 0;
+  width: 200px;
+  height: 134px;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.post-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.post-card:hover .post-thumb img { transform: scale(1.03); }
+
+.post-info { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+
+.post-meta-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.post-category {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--blue);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.post-date {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+.post-info h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.45;
+  letter-spacing: -0.015em;
+  margin-bottom: 6px;
+}
+
+.post-info h2 a { color: var(--black); }
+.post-info h2 a:hover { color: var(--blue); text-decoration: none; }
+
+.post-summary {
+  font-size: 0.85rem;
+  color: var(--gray-700);
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ─── Featured Post (Top of list) ─── */
+.post-featured {
+  padding: 40px 0 32px;
+  border-bottom: 1px solid var(--gray-300);
+  margin-bottom: 8px;
+}
+
+.post-featured .featured-image {
+  width: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.post-featured .featured-image img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+}
+
+.post-featured h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.35;
+  margin-bottom: 8px;
+}
+
+.post-featured h2 a { color: var(--black); }
+.post-featured h2 a:hover { color: var(--blue); text-decoration: none; }
+
+/* ─── Single Post ─── */
+.post-single {
+  padding: 48px 0 64px;
+}
+
+.post-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.post-header .post-category {
+  font-size: 0.75rem;
+  display: inline-block;
+  margin-bottom: 12px;
+}
+
+.post-header h1 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.3;
+  color: var(--black);
+  margin-bottom: 16px;
+  word-break: keep-all;
+}
+
+.post-meta {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  align-items: center;
+  color: var(--gray-500);
+  font-size: 0.85rem;
+}
+
+.post-hero {
+  margin: 0 0 40px;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.post-hero img {
+  width: 100%;
+  max-height: 480px;
+  object-fit: cover;
+}
+
+/* ─── Post Content ─── */
+.post-content {
+  font-size: 1.05rem;
+  line-height: 1.85;
+  color: var(--gray-900);
+  word-break: keep-all;
+}
+
+.post-content h2 {
+  font-size: 1.45rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 48px 0 16px;
+  color: var(--black);
+}
+
+.post-content h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  margin: 36px 0 12px;
+  color: var(--black);
+}
+
+.post-content p {
+  margin: 16px 0;
+}
+
+.post-content ul, .post-content ol {
+  margin: 16px 0;
+  padding-left: 24px;
+}
+
+.post-content li {
+  margin: 8px 0;
+  line-height: 1.7;
+}
+
+.post-content strong {
+  font-weight: 600;
+  color: var(--black);
+}
+
+.post-content blockquote {
+  margin: 28px 0;
+  padding: 20px 24px;
+  background: var(--gray-100);
+  border-radius: 12px;
+  color: var(--gray-700);
+  font-size: 1rem;
+}
+
+.post-content img {
+  margin: 32px auto;
+  border-radius: 12px;
+}
+
+.post-content hr {
+  border: none;
+  height: 1px;
+  background: var(--gray-300);
+  margin: 40px 0;
+}
+
+/* ─── Tags ─── */
+.post-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.tag {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+.post-tags-footer {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--gray-300);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.post-tags-footer .tag {
+  background: var(--gray-100);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  color: var(--gray-700);
+  transition: background 0.2s;
+}
+
+.post-tags-footer .tag:hover {
+  background: var(--gray-300);
+  text-decoration: none;
+}
+
+/* ─── Post Navigation ─── */
+.post-nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 24px 0 48px;
+  font-size: 0.85rem;
+  border-top: 1px solid var(--gray-300);
+  margin-top: 32px;
+}
+
+.post-nav a { color: var(--blue); }
+
+/* ─── Footer ─── */
+.site-footer {
+  background: var(--gray-100);
+  border-top: 1px solid var(--gray-300);
+}
+
+.site-footer .container {
+  max-width: 980px;
+  padding: 20px 22px;
+  text-align: center;
+}
+
+.site-footer p {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+/* ─── Pagination ─── */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  margin: 40px 0;
+  list-style: none;
+  padding: 0;
+}
+
+.pagination li a, .pagination li span {
+  display: inline-block;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  color: var(--gray-700);
+}
+
+.pagination .active span {
+  background: var(--blue);
+  color: var(--white);
+}
+
+.pagination li a:hover {
+  background: var(--gray-100);
+  text-decoration: none;
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 640px) {
+  .post-card {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .post-thumb {
+    width: 100%;
+    height: 200px;
+    border-radius: 12px;
+  }
+
+  .post-list h1 { font-size: 1.6rem; margin-top: 32px; }
+
+  .post-header h1 { font-size: 1.6rem; }
+
+  .post-single { padding: 32px 0 48px; }
+
+  .post-featured .featured-image img { height: 240px; }
+  .post-featured h2 { font-size: 1.3rem; }
+
+  .post-content { font-size: 1rem; }
+}
+</style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="index.html" class="site-title">오늘의 뉴스 브리핑</a>
+      <nav>
+        <a href="index.html">홈</a>
+      </nav>
+    </div>
+  </header>
+  
+  <nav class="category-nav">
+    <div class="container">
+      <a href="index.html">전체</a>
+        <a href="category-politics.html">정치</a>
+        <a href="category-society.html">사회</a>
+        <a href="category-economy.html">경제</a>
+        <a href="category-entertainment.html">연예</a>
+        <a href="category-life.html">생활</a>
+        <a href="category-it.html">IT</a>
+        <a href="category-sports.html">스포츠</a>
+        <a href="category-fashion.html" class="active">패션</a>
+        
+    </div>
+  </nav>
+  <main class="container">
+    <div class="post-list">
+      <h1>패션</h1>
+      <p class="post-list-subtitle">패션 관련 뉴스 40건</p>
+      
+    <article class="post-featured">
+      <div class="post-meta-top">
+        <span class="post-category">패션</span>
+        <span class="post-date">2026-04-03</span>
+      </div>
+      <div class="featured-image"><img src="http://imgnews.naver.net/image/5317/2015/09/04/635769792027672500_99_20150904161322.jpg" alt="흰색 티셔츠 하나로 끝내는 패셔니스타들의 8가지 스타일링 연출법" loading="lazy"></div>
+      <h2><a href="2026-04-03-흰색티셔츠스타일링.html">흰색 티셔츠 하나로 끝내는 패셔니스타들의 8가지 스타일링 연출법</a></h2>
+      <p class="post-summary">
+핵심 요약
+
+가장 기본적이지만 가장 어려운 '흰색 티셔츠'를 완벽하게 소화하는 8가지 비법이 공개되었다.
+데님과의 정석 매치부터 포멀한 슬랙스, 화려한 스커트까지 흰색 티셔츠의 무한 변신을 다뤘다.
+2026년에는 티셔츠의 핏(Fit)과 목 라인의 디테일에 따라 분위기가 결정된다.
+패셔니스타들은 티셔츠를 바지 안에 넣거나...</p>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-03-자이언티신발논란.html"><img src="http://imgnews.naver.net/image/016/2024/04/05/20240405050140_0_20240405095301272.jpg" alt="자이언티 여친 신발 논란? 트와이스 채영과 커플룩의 파격적 행보" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">패션</span>
+          <span class="post-date">2026-04-03</span>
+        </div>
+        <h2><a href="2026-04-03-자이언티신발논란.html">자이언티 여친 신발 논란? 트와이스 채영과 커플룩의 파격적 행보</a></h2>
+        <p class="post-summary">
+핵심 요약
+
+가수 자이언티가 트와이스 채영과의 열애 공개 이후 파격적인 패션 행보로 연일 화제를 모으고 있다.
+최근 포착된 자이언티의 신발 스타일링이 여성용 제품이라는 의혹과 함께 온라인상에서 뜨거운 설전이 벌어졌다.
+'여친 신발을 훔쳐 신은 것 아니냐'는 농담 섞인 반응부터 '새로운 패션 지평을 열었다'는 극찬까지 호...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-03-지속가능섬유ESG.html"><img src="http://imgnews.naver.net/image/5319/2025/05/27/0000030802_004_20250527120615966.jpg" alt="ESG 열풍 타고 진화하는 지속 가능 섬유 패션 넘어 라이프스타일 장악" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">패션</span>
+          <span class="post-date">2026-04-03</span>
+        </div>
+        <h2><a href="2026-04-03-지속가능섬유ESG.html">ESG 열풍 타고 진화하는 지속 가능 섬유 패션 넘어 라이프스타일 장악</a></h2>
+        <p class="post-summary">
+핵심 요약
+
+친환경 소재인 '지속 가능 섬유'가 단순한 의류를 넘어 인테리어, 침구 등 라이프스타일 전반으로 확산되고 있다.
+기업 경영의 필수 요소인 ESG(환경·사회·지배구조) 가치가 섬유 산업의 패러다임을 완전히 바꾸어 놓았다.
+폐플라스틱 재활용 섬유부터 생분해성 소재까지 혁신적인 신소재 개발이 가속화되고 있다.
+가...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-03-여름롱원피스.html"><img src="http://imgnews.naver.net/image/5027/2020/07/05/0000040208_001_20200713173002324.jpg" alt="보그 선정 올여름 머스트해브 아이템 롱 원피스 트렌드 5" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">패션</span>
+          <span class="post-date">2026-04-03</span>
+        </div>
+        <h2><a href="2026-04-03-여름롱원피스.html">보그 선정 올여름 머스트해브 아이템 롱 원피스 트렌드 5</a></h2>
+        <p class="post-summary">
+핵심 요약
+
+2026년 여름 시즌, 패션계가 주목하는 단 하나의 아이템은 바로 '롱 원피스'이다.
+보그 코리아는 런웨이 분석을 통해 올여름을 관통할 5가지 핵심 드레스 트렌드를 제시했다.
+발목까지 내려오는 맥시 기장에 과감한 슬릿과 시스루 소재가 더해져 시원함을 극대화했다.
+에스닉한 보헤미안 무드부터 극강의 미니멀리즘까...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-03-미우미우앞치마.html"><img src="http://imgnews.naver.net/image/5779/2025/10/09/0000070868_007_20251009082613411.jpg" alt="미우미우 앞치마가 패션이 된다? 올여름 파격적인 에이프런 룩 분석" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">패션</span>
+          <span class="post-date">2026-04-03</span>
+        </div>
+        <h2><a href="2026-04-03-미우미우앞치마.html">미우미우 앞치마가 패션이 된다? 올여름 파격적인 에이프런 룩 분석</a></h2>
+        <p class="post-summary">
+핵심 요약
+
+명품 브랜드 미우미우(Miu Miu)가 이번 여름 시즌 핵심 아이템으로 '앞치마'를 제안하며 패션계를 뒤흔들고 있다.
+주방에서나 보던 앞치마가 런웨이를 거쳐 가장 힙한 스트리트 패션 아이템으로 변신했다.
+하퍼스 바자는 이번 트렌드를 '유틸리티와 로맨티시즘의 기묘한 만남'으로 정의했다.
+단순히 옷 위에 두르는...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-03-남성패션트렌드.html"><img src="https://img1.daumcdn.net/thumb/R1280x0.fjpg/?fname=http://t1.kakaocdn.net/brunch/service/user/etBo/image/ZRcx_wQeT9FyVDY9-8GsfKsZm2U.jpg" alt="에스콰이어 선정 2026 S/S 남성 패션 5대 트렌드 총정리" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">패션</span>
+          <span class="post-date">2026-04-03</span>
+        </div>
+        <h2><a href="2026-04-03-남성패션트렌드.html">에스콰이어 선정 2026 S/S 남성 패션 5대 트렌드 총정리</a></h2>
+        <p class="post-summary">
+핵심 요약
+
+2026년 봄·여름 시즌을 주도할 남성 패션의 핵심은 실용성과 예술성의 결합이다.
+워크웨어의 재해석을 통해 기능적인 포켓과 견고한 소재가 런웨이를 장악했다.
+파스텔 톤을 넘어선 강렬한 원색의 대비가 남성복에서도 과감하게 시도된다.
+지속 가능한 소재를 활용한 친환경 에코 패션이 선택이 아닌 필수로 자리 잡았다...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-03-GS샵스타일나우.html"><img src="http://imgnews.naver.net/image/421/2014/09/30/1036735_article_99_20140930112905.jpg" alt="GS샵 '스타일NOW 더김동은' 론칭 패션 쇼핑의 새로운 패러다임" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">패션</span>
+          <span class="post-date">2026-04-03</span>
+        </div>
+        <h2><a href="2026-04-03-GS샵스타일나우.html">GS샵 '스타일NOW 더김동은' 론칭 패션 쇼핑의 새로운 패러다임</a></h2>
+        <p class="post-summary">
+핵심 요약
+
+홈쇼핑 업계의 강자 GS샵이 패션 전문 프로그램 '스타일NOW 더김동은'을 전격 론칭했다.
+대한민국 최고의 패션 디렉터 김동은이 직접 출연하여 트렌드 분석과 코디법을 전수한다.
+실시간 소통을 강화한 '라이브 커머스' 형식의 방송을 통해 시청자들의 궁금증을 즉각 해소한다.
+단순한 판매를 넘어 패션 잡지를 보는...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-03-2026뷰티트렌드.html"><img src="http://imgnews.naver.net/image/5100/2025/12/22/0000198731_001_20251222060219857.jpg" alt="2026 뷰티 트렌드 '덜어냄의 미학' 정교한 미니멀리즘이 온다" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">패션</span>
+          <span class="post-date">2026-04-03</span>
+        </div>
+        <h2><a href="2026-04-03-2026뷰티트렌드.html">2026 뷰티 트렌드 '덜어냄의 미학' 정교한 미니멀리즘이 온다</a></h2>
+        <p class="post-summary">
+핵심 요약
+
+2026년 뷰티 업계의 핵심 키워드는 '많이 바르기'가 아닌 '정교하게 덜어내기'이다.
+복잡한 스킨케어 단계를 획기적으로 줄인 '스키피케어(Skip-care)'가 주류로 급부상했다.
+인위적인 광택보다는 본연의 피부 결을 살리는 '내추럴 피니시' 메이크업이 대세다.
+화장품 성분의 다이어트를 통해 피부 자극을 ...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-흰티셔츠스타일링.html"><img src="https://picsum.photos/seed/2327/1200/630" alt="흰색 티셔츠 한 장으로 완성하는 8가지 스타일링 연출법" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">패션</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-흰티셔츠스타일링.html">흰색 티셔츠 한 장으로 완성하는 8가지 스타일링 연출법</a></h2>
+        <p class="post-summary">누구나 옷장에 하나쯤은 가지고 있는 기본 아이템, 흰색 티셔츠는 계절과 유행을 타지 않는 최고의 패션 아이템입니다. 하지만 평범한 만큼 스타일리시하게 입기는 의외로 까다롭기도 하죠. 최근 베트남 매체에서 소개한 흰색 티셔츠 활용법 8가지는 시대를 초월하는 세련된 코디 팁을 담고 있습니다.
+가장 기본인 데님 팬츠와의 조합부...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-포엣코어패션트렌드.html"><img src="https://picsum.photos/seed/885/1200/630" alt="로고 대신 지성을 입는다 포엣코어 패션이 사랑받는 이유" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">패션</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-포엣코어패션트렌드.html">로고 대신 지성을 입는다 포엣코어 패션이 사랑받는 이유</a></h2>
+        <p class="post-summary">핵심 요약
+
+이번 소식은 해당 업계에서 매우 중요하게 다뤄지고 있는 핵심적인 이슈이다.
+전문가들과 소비자들 사이에서 다양한 분석과 반응이 엇갈리고 있는 상황이다.
+특히 이번 사안이 향후 시장의 흐름과 트렌드에 미칠 영향이 상당할 것으로 보인다.
+구체적인 팩트와 수치, 그리고 현장의 목소리를 통해 이슈의 본질을 파악했다.
+...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-포엣코어패션.html"><img src="https://picsum.photos/seed/1397/1200/630" alt="포엣코어 패션 지성 뽐낸다! 로고 없는 유행 결국 왜?" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">패션</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-포엣코어패션.html">포엣코어 패션 지성 뽐낸다! 로고 없는 유행 결국 왜?</a></h2>
+        <p class="post-summary">핵심 요약
+패션계에 새로운 바람인 '포엣코어(Poetcore)'가 상륙했다. 머니투데이의 보도에 따르면 이제는 커다란 브랜드 로고 대신 시적 감성과 지적인 무드를 강조하는 스타일이 대세로 떠오르고 있다. "입으시(詩)오"라는 재치 있는 슬로건처럼 옷을 통해 자신의 감각과 내면의 깊이를 드러내려는 소비자들이 늘어나고 있는 ...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-포엣코어스타일.html"><img src="https://picsum.photos/seed/1552/1200/630" alt="지적인 매력 포엣코어(Poetcore) 로고 아닌 감성을 입다" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">패션</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-포엣코어스타일.html">지적인 매력 포엣코어(Poetcore) 로고 아닌 감성을 입다</a></h2>
+        <p class="post-summary">핵심 요약
+
+정의: 문학적, 지적 분위기를 강조하는 '시인(Poet)' 컨셉의 패션
+핵심 아이템: 루즈한 셔츠, 린넨 팬츠, 빈티지한 가죽 가방, 뿔테 안경
+주요 무드: 차분한 얼스 톤(Earth Tone), 여유로운 실루엣
+스타일링 포인트: 로고 노출을 최소화한 '콰이어트 럭셔리'의 진화
+추천 장소: 서점, 갤러리, 조...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-패션뷰티뉴스픽.html"><img src="https://picsum.photos/seed/2442/1200/630" alt="애경 LF 무신사 신성통상 패션 뷰티 업계 뉴스픽 정리" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">패션</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-패션뷰티뉴스픽.html">애경 LF 무신사 신성통상 패션 뷰티 업계 뉴스픽 정리</a></h2>
+        <p class="post-summary">핵심 요약
+1. 아주경제 선정 패션·뷰티 주요 기업들의 핵심 이슈 브리핑
+2. 애경산업의 브랜드 강화 전략과 시장 확대 행보 주목
+3. LF의 프리미엄 브랜드 전개 및 온오프라인 채널 최적화
+4. 무신사의 신진 디자이너 육성 및 글로벌 시장 공략 가속화
+5. 신성통상의 내수 시장 방어와 가성비 중심의 경쟁력 확보
+사건/이...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-태광산업애경인수.html"><img src="https://picsum.photos/seed/2576/1200/630" alt="태광산업 애경 인수 성과 AGE20'S 2.0 시대 전격 선포" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">패션</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-태광산업애경인수.html">태광산업 애경 인수 성과 AGE20'S 2.0 시대 전격 선포</a></h2>
+        <p class="post-summary">핵심 요약
+1. 태광산업, 애경산업 인수 7일 만에 'AGE20'S 2.0' 시대 선포로 광폭 행보
+2. 뷰티경제 보도에 따른 태광의 강력한 지배력과 사업 재편 의지 확인
+3. 전통 산업군인 태광산업의 뷰티 시장 본격 진출 및 신성장 동력 확보
+4. 인수 초기 혼란을 잠재우고 브랜드 비전을 제시하는 속도감 있는 경영
+5....</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-컴온스타일할인.html"><img src="https://picsum.photos/seed/2303/1200/630" alt="CJ온스타일 컴온스타일 할인 혜택 총정리! 쇼핑 꿀팁" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">패션</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-컴온스타일할인.html">CJ온스타일 컴온스타일 할인 혜택 총정리! 쇼핑 꿀팁</a></h2>
+        <p class="post-summary">핵심 요약
+
+행사 기간: 2026년 4월 3일 ~ 4월 12일 (10일간)
+주요 할인: 앱 회원 매일 30% 할인 쿠폰, 카드 10% 추가 할인
+적립 혜택: '텐텐텐' 100대 브랜드 10% 적립
+신규 브랜드: 젝시믹스, 분크, 세터, 바이오던스, 로우로우
+특별관: KBO 전문관, 트래블 에딧, 웰니스관 운영
+
+사건/이슈...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-캐리멀리건배럴팬츠.html"><img src="https://picsum.photos/seed/1749/1200/630" alt="캐리 멀리건이 선보인 더 로우 배럴 팬츠 룩 화제" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">패션</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-캐리멀리건배럴팬츠.html">캐리 멀리건이 선보인 더 로우 배럴 팬츠 룩 화제</a></h2>
+        <p class="post-summary">영국의 실력파 배우 캐리 멀리건이 최근 열린 훈장 수여식에서 선보인 패션이 연일 화제입니다. 그녀는 이날 고급스러운 미니멀리즘의 대명사인 브랜드 더 로우의 배럴 팬츠를 선택해 세련된 시상식 룩의 정석을 보여줬습니다. 보그 코리아에 따르면 캐리 멀리건의 이번 패션은 격식 있는 자리에서도 충분히 멋스러울 수 있음을 입증했습니...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-캐리멀리건더로우배럴팬츠.html"><img src="https://picsum.photos/seed/1590/1200/630" alt="캐리 멀리건의 '더 로우' 배럴 팬츠 룩 화제! 영국 훈장 수여식의 우아한 반전" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">패션</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-캐리멀리건더로우배럴팬츠.html">캐리 멀리건의 '더 로우' 배럴 팬츠 룩 화제! 영국 훈장 수여식의 우아한 반전</a></h2>
+        <p class="post-summary">핵심 요약
+
+배우 캐리 멀리건이 영국 왕실 훈장 수여식에서 '더 로우(The Row)'의 배럴 팬츠 룩을 선보여 화제가 됐다.
+전형적인 드레스나 정장 대신 트렌디한 배럴 실루엣 팬츠를 선택해 세련된 패션 감각을 뽐냈다.
+미니멀리즘의 정수로 불리는 올 블랙 코디로 격식과 스타일을 동시에 잡았다는 평가다.
+이번 룩은 격식 있...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-지속가능패션ESG.html"><img src="https://picsum.photos/seed/6008/1200/630" alt="지속가능한 패션 섬유의 진화 이제는 라이프스타일 전반으로" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">패션</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-지속가능패션ESG.html">지속가능한 패션 섬유의 진화 이제는 라이프스타일 전반으로</a></h2>
+        <p class="post-summary">지구 환경을 생각하는 ESG 경영이 패션계에서도 가장 뜨거운 화두입니다. 이제 지속가능한 섬유는 단순히 옷을 만드는 재료를 넘어 우리 생활 전반에 걸친 라이프스타일로 확장되고 있습니다. 대한데일리 보도에 따르면 많은 패션 기업들이 친환경 소재 개발과 상용화에 박차를 가하고 있는 상황입니다.
+폐플라스틱을 재활용한 섬유나 식...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-지속가능섬유ESG.html"><img src="https://picsum.photos/seed/5457/1200/630" alt="지속가능 섬유 ESG 패션 총정리! 상용화 과제 왜 남았나?" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">패션</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-지속가능섬유ESG.html">지속가능 섬유 ESG 패션 총정리! 상용화 과제 왜 남았나?</a></h2>
+        <p class="post-summary">핵심 요약
+지속가능한 섬유 기술이 패션을 넘어 라이프스타일 전반으로 영역을 확장하고 있다. 대한데일리의 심층 분석에 따르면 ESG 경영이 기업의 생존 전략으로 자리 잡으면서 친환경 소재 개발에 박차를 가하고 있지만, 여전히 높은 생산 단가와 기술적 한계라는 상용화 과제가 산적해 있는 상태다. 겉으로 보이는 화려한 마케팅 ...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-자이언티채영패션.html"><img src="https://picsum.photos/seed/311/1200/630" alt="자이언티 트와이스 채영 커플 패션 논란과 매력 분석" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">패션</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-자이언티채영패션.html">자이언티 트와이스 채영 커플 패션 논란과 매력 분석</a></h2>
+        <p class="post-summary">핵심 요약
+1. 자이언티가 여자친구인 트와이스 채영의 신발을 신은 듯한 모습 포착
+2. 온라인 커뮤니티와 매체를 중심으로 '호불호'가 명확히 갈리는 패션 반응
+3. 연예계 대표 패셔니스타 커플의 독특한 커플 룩 스타일링 화제
+4. 젠더리스 아이템 활용에 대한 대중의 인식 변화 반영
+5. 연예인 연애와 패션이 결합되어 파생...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-자이언티채영신발패션.html"><img src="https://picsum.photos/seed/7221/1200/630" alt="2026-04-02 자이언티와 트와이스 채영의 커플 신발 패션: 유니크한 취향의 완벽한 조화" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">패션</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-자이언티채영신발패션.html">2026-04-02 자이언티와 트와이스 채영의 커플 신발 패션: 유니크한 취향의 완벽한 조화</a></h2>
+        <p class="post-summary">핵심 요약
+독보적인 음색의 가수 자이언티와 트와이스의 채영이 최근 공개한 커플 신발 패션이 사회관계망서비스(SNS) 상에서 뜨거운 화제다. 두 사람만의 독창적이고 예술적인 감각이 묻어나는 신발 선택은 단순한 유행을 넘어 하나의 패션 아이콘으로 급부상하고 있다.
+사건/이슈 개요
+최근 자이언티와 채영이 개인 SNS 계정을 통...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-자이언티슈즈패션.html"><img src="https://picsum.photos/seed/5802/1200/630" alt="자이언티의 독특한 슈즈 패션 채영 신발 아니냐는 말까지 나온 이유" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">패션</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-자이언티슈즈패션.html">자이언티의 독특한 슈즈 패션 채영 신발 아니냐는 말까지 나온 이유</a></h2>
+        <p class="post-summary">평소 남다른 패션 감각을 자랑하는 가수 자이언티가 최근 선보인 신발 스타일이 온라인에서 화제입니다. 트와이스 채영과 공개 열애 중인 그가 마치 여자친구의 신발을 빌려 신은 듯한 독특한 디자인의 슈즈를 착용하고 나타났기 때문입니다.
+이번에 포착된 자이언티의 패션은 팬들 사이에서도 호불호가 확실히 갈리는 분위기입니다. 실험적...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-여름롱원피스트렌드.html"><img src="https://picsum.photos/seed/9019/1200/630" alt="2026-04-02 올여름 패션 키워드: 시원하고 우아한 롱 원피스의 귀환" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">패션</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-여름롱원피스트렌드.html">2026-04-02 올여름 패션 키워드: 시원하고 우아한 롱 원피스의 귀환</a></h2>
+        <p class="post-summary">핵심 요약
+2026년 여름 시즌, 패션계는 다시 한번 '롱 원피스'에 주목하고 있다. 런웨이에서 포착된 5가지 주요 트렌드를 중심으로 올여름 거리를 수놓을 우아하고 실용적인 스타일링을 분석한다.
+사건/이슈 개요
+전 세계 주요 패션 위크에서 발표된 2026 S/S 컬렉션의 공통된 특징 중 하나는 발목까지 내려오는 맥시 기장...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-에이지투웨니스파트너십.html"><img src="https://picsum.photos/seed/1653/1200/630" alt="애경산업 중국 넷탑스와 파트너십 AGE20'S 2.0 시대 선언" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">패션</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-에이지투웨니스파트너십.html">애경산업 중국 넷탑스와 파트너십 AGE20'S 2.0 시대 선언</a></h2>
+        <p class="post-summary">핵심 요약
+1. 애경산업, 중국 유통 전문 기업 '넷탑스(NETOPS)'와 전략적 파트너십 체결
+2. 'AGE20'S(에이지투웨니스) 2.0 시대' 선포를 통한 브랜드 혁신 가속화
+3. 서울타임즈뉴스 보도에 따른 중국 시장 내 유통 지배력 강화 전략
+4. 디지털 마케팅 및 현지 채널 고도화를 위한 협력 체계 구축
+5. 글...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-에이지투웨니스중국.html"><img src="https://picsum.photos/seed/4376/1200/630" alt="에이지투웨니스 중국 시장 재도약 시동 애경산업의 야심찬 행보" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">패션</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-에이지투웨니스중국.html">에이지투웨니스 중국 시장 재도약 시동 애경산업의 야심찬 행보</a></h2>
+        <p class="post-summary">핵심 요약
+1. 애경산업의 대표 뷰티 브랜드 'AGE20'S(에이지투웨니스)' 중국 시장 공략 강화
+2. 코스모닝 보도에 따른 중국 현지 유통망 재정비 및 마케팅 가속화
+3. 기능성 파운데이션의 원조로서 'K-뷰티'의 자존심 회복 선언
+4. 현지화 전략과 디지털 플랫폼 활용을 통한 브랜드 인지도 제고
+5. 포스트 코로나 ...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-시니어모델화보.html"><img src="https://picsum.photos/seed/6214/1200/630" alt="시니어 모델 화보 존재감 폭발! 나이 파괴 결국 충격인가?" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">패션</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-시니어모델화보.html">시니어 모델 화보 존재감 폭발! 나이 파괴 결국 충격인가?</a></h2>
+        <p class="post-summary">핵심 요약
+패션계의 '나이 장벽'이 허물어지고 있다. 에너지경제신문의 보도에 따르면 2026 S/S 패션 화보에서 시니어 모델 김재숙과 심길선이 압도적인 존재감을 과시하며 화제를 모으고 있다. 젊은 모델들 사이에서도 전혀 밀리지 않는 카리스마와 세월이 준 깊이 있는 표정은 "아름다움에는 유통기한이 없다"는 사실을 증명했다...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-스프링뷰티페어.html"><img src="https://picsum.photos/seed/2294/1200/630" alt="2026 스프링 뷰티 페어 총정리! 브랜드별 기획세트 추천" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">패션</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-스프링뷰티페어.html">2026 스프링 뷰티 페어 총정리! 브랜드별 기획세트 추천</a></h2>
+        <p class="post-summary">핵심 요약
+
+행사 일시: 2026년 4월 3일 ~ 4월 12일
+참여 백화점: 대전신세계, 롯데백화점 대전점, 갤러리아 타임월드
+온라인 축제: CJ온스타일 '컴온스타일' 동시 진행
+핵심 브랜드: 딥티크, 크리드, 설화수, 에스티로더, 바이오던스
+주요 혜택: 단독 기획세트, 시향회 팝업, 구매 금액별 상품권 증정
+
+사건/이슈...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-상반기패션키워드.html"><img src="https://picsum.photos/seed/7221/1200/630" alt="2026 상반기 패션 키워드 3! 포엣코어·레이스·롱원피스" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">패션</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-상반기패션키워드.html">2026 상반기 패션 키워드 3! 포엣코어·레이스·롱원피스</a></h2>
+        <p class="post-summary">핵심 요약
+
+3대 키워드: 포엣코어(Poetcore), 레이스(Lace), 롱 원피스(Long Dress)
+공통 분모: 개인의 취향 존중, 지적인 무드, 과감한 레이어링
+주요 브랜드: 샤넬, 생 로랑, 뮈글러, 이자벨 마랑, 랄프 로렌
+트렌드 배경: 로고 매니아의 종말, '콰이어트 럭셔리'의 진화
+추천 코디: 레이스 스커...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-봄스킨케어열전.html"><img src="https://picsum.photos/seed/7593/1200/630" alt="봄 스킨케어 신상 열전 속보! 말간 피부 비결 결국 왜?" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">패션</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-봄스킨케어열전.html">봄 스킨케어 신상 열전 속보! 말간 피부 비결 결국 왜?</a></h2>
+        <p class="post-summary">핵심 요약
+따가운 봄 햇살과 건조한 날씨 속에서도 '말간 피부'를 유지하려는 이들을 위해 뷰티 업계가 스킨케어 신상 대전을 펼치고 있다. 싱글리스트의 보도에 따르면 최근 출시된 제품들은 단순한 보습을 넘어 피부 장벽 강화와 진정, 그리고 투명도 개선에 초점을 맞추고 있다. 황사와 미세먼지 등 외부 자극이 극심한 봄철, 피...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-미우미우앞치마트렌드.html"><img src="https://picsum.photos/seed/5370/1200/630" alt="2026-04-02 미우미우 앞치마 트렌드: 레이어드 패션의 새로운 공식" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">패션</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-미우미우앞치마트렌드.html">2026-04-02 미우미우 앞치마 트렌드: 레이어드 패션의 새로운 공식</a></h2>
+        <p class="post-summary">핵심 요약
+패션 하우스 미우미우(Miu Miu)가 2026년 런웨이를 통해 '앞치마(Apron)'를 활용한 파격적인 스타일링을 선보였다. 이는 단순한 작업복의 개념을 넘어 현대적인 레이어드 패션의 새로운 공식으로 자리매김하고 있다.
+사건/이슈 개요
+최근 파리에서 진행된 2026 S/S 컬렉션에서 미우미우는 '일상의 재해석...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-미우미우앞치마.html"><img src="https://picsum.photos/seed/307/1200/630" alt="미우미우 앞치마 올여름 새로운 패션 트렌드 등극할까" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">패션</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-미우미우앞치마.html">미우미우 앞치마 올여름 새로운 패션 트렌드 등극할까</a></h2>
+        <p class="post-summary">핵심 요약
+1. 패션 매거진 하퍼스 바자(Harper's Bazaar)가 제안한 올여름 파격 아이템 '앞치마'
+2. 명품 브랜드 미우미우(Miu Miu)의 런웨이에서 포착된 에이프런 룩의 미학
+3. 주방 기구에서 패션 아이템으로의 발칙한 신분 상승
+4. 레이어드 스타일링의 새로운 지평을 여는 실용적이고 독특한 아이템
+5....</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-롱원피스트렌드.html"><img src="https://picsum.photos/seed/9357/1200/630" alt="올여름 머스트해브 아이템 롱 원피스 보그 코리아 트렌드 제안" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">패션</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-롱원피스트렌드.html">올여름 머스트해브 아이템 롱 원피스 보그 코리아 트렌드 제안</a></h2>
+        <p class="post-summary">핵심 요약
+1. 보그 코리아가 제안하는 올여름 핵심 아이템으로 롱 원피스 선정
+2. 세계 주요 런웨이에서 포착된 5가지 결정적 트렌드 분석
+3. 우아함과 실용성을 동시에 잡은 맥시 기장의 화려한 귀환
+4. 소재와 실루엣의 변주를 통한 다채로운 스타일링 가능성 제시
+5. 단순한 의류를 넘어선 여름 시즌의 패션 철학 정립
+사...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-라로제롯데백화점.html"><img src="https://picsum.photos/seed/3467/1200/630" alt="라로제 롯데백화점 본점 입점! 프랑스 뷰티 결국 상륙하나?" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">패션</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-라로제롯데백화점.html">라로제 롯데백화점 본점 입점! 프랑스 뷰티 결국 상륙하나?</a></h2>
+        <p class="post-summary">핵심 요약
+프랑스의 친환경 패밀리 스킨케어 브랜드 '라로제(La Rosée)'가 서울의 심장부인 롯데백화점 본점에 신규 입점했다. 아이바비뉴스의 보도에 따르면 이번 입점은 국내 뷰티 시장에서 클린 뷰티와 프랑스 정통 스킨케어에 대한 수요가 급증하고 있음을 보여주는 상징적인 사건이다. 성분을 중시하는 육아맘들 사이에서 이미...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-대전백화점봄세일.html"><img src="https://picsum.photos/seed/7473/1200/630" alt="대전 백화점 봄 정기 세일 총정리! 패션·뷰티 득템 찬스" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">패션</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-대전백화점봄세일.html">대전 백화점 봄 정기 세일 총정리! 패션·뷰티 득템 찬스</a></h2>
+        <p class="post-summary">핵심 요약
+
+행사 기간: ~2026년 4월 12일 (롯데백화점은 4월 5일까지)
+참여 업체: 대전신세계, 갤러리아 타임월드, 롯데백화점 대전점
+주요 혜택: 패션·리빙 최대 60% 할인, 뷰티 페어 체험형 콘텐츠
+포커스 아이템: 핸드백, 아동복, 골프웨어, 웨딩 주얼리
+특별 이벤트: 세인트제임스 팝업, 골든듀 20% 할인,...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-누그레이치크신상.html"><img src="https://picsum.photos/seed/1724/1200/630" alt="누그레이 세모 탭 치크 출시! 뷰티 신상 결국 총정리?" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">패션</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-누그레이치크신상.html">누그레이 세모 탭 치크 출시! 뷰티 신상 결국 총정리?</a></h2>
+        <p class="post-summary">핵심 요약
+감성 뷰티 브랜드 '누그레이(nu grey)'가 독창적인 디자인의 '세모 탭 치크' 신규 컬렉션을 선보이며 화제를 모으고 있다. 뷰티트래블뉴스의 보도에 따르면 이번 신제품은 기존의 원형이나 사각형 형태에서 벗어난 삼각형 형태의 용기와 감각적인 컬러 구성으로 MZ세대의 취향을 정조준했다. 단순한 메이크업 도구를 ...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-남성여름패션트렌드.html"><img src="https://picsum.photos/seed/9179/1200/630" alt="2026년 봄 여름 남성 패션 트렌드 미리보기 스타일링 팁" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">패션</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-남성여름패션트렌드.html">2026년 봄 여름 남성 패션 트렌드 미리보기 스타일링 팁</a></h2>
+        <p class="post-summary">올해 봄과 여름 시즌을 앞두고 남성분들의 옷차림에도 큰 변화가 찾아올 것 같습니다. 에스콰이어 코리아가 제안하는 2026년 남성 패션 트렌드 핵심은 실용성과 미학의 적절한 조화입니다. 이번 시즌에는 정형화된 수트보다는 좀 더 여유롭고 편안한 실루엣의 아이템들이 각광받을 것으로 보입니다.
+특히 눈에 띄는 것은 기능성 소재를...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-GS샵스타일NOW.html"><img src="https://picsum.photos/seed/5982/1200/630" alt="GS샵 프리미엄 패션 프로그램 스타일NOW 론칭 소식" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">패션</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-GS샵스타일NOW.html">GS샵 프리미엄 패션 프로그램 스타일NOW 론칭 소식</a></h2>
+        <p class="post-summary">쇼핑 트렌드가 빠르게 변화하는 가운데 GS샵에서 새로운 프리미엄 패션 전문 프로그램인 스타일NOW 더김동은을 선보였습니다. 이번 프로그램은 단순히 제품을 판매하는 홈쇼핑을 넘어 시청자들에게 깊이 있는 패션 정보를 제공하는 데 중점을 두었다고 합니다.
+청년일보 보도에 따르면 이번에 론칭한 스타일NOW는 프리미엄 브랜드를 중...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-2026선글라스트렌드.html"><img src="https://picsum.photos/seed/1419/1200/630" alt="2026 선글라스 디자인 5가지 완벽분석! 미니멀리즘 결국 끝?" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">패션</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-2026선글라스트렌드.html">2026 선글라스 디자인 5가지 완벽분석! 미니멀리즘 결국 끝?</a></h2>
+        <p class="post-summary">핵심 요약
+2026년 선글라스 트렌드가 미니멀리즘의 시대가 저물고 '완벽한 글래머(Perfect Glamour)'의 시대로 진입했음을 알리고 있다. 시티매거진의 보도에 따르면 이번 시즌을 정의할 5가지 여성용 선글라스 디자인은 과거의 화려함과 미래지향적 감각이 절묘하게 결합된 형태를 띠고 있다. 작고 심플한 프레임 대신 ...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-2026뷰티트렌드정교함.html"><img src="https://picsum.photos/seed/4992/1200/630" alt="2026-04-02 2026 뷰티 트렌드 핵심: '덜어내는 정교함'과 본연의 미학" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">패션</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-2026뷰티트렌드정교함.html">2026-04-02 2026 뷰티 트렌드 핵심: '덜어내는 정교함'과 본연의 미학</a></h2>
+        <p class="post-summary">핵심 요약
+2026년 뷰티 산업의 화두는 '덜어내는 정교함'으로 요약된다. 과도한 메이크업으로 결점을 가리기보다는, 본연의 피부결을 극대화하여 표현하는 정교한 베이스 메이크업과 미니멀한 포인트가 핵심이다.
+사건/이슈 개요
+최근 글로벌 뷰티 시장은 인위적인 화려함에서 벗어나 건강하고 자연스러운 아름다움을 추구하는 방향으로 ...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-2026뷰티트렌드미니멀.html"><img src="https://picsum.photos/seed/322/1200/630" alt="2026 뷰티 키워드는 덜어내는 정교함 스킵케어의 진화" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">패션</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-2026뷰티트렌드미니멀.html">2026 뷰티 키워드는 덜어내는 정교함 스킵케어의 진화</a></h2>
+        <p class="post-summary">화장대를 가득 채운 화장품을 하나하나 다 바르던 시대는 지나가고 있습니다. 2026년 뷰티 트렌드의 핵심은 많이 바르는 것보다 꼭 필요한 것만 골라 바르는 덜어내는 정교함이라고 합니다. 뷰티경제의 보도에 따르면 이제 소비자들은 복잡한 단계의 스킨케어 대신 피부에 꼭 필요한 성분에만 집중하고 있습니다.
+단순히 단계를 줄이는...</p>
+      </div>
+    </article>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 오늘의 뉴스 브리핑</p>
+    </div>
+  </footer>
+</body>
+</html>

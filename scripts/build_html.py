@@ -2,6 +2,7 @@
 """
 Python 정적 사이트 빌더 — Apple-inspired Design
 content/posts/*.md → public/*.html
+카테고리별 게시판 + 메인 페이지
 """
 
 import os
@@ -9,6 +10,7 @@ import re
 import json
 from pathlib import Path
 from datetime import datetime
+from collections import defaultdict
 
 SCRIPT_DIR = Path(__file__).parent.resolve()
 BLOG_DIR = SCRIPT_DIR.parent
@@ -19,13 +21,41 @@ CSS_FILE = STATIC_DIR / "css" / "style.css"
 
 SITE_TITLE = "오늘의 뉴스 브리핑"
 
+# 메인 페이지 노출 게시물 수
+MAIN_PAGE_LIMIT = 50
+
+# 카테고리 정의 (slug → 표시 이름)
+CATEGORIES = {
+    "all": "전체",
+    "politics": "정치",
+    "society": "사회",
+    "economy": "경제",
+    "entertainment": "연예",
+    "life": "생활",
+    "it": "IT",
+    "sports": "스포츠",
+    "fashion": "패션",
+}
+
+# 한글 카테고리명 → slug 매핑
+CATEGORY_TO_SLUG = {
+    "정치": "politics",
+    "사회": "society",
+    "경제": "economy",
+    "연예": "entertainment",
+    "생활": "life",
+    "IT": "it",
+    "스포츠": "sports",
+    "패션": "fashion",
+    "Sports": "sports",
+}
+
 
 # ─── Markdown → HTML ──────────────────────────────────────────────────────────
 def md_to_html(text):
     lines = text.split("\n")
     html_lines = []
     in_ul = False
-    in_ol = False
 
     for line in lines:
         stripped = line.strip()
@@ -133,16 +163,32 @@ def html_head(title, description="", thumbnail="", is_article=False):
 <body>"""
 
 
-def html_header():
+def category_nav_html(active_slug="all"):
+    """카테고리 네비게이션 바 생성"""
+    nav_items = ""
+    for slug, name in CATEGORIES.items():
+        href = "index.html" if slug == "all" else f"category-{slug}.html"
+        active = ' class="active"' if slug == active_slug else ""
+        nav_items += f'<a href="{href}"{active}>{name}</a>\n        '
+    return f"""
+  <nav class="category-nav">
+    <div class="container">
+      {nav_items}
+    </div>
+  </nav>"""
+
+
+def html_header(active_category="all"):
     return f"""
   <header class="site-header">
     <div class="container">
       <a href="index.html" class="site-title">{SITE_TITLE}</a>
       <nav>
-        <a href="index.html">최신</a>
+        <a href="index.html">홈</a>
       </nav>
     </div>
-  </header>"""
+  </header>
+  {category_nav_html(active_category)}"""
 
 
 def html_footer():
@@ -170,6 +216,9 @@ def render_post(meta, body_html):
     tags_html = " ".join(f'<span class="tag">#{t}</span>' for t in tags) if tags else ""
     tags_footer = " ".join(f'<a class="tag">#{t}</a>' for t in tags) if tags else ""
 
+    # 카테고리 slug 찾기
+    cat_slug = CATEGORY_TO_SLUG.get(category, "all")
+
     hero = ""
     if thumbnail:
         hero = f"""
@@ -178,7 +227,7 @@ def render_post(meta, body_html):
       </div>"""
 
     return f"""{html_head(f"{title} — {SITE_TITLE}", title, thumbnail, True)}
-{html_header()}
+{html_header(cat_slug)}
   <main class="container">
     <article class="post-single">
       <header class="post-header">
@@ -201,11 +250,11 @@ def render_post(meta, body_html):
 {html_footer()}"""
 
 
-def render_index(posts):
+def render_post_cards(posts, show_featured=True):
+    """게시물 카드 HTML 생성"""
     cards = ""
     for i, p in enumerate(posts):
-        if i == 0:
-            # Featured post (first)
+        if i == 0 and show_featured:
             thumb_html = ""
             if p.get("thumbnail"):
                 thumb_html = f'<div class="featured-image"><img src="{p["thumbnail"]}" alt="{p["title"]}" loading="lazy"></div>'
@@ -238,13 +287,48 @@ def render_index(posts):
         <p class="post-summary">{p.get('summary', '')}</p>
       </div>
     </article>"""
+    return cards
+
+
+def render_index(posts, limit=MAIN_PAGE_LIMIT):
+    """메인 페이지 (전체, 최신 N개)"""
+    display_posts = posts[:limit]
+    cards = render_post_cards(display_posts, show_featured=True)
+
+    more_html = ""
+    if len(posts) > limit:
+        more_html = f"""
+    <div style="text-align:center;margin:48px 0;">
+      <p style="color:var(--gray-700,#6e6e73);font-size:15px;">
+        전체 {len(posts)}개 게시물 중 최신 {limit}개를 표시합니다.
+        카테고리별로 더 많은 게시물을 확인하세요.
+      </p>
+    </div>"""
 
     return f"""{html_head(SITE_TITLE, "최신 뉴스를 빠르고 정확하게")}
-{html_header()}
+{html_header("all")}
   <main class="container">
     <div class="post-list">
       <h1>오늘의 뉴스</h1>
       <p class="post-list-subtitle">최신 뉴스를 빠르고 정확하게 전달합니다.</p>
+      {cards}
+      {more_html}
+    </div>
+  </main>
+{html_footer()}"""
+
+
+def render_category_page(cat_slug, cat_name, posts):
+    """카테고리별 게시판 페이지"""
+    cards = render_post_cards(posts, show_featured=True)
+    count = len(posts)
+
+    return f"""{html_head(f"{cat_name} — {SITE_TITLE}", f"{cat_name} 카테고리 뉴스")}
+{html_header(cat_slug)}
+  <main class="container">
+    <div class="post-list">
+      <h1>{cat_name}</h1>
+      <p class="post-list-subtitle">{cat_name} 관련 뉴스 {count}건</p>
       {cards}
     </div>
   </main>
@@ -284,6 +368,11 @@ def build():
         slug = meta.get("slug", md_file.stem).strip('"')
         summary = re.sub(r"<[^>]+>", "", body_html)[:180] + "..."
 
+        # 카테고리 정규화
+        raw_cat = meta.get("category", "").strip()
+        cat_slug = CATEGORY_TO_SLUG.get(raw_cat, "")
+        display_cat = raw_cat if raw_cat else "일반"
+
         page_html = render_post(meta, body_html)
         out_path = PUBLIC_DIR / f"{slug}.html"
         out_path.write_text(page_html, encoding="utf-8")
@@ -298,7 +387,8 @@ def build():
         posts.append({
             "title": meta.get("title", ""),
             "date": meta.get("date", ""),
-            "category": meta.get("category", ""),
+            "category": display_cat,
+            "cat_slug": cat_slug,
             "thumbnail": meta.get("thumbnail", ""),
             "slug": slug,
             "summary": summary,
@@ -308,9 +398,27 @@ def build():
     # md 파일 생성 시간 기준 역순 정렬 (최신 파일이 위)
     posts.sort(key=lambda x: x["file_ctime"], reverse=True)
 
-    index_html = render_index(posts)
+    # ── 메인 페이지 (전체, 최신 N개) ──
+    index_html = render_index(posts, MAIN_PAGE_LIMIT)
     (PUBLIC_DIR / "index.html").write_text(index_html, encoding="utf-8")
-    print(f"  완료: {len(posts)}개 포스트, index.html 생성")
+    print(f"  메인 페이지: 최신 {min(len(posts), MAIN_PAGE_LIMIT)}개 / 전체 {len(posts)}개")
+
+    # ── 카테고리별 게시판 페이지 ──
+    cat_posts = defaultdict(list)
+    for p in posts:
+        if p["cat_slug"]:
+            cat_posts[p["cat_slug"]].append(p)
+
+    for cat_slug, cat_name in CATEGORIES.items():
+        if cat_slug == "all":
+            continue
+        cat_page_posts = cat_posts.get(cat_slug, [])
+        cat_html = render_category_page(cat_slug, cat_name, cat_page_posts)
+        out_path = PUBLIC_DIR / f"category-{cat_slug}.html"
+        out_path.write_text(cat_html, encoding="utf-8")
+        print(f"  카테고리 [{cat_name}]: {len(cat_page_posts)}개")
+
+    print(f"  완료!")
 
 
 if __name__ == "__main__":
