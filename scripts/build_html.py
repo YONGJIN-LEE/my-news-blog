@@ -288,6 +288,13 @@ def build():
         out_path = PUBLIC_DIR / f"{slug}.html"
         out_path.write_text(page_html, encoding="utf-8")
 
+        # md 파일 생성 시간 (macOS: st_birthtime, Linux: st_mtime fallback)
+        stat = md_file.stat()
+        try:
+            file_ctime = stat.st_birthtime
+        except AttributeError:
+            file_ctime = stat.st_mtime
+
         posts.append({
             "title": meta.get("title", ""),
             "date": meta.get("date", ""),
@@ -295,10 +302,11 @@ def build():
             "thumbnail": meta.get("thumbnail", ""),
             "slug": slug,
             "summary": summary,
+            "file_ctime": file_ctime,
         })
 
-    # 날짜 기준 역순 정렬
-    posts.sort(key=lambda x: x["date"], reverse=True)
+    # md 파일 생성 시간 기준 역순 정렬 (최신 파일이 위)
+    posts.sort(key=lambda x: x["file_ctime"], reverse=True)
 
     index_html = render_index(posts)
     (PUBLIC_DIR / "index.html").write_text(index_html, encoding="utf-8")
