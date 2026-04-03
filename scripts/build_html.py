@@ -251,11 +251,11 @@ def render_post(meta, body_html):
     # 카테고리 slug 찾기
     cat_slug = CATEGORY_TO_SLUG.get(category, "all")
 
-    hero = ""
-    if thumbnail:
-        hero = f"""
+    hero_src = thumbnail or placeholder_svg(category, 720, 360)
+    hero_img = img_with_fallback(hero_src, title, category)
+    hero = f"""
       <div class="post-hero">
-        <img src="{thumbnail}" alt="{title}" loading="lazy">
+        {hero_img}
       </div>"""
 
     return f"""{html_head(f"{title} — {SITE_TITLE}", title, thumbnail, True)}
@@ -282,38 +282,73 @@ def render_post(meta, body_html):
 {html_footer()}"""
 
 
+# 카테고리별 플레이스홀더 색상
+CATEGORY_COLORS = {
+    "정치": ("#1a1a2e", "#16213e", "정치"),
+    "사회": ("#2d3436", "#636e72", "사회"),
+    "경제": ("#0a3d62", "#3c6382", "경제"),
+    "연예": ("#6c5ce7", "#a29bfe", "연예"),
+    "생활": ("#00b894", "#55efc4", "생활"),
+    "IT": ("#0984e3", "#74b9ff", "IT"),
+    "스포츠": ("#d63031", "#ff7675", "스포츠"),
+    "패션": ("#e17055", "#fab1a0", "패션"),
+    "사건사고": ("#2d3436", "#b2bec3", "사건사고"),
+}
+
+
+def placeholder_svg(category, width=400, height=220):
+    """카테고리별 SVG 플레이스홀더 생성 (data URI)"""
+    colors = CATEGORY_COLORS.get(category, ("#6c757d", "#adb5bd", category or "뉴스"))
+    c1, c2, label = colors
+    svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}">
+<defs><linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+<stop offset="0%" style="stop-color:{c1}"/><stop offset="100%" style="stop-color:{c2}"/>
+</linearGradient></defs>
+<rect width="{width}" height="{height}" fill="url(#g)" rx="12"/>
+<text x="50%" y="50%" font-family="sans-serif" font-size="28" font-weight="600"
+fill="rgba(255,255,255,0.85)" text-anchor="middle" dy=".35em">{label}</text></svg>'''
+    import base64
+    b64 = base64.b64encode(svg.encode()).decode()
+    return f"data:image/svg+xml;base64,{b64}"
+
+
+def img_with_fallback(src, alt, category, loading="lazy", extra_class=""):
+    """이미지 태그 + onerror 폴백"""
+    fallback = placeholder_svg(category)
+    cls = f' class="{extra_class}"' if extra_class else ''
+    return f'<img src="{src}" alt="{alt}" loading="{loading}"{cls} onerror="this.onerror=null;this.src=\'{fallback}\'">'
+
+
 def render_post_cards(posts, show_featured=True):
     """게시물 카드 HTML 생성"""
     cards = ""
     for i, p in enumerate(posts):
         date_val = p['date'][:10]
+        cat = p.get('category', '')
+        thumb_src = p.get("thumbnail") or placeholder_svg(cat)
+
         if i == 0 and show_featured:
-            thumb_html = ""
-            if p.get("thumbnail"):
-                thumb_html = f'<div class="featured-image"><img src="{p["thumbnail"]}" alt="{p["title"]}" loading="lazy"></div>'
+            img_tag = img_with_fallback(thumb_src, p["title"], cat)
             cards += f"""
     <article class="post-featured">
       <div class="post-meta-top">
-        <span class="post-category">{p.get('category', '')}</span>
+        <span class="post-category">{cat}</span>
         <span class="post-date" data-date="{date_val}">{date_val}</span>
       </div>
-      {thumb_html}
+      <div class="featured-image">{img_tag}</div>
       <h2><a href="{p['slug']}.html">{p['title']}</a></h2>
       <p class="post-summary">{p.get('summary', '')}</p>
     </article>"""
         else:
-            thumb = ""
-            if p.get("thumbnail"):
-                thumb = f'''<div class="post-thumb">
-              <a href="{p['slug']}.html"><img src="{p['thumbnail']}" alt="{p['title']}" loading="lazy"></a>
-            </div>'''
-
+            img_tag = img_with_fallback(thumb_src, p["title"], cat)
             cards += f"""
     <article class="post-card">
-      {thumb}
+      <div class="post-thumb">
+        <a href="{p['slug']}.html">{img_tag}</a>
+      </div>
       <div class="post-info">
         <div class="post-meta-top">
-          <span class="post-category">{p.get('category', '')}</span>
+          <span class="post-category">{cat}</span>
           <span class="post-date" data-date="{date_val}">{date_val}</span>
         </div>
         <h2><a href="{p['slug']}.html">{p['title']}</a></h2>
