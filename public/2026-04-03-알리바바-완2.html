@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>알리바바 완2.7 공개 이미지 생성 AI 끝판왕 등판 3가지 특징 총정리 — 오늘의 뉴스 브리핑</title>
+  <meta name="description" content="알리바바 완2.7 공개 이미지 생성 AI 끝판왕 등판 3가지 특징 총정리">
+  <meta property="og:title" content="알리바바 완2.7 공개 이미지 생성 AI 끝판왕 등판 3가지 특징 총정리 — 오늘의 뉴스 브리핑">
+  <meta property="og:description" content="알리바바 완2.7 공개 이미지 생성 AI 끝판왕 등판 3가지 특징 총정리">
+  
+  <meta property="og:type" content="article">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <style>/* ═══════════════════════════════════════════════════════════════
+   Apple-inspired News Blog — 오늘의 뉴스 브리핑
+   Clean, minimal, content-first design
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ─── Web Fonts ─── */
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* ─── Reset & Typography ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --black: #1d1d1f;
+  --gray-900: #2d2d2f;
+  --gray-700: #6e6e73;
+  --gray-500: #86868b;
+  --gray-300: #d2d2d7;
+  --gray-100: #f5f5f7;
+  --white: #ffffff;
+  --blue: #0071e3;
+  --blue-hover: #0077ed;
+  --max-width: 720px;
+  --font-sans: 'Pretendard Variable', 'Pretendard', 'Inter', -apple-system,
+               BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-sans);
+  line-height: 1.65;
+  color: var(--black);
+  background: var(--white);
+  letter-spacing: -0.01em;
+  word-break: keep-all;
+}
+
+a { color: var(--blue); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+img { max-width: 100%; height: auto; display: block; }
+
+/* ─── Navigation ─── */
+.site-header {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+}
+
+.site-header .container {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 22px;
+  height: 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.site-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--black);
+  letter-spacing: -0.01em;
+}
+
+.site-title:hover { text-decoration: none; }
+
+.site-header nav { display: flex; gap: 28px; }
+
+.site-header nav a {
+  font-size: 0.8rem;
+  color: var(--gray-700);
+  letter-spacing: -0.01em;
+  transition: color 0.2s;
+}
+
+.site-header nav a:hover { color: var(--black); text-decoration: none; }
+
+/* ─── Category Navigation ─── */
+.category-nav {
+  background: var(--gray-100);
+  border-bottom: 1px solid var(--gray-300);
+  position: sticky;
+  top: 48px;
+  z-index: 9998;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.category-nav::-webkit-scrollbar { display: none; }
+.category-nav { -ms-overflow-style: none; scrollbar-width: none; }
+
+.category-nav .container {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 22px;
+  display: flex;
+  gap: 4px;
+  height: 44px;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.category-nav a {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--gray-700);
+  padding: 6px 14px;
+  border-radius: 20px;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.category-nav a:hover {
+  color: var(--black);
+  background: rgba(0, 0, 0, 0.05);
+  text-decoration: none;
+}
+
+.category-nav a.active {
+  color: var(--white);
+  background: var(--black);
+}
+
+.category-nav a.active:hover {
+  color: var(--white);
+  background: var(--gray-900);
+}
+
+/* ─── Main Container ─── */
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 22px;
+}
+
+/* ─── Post List (Index Page) ─── */
+.post-list h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  margin: 56px 0 8px;
+  color: var(--black);
+}
+
+.post-list-subtitle {
+  font-size: 0.95rem;
+  color: var(--gray-500);
+  margin-bottom: 40px;
+}
+
+.post-card {
+  display: flex;
+  gap: 24px;
+  padding: 28px 0;
+  border-top: 1px solid var(--gray-300);
+  transition: opacity 0.2s;
+}
+
+.post-card:last-child { border-bottom: 1px solid var(--gray-300); }
+
+.post-card:hover { opacity: 0.85; }
+
+.post-thumb {
+  flex-shrink: 0;
+  width: 200px;
+  height: 134px;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.post-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.post-card:hover .post-thumb img { transform: scale(1.03); }
+
+.post-info { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+
+.post-meta-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.post-category {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--blue);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.post-date {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+.post-date-relative {
+  font-size: 0.72rem;
+  color: var(--blue);
+  font-weight: 500;
+  margin-left: 6px;
+}
+
+.post-meta .post-date-relative {
+  margin-left: 8px;
+  font-size: 0.82rem;
+}
+
+.post-info h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.45;
+  letter-spacing: -0.015em;
+  margin-bottom: 6px;
+}
+
+.post-info h2 a { color: var(--black); }
+.post-info h2 a:hover { color: var(--blue); text-decoration: none; }
+
+.post-summary {
+  font-size: 0.85rem;
+  color: var(--gray-700);
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ─── Featured Post (Top of list) ─── */
+.post-featured {
+  padding: 40px 0 32px;
+  border-bottom: 1px solid var(--gray-300);
+  margin-bottom: 8px;
+}
+
+.post-featured .featured-image {
+  width: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.post-featured .featured-image img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+}
+
+.post-featured h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.35;
+  margin-bottom: 8px;
+}
+
+.post-featured h2 a { color: var(--black); }
+.post-featured h2 a:hover { color: var(--blue); text-decoration: none; }
+
+/* ─── Single Post ─── */
+.post-single {
+  padding: 48px 0 64px;
+}
+
+.post-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.post-header .post-category {
+  font-size: 0.75rem;
+  display: inline-block;
+  margin-bottom: 12px;
+}
+
+.post-header h1 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.3;
+  color: var(--black);
+  margin-bottom: 16px;
+  word-break: keep-all;
+}
+
+.post-meta {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  align-items: center;
+  color: var(--gray-500);
+  font-size: 0.85rem;
+}
+
+.post-hero {
+  margin: 0 0 40px;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.post-hero img {
+  width: 100%;
+  max-height: 480px;
+  object-fit: cover;
+}
+
+/* ─── Post Content ─── */
+.post-content {
+  font-size: 1.05rem;
+  line-height: 1.85;
+  color: var(--gray-900);
+  word-break: keep-all;
+}
+
+.post-content h2 {
+  font-size: 1.45rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 48px 0 16px;
+  color: var(--black);
+}
+
+.post-content h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  margin: 36px 0 12px;
+  color: var(--black);
+}
+
+.post-content p {
+  margin: 16px 0;
+}
+
+.post-content ul, .post-content ol {
+  margin: 16px 0;
+  padding-left: 24px;
+}
+
+.post-content li {
+  margin: 8px 0;
+  line-height: 1.7;
+}
+
+.post-content strong {
+  font-weight: 600;
+  color: var(--black);
+}
+
+.post-content blockquote {
+  margin: 28px 0;
+  padding: 20px 24px;
+  background: var(--gray-100);
+  border-radius: 12px;
+  color: var(--gray-700);
+  font-size: 1rem;
+}
+
+.post-content img {
+  margin: 32px auto;
+  border-radius: 12px;
+}
+
+.post-content hr {
+  border: none;
+  height: 1px;
+  background: var(--gray-300);
+  margin: 40px 0;
+}
+
+/* ─── Tags ─── */
+.post-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.tag {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+.post-tags-footer {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--gray-300);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.post-tags-footer .tag {
+  background: var(--gray-100);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  color: var(--gray-700);
+  transition: background 0.2s;
+}
+
+.post-tags-footer .tag:hover {
+  background: var(--gray-300);
+  text-decoration: none;
+}
+
+/* ─── Post Navigation ─── */
+.post-nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 24px 0 48px;
+  font-size: 0.85rem;
+  border-top: 1px solid var(--gray-300);
+  margin-top: 32px;
+}
+
+.post-nav a { color: var(--blue); }
+
+/* ─── Footer ─── */
+.site-footer {
+  background: var(--gray-100);
+  border-top: 1px solid var(--gray-300);
+}
+
+.site-footer .container {
+  max-width: 980px;
+  padding: 20px 22px;
+  text-align: center;
+}
+
+.site-footer p {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+/* ─── Pagination ─── */
+.pagination-nav {
+  margin: 48px 0 24px;
+  text-align: center;
+}
+
+.pagination {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  list-style: none;
+  padding: 0;
+}
+
+.pagination li a, .pagination li span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 40px;
+  padding: 0 12px;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--gray-700);
+  transition: all 0.2s;
+}
+
+.pagination li a:hover {
+  background: var(--gray-100);
+  color: var(--black);
+  text-decoration: none;
+}
+
+.pagination li span.active {
+  background: var(--black);
+  color: var(--white);
+}
+
+.pagination .page-dots {
+  color: var(--gray-500);
+  min-width: 32px;
+  font-size: 0.9rem;
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 640px) {
+  .post-card {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .post-thumb {
+    width: 100%;
+    height: 200px;
+    border-radius: 12px;
+  }
+
+  .post-list h1 { font-size: 1.6rem; margin-top: 32px; }
+
+  .post-header h1 { font-size: 1.6rem; }
+
+  .post-single { padding: 32px 0 48px; }
+
+  .post-featured .featured-image img { height: 240px; }
+  .post-featured h2 { font-size: 1.3rem; }
+
+  .post-content { font-size: 1rem; }
+}
+</style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="index.html" class="site-title">오늘의 뉴스 브리핑</a>
+      <nav>
+        <a href="index.html">홈</a>
+      </nav>
+    </div>
+  </header>
+  
+  <nav class="category-nav">
+    <div class="container">
+      <a href="index.html">전체</a>
+        <a href="category-politics.html">정치</a>
+        <a href="category-society.html">사회</a>
+        <a href="category-economy.html">경제</a>
+        <a href="category-entertainment.html">연예</a>
+        <a href="category-life.html">생활</a>
+        <a href="category-it.html" class="active">IT</a>
+        <a href="category-sports.html">스포츠</a>
+        <a href="category-fashion.html">패션</a>
+        
+    </div>
+  </nav>
+  <main class="container">
+    <article class="post-single">
+      <header class="post-header">
+        <span class="post-category">IT</span>
+        <h1>알리바바 완2.7 공개 이미지 생성 AI 끝판왕 등판 3가지 특징 총정리</h1>
+        <div class="post-meta">
+          <time datetime="2026-04-03">2026-04-03</time>
+          <div class="post-tags"><span class="tag">#알리바바</span> <span class="tag">#완2</span> <span class="tag">#Wan2</span> <span class="tag">#이미지생성AI</span> <span class="tag">#알리바바클라우드</span> <span class="tag">#생성형AI</span> <span class="tag">#텍스트투이미지</span> <span class="tag">#오픈소스AI</span> <span class="tag">#디자인혁신</span> <span class="tag">#인공지능그림</span> <span class="tag">#AI모델공개</span> <span class="tag">#미드저니</span> <span class="tag">#DALL</span> <span class="tag">#테크동향</span> <span class="tag">#미래기술</span> <span class="tag">#딥러닝</span> <span class="tag">#IT뉴스</span></div>
+        </div>
+      </header>
+      
+      <div class="post-content">
+        <h1>알리바바 완2.7 공개 이미지 생성 AI 끝판왕 등판 3가지 특징 총정리</h1>
+<h2>핵심 요약</h2>
+<p>중국의 거대 IT 기업 알리바바가 차세대 이미지 생성 AI 모델인 '완(Wan) 2.7'을 전격 공개했다. 이번 모델은 기존의 한계를 뛰어넘는 개인화 기능과 정밀 제어 능력을 갖추어, 디자인 및 콘텐츠 제작 업계에 거센 돌풍을 예고하고 있다. 텍스트를 기반으로 고품질 이미지를 생성하는 기술이 임계점을 넘었다는 평가가 지배적이다.</p>
+<h2>사건 개요</h2>
+<p>지난 4월 2일, IT조선의 보도에 따르면 알리바바 클라우드는 최신 이미지 생성 AI 모델 '완 2.7'을 공식 릴리스했다. 취재 결과, 이번 신기술은 사용자가 의도한 세밀한 묘사를 오차 없이 구현해내는 데 초점을 맞추었으며, 복잡한 구도와 질감 표현에서도 압도적인 성능을 보여준 것으로 확인되었다. 특히 오픈 소스 형태로 공개되어 전 세계 개발자들이 자유롭게 활용할 수 있다는 점이 큰 파장을 일으키고 있다. 알리바바의 이번 행보는 미국의 오픈AI와 미드저니가 주도하던 이미지 생성 AI 시장에 강력한 도전장을 내민 것으로 풀이된다.</p>
+<h2>상세 내용</h2>
+<h3>개인화 기능의 획기적 강화</h3>
+<p>완 2.7의 가장 큰 특징은 사용자의 개별적인 스타일을 학습하고 이를 반영하는 능력이 탁월하다는 점이다. 기존 모델들이 범용적인 이미지를 생성하는 데 그쳤다면, 완 2.7은 특정 아티스트의 화풍이나 기업의 브랜드 가이드라인을 완벽하게 소화해낸다. 확인해보니, 단 몇 장의 샘플 이미지만으로도 해당 스타일을 복제하여 새로운 이미지를 생성할 수 있는 '스타일 트랜스퍼' 기능이 한층 정교해졌다. 이는 맞춤형 광고 이미지 제작이나 개인화된 웹 디자인 분야에서 혁신적인 도구가 될 전망이다.</p>
+<h3>텍스트 이해 및 정밀 제어 능력의 진화</h3>
+<p>사용자의 명령어를 이해하는 문맥 파악 능력이 비약적으로 향상되었다. '창문 너머로 비치는 햇살과 그 아래에서 졸고 있는 고양이의 털 질감'과 같은 복잡하고 구체적인 요구 사항도 완벽하게 시각화한다. 특히 인물의 손동작이나 복잡한 배경의 원근감 등 기존 AI들이 흔히 실수하던 부분들을 대폭 개선했다는 점이 눈길을 끈다. 실제 성능 테스트 결과, 완 2.7은 텍스트 지시문과의 일치율 측면에서 업계 최고 수준을 기록한 것으로 알려졌다.</p>
+<h3>고해상도 출력 및 실시간 편집 지원</h3>
+<p>이번 모델은 기본적으로 초고해상도 이미지 출력을 지원하며, 생성된 이미지의 특정 부분만을 선택하여 수정할 수 있는 실시간 인페인팅(Inpainting) 기능을 제공한다. 예를 들어, 이미 생성된 강아지 이미지에서 귀의 모양만 바꾸거나 배경의 색상을 즉석에서 변경하는 작업이 가능하다. 이러한 실시간 상호작용은 전문 디자이너들의 작업 시간을 획기적으로 단축시켜줄 수 있는 핵심 경쟁력이다.</p>
+<h3>오픈 소스 생태계로의 과감한 확장</h3>
+<p>알리바바는 완 2.7 모델의 핵심 가중치를 외부에 공개하며 생태계 확장에 나섰다. 이는 글로벌 개발자 커뮤니티의 참여를 유도하여 모델의 성능을 빠르게 개선하고, 자사의 클라우드 서비스 이용자를 늘리려는 고도의 전략이다. 취재 결과, 이미 깃허브(GitHub) 등 개발자 플랫폼에는 완 2.7을 활용한 다양한 응용 프로그램들이 쏟아져 나오고 있다. 이는 폐쇄적인 운영 방침을 고수하는 일부 경쟁사들과 대비되는 행보로, 시장의 판도를 바꾸는 변수가 될 수 있다.</p>
+<h2>왜 주목받나?</h2>
+<p>혹시 이 소식 들으셨나요? 이미지 생성 AI가 이제는 '진짜 전문가'의 영역을 넘보고 있다. 이번 완 2.7의 공개가 주목받는 이유는 단순히 그림을 잘 그리기 때문이 아니라, 사용자의 의도를 '정밀하게' 구현할 수 있기 때문이다. 그동안 AI가 생성한 이미지는 '예쁘지만 쓸 수는 없는' 경우가 많았으나, 이제는 상용화가 가능한 수준의 제어력이 확보되었다. 또한 중국 기술력이 글로벌 오픈 소스 시장을 주도하기 시작했다는 점도 간과할 수 없는 대목이다.</p>
+<h2>앞으로의 전망</h2>
+<p>이미지 생성 AI 시장은 더욱 치열한 기술 경쟁 국면으로 접어들 전망이다. 알리바바의 공세에 자극받은 오픈AI와 구글 등도 조만간 성능이 개선된 차세대 모델을 내놓을 것으로 보인다. 장기적으로는 2D 이미지를 넘어 3D 공간 생성이나 고품질 영상 제작 AI와 결합하여 메타버스 및 게임 산업의 제작 파이프라인을 완전히 혁신할 것이다. 저작권 문제와 딥페이크 악용 가능성에 대한 법적 가이드라인 마련도 함께 가속화될 것으로 예상된다.</p>
+<h2>마무리</h2>
+<p>지금까지 알리바바의 새로운 이미지 생성 AI 완 2.7에 대해 상세히 알아보았다. 기술의 발전 속도가 무서울 정도로 빠르다. 이제는 상상하는 모든 것이 이미지가 되는 시대가 머지않은 것 같다. 여러분은 AI가 만든 이미지가 예술의 영역을 대체할 수 있다고 보시나요? 아니면 여전히 인간의 창의성이 필요한 영역이 남아있다고 생각하시나요? 여러분의 흥미로운 의견을 댓글로 들려주세요.</p>
+<p><strong>태그:</strong> #알리바바 #완2.7 #Wan2.7 #이미지생성AI #알리바바클라우드 #생성형AI #텍스트투이미지 #오픈소스AI #디자인혁신 #인공지능그림 #AI모델공개 #미드저니 #DALL-E #테크동향 #미래기술 #딥러닝 #IT뉴스</p>
+      </div>
+      <footer class="post-footer">
+        <div class="post-tags-footer"><a class="tag">#알리바바</a> <a class="tag">#완2</a> <a class="tag">#Wan2</a> <a class="tag">#이미지생성AI</a> <a class="tag">#알리바바클라우드</a> <a class="tag">#생성형AI</a> <a class="tag">#텍스트투이미지</a> <a class="tag">#오픈소스AI</a> <a class="tag">#디자인혁신</a> <a class="tag">#인공지능그림</a> <a class="tag">#AI모델공개</a> <a class="tag">#미드저니</a> <a class="tag">#DALL</a> <a class="tag">#테크동향</a> <a class="tag">#미래기술</a> <a class="tag">#딥러닝</a> <a class="tag">#IT뉴스</a></div>
+      </footer>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 오늘의 뉴스 브리핑</p>
+    </div>
+  </footer>
+
+<script>
+(function(){
+  function relTime(dateStr){
+    var d = new Date(dateStr + 'T09:00:00+09:00');
+    var now = new Date();
+    var diff = Math.floor((now - d) / 1000);
+    if(diff < 0) return '';
+    if(diff < 60) return '방금 전';
+    if(diff < 3600) return Math.floor(diff/60) + '분 전';
+    if(diff < 86400) return Math.floor(diff/3600) + '시간 전';
+    if(diff < 604800) return Math.floor(diff/86400) + '일 전';
+    if(diff < 2592000) return Math.floor(diff/604800) + '주 전';
+    return '';
+  }
+  document.querySelectorAll('.post-date[data-date]').forEach(function(el){
+    var r = relTime(el.getAttribute('data-date'));
+    if(r) el.insertAdjacentHTML('afterend', '<span class="post-date-relative">' + r + '</span>');
+  });
+  document.querySelectorAll('time[datetime]').forEach(function(el){
+    var r = relTime(el.getAttribute('datetime'));
+    if(r) el.insertAdjacentHTML('afterend', '<span class="post-date-relative">' + r + '</span>');
+  });
+})();
+</script>
+</body>
+</html>

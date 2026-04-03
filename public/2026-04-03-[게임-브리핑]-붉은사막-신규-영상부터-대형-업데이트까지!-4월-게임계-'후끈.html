@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>[게임 브리핑] 붉은사막 신규 영상부터 대형 업데이트까지! 4월 게임계 '후끈 — 오늘의 뉴스 브리핑</title>
+  <meta name="description" content="[게임 브리핑] 붉은사막 신규 영상부터 대형 업데이트까지! 4월 게임계 '후끈">
+  <meta property="og:title" content="[게임 브리핑] 붉은사막 신규 영상부터 대형 업데이트까지! 4월 게임계 '후끈 — 오늘의 뉴스 브리핑">
+  <meta property="og:description" content="[게임 브리핑] 붉은사막 신규 영상부터 대형 업데이트까지! 4월 게임계 '후끈">
+  
+  <meta property="og:type" content="article">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <style>/* ═══════════════════════════════════════════════════════════════
+   Apple-inspired News Blog — 오늘의 뉴스 브리핑
+   Clean, minimal, content-first design
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ─── Web Fonts ─── */
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* ─── Reset & Typography ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --black: #1d1d1f;
+  --gray-900: #2d2d2f;
+  --gray-700: #6e6e73;
+  --gray-500: #86868b;
+  --gray-300: #d2d2d7;
+  --gray-100: #f5f5f7;
+  --white: #ffffff;
+  --blue: #0071e3;
+  --blue-hover: #0077ed;
+  --max-width: 720px;
+  --font-sans: 'Pretendard Variable', 'Pretendard', 'Inter', -apple-system,
+               BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-sans);
+  line-height: 1.65;
+  color: var(--black);
+  background: var(--white);
+  letter-spacing: -0.01em;
+  word-break: keep-all;
+}
+
+a { color: var(--blue); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+img { max-width: 100%; height: auto; display: block; }
+
+/* ─── Navigation ─── */
+.site-header {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+}
+
+.site-header .container {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 22px;
+  height: 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.site-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--black);
+  letter-spacing: -0.01em;
+}
+
+.site-title:hover { text-decoration: none; }
+
+.site-header nav { display: flex; gap: 28px; }
+
+.site-header nav a {
+  font-size: 0.8rem;
+  color: var(--gray-700);
+  letter-spacing: -0.01em;
+  transition: color 0.2s;
+}
+
+.site-header nav a:hover { color: var(--black); text-decoration: none; }
+
+/* ─── Category Navigation ─── */
+.category-nav {
+  background: var(--gray-100);
+  border-bottom: 1px solid var(--gray-300);
+  position: sticky;
+  top: 48px;
+  z-index: 9998;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.category-nav::-webkit-scrollbar { display: none; }
+.category-nav { -ms-overflow-style: none; scrollbar-width: none; }
+
+.category-nav .container {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 22px;
+  display: flex;
+  gap: 4px;
+  height: 44px;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.category-nav a {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--gray-700);
+  padding: 6px 14px;
+  border-radius: 20px;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.category-nav a:hover {
+  color: var(--black);
+  background: rgba(0, 0, 0, 0.05);
+  text-decoration: none;
+}
+
+.category-nav a.active {
+  color: var(--white);
+  background: var(--black);
+}
+
+.category-nav a.active:hover {
+  color: var(--white);
+  background: var(--gray-900);
+}
+
+/* ─── Main Container ─── */
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 22px;
+}
+
+/* ─── Post List (Index Page) ─── */
+.post-list h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  margin: 56px 0 8px;
+  color: var(--black);
+}
+
+.post-list-subtitle {
+  font-size: 0.95rem;
+  color: var(--gray-500);
+  margin-bottom: 40px;
+}
+
+.post-card {
+  display: flex;
+  gap: 24px;
+  padding: 28px 0;
+  border-top: 1px solid var(--gray-300);
+  transition: opacity 0.2s;
+}
+
+.post-card:last-child { border-bottom: 1px solid var(--gray-300); }
+
+.post-card:hover { opacity: 0.85; }
+
+.post-thumb {
+  flex-shrink: 0;
+  width: 200px;
+  height: 134px;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.post-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.post-card:hover .post-thumb img { transform: scale(1.03); }
+
+.post-info { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+
+.post-meta-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.post-category {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--blue);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.post-date {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+.post-date-relative {
+  font-size: 0.72rem;
+  color: var(--blue);
+  font-weight: 500;
+  margin-left: 6px;
+}
+
+.post-meta .post-date-relative {
+  margin-left: 8px;
+  font-size: 0.82rem;
+}
+
+.post-info h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.45;
+  letter-spacing: -0.015em;
+  margin-bottom: 6px;
+}
+
+.post-info h2 a { color: var(--black); }
+.post-info h2 a:hover { color: var(--blue); text-decoration: none; }
+
+.post-summary {
+  font-size: 0.85rem;
+  color: var(--gray-700);
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ─── Featured Post (Top of list) ─── */
+.post-featured {
+  padding: 40px 0 32px;
+  border-bottom: 1px solid var(--gray-300);
+  margin-bottom: 8px;
+}
+
+.post-featured .featured-image {
+  width: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.post-featured .featured-image img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+}
+
+.post-featured h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.35;
+  margin-bottom: 8px;
+}
+
+.post-featured h2 a { color: var(--black); }
+.post-featured h2 a:hover { color: var(--blue); text-decoration: none; }
+
+/* ─── Single Post ─── */
+.post-single {
+  padding: 48px 0 64px;
+}
+
+.post-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.post-header .post-category {
+  font-size: 0.75rem;
+  display: inline-block;
+  margin-bottom: 12px;
+}
+
+.post-header h1 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.3;
+  color: var(--black);
+  margin-bottom: 16px;
+  word-break: keep-all;
+}
+
+.post-meta {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  align-items: center;
+  color: var(--gray-500);
+  font-size: 0.85rem;
+}
+
+.post-hero {
+  margin: 0 0 40px;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.post-hero img {
+  width: 100%;
+  max-height: 480px;
+  object-fit: cover;
+}
+
+/* ─── Post Content ─── */
+.post-content {
+  font-size: 1.05rem;
+  line-height: 1.85;
+  color: var(--gray-900);
+  word-break: keep-all;
+}
+
+.post-content h2 {
+  font-size: 1.45rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 48px 0 16px;
+  color: var(--black);
+}
+
+.post-content h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  margin: 36px 0 12px;
+  color: var(--black);
+}
+
+.post-content p {
+  margin: 16px 0;
+}
+
+.post-content ul, .post-content ol {
+  margin: 16px 0;
+  padding-left: 24px;
+}
+
+.post-content li {
+  margin: 8px 0;
+  line-height: 1.7;
+}
+
+.post-content strong {
+  font-weight: 600;
+  color: var(--black);
+}
+
+.post-content blockquote {
+  margin: 28px 0;
+  padding: 20px 24px;
+  background: var(--gray-100);
+  border-radius: 12px;
+  color: var(--gray-700);
+  font-size: 1rem;
+}
+
+.post-content img {
+  margin: 32px auto;
+  border-radius: 12px;
+}
+
+.post-content hr {
+  border: none;
+  height: 1px;
+  background: var(--gray-300);
+  margin: 40px 0;
+}
+
+/* ─── Tags ─── */
+.post-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.tag {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+.post-tags-footer {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--gray-300);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.post-tags-footer .tag {
+  background: var(--gray-100);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  color: var(--gray-700);
+  transition: background 0.2s;
+}
+
+.post-tags-footer .tag:hover {
+  background: var(--gray-300);
+  text-decoration: none;
+}
+
+/* ─── Post Navigation ─── */
+.post-nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 24px 0 48px;
+  font-size: 0.85rem;
+  border-top: 1px solid var(--gray-300);
+  margin-top: 32px;
+}
+
+.post-nav a { color: var(--blue); }
+
+/* ─── Footer ─── */
+.site-footer {
+  background: var(--gray-100);
+  border-top: 1px solid var(--gray-300);
+}
+
+.site-footer .container {
+  max-width: 980px;
+  padding: 20px 22px;
+  text-align: center;
+}
+
+.site-footer p {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+/* ─── Pagination ─── */
+.pagination-nav {
+  margin: 48px 0 24px;
+  text-align: center;
+}
+
+.pagination {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  list-style: none;
+  padding: 0;
+}
+
+.pagination li a, .pagination li span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 40px;
+  padding: 0 12px;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--gray-700);
+  transition: all 0.2s;
+}
+
+.pagination li a:hover {
+  background: var(--gray-100);
+  color: var(--black);
+  text-decoration: none;
+}
+
+.pagination li span.active {
+  background: var(--black);
+  color: var(--white);
+}
+
+.pagination .page-dots {
+  color: var(--gray-500);
+  min-width: 32px;
+  font-size: 0.9rem;
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 640px) {
+  .post-card {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .post-thumb {
+    width: 100%;
+    height: 200px;
+    border-radius: 12px;
+  }
+
+  .post-list h1 { font-size: 1.6rem; margin-top: 32px; }
+
+  .post-header h1 { font-size: 1.6rem; }
+
+  .post-single { padding: 32px 0 48px; }
+
+  .post-featured .featured-image img { height: 240px; }
+  .post-featured h2 { font-size: 1.3rem; }
+
+  .post-content { font-size: 1rem; }
+}
+</style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="index.html" class="site-title">오늘의 뉴스 브리핑</a>
+      <nav>
+        <a href="index.html">홈</a>
+      </nav>
+    </div>
+  </header>
+  
+  <nav class="category-nav">
+    <div class="container">
+      <a href="index.html">전체</a>
+        <a href="category-politics.html">정치</a>
+        <a href="category-society.html">사회</a>
+        <a href="category-economy.html">경제</a>
+        <a href="category-entertainment.html">연예</a>
+        <a href="category-life.html">생활</a>
+        <a href="category-it.html" class="active">IT</a>
+        <a href="category-sports.html">스포츠</a>
+        <a href="category-fashion.html">패션</a>
+        
+    </div>
+  </nav>
+  <main class="container">
+    <article class="post-single">
+      <header class="post-header">
+        <span class="post-category">IT</span>
+        <h1>[게임 브리핑] 붉은사막 신규 영상부터 대형 업데이트까지! 4월 게임계 '후끈</h1>
+        <div class="post-meta">
+          <time datetime="2026-04-03">2026-04-03</time>
+          <div class="post-tags"><span class="tag">#게임뉴스</span> <span class="tag">#붉은사막</span> <span class="tag">#펄어비스</span> <span class="tag">#넥슨업데이트</span> <span class="tag">#엔씨소프트</span> <span class="tag">#인디게임</span> <span class="tag">#스팀추천</span> <span class="tag">#게임행사</span> <span class="tag">#게임리뷰</span> <span class="tag">#차세대게임</span> <span class="tag">#오픈월드</span> <span class="tag">#MMORPG</span> <span class="tag">#게임업계동향</span> <span class="tag">#게이머</span> <span class="tag">#붉은사막영상</span> <span class="tag">#게임추천</span></div>
+        </div>
+      </header>
+      
+      <div class="post-content">
+        <h1>[게임 브리핑] 붉은사막 신규 영상부터 대형 업데이트까지! 4월 게임계 '후끈'</h1>
+<h2>핵심 요약</h2>
+<ul>
+<li>펄어비스의 기대작 '붉은사막'이 새로운 인게임 플레이 영상을 공개하며 전 세계 게이머들의 시선을 사로잡았다.</li>
+<li>넥슨, 엔씨소프트 등 주요 게임사들이 4월을 맞아 대규모 업데이트와 신작 티징을 쏟아내며 시장 선점 경쟁에 돌입했다.</li>
+<li>인디 게임계에서도 혁신적인 시스템을 도입한 화제작들이 연이어 등장하며 다양성을 더하고 있다.</li>
+<li>게임쇼와 커뮤니티 행사가 온·오프라인으로 활발히 개최되어 유저들과의 소통이 강화되는 추세다.</li>
+<li>이번 게임계 소식은 단순한 신작 출시를 넘어 차세대 그래픽과 AI 기술의 접목을 보여주는 지표가 되고 있다.</li>
+</ul>
+<h2>사건 개요</h2>
+<p>2026년 4월 2일, 게임 업계는 그야말로 소식의 홍수 속에 있다. 특히 한국 게임의 자존심이라 불리는 펄어비스의 '붉은사막'이 공개한 새로운 영상은 압도적인 그래픽과 자유도 높은 액션으로 "역대급"이라는 찬사를 이끌어냈다. 이와 동시에 국내외 주요 퍼블리셔들은 봄 시즌을 겨냥한 대형 업데이트 소식을 앞다투어 발표하며 유저 잡기에 나섰다. 신작 부재에 목말랐던 게이머들에게 이번 4월은 그 어느 때보다 풍성한 즐거움을 선사할 것으로 보인다. 게임업계 전반에 흐르는 활기찬 변화와 주요 이슈들을 정리해 보았다.</p>
+<h2>상세 내용</h2>
+<h3>1. 펄어비스 '붉은사막'의 진화: "이것이 차세대 오픈월드다"</h3>
+<p>새롭게 공개된 '붉은사막' 영상은 주인공 클리프가 거대한 몬스터와 사투를 벌이는 장면과 세밀하게 표현된 마을의 일상을 담았다. 특히 지형지물을 활용한 전투 방식과 물리 법칙이 적용된 환경 파괴 효과는 감탄을 자아낸다. 펄어비스가 독자 개발한 '블랙스페이스 엔진'의 위력을 유감없이 보여줬다는 평가다. 유저들은 "출시일만 확정되면 바로 예약 구매하겠다"며 폭발적인 반응을 보이고 있다.</p>
+<h3>2. 넥슨과 엔씨의 상반된 전략: 업데이트 vs 신작 티징</h3>
+<p>넥슨은 자사의 인기 라이브 게임들에 대규모 시즌 업데이트를 단행하며 '장기 집권' 체제를 굳히고 있다. 새로운 레이드 콘텐츠와 캐릭터 각성 시스템을 도입해 복귀 유저들의 호평을 받고 있다. 반면 엔씨소프트는 차세대 MMORPG의 컨셉 아트를 깜짝 공개하며 분위기 반전을 꾀하고 있다. 기존 리니지 IP에서 벗어난 새로운 세계관과 시스템을 예고하며 세대교체에 대한 기대감을 높였다.</p>
+<h3>3. 인디 게임의 약진: "작지만 강력한 아이디어"</h3>
+<p>대형 게임사들의 공세 속에서도 인디 게임들의 활약이 눈부시다. 최근 스팀(Steam)에서 화제가 되고 있는 국내 인디 개발사의 '루나 이클립스'는 독특한 시간 조작 시스템과 감성적인 스토리로 글로벌 차트 상위권에 올랐다. 막대한 자본 대신 참신한 기획력으로 승부하는 인디 게임들이 시장의 활력소가 되고 있으며, 대형 플랫폼들도 이들에 대한 지원을 아끼지 않고 있다.</p>
+<h3>4. 다시 열리는 오프라인 소통: 유저 축제의 장</h3>
+<p>코로나 이후 잠시 주춤했던 게임사들의 오프라인 행사가 4월 들어 절정을 이루고 있다. 유저 간담회는 물론, 게임 음악 오케스트라 공연, 굿즈 팝업 스토어 등 팬덤을 위한 다양한 이벤트가 진행 중이다. 게임사들은 단순히 게임을 서비스하는 것을 넘어, 하나의 문화를 공유하는 경험을 제공함으로써 유저 충성도를 높이려는 전략을 취하고 있다. 현장을 찾는 팬들의 열기 또한 뜨겁다.</p>
+<h2>왜 주목받나?</h2>
+<p>게임 산업은 이제 기술과 예술이 결합된 종합 엔터테인먼트의 정점에 서 있다. 붉은사막이 보여준 기술적 성취는 한국 게임이 글로벌 시장에서 AAA급 게임들과 어깨를 나란히 할 수 있음을 증명한다. 또한, 대형사와 인디사가 공존하며 만들어내는 생태계는 산업의 지속 가능한 성장을 보여준다. 게임이 단순한 오락을 넘어 소통과 문화의 중심이 된 현시점에서, 이러한 변화들은 향후 IT 및 미디어 산업 전체의 흐름을 읽는 중요한 키워드가 된다.</p>
+<h2>앞으로의 전망</h2>
+<p>4월 말에는 더욱 굵직한 신작들의 베타 테스트와 출시 소식이 예정되어 있다. 특히 모바일과 PC, 콘솔을 넘나드는 '크로스 플랫폼' 경쟁이 더욱 치열해질 전망이다. 또한 클라우드 게임 서비스의 안정화와 함께 저사양 기기에서도 고품질 게임을 즐길 수 있는 환경이 확산되면서 유저층은 더욱 넓어질 것으로 보인다. 게임사들의 기술 혁신과 유저 친화적 행보가 어떤 시너지를 낼지 지켜볼 일이다.</p>
+<h2>마무리</h2>
+<p>숨 가쁘게 쏟아지는 게임계 소식들, 여러분은 어떤 소식에 가장 가슴이 뛰시나요? '붉은사막'의 광활한 대륙을 달리는 상상만으로도 즐거워집니다. 게임은 우리에게 단순한 재미를 넘어 새로운 세계를 경험하게 해주는 통로인 것 같습니다. 여러분이 지금 가장 기대하고 있는 게임이나 업데이트가 있다면 댓글로 함께 나누어 주세요!</p>
+<p><strong>태그:</strong> #게임뉴스 #붉은사막 #펄어비스 #넥슨업데이트 #엔씨소프트 #인디게임 #스팀추천 #게임행사 #게임리뷰 #차세대게임 #오픈월드 #MMORPG #게임업계동향 #게이머 #붉은사막영상 #게임추천</p>
+      </div>
+      <footer class="post-footer">
+        <div class="post-tags-footer"><a class="tag">#게임뉴스</a> <a class="tag">#붉은사막</a> <a class="tag">#펄어비스</a> <a class="tag">#넥슨업데이트</a> <a class="tag">#엔씨소프트</a> <a class="tag">#인디게임</a> <a class="tag">#스팀추천</a> <a class="tag">#게임행사</a> <a class="tag">#게임리뷰</a> <a class="tag">#차세대게임</a> <a class="tag">#오픈월드</a> <a class="tag">#MMORPG</a> <a class="tag">#게임업계동향</a> <a class="tag">#게이머</a> <a class="tag">#붉은사막영상</a> <a class="tag">#게임추천</a></div>
+      </footer>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 오늘의 뉴스 브리핑</p>
+    </div>
+  </footer>
+
+<script>
+(function(){
+  function relTime(dateStr){
+    var d = new Date(dateStr + 'T09:00:00+09:00');
+    var now = new Date();
+    var diff = Math.floor((now - d) / 1000);
+    if(diff < 0) return '';
+    if(diff < 60) return '방금 전';
+    if(diff < 3600) return Math.floor(diff/60) + '분 전';
+    if(diff < 86400) return Math.floor(diff/3600) + '시간 전';
+    if(diff < 604800) return Math.floor(diff/86400) + '일 전';
+    if(diff < 2592000) return Math.floor(diff/604800) + '주 전';
+    return '';
+  }
+  document.querySelectorAll('.post-date[data-date]').forEach(function(el){
+    var r = relTime(el.getAttribute('data-date'));
+    if(r) el.insertAdjacentHTML('afterend', '<span class="post-date-relative">' + r + '</span>');
+  });
+  document.querySelectorAll('time[datetime]').forEach(function(el){
+    var r = relTime(el.getAttribute('datetime'));
+    if(r) el.insertAdjacentHTML('afterend', '<span class="post-date-relative">' + r + '</span>');
+  });
+})();
+</script>
+</body>
+</html>
