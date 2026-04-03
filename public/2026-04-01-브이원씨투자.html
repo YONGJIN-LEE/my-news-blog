@@ -224,6 +224,18 @@ img { max-width: 100%; height: auto; display: block; }
   color: var(--gray-500);
 }
 
+.post-date-relative {
+  font-size: 0.72rem;
+  color: var(--blue);
+  font-weight: 500;
+  margin-left: 6px;
+}
+
+.post-meta .post-date-relative {
+  margin-left: 8px;
+  font-size: 0.82rem;
+}
+
 .post-info h2 {
   font-size: 1.1rem;
   font-weight: 600;
@@ -550,7 +562,7 @@ img { max-width: 100%; height: auto; display: block; }
         <span class="post-category">IT</span>
         <h1>[핀테크 스타트업 브이원씨 투자 유치 — 베이스벤처스·DSC 참여]</h1>
         <div class="post-meta">
-          <time>2026-04-01</time>
+          <time datetime="2026-04-01">2026-04-01</time>
           <div class="post-tags"><span class="tag">#브이원씨</span> <span class="tag">#핀테크스타트업</span> <span class="tag">#투자유치</span> <span class="tag">#베이스벤처스</span> <span class="tag">#DSC인베스트먼트</span> <span class="tag">#스타트업뉴스</span> <span class="tag">#금융혁신</span> <span class="tag">#벤처캐피털</span> <span class="tag">#테크이슈</span> <span class="tag">#IT투자</span> <span class="tag">#자산관리</span> <span class="tag">#데이터분석</span> <span class="tag">#경제뉴스</span> <span class="tag">#핀테크뉴스</span> <span class="tag">#유니콘기업</span> <span class="tag">#창업소식</span> <span class="tag">#금융솔루션</span> <span class="tag">#스타트업생태계</span> <span class="tag">#IT동향</span> <span class="tag">#기술투자</span></div>
         </div>
       </header>
@@ -592,5 +604,30 @@ img { max-width: 100%; height: auto; display: block; }
       <p>&copy; 2026 오늘의 뉴스 브리핑</p>
     </div>
   </footer>
+
+<script>
+(function(){
+  function relTime(dateStr){
+    var d = new Date(dateStr + 'T09:00:00+09:00');
+    var now = new Date();
+    var diff = Math.floor((now - d) / 1000);
+    if(diff < 0) return '';
+    if(diff < 60) return '방금 전';
+    if(diff < 3600) return Math.floor(diff/60) + '분 전';
+    if(diff < 86400) return Math.floor(diff/3600) + '시간 전';
+    if(diff < 604800) return Math.floor(diff/86400) + '일 전';
+    if(diff < 2592000) return Math.floor(diff/604800) + '주 전';
+    return '';
+  }
+  document.querySelectorAll('.post-date[data-date]').forEach(function(el){
+    var r = relTime(el.getAttribute('data-date'));
+    if(r) el.insertAdjacentHTML('afterend', '<span class="post-date-relative">' + r + '</span>');
+  });
+  document.querySelectorAll('time[datetime]').forEach(function(el){
+    var r = relTime(el.getAttribute('datetime'));
+    if(r) el.insertAdjacentHTML('afterend', '<span class="post-date-relative">' + r + '</span>');
+  });
+})();
+</script>
 </body>
 </html>

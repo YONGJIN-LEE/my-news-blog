@@ -224,6 +224,18 @@ img { max-width: 100%; height: auto; display: block; }
   color: var(--gray-500);
 }
 
+.post-date-relative {
+  font-size: 0.72rem;
+  color: var(--blue);
+  font-weight: 500;
+  margin-left: 6px;
+}
+
+.post-meta .post-date-relative {
+  margin-left: 8px;
+  font-size: 0.82rem;
+}
+
 .post-info h2 {
   font-size: 1.1rem;
   font-weight: 600;
@@ -550,7 +562,7 @@ img { max-width: 100%; height: auto; display: block; }
         <span class="post-category"></span>
         <h1>대구 하천 캐리어 여성 시신 발견 50대 피해자 신원 확인 충격</h1>
         <div class="post-meta">
-          <time>2026-03-31</time>
+          <time datetime="2026-03-31">2026-03-31</time>
           <div class="post-tags"><span class="tag">#대구사건</span> <span class="tag">#신천시신발견</span> <span class="tag">#캐리어시신</span> <span class="tag">#대구캐리어</span> <span class="tag">#칠성시장</span> <span class="tag">#사건사고</span> <span class="tag">#50대여성시신</span> <span class="tag">#경찰수사</span> <span class="tag">#국과수부검</span> <span class="tag">#미스터리범죄</span> <span class="tag">#치안강화</span> <span class="tag">#대구뉴스</span> <span class="tag">#오늘의이슈</span> <span class="tag">#사회뉴스</span></div>
         </div>
       </header>
@@ -602,5 +614,30 @@ img { max-width: 100%; height: auto; display: block; }
       <p>&copy; 2026 오늘의 뉴스 브리핑</p>
     </div>
   </footer>
+
+<script>
+(function(){
+  function relTime(dateStr){
+    var d = new Date(dateStr + 'T09:00:00+09:00');
+    var now = new Date();
+    var diff = Math.floor((now - d) / 1000);
+    if(diff < 0) return '';
+    if(diff < 60) return '방금 전';
+    if(diff < 3600) return Math.floor(diff/60) + '분 전';
+    if(diff < 86400) return Math.floor(diff/3600) + '시간 전';
+    if(diff < 604800) return Math.floor(diff/86400) + '일 전';
+    if(diff < 2592000) return Math.floor(diff/604800) + '주 전';
+    return '';
+  }
+  document.querySelectorAll('.post-date[data-date]').forEach(function(el){
+    var r = relTime(el.getAttribute('data-date'));
+    if(r) el.insertAdjacentHTML('afterend', '<span class="post-date-relative">' + r + '</span>');
+  });
+  document.querySelectorAll('time[datetime]').forEach(function(el){
+    var r = relTime(el.getAttribute('datetime'));
+    if(r) el.insertAdjacentHTML('afterend', '<span class="post-date-relative">' + r + '</span>');
+  });
+})();
+</script>
 </body>
 </html>

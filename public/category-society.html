@@ -224,6 +224,18 @@ img { max-width: 100%; height: auto; display: block; }
   color: var(--gray-500);
 }
 
+.post-date-relative {
+  font-size: 0.72rem;
+  color: var(--blue);
+  font-weight: 500;
+  margin-left: 6px;
+}
+
+.post-meta .post-date-relative {
+  margin-left: 8px;
+  font-size: 0.82rem;
+}
+
 .post-info h2 {
   font-size: 1.1rem;
   font-weight: 600;
@@ -552,7 +564,7 @@ img { max-width: 100%; height: auto; display: block; }
     <article class="post-featured">
       <div class="post-meta-top">
         <span class="post-category">사회</span>
-        <span class="post-date">2026-04-02</span>
+        <span class="post-date" data-date="2026-04-02">2026-04-02</span>
       </div>
       <div class="featured-image"><img src="https://picsum.photos/seed/8309/1200/630" alt="부산 글로벌특별법 난색에 지자체·시민단체 집단 반발 조짐" loading="lazy"></div>
       <h2><a href="2026-04-02-부산특별법지자체반발.html">부산 글로벌특별법 난색에 지자체·시민단체 집단 반발 조짐</a></h2>
@@ -570,7 +582,7 @@ img { max-width: 100%; height: auto; display: block; }
       <div class="post-info">
         <div class="post-meta-top">
           <span class="post-category">사회</span>
-          <span class="post-date">2026-04-02</span>
+          <span class="post-date" data-date="2026-04-02">2026-04-02</span>
         </div>
         <h2><a href="2026-04-02-벚꽃축제인파안전주의보.html">벚꽃 축제 인파 500만 명 운집 안전주의보 결국 터졌다</a></h2>
         <p class="post-summary">핵심 요약
@@ -586,7 +598,7 @@ img { max-width: 100%; height: auto; display: block; }
       <div class="post-info">
         <div class="post-meta-top">
           <span class="post-category">사회</span>
-          <span class="post-date">2026-04-02</span>
+          <span class="post-date" data-date="2026-04-02">2026-04-02</span>
         </div>
         <h2><a href="2026-04-02-벚꽃축제안전주의보.html">전국 벚꽃 축제 인파 운집에 따른 안전 사고 예방과 주의사항 총정리</a></h2>
         <p class="post-summary">핵심 요약
@@ -606,5 +618,30 @@ img { max-width: 100%; height: auto; display: block; }
       <p>&copy; 2026 오늘의 뉴스 브리핑</p>
     </div>
   </footer>
+
+<script>
+(function(){
+  function relTime(dateStr){
+    var d = new Date(dateStr + 'T09:00:00+09:00');
+    var now = new Date();
+    var diff = Math.floor((now - d) / 1000);
+    if(diff < 0) return '';
+    if(diff < 60) return '방금 전';
+    if(diff < 3600) return Math.floor(diff/60) + '분 전';
+    if(diff < 86400) return Math.floor(diff/3600) + '시간 전';
+    if(diff < 604800) return Math.floor(diff/86400) + '일 전';
+    if(diff < 2592000) return Math.floor(diff/604800) + '주 전';
+    return '';
+  }
+  document.querySelectorAll('.post-date[data-date]').forEach(function(el){
+    var r = relTime(el.getAttribute('data-date'));
+    if(r) el.insertAdjacentHTML('afterend', '<span class="post-date-relative">' + r + '</span>');
+  });
+  document.querySelectorAll('time[datetime]').forEach(function(el){
+    var r = relTime(el.getAttribute('datetime'));
+    if(r) el.insertAdjacentHTML('afterend', '<span class="post-date-relative">' + r + '</span>');
+  });
+})();
+</script>
 </body>
 </html>

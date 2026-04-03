@@ -224,6 +224,18 @@ img { max-width: 100%; height: auto; display: block; }
   color: var(--gray-500);
 }
 
+.post-date-relative {
+  font-size: 0.72rem;
+  color: var(--blue);
+  font-weight: 500;
+  margin-left: 6px;
+}
+
+.post-meta .post-date-relative {
+  margin-left: 8px;
+  font-size: 0.82rem;
+}
+
 .post-info h2 {
   font-size: 1.1rem;
   font-weight: 600;
@@ -550,7 +562,7 @@ img { max-width: 100%; height: auto; display: block; }
         <span class="post-category">패션</span>
         <h1>2026 스프링 뷰티 페어 총정리! 브랜드별 기획세트 추천</h1>
         <div class="post-meta">
-          <time>2026-04-02</time>
+          <time datetime="2026-04-02">2026-04-02</time>
           <div class="post-tags"><span class="tag">#뷰티페어</span> <span class="tag">#스프링뷰티페어</span> <span class="tag">#대전신세계</span> <span class="tag">#롯데백화점대전점</span> <span class="tag">#CJ온스타일</span> <span class="tag">#컴온스타일</span> <span class="tag">#설화수기획세트</span> <span class="tag">#에스티로더갈색병</span> <span class="tag">#딥티크시향회</span> <span class="tag">#바이오던스</span> <span class="tag">#코덕스타그램</span> <span class="tag">#뷰티트렌드2026</span> <span class="tag">#웰니스뷰티</span> <span class="tag">#비건화장품</span> <span class="tag">#백화점세일</span> <span class="tag">#화장품추천</span> <span class="tag">#봄메이크업</span> <span class="tag">#스킨케어추천</span> <span class="tag">#쇼핑정보</span> <span class="tag">#뷰티블로거</span> <span class="tag">#향수추천</span></div>
         </div>
       </header>
@@ -597,5 +609,30 @@ img { max-width: 100%; height: auto; display: block; }
       <p>&copy; 2026 오늘의 뉴스 브리핑</p>
     </div>
   </footer>
+
+<script>
+(function(){
+  function relTime(dateStr){
+    var d = new Date(dateStr + 'T09:00:00+09:00');
+    var now = new Date();
+    var diff = Math.floor((now - d) / 1000);
+    if(diff < 0) return '';
+    if(diff < 60) return '방금 전';
+    if(diff < 3600) return Math.floor(diff/60) + '분 전';
+    if(diff < 86400) return Math.floor(diff/3600) + '시간 전';
+    if(diff < 604800) return Math.floor(diff/86400) + '일 전';
+    if(diff < 2592000) return Math.floor(diff/604800) + '주 전';
+    return '';
+  }
+  document.querySelectorAll('.post-date[data-date]').forEach(function(el){
+    var r = relTime(el.getAttribute('data-date'));
+    if(r) el.insertAdjacentHTML('afterend', '<span class="post-date-relative">' + r + '</span>');
+  });
+  document.querySelectorAll('time[datetime]').forEach(function(el){
+    var r = relTime(el.getAttribute('datetime'));
+    if(r) el.insertAdjacentHTML('afterend', '<span class="post-date-relative">' + r + '</span>');
+  });
+})();
+</script>
 </body>
 </html>

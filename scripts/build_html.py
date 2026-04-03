@@ -193,6 +193,35 @@ def html_header(active_category="all"):
   {category_nav_html(active_category)}"""
 
 
+def relative_time_script():
+    """클라이언트 사이드 상대 시간 표시 스크립트"""
+    return """
+<script>
+(function(){
+  function relTime(dateStr){
+    var d = new Date(dateStr + 'T09:00:00+09:00');
+    var now = new Date();
+    var diff = Math.floor((now - d) / 1000);
+    if(diff < 0) return '';
+    if(diff < 60) return '방금 전';
+    if(diff < 3600) return Math.floor(diff/60) + '분 전';
+    if(diff < 86400) return Math.floor(diff/3600) + '시간 전';
+    if(diff < 604800) return Math.floor(diff/86400) + '일 전';
+    if(diff < 2592000) return Math.floor(diff/604800) + '주 전';
+    return '';
+  }
+  document.querySelectorAll('.post-date[data-date]').forEach(function(el){
+    var r = relTime(el.getAttribute('data-date'));
+    if(r) el.insertAdjacentHTML('afterend', '<span class=\"post-date-relative\">' + r + '</span>');
+  });
+  document.querySelectorAll('time[datetime]').forEach(function(el){
+    var r = relTime(el.getAttribute('datetime'));
+    if(r) el.insertAdjacentHTML('afterend', '<span class=\"post-date-relative\">' + r + '</span>');
+  });
+})();
+</script>"""
+
+
 def html_footer():
     return f"""
   <footer class="site-footer">
@@ -200,6 +229,7 @@ def html_footer():
       <p>&copy; {datetime.now().year} {SITE_TITLE}</p>
     </div>
   </footer>
+{relative_time_script()}
 </body>
 </html>"""
 
@@ -236,7 +266,7 @@ def render_post(meta, body_html):
         <span class="post-category">{category}</span>
         <h1>{title}</h1>
         <div class="post-meta">
-          <time>{date_str}</time>
+          <time datetime="{date_str}">{date_str}</time>
           <div class="post-tags">{tags_html}</div>
         </div>
       </header>
@@ -256,6 +286,7 @@ def render_post_cards(posts, show_featured=True):
     """게시물 카드 HTML 생성"""
     cards = ""
     for i, p in enumerate(posts):
+        date_val = p['date'][:10]
         if i == 0 and show_featured:
             thumb_html = ""
             if p.get("thumbnail"):
@@ -264,7 +295,7 @@ def render_post_cards(posts, show_featured=True):
     <article class="post-featured">
       <div class="post-meta-top">
         <span class="post-category">{p.get('category', '')}</span>
-        <span class="post-date">{p['date'][:10]}</span>
+        <span class="post-date" data-date="{date_val}">{date_val}</span>
       </div>
       {thumb_html}
       <h2><a href="{p['slug']}.html">{p['title']}</a></h2>
@@ -283,7 +314,7 @@ def render_post_cards(posts, show_featured=True):
       <div class="post-info">
         <div class="post-meta-top">
           <span class="post-category">{p.get('category', '')}</span>
-          <span class="post-date">{p['date'][:10]}</span>
+          <span class="post-date" data-date="{date_val}">{date_val}</span>
         </div>
         <h2><a href="{p['slug']}.html">{p['title']}</a></h2>
         <p class="post-summary">{p.get('summary', '')}</p>

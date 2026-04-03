@@ -224,6 +224,18 @@ img { max-width: 100%; height: auto; display: block; }
   color: var(--gray-500);
 }
 
+.post-date-relative {
+  font-size: 0.72rem;
+  color: var(--blue);
+  font-weight: 500;
+  margin-left: 6px;
+}
+
+.post-meta .post-date-relative {
+  margin-left: 8px;
+  font-size: 0.82rem;
+}
+
 .post-info h2 {
   font-size: 1.1rem;
   font-weight: 600;
@@ -550,7 +562,7 @@ img { max-width: 100%; height: auto; display: block; }
         <span class="post-category"></span>
         <h1>인순이 딸 박세인 고백! 7번 수술 끝에 손가락 잃은 충격적 사고 왜?</h1>
         <div class="post-meta">
-          <time>2026-03-31</time>
+          <time datetime="2026-03-31">2026-03-31</time>
           <div class="post-tags"><span class="tag">#인순이딸</span> <span class="tag">#박세인</span> <span class="tag">#조선의사랑꾼</span> <span class="tag">#인순이딸사고</span> <span class="tag">#박세인손가락</span> <span class="tag">#7번의수술</span> <span class="tag">#장애극복</span> <span class="tag">#감동스토리</span> <span class="tag">#연예뉴스</span> <span class="tag">#실시간이슈</span> <span class="tag">#박세인고백</span> <span class="tag">#인순이눈물</span> <span class="tag">#희망메시지</span> <span class="tag">#방송리뷰</span> <span class="tag">#오늘의뉴스</span></div>
         </div>
       </header>
@@ -603,5 +615,30 @@ img { max-width: 100%; height: auto; display: block; }
       <p>&copy; 2026 오늘의 뉴스 브리핑</p>
     </div>
   </footer>
+
+<script>
+(function(){
+  function relTime(dateStr){
+    var d = new Date(dateStr + 'T09:00:00+09:00');
+    var now = new Date();
+    var diff = Math.floor((now - d) / 1000);
+    if(diff < 0) return '';
+    if(diff < 60) return '방금 전';
+    if(diff < 3600) return Math.floor(diff/60) + '분 전';
+    if(diff < 86400) return Math.floor(diff/3600) + '시간 전';
+    if(diff < 604800) return Math.floor(diff/86400) + '일 전';
+    if(diff < 2592000) return Math.floor(diff/604800) + '주 전';
+    return '';
+  }
+  document.querySelectorAll('.post-date[data-date]').forEach(function(el){
+    var r = relTime(el.getAttribute('data-date'));
+    if(r) el.insertAdjacentHTML('afterend', '<span class="post-date-relative">' + r + '</span>');
+  });
+  document.querySelectorAll('time[datetime]').forEach(function(el){
+    var r = relTime(el.getAttribute('datetime'));
+    if(r) el.insertAdjacentHTML('afterend', '<span class="post-date-relative">' + r + '</span>');
+  });
+})();
+</script>
 </body>
 </html>

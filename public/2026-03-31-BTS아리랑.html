@@ -224,6 +224,18 @@ img { max-width: 100%; height: auto; display: block; }
   color: var(--gray-500);
 }
 
+.post-date-relative {
+  font-size: 0.72rem;
+  color: var(--blue);
+  font-weight: 500;
+  margin-left: 6px;
+}
+
+.post-meta .post-date-relative {
+  margin-left: 8px;
+  font-size: 0.82rem;
+}
+
 .post-info h2 {
   font-size: 1.1rem;
   font-weight: 600;
@@ -550,7 +562,7 @@ img { max-width: 100%; height: auto; display: block; }
         <span class="post-category"></span>
         <h1>BTS 아리랑 컴백 라이브 1840만 명 돌파! 전 세계가 놀란 이유는?</h1>
         <div class="post-meta">
-          <time>2026-03-31</time>
+          <time datetime="2026-03-31">2026-03-31</time>
           <div class="post-tags"><span class="tag">#BTS</span> <span class="tag">#방탄소년단</span> <span class="tag">#BTS컴백</span> <span class="tag">#아리랑</span> <span class="tag">#넷플릭스라이브</span> <span class="tag">#BTS넷플릭스</span> <span class="tag">#KPOP</span> <span class="tag">#아미</span> <span class="tag">#ARMY</span> <span class="tag">#BTS아리랑</span> <span class="tag">#빌보드</span> <span class="tag">#월드투어</span> <span class="tag">#문화외교관</span> <span class="tag">#전세계1위</span> <span class="tag">#실시간검색어</span> <span class="tag">#오늘의이슈</span> <span class="tag">#연예뉴스</span> <span class="tag">#음악추천</span> <span class="tag">#컴백무대</span> <span class="tag">#BTS기록</span></div>
         </div>
       </header>
@@ -598,5 +610,30 @@ img { max-width: 100%; height: auto; display: block; }
       <p>&copy; 2026 오늘의 뉴스 브리핑</p>
     </div>
   </footer>
+
+<script>
+(function(){
+  function relTime(dateStr){
+    var d = new Date(dateStr + 'T09:00:00+09:00');
+    var now = new Date();
+    var diff = Math.floor((now - d) / 1000);
+    if(diff < 0) return '';
+    if(diff < 60) return '방금 전';
+    if(diff < 3600) return Math.floor(diff/60) + '분 전';
+    if(diff < 86400) return Math.floor(diff/3600) + '시간 전';
+    if(diff < 604800) return Math.floor(diff/86400) + '일 전';
+    if(diff < 2592000) return Math.floor(diff/604800) + '주 전';
+    return '';
+  }
+  document.querySelectorAll('.post-date[data-date]').forEach(function(el){
+    var r = relTime(el.getAttribute('data-date'));
+    if(r) el.insertAdjacentHTML('afterend', '<span class="post-date-relative">' + r + '</span>');
+  });
+  document.querySelectorAll('time[datetime]').forEach(function(el){
+    var r = relTime(el.getAttribute('datetime'));
+    if(r) el.insertAdjacentHTML('afterend', '<span class="post-date-relative">' + r + '</span>');
+  });
+})();
+</script>
 </body>
 </html>
