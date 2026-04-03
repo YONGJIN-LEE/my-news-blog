@@ -140,6 +140,7 @@ def main():
 
     fixed_count = 0
     error_count = 0
+    skip_count = 0
 
     for md_file in md_files:
         content = md_file.read_text(encoding="utf-8")
@@ -147,9 +148,11 @@ def main():
 
         has_body_image = bool(re.search(r"!\[", body))
         has_placeholder = "picsum.photos" in content
+        has_thumbnail = bool(meta.get("thumbnail", "")) and not has_placeholder
 
-        # 본문 이미지가 있고 placeholder도 아니면 스킵
-        if has_body_image and not has_placeholder:
+        # 썸네일도 있고, 본문 이미지도 있고, placeholder도 아니면 스킵
+        if has_body_image and has_thumbnail and not has_placeholder:
+            skip_count += 1
             continue
 
         title = meta.get("title", md_file.stem)
@@ -177,21 +180,29 @@ def main():
             error_count += 1
             continue
 
-        # 썸네일 교체 (picsum → 실제 이미지)
         new_content = content
-        if has_placeholder:
+
+        # ── 1) 썸네일 업데이트 ──
+        if not has_thumbnail:
+            # thumbnail이 비어있으면 채우기
             new_content = re.sub(
-                r'thumbnail: "https://picsum\.photos/seed/\d+/1200/630"',
+                r'thumbnail:\s*"[^"]*"',
                 f'thumbnail: "{img_url}"',
                 new_content
             )
 
-        # 본문에 이미지 없으면 첫 번째 ## 다음에 이미지 삽입
+        # placeholder → 실제 이미지
+        if has_placeholder:
+            new_content = re.sub(
+                r'thumbnail:\s*"https://picsum\.photos/seed/\d+/1200/630"',
+                f'thumbnail: "{img_url}"',
+                new_content
+            )
+
+        # ── 2) 본문 이미지 삽입 ──
         if not has_body_image:
-            # 두 번째 ## (첫 번째는 보통 핵심 요약) 뒤에 삽입
             sections = new_content.split("\n## ")
             if len(sections) >= 3:
-                # 2번째 섹션 끝에 이미지 추가
                 sections[1] = sections[1] + f"\n\n![{title}]({img_url})\n"
                 new_content = "\n## ".join(sections)
             elif len(sections) >= 2:
@@ -205,7 +216,7 @@ def main():
         # API 속도 제한 방지
         time.sleep(0.15)
 
-    print(f"\n완료: {fixed_count}개 수정, {error_count}개 이미지 없음")
+    print(f"\n완료: {fixed_count}개 수정, {error_count}개 이미지 없음, {skip_count}개 스킵")
 
 
 if __name__ == "__main__":
