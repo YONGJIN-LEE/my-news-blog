@@ -356,24 +356,28 @@ def run_normal(time_slot, category):
     existing = get_existing_slugs()
 
     candidates = []
-    for f in sorted(DRAFTS_DIR.glob(f"{today}*.md")):
-        name = unicodedata.normalize("NFC", f.name)
-        if slot_key and slot_key not in name:
-            if any(t in name for t in TIME_SLOTS.values()):
-                continue
-            elif time_slot != "오전":
-                continue
-        if category == "general":
-            if any(tag in name for tag in NON_GENERAL_TAGS):
-                continue
-        elif cat_tag and cat_tag not in name:
+    # drafts와 published 양쪽에서 파일 탐색 (Blogger가 먼저 실행되어 published로 이동했을 수 있음)
+    for search_dir in [DRAFTS_DIR, PUBLISHED_DIR]:
+        if not search_dir.exists():
             continue
+        for f in sorted(search_dir.glob(f"{today}*.md")):
+            name = unicodedata.normalize("NFC", f.name)
+            if slot_key and slot_key not in name:
+                if any(t in name for t in TIME_SLOTS.values()):
+                    continue
+                elif time_slot != "오전":
+                    continue
+            if category == "general":
+                if any(tag in name for tag in NON_GENERAL_TAGS):
+                    continue
+            elif cat_tag and cat_tag not in name:
+                continue
 
-        slug = make_slug(f.name)
-        if slug in existing:
-            log(f"  중복 건너뜀: {f.name}")
-            continue
-        candidates.append(f)
+            slug = make_slug(f.name)
+            if slug in existing:
+                log(f"  중복 건너뜀: {f.name}")
+                continue
+            candidates.append(f)
 
     if not candidates:
         log("포스팅할 파일 없음")
@@ -391,9 +395,7 @@ def run_normal(time_slot, category):
 
     if posted:
         build()
-        PUBLISHED_DIR.mkdir(parents=True, exist_ok=True)
-        for f in posted:
-            shutil.move(str(f), str(PUBLISHED_DIR / f.name))
+        # 파일 이동은 하지 않음 — Blogger 포스팅 성공 시 blogger_post.py가 이동 처리
 
     log(f"═══ 완료: {len(posted)}개 ═══")
     return len(posted)

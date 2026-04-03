@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GS샵 '스타일NOW 더김동은' 론칭 패션 쇼핑의 새로운 패러다임 — 오늘의 뉴스 브리핑</title>
+  <meta name="description" content="GS샵 '스타일NOW 더김동은' 론칭 패션 쇼핑의 새로운 패러다임">
+  <meta property="og:title" content="GS샵 '스타일NOW 더김동은' 론칭 패션 쇼핑의 새로운 패러다임 — 오늘의 뉴스 브리핑">
+  <meta property="og:description" content="GS샵 '스타일NOW 더김동은' 론칭 패션 쇼핑의 새로운 패러다임">
+  <meta property="og:image" content="http://imgnews.naver.net/image/421/2014/09/30/1036735_article_99_20140930112905.jpg">
+  <meta property="og:type" content="article">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <style>/* ═══════════════════════════════════════════════════════════════
+   Apple-inspired News Blog — 오늘의 뉴스 브리핑
+   Clean, minimal, content-first design
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ─── Web Fonts ─── */
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* ─── Reset & Typography ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --black: #1d1d1f;
+  --gray-900: #2d2d2f;
+  --gray-700: #6e6e73;
+  --gray-500: #86868b;
+  --gray-300: #d2d2d7;
+  --gray-100: #f5f5f7;
+  --white: #ffffff;
+  --blue: #0071e3;
+  --blue-hover: #0077ed;
+  --max-width: 720px;
+  --font-sans: 'Pretendard Variable', 'Pretendard', 'Inter', -apple-system,
+               BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-sans);
+  line-height: 1.65;
+  color: var(--black);
+  background: var(--white);
+  letter-spacing: -0.01em;
+  word-break: keep-all;
+}
+
+a { color: var(--blue); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+img { max-width: 100%; height: auto; display: block; }
+
+/* ─── Navigation ─── */
+.site-header {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+}
+
+.site-header .container {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 22px;
+  height: 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.site-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--black);
+  letter-spacing: -0.01em;
+}
+
+.site-title:hover { text-decoration: none; }
+
+.site-header nav { display: flex; gap: 28px; }
+
+.site-header nav a {
+  font-size: 0.8rem;
+  color: var(--gray-700);
+  letter-spacing: -0.01em;
+  transition: color 0.2s;
+}
+
+.site-header nav a:hover { color: var(--black); text-decoration: none; }
+
+/* ─── Category Navigation ─── */
+.category-nav {
+  background: var(--gray-100);
+  border-bottom: 1px solid var(--gray-300);
+  position: sticky;
+  top: 48px;
+  z-index: 9998;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.category-nav::-webkit-scrollbar { display: none; }
+.category-nav { -ms-overflow-style: none; scrollbar-width: none; }
+
+.category-nav .container {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 22px;
+  display: flex;
+  gap: 4px;
+  height: 44px;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.category-nav a {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--gray-700);
+  padding: 6px 14px;
+  border-radius: 20px;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.category-nav a:hover {
+  color: var(--black);
+  background: rgba(0, 0, 0, 0.05);
+  text-decoration: none;
+}
+
+.category-nav a.active {
+  color: var(--white);
+  background: var(--black);
+}
+
+.category-nav a.active:hover {
+  color: var(--white);
+  background: var(--gray-900);
+}
+
+/* ─── Main Container ─── */
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 22px;
+}
+
+/* ─── Post List (Index Page) ─── */
+.post-list h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  margin: 56px 0 8px;
+  color: var(--black);
+}
+
+.post-list-subtitle {
+  font-size: 0.95rem;
+  color: var(--gray-500);
+  margin-bottom: 40px;
+}
+
+.post-card {
+  display: flex;
+  gap: 24px;
+  padding: 28px 0;
+  border-top: 1px solid var(--gray-300);
+  transition: opacity 0.2s;
+}
+
+.post-card:last-child { border-bottom: 1px solid var(--gray-300); }
+
+.post-card:hover { opacity: 0.85; }
+
+.post-thumb {
+  flex-shrink: 0;
+  width: 200px;
+  height: 134px;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.post-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.post-card:hover .post-thumb img { transform: scale(1.03); }
+
+.post-info { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+
+.post-meta-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.post-category {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--blue);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.post-date {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+.post-info h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.45;
+  letter-spacing: -0.015em;
+  margin-bottom: 6px;
+}
+
+.post-info h2 a { color: var(--black); }
+.post-info h2 a:hover { color: var(--blue); text-decoration: none; }
+
+.post-summary {
+  font-size: 0.85rem;
+  color: var(--gray-700);
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ─── Featured Post (Top of list) ─── */
+.post-featured {
+  padding: 40px 0 32px;
+  border-bottom: 1px solid var(--gray-300);
+  margin-bottom: 8px;
+}
+
+.post-featured .featured-image {
+  width: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.post-featured .featured-image img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+}
+
+.post-featured h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.35;
+  margin-bottom: 8px;
+}
+
+.post-featured h2 a { color: var(--black); }
+.post-featured h2 a:hover { color: var(--blue); text-decoration: none; }
+
+/* ─── Single Post ─── */
+.post-single {
+  padding: 48px 0 64px;
+}
+
+.post-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.post-header .post-category {
+  font-size: 0.75rem;
+  display: inline-block;
+  margin-bottom: 12px;
+}
+
+.post-header h1 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.3;
+  color: var(--black);
+  margin-bottom: 16px;
+  word-break: keep-all;
+}
+
+.post-meta {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  align-items: center;
+  color: var(--gray-500);
+  font-size: 0.85rem;
+}
+
+.post-hero {
+  margin: 0 0 40px;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.post-hero img {
+  width: 100%;
+  max-height: 480px;
+  object-fit: cover;
+}
+
+/* ─── Post Content ─── */
+.post-content {
+  font-size: 1.05rem;
+  line-height: 1.85;
+  color: var(--gray-900);
+  word-break: keep-all;
+}
+
+.post-content h2 {
+  font-size: 1.45rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 48px 0 16px;
+  color: var(--black);
+}
+
+.post-content h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  margin: 36px 0 12px;
+  color: var(--black);
+}
+
+.post-content p {
+  margin: 16px 0;
+}
+
+.post-content ul, .post-content ol {
+  margin: 16px 0;
+  padding-left: 24px;
+}
+
+.post-content li {
+  margin: 8px 0;
+  line-height: 1.7;
+}
+
+.post-content strong {
+  font-weight: 600;
+  color: var(--black);
+}
+
+.post-content blockquote {
+  margin: 28px 0;
+  padding: 20px 24px;
+  background: var(--gray-100);
+  border-radius: 12px;
+  color: var(--gray-700);
+  font-size: 1rem;
+}
+
+.post-content img {
+  margin: 32px auto;
+  border-radius: 12px;
+}
+
+.post-content hr {
+  border: none;
+  height: 1px;
+  background: var(--gray-300);
+  margin: 40px 0;
+}
+
+/* ─── Tags ─── */
+.post-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.tag {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+.post-tags-footer {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--gray-300);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.post-tags-footer .tag {
+  background: var(--gray-100);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  color: var(--gray-700);
+  transition: background 0.2s;
+}
+
+.post-tags-footer .tag:hover {
+  background: var(--gray-300);
+  text-decoration: none;
+}
+
+/* ─── Post Navigation ─── */
+.post-nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 24px 0 48px;
+  font-size: 0.85rem;
+  border-top: 1px solid var(--gray-300);
+  margin-top: 32px;
+}
+
+.post-nav a { color: var(--blue); }
+
+/* ─── Footer ─── */
+.site-footer {
+  background: var(--gray-100);
+  border-top: 1px solid var(--gray-300);
+}
+
+.site-footer .container {
+  max-width: 980px;
+  padding: 20px 22px;
+  text-align: center;
+}
+
+.site-footer p {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+/* ─── Pagination ─── */
+.pagination-nav {
+  margin: 48px 0 24px;
+  text-align: center;
+}
+
+.pagination {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  list-style: none;
+  padding: 0;
+}
+
+.pagination li a, .pagination li span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 40px;
+  padding: 0 12px;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--gray-700);
+  transition: all 0.2s;
+}
+
+.pagination li a:hover {
+  background: var(--gray-100);
+  color: var(--black);
+  text-decoration: none;
+}
+
+.pagination li span.active {
+  background: var(--black);
+  color: var(--white);
+}
+
+.pagination .page-dots {
+  color: var(--gray-500);
+  min-width: 32px;
+  font-size: 0.9rem;
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 640px) {
+  .post-card {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .post-thumb {
+    width: 100%;
+    height: 200px;
+    border-radius: 12px;
+  }
+
+  .post-list h1 { font-size: 1.6rem; margin-top: 32px; }
+
+  .post-header h1 { font-size: 1.6rem; }
+
+  .post-single { padding: 32px 0 48px; }
+
+  .post-featured .featured-image img { height: 240px; }
+  .post-featured h2 { font-size: 1.3rem; }
+
+  .post-content { font-size: 1rem; }
+}
+</style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="index.html" class="site-title">오늘의 뉴스 브리핑</a>
+      <nav>
+        <a href="index.html">홈</a>
+      </nav>
+    </div>
+  </header>
+  
+  <nav class="category-nav">
+    <div class="container">
+      <a href="index.html">전체</a>
+        <a href="category-politics.html">정치</a>
+        <a href="category-society.html">사회</a>
+        <a href="category-economy.html">경제</a>
+        <a href="category-entertainment.html">연예</a>
+        <a href="category-life.html">생활</a>
+        <a href="category-it.html">IT</a>
+        <a href="category-sports.html">스포츠</a>
+        <a href="category-fashion.html" class="active">패션</a>
+        
+    </div>
+  </nav>
+  <main class="container">
+    <article class="post-single">
+      <header class="post-header">
+        <span class="post-category">패션</span>
+        <h1>GS샵 '스타일NOW 더김동은' 론칭 패션 쇼핑의 새로운 패러다임</h1>
+        <div class="post-meta">
+          <time>2026-04-03</time>
+          <div class="post-tags"><span class="tag">#GS샵</span> <span class="tag">#스타일NOW</span> <span class="tag">#김동은디렉터</span> <span class="tag">#패션홈쇼핑</span> <span class="tag">#홈쇼핑패션</span> <span class="tag">#트렌드분석</span> <span class="tag">#스타일링팁</span> <span class="tag">#라이브커머스</span> <span class="tag">#2026SS패션</span> <span class="tag">#완판아이템</span> <span class="tag">#패션쇼핑</span> <span class="tag">#큐레이션서비스</span> <span class="tag">#디자이너협업</span> <span class="tag">#OOTD</span> <span class="tag">#패션리더</span> <span class="tag">#안방쇼핑</span> <span class="tag">#쇼핑트렌드</span> <span class="tag">#패션매거진</span> <span class="tag">#김동은스타일</span> <span class="tag">#GS샵단독</span> <span class="tag">#청년일보뉴스</span></div>
+        </div>
+      </header>
+      
+      <div class="post-hero">
+        <img src="http://imgnews.naver.net/image/421/2014/09/30/1036735_article_99_20140930112905.jpg" alt="GS샵 '스타일NOW 더김동은' 론칭 패션 쇼핑의 새로운 패러다임" loading="lazy">
+      </div>
+      <div class="post-content">
+        <figure style="text-align:center;margin:32px 0;"><img src="http://imgnews.naver.net/image/421/2014/09/30/1036735_article_99_20140930112905.jpg" alt="GS샵 '리듬 오브 더 스타일' 개최" style="max-width:100%;border-radius:12px;" loading="lazy"></figure>
+<h2>핵심 요약</h2>
+<ul>
+<li>홈쇼핑 업계의 강자 GS샵이 패션 전문 프로그램 '스타일NOW 더김동은'을 전격 론칭했다.</li>
+<li>대한민국 최고의 패션 디렉터 김동은이 직접 출연하여 트렌드 분석과 코디법을 전수한다.</li>
+<li>실시간 소통을 강화한 '라이브 커머스' 형식의 방송을 통해 시청자들의 궁금증을 즉각 해소한다.</li>
+<li>단순한 판매를 넘어 패션 잡지를 보는 듯한 고퀄리티 영상미와 정보를 제공하는 것이 특징이다.</li>
+<li>첫 방송부터 완판 행렬을 기록하며 패션 홈쇼핑 시장에 지각변동을 예고하고 있다.</li>
+</ul>
+<h2>사건/이슈 개요</h2>
+<p>GS샵이 패션 카테고리의 경쟁력을 극대화하기 위해 야심 차게 준비한 신규 프로그램 '스타일NOW 더김동은'이 베일을 벗었다. 청년일보의 보도에 따르면, 이번 프로그램은 '지금 바로 입을 수 있는(NOW)' 패션을 '가장 트렌디하게(Style)' 제안한다는 콘셉트로 기획되었다. 특히 수년간 패션계에서 막강한 영향력을 발휘해온 김동은 디렉터가 자신의 이름을 걸고 진행을 맡아 방송 전부터 큰 기대를 모았다. 취재 결과, GS샵은 이번 프로그램 론칭을 위해 전담 제작팀을 구성하고 기존 홈쇼핑 방송의 틀을 깨는 실험적인 연출을 시도했다. 기자가 직접 모니터링한 첫 방송에서는 2026 S/S 시즌의 핵심 키워드를 짚어주는 것은 물론, 체형별 단점 보완 스타일링까지 세세하게 다뤄 시청자들의 뜨거운 호응을 이끌어냈다.</p>
+<h2>상세 내용</h2>
+<h3>패션 거장 김동은의 귀환 진정성 있는 큐레이션</h3>
+<p>'스타일NOW 더김동은'의 가장 큰 성공 비결은 단연 김동은 디렉터의 전문성이다. 그는 단순히 물건을 파는 쇼호스트의 역할을 넘어, 해당 제품이 왜 지금 유행인지, 어떤 소재를 사용했는지, 그리고 어떤 옷과 매치해야 가장 빛나는지를 전문가의 시선으로 조언한다. 현장 관계자는 "김동은 디렉터는 상품 선정 단계부터 직접 참여해 품질을 꼼꼼히 따지는 것으로 유명하다"며 "그의 이름이 주는 신뢰감이 고객들의 구매 결정에 결정적인 영향을 미치고 있다"고 전했다. 이는 단순 소비를 넘어 '가치 있는 투자'를 원하는 스마트 컨슈머들의 니즈를 정확히 공략한 결과다.</p>
+<h3>TV와 모바일의 경계를 허물다 하이브리드 방송 시스템</h3>
+<p>GS샵은 이번 프로그램을 통해 TV 홈쇼핑과 모바일 라이브의 장점을 결합한 새로운 시도를 선보였다. 방송 중 시청자들이 모바일 앱 채팅창에 질문을 올리면 김동은 디렉터가 실시간으로 답변해주거나, 모델이 직접 요청받은 포즈를 취해 옷의 실루엣을 보여준다. 취재 결과, 이러한 쌍방향 소통 방식은 고객 체류 시간을 기존 방송 대비 30% 이상 늘리는 효과를 가져왔다. "화면으로만 보던 옷의 디테일을 실시간으로 물어보고 바로 확인할 수 있어 믿음이 간다"는 시청자들의 후기가 쏟아지고 있는 상황이다.</p>
+<h3>안방에서 즐기는 패션쇼 고퀄리티 비주얼 연출</h3>
+<p>'스타일NOW 더김동은'은 시각적인 즐거움에도 공을 많이 들였다. 기존의 복잡하고 화려한 자막 위주의 화면 구성에서 벗어나, 제품 본연의 색감과 질감을 가장 잘 보여줄 수 있는 차분하고 고급스러운 스튜디오 설정을 택했다. 마치 패션 화보 촬영장을 방불케 하는 조명과 카메라는 제품의 가치를 한층 높여준다. 기자가 확인해본 결과, GS샵은 이번 프로그램을 위해 4K 고화질 카메라와 증강현실(AR) 기술까지 도입했다. 이를 통해 시청자들은 집에서도 마치 런웨이 맨 앞줄에 앉아 있는 듯한 생생한 현장감을 느낄 수 있다.</p>
+<h3>실속과 품격을 동시에 독점 단독 상품 라인업</h3>
+<p>프로그램의 내실을 기하기 위해 GS샵은 국내외 유명 디자이너들과 협업한 '스타일NOW' 전용 단독 상품들을 대거 편성했다. 시중에서는 구할 수 없는 독특한 디자인과 고품질의 소재를 합리적인 가격대에 선보이는 것이 전략이다. 취재 결과, 특히 소재의 차별화가 돋보였는데 고가의 수입 브랜드에서나 볼 수 있었던 피마 코튼이나 리넨 혼방 소재를 대중적인 아이템에 접목했다. "홈쇼핑 옷은 질이 떨어진다"는 편견을 깨기 위한 GS샵의 노력이 엿보이는 대목이다.</p>
+<h2>왜 주목받나?</h2>
+<p>이 프로그램이 론칭과 동시에 주목받는 이유는 홈쇼핑 시장의 '콘텐츠화'라는 거대한 흐름을 선점했기 때문이다. 이제 고객들은 단순히 물건이 필요해서 쇼핑 채널을 트는 것이 아니라, 패션 정보를 얻고 재미를 느끼기 위해 채널을 고정한다. '스타일NOW 더김동은'은 그러한 엔터테인먼트적 요소와 커머스를 완벽하게 결합했다. 또한 불황일수록 검증된 전문가의 추천을 믿고 구매하려는 소비 심리가 작용하면서, 김동은이라는 강력한 퍼스널 브랜드가 큰 힘을 발휘하고 있다.</p>
+<h2>앞으로의 전망</h2>
+<p>GS샵은 '스타일NOW 더김동은'을 단순한 일회성 프로그램을 넘어, 자사를 대표하는 패션 아이콘으로 육성할 계획이다. 향후에는 방송에서 소개된 스타일링을 고객들이 직접 체험해볼 수 있는 오프라인 팝업스토어 운영이나, 메타버스 공간에서의 패션쇼 개최 등 영역을 더욱 확장할 것으로 보인다. 패션 전문가들은 "스타일NOW의 성공 여부가 향후 홈쇼핑 패션 카테고리의 생존 전략을 결정짓는 중요한 지표가 될 것"이라고 입을 모으고 있다. 디지털 기술과 인간의 전문성이 결합한 이 새로운 시도가 어디까지 진화할지 업계의 시선이 집중되고 있다.</p>
+<h2>마무리</h2>
+<p>지금까지 GS샵이 야심 차게 론칭한 '스타일NOW 더김동은'에 대해 자세히 살펴보았다. 쇼핑과 정보, 그리고 재미까지 한 번에 잡고 싶은 패피들이라면 놓쳐서는 안 될 필수 프로그램이 될 것 같다. 오늘 방송에서는 또 어떤 멋진 아이템들이 우리의 눈을 즐겁게 해줄까. 여러분은 홈쇼핑 패션 방송을 볼 때 어떤 점을 가장 중요하게 생각하시나요? 댓글로 여러분의 쇼핑 철학을 공유해주세요.</p>
+      </div>
+      <footer class="post-footer">
+        <div class="post-tags-footer"><a class="tag">#GS샵</a> <a class="tag">#스타일NOW</a> <a class="tag">#김동은디렉터</a> <a class="tag">#패션홈쇼핑</a> <a class="tag">#홈쇼핑패션</a> <a class="tag">#트렌드분석</a> <a class="tag">#스타일링팁</a> <a class="tag">#라이브커머스</a> <a class="tag">#2026SS패션</a> <a class="tag">#완판아이템</a> <a class="tag">#패션쇼핑</a> <a class="tag">#큐레이션서비스</a> <a class="tag">#디자이너협업</a> <a class="tag">#OOTD</a> <a class="tag">#패션리더</a> <a class="tag">#안방쇼핑</a> <a class="tag">#쇼핑트렌드</a> <a class="tag">#패션매거진</a> <a class="tag">#김동은스타일</a> <a class="tag">#GS샵단독</a> <a class="tag">#청년일보뉴스</a></div>
+      </footer>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 오늘의 뉴스 브리핑</p>
+    </div>
+  </footer>
+</body>
+</html>
