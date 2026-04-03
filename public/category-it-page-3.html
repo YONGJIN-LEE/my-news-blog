@@ -568,7 +568,7 @@ img { max-width: 100%; height: auto; display: block; }
       <div class="post-info">
         <div class="post-meta-top">
           <span class="post-category">IT</span>
-          <span class="post-date" data-date="2026-04-02">2026-04-02</span>
+          <span class="post-date" data-date="2026-04-02T19:52:54">2026-04-02</span>
         </div>
         <h2><a href="2026-04-02-베놈스틸러멀웨어.html">베놈 스틸러' 멀웨어 확산 중! 스마트폰 보안 긴급 점검 필수</a></h2>
         <p class="post-summary">
@@ -583,7 +583,7 @@ img { max-width: 100%; height: auto; display: block; }
       <div class="post-info">
         <div class="post-meta-top">
           <span class="post-category">IT</span>
-          <span class="post-date" data-date="2026-04-02">2026-04-02</span>
+          <span class="post-date" data-date="2026-04-02T19:52:54">2026-04-02</span>
         </div>
         <h2><a href="2026-04-02-리니지클래식하이네.html">리니지 클래식 하이네 업데이트로 엔씨소프트 주가 반등하나?</a></h2>
         <p class="post-summary">
@@ -598,7 +598,7 @@ img { max-width: 100%; height: auto; display: block; }
       <div class="post-info">
         <div class="post-meta-top">
           <span class="post-category">IT</span>
-          <span class="post-date" data-date="2026-04-02">2026-04-02</span>
+          <span class="post-date" data-date="2026-04-02T19:52:54">2026-04-02</span>
         </div>
         <h2><a href="2026-04-02-iOS265베타1출시.html">애플 iOS 26.5 베타 1 전격 공개 시리 다중 명령과 보안 혁신</a></h2>
         <p class="post-summary">
@@ -613,7 +613,7 @@ img { max-width: 100%; height: auto; display: block; }
       <div class="post-info">
         <div class="post-meta-top">
           <span class="post-category">IT</span>
-          <span class="post-date" data-date="2026-04-02">2026-04-02</span>
+          <span class="post-date" data-date="2026-04-02T19:52:54">2026-04-02</span>
         </div>
         <h2><a href="2026-04-02-TSMC엔비디아생산.html">TSMC 3나노 병목에 엔비디아 50시리즈 생산량 비상!</a></h2>
         <p class="post-summary">
@@ -643,7 +643,7 @@ img { max-width: 100%; height: auto; display: block; }
 <script>
 (function(){
   function relTime(dateStr){
-    var d = new Date(dateStr + 'T09:00:00+09:00');
+    var d = dateStr.includes('T') ? new Date(dateStr + '+09:00') : new Date(dateStr + 'T09:00:00+09:00');
     var now = new Date();
     var diff = Math.floor((now - d) / 1000);
     if(diff < 0) return '';

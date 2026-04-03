@@ -615,7 +615,7 @@ img { max-width: 100%; height: auto; display: block; }
 <script>
 (function(){
   function relTime(dateStr){
-    var d = new Date(dateStr + 'T09:00:00+09:00');
+    var d = dateStr.includes('T') ? new Date(dateStr + '+09:00') : new Date(dateStr + 'T09:00:00+09:00');
     var now = new Date();
     var diff = Math.floor((now - d) / 1000);
     if(diff < 0) return '';

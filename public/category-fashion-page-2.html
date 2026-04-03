@@ -568,7 +568,7 @@ img { max-width: 100%; height: auto; display: block; }
       <div class="post-info">
         <div class="post-meta-top">
           <span class="post-category">패션</span>
-          <span class="post-date" data-date="2026-04-02">2026-04-02</span>
+          <span class="post-date" data-date="2026-04-02T20:05:57">2026-04-02</span>
         </div>
         <h2><a href="2026-04-02-남성여름패션트렌드.html">2026년 봄 여름 남성 패션 트렌드 미리보기 스타일링 팁</a></h2>
         <p class="post-summary">올해 봄과 여름 시즌을 앞두고 남성분들의 옷차림에도 큰 변화가 찾아올 것 같습니다. 에스콰이어 코리아가 제안하는 2026년 남성 패션 트렌드 핵심은 실용성과 미학의 적절한 조화입니다. 이번 시즌에는 정형화된 수트보다는 좀 더 여유롭고 편안한 실루엣의 아이템들이 각광받을 것으로 보입니다.
@@ -582,7 +582,7 @@ img { max-width: 100%; height: auto; display: block; }
       <div class="post-info">
         <div class="post-meta-top">
           <span class="post-category">패션</span>
-          <span class="post-date" data-date="2026-04-02">2026-04-02</span>
+          <span class="post-date" data-date="2026-04-02T20:05:57">2026-04-02</span>
         </div>
         <h2><a href="2026-04-02-GS샵스타일NOW.html">GS샵 프리미엄 패션 프로그램 스타일NOW 론칭 소식</a></h2>
         <p class="post-summary">쇼핑 트렌드가 빠르게 변화하는 가운데 GS샵에서 새로운 프리미엄 패션 전문 프로그램인 스타일NOW 더김동은을 선보였습니다. 이번 프로그램은 단순히 제품을 판매하는 홈쇼핑을 넘어 시청자들에게 깊이 있는 패션 정보를 제공하는 데 중점을 두었다고 합니다.
@@ -596,7 +596,7 @@ img { max-width: 100%; height: auto; display: block; }
       <div class="post-info">
         <div class="post-meta-top">
           <span class="post-category">패션</span>
-          <span class="post-date" data-date="2026-04-02">2026-04-02</span>
+          <span class="post-date" data-date="2026-04-02T20:05:57">2026-04-02</span>
         </div>
         <h2><a href="2026-04-02-2026선글라스트렌드.html">2026 선글라스 디자인 5가지 완벽분석! 미니멀리즘 결국 끝?</a></h2>
         <p class="post-summary">핵심 요약
@@ -610,7 +610,7 @@ img { max-width: 100%; height: auto; display: block; }
       <div class="post-info">
         <div class="post-meta-top">
           <span class="post-category">패션</span>
-          <span class="post-date" data-date="2026-04-02">2026-04-02</span>
+          <span class="post-date" data-date="2026-04-02T20:05:57">2026-04-02</span>
         </div>
         <h2><a href="2026-04-02-2026뷰티트렌드정교함.html">2026-04-02 2026 뷰티 트렌드 핵심: '덜어내는 정교함'과 본연의 미학</a></h2>
         <p class="post-summary">핵심 요약
@@ -626,7 +626,7 @@ img { max-width: 100%; height: auto; display: block; }
       <div class="post-info">
         <div class="post-meta-top">
           <span class="post-category">패션</span>
-          <span class="post-date" data-date="2026-04-02">2026-04-02</span>
+          <span class="post-date" data-date="2026-04-02T20:05:57">2026-04-02</span>
         </div>
         <h2><a href="2026-04-02-2026뷰티트렌드미니멀.html">2026 뷰티 키워드는 덜어내는 정교함 스킵케어의 진화</a></h2>
         <p class="post-summary">화장대를 가득 채운 화장품을 하나하나 다 바르던 시대는 지나가고 있습니다. 2026년 뷰티 트렌드의 핵심은 많이 바르는 것보다 꼭 필요한 것만 골라 바르는 덜어내는 정교함이라고 합니다. 뷰티경제의 보도에 따르면 이제 소비자들은 복잡한 단계의 스킨케어 대신 피부에 꼭 필요한 성분에만 집중하고 있습니다.
@@ -654,7 +654,7 @@ img { max-width: 100%; height: auto; display: block; }
 <script>
 (function(){
   function relTime(dateStr){
-    var d = new Date(dateStr + 'T09:00:00+09:00');
+    var d = dateStr.includes('T') ? new Date(dateStr + '+09:00') : new Date(dateStr + 'T09:00:00+09:00');
     var now = new Date();
     var diff = Math.floor((now - d) / 1000);
     if(diff < 0) return '';

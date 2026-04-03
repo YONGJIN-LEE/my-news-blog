@@ -564,7 +564,7 @@ img { max-width: 100%; height: auto; display: block; }
     <article class="post-featured">
       <div class="post-meta-top">
         <span class="post-category">사회</span>
-        <span class="post-date" data-date="2026-04-03">2026-04-03</span>
+        <span class="post-date" data-date="2026-04-03T15:09:31">2026-04-03</span>
       </div>
       <div class="featured-image"><img src="http://imgnews.naver.net/image/417/2021/11/25/0000758153_001_20211125114201714.jpg" alt="대법원 "리얼돌 통관 보류 부당" 최종 판결! 수입 규제 풀리나?" loading="lazy" onerror="this.onerror=null;this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMjIwIj4KPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KPHN0b3Agb2Zmc2V0PSIwJSIgc3R5bGU9InN0b3AtY29sb3I6IzJkMzQzNiIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6IzYzNmU3MiIvPgo8L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIyMjAiIGZpbGw9InVybCgjZykiIHJ4PSIxMiIvPgo8dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjgiIGZvbnQtd2VpZ2h0PSI2MDAiCmZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC44NSkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuMzVlbSI+7IKs7ZqMPC90ZXh0Pjwvc3ZnPg=='"></div>
       <h2><a href="2026-04-03-리얼돌톤관판결.html">대법원 "리얼돌 통관 보류 부당" 최종 판결! 수입 규제 풀리나?</a></h2>
@@ -583,7 +583,7 @@ img { max-width: 100%; height: auto; display: block; }
       <div class="post-info">
         <div class="post-meta-top">
           <span class="post-category">사회</span>
-          <span class="post-date" data-date="2026-04-03">2026-04-03</span>
+          <span class="post-date" data-date="2026-04-03T15:09:31">2026-04-03</span>
         </div>
         <h2><a href="2026-04-03-제주43추념일.html">제78주년 제주 4·3 희생자 추념일 "평화와 인권의 꽃이 피어납니다</a></h2>
         <p class="post-summary">
@@ -601,7 +601,7 @@ img { max-width: 100%; height: auto; display: block; }
       <div class="post-info">
         <div class="post-meta-top">
           <span class="post-category">사회</span>
-          <span class="post-date" data-date="2026-04-02">2026-04-02</span>
+          <span class="post-date" data-date="2026-04-02T20:05:57">2026-04-02</span>
         </div>
         <h2><a href="2026-04-02-부산특별법지자체반발.html">부산 글로벌특별법 난색에 지자체·시민단체 집단 반발 조짐</a></h2>
         <p class="post-summary">핵심 요약
@@ -619,7 +619,7 @@ img { max-width: 100%; height: auto; display: block; }
       <div class="post-info">
         <div class="post-meta-top">
           <span class="post-category">사회</span>
-          <span class="post-date" data-date="2026-04-02">2026-04-02</span>
+          <span class="post-date" data-date="2026-04-02T20:05:57">2026-04-02</span>
         </div>
         <h2><a href="2026-04-02-벚꽃축제인파안전주의보.html">벚꽃 축제 인파 500만 명 운집 안전주의보 결국 터졌다</a></h2>
         <p class="post-summary">핵심 요약
@@ -636,7 +636,7 @@ img { max-width: 100%; height: auto; display: block; }
       <div class="post-info">
         <div class="post-meta-top">
           <span class="post-category">사회</span>
-          <span class="post-date" data-date="2026-04-02">2026-04-02</span>
+          <span class="post-date" data-date="2026-04-02T20:05:57">2026-04-02</span>
         </div>
         <h2><a href="2026-04-02-벚꽃축제안전주의보.html">전국 벚꽃 축제 인파 운집에 따른 안전 사고 예방과 주의사항 총정리</a></h2>
         <p class="post-summary">핵심 요약
@@ -660,7 +660,7 @@ img { max-width: 100%; height: auto; display: block; }
 <script>
 (function(){
   function relTime(dateStr){
-    var d = new Date(dateStr + 'T09:00:00+09:00');
+    var d = dateStr.includes('T') ? new Date(dateStr + '+09:00') : new Date(dateStr + 'T09:00:00+09:00');
     var now = new Date();
     var diff = Math.floor((now - d) / 1000);
     if(diff < 0) return '';
