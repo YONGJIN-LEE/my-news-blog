@@ -157,7 +157,9 @@ def html_head(title, description="", thumbnail="", is_article=False):
   <meta property="og:description" content="{description}">
   {"" if not thumbnail else f'<meta property="og:image" content="{thumbnail}">'}
   <meta property="og:type" content="{og_type}">
-  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <style>{css}</style>
 </head>
 <body>"""
