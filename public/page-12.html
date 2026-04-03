@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>오늘의 뉴스 브리핑</title>
+  <meta name="description" content="최신 뉴스를 빠르고 정확하게">
+  <meta property="og:title" content="오늘의 뉴스 브리핑">
+  <meta property="og:description" content="최신 뉴스를 빠르고 정확하게">
+  
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <style>/* ═══════════════════════════════════════════════════════════════
+   Apple-inspired News Blog — 오늘의 뉴스 브리핑
+   Clean, minimal, content-first design
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ─── Web Fonts ─── */
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* ─── Reset & Typography ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --black: #1d1d1f;
+  --gray-900: #2d2d2f;
+  --gray-700: #6e6e73;
+  --gray-500: #86868b;
+  --gray-300: #d2d2d7;
+  --gray-100: #f5f5f7;
+  --white: #ffffff;
+  --blue: #0071e3;
+  --blue-hover: #0077ed;
+  --max-width: 720px;
+  --font-sans: 'Pretendard Variable', 'Pretendard', 'Inter', -apple-system,
+               BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-sans);
+  line-height: 1.65;
+  color: var(--black);
+  background: var(--white);
+  letter-spacing: -0.01em;
+  word-break: keep-all;
+}
+
+a { color: var(--blue); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+img { max-width: 100%; height: auto; display: block; }
+
+/* ─── Navigation ─── */
+.site-header {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+}
+
+.site-header .container {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 22px;
+  height: 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.site-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--black);
+  letter-spacing: -0.01em;
+}
+
+.site-title:hover { text-decoration: none; }
+
+.site-header nav { display: flex; gap: 28px; }
+
+.site-header nav a {
+  font-size: 0.8rem;
+  color: var(--gray-700);
+  letter-spacing: -0.01em;
+  transition: color 0.2s;
+}
+
+.site-header nav a:hover { color: var(--black); text-decoration: none; }
+
+/* ─── Category Navigation ─── */
+.category-nav {
+  background: var(--gray-100);
+  border-bottom: 1px solid var(--gray-300);
+  position: sticky;
+  top: 48px;
+  z-index: 9998;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.category-nav::-webkit-scrollbar { display: none; }
+.category-nav { -ms-overflow-style: none; scrollbar-width: none; }
+
+.category-nav .container {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 22px;
+  display: flex;
+  gap: 4px;
+  height: 44px;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.category-nav a {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--gray-700);
+  padding: 6px 14px;
+  border-radius: 20px;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.category-nav a:hover {
+  color: var(--black);
+  background: rgba(0, 0, 0, 0.05);
+  text-decoration: none;
+}
+
+.category-nav a.active {
+  color: var(--white);
+  background: var(--black);
+}
+
+.category-nav a.active:hover {
+  color: var(--white);
+  background: var(--gray-900);
+}
+
+/* ─── Main Container ─── */
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 22px;
+}
+
+/* ─── Post List (Index Page) ─── */
+.post-list h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  margin: 56px 0 8px;
+  color: var(--black);
+}
+
+.post-list-subtitle {
+  font-size: 0.95rem;
+  color: var(--gray-500);
+  margin-bottom: 40px;
+}
+
+.post-card {
+  display: flex;
+  gap: 24px;
+  padding: 28px 0;
+  border-top: 1px solid var(--gray-300);
+  transition: opacity 0.2s;
+}
+
+.post-card:last-child { border-bottom: 1px solid var(--gray-300); }
+
+.post-card:hover { opacity: 0.85; }
+
+.post-thumb {
+  flex-shrink: 0;
+  width: 200px;
+  height: 134px;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.post-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.post-card:hover .post-thumb img { transform: scale(1.03); }
+
+.post-info { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+
+.post-meta-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.post-category {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--blue);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.post-date {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+.post-info h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.45;
+  letter-spacing: -0.015em;
+  margin-bottom: 6px;
+}
+
+.post-info h2 a { color: var(--black); }
+.post-info h2 a:hover { color: var(--blue); text-decoration: none; }
+
+.post-summary {
+  font-size: 0.85rem;
+  color: var(--gray-700);
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ─── Featured Post (Top of list) ─── */
+.post-featured {
+  padding: 40px 0 32px;
+  border-bottom: 1px solid var(--gray-300);
+  margin-bottom: 8px;
+}
+
+.post-featured .featured-image {
+  width: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.post-featured .featured-image img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+}
+
+.post-featured h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.35;
+  margin-bottom: 8px;
+}
+
+.post-featured h2 a { color: var(--black); }
+.post-featured h2 a:hover { color: var(--blue); text-decoration: none; }
+
+/* ─── Single Post ─── */
+.post-single {
+  padding: 48px 0 64px;
+}
+
+.post-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.post-header .post-category {
+  font-size: 0.75rem;
+  display: inline-block;
+  margin-bottom: 12px;
+}
+
+.post-header h1 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.3;
+  color: var(--black);
+  margin-bottom: 16px;
+  word-break: keep-all;
+}
+
+.post-meta {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  align-items: center;
+  color: var(--gray-500);
+  font-size: 0.85rem;
+}
+
+.post-hero {
+  margin: 0 0 40px;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.post-hero img {
+  width: 100%;
+  max-height: 480px;
+  object-fit: cover;
+}
+
+/* ─── Post Content ─── */
+.post-content {
+  font-size: 1.05rem;
+  line-height: 1.85;
+  color: var(--gray-900);
+  word-break: keep-all;
+}
+
+.post-content h2 {
+  font-size: 1.45rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 48px 0 16px;
+  color: var(--black);
+}
+
+.post-content h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  margin: 36px 0 12px;
+  color: var(--black);
+}
+
+.post-content p {
+  margin: 16px 0;
+}
+
+.post-content ul, .post-content ol {
+  margin: 16px 0;
+  padding-left: 24px;
+}
+
+.post-content li {
+  margin: 8px 0;
+  line-height: 1.7;
+}
+
+.post-content strong {
+  font-weight: 600;
+  color: var(--black);
+}
+
+.post-content blockquote {
+  margin: 28px 0;
+  padding: 20px 24px;
+  background: var(--gray-100);
+  border-radius: 12px;
+  color: var(--gray-700);
+  font-size: 1rem;
+}
+
+.post-content img {
+  margin: 32px auto;
+  border-radius: 12px;
+}
+
+.post-content hr {
+  border: none;
+  height: 1px;
+  background: var(--gray-300);
+  margin: 40px 0;
+}
+
+/* ─── Tags ─── */
+.post-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.tag {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+.post-tags-footer {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--gray-300);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.post-tags-footer .tag {
+  background: var(--gray-100);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  color: var(--gray-700);
+  transition: background 0.2s;
+}
+
+.post-tags-footer .tag:hover {
+  background: var(--gray-300);
+  text-decoration: none;
+}
+
+/* ─── Post Navigation ─── */
+.post-nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 24px 0 48px;
+  font-size: 0.85rem;
+  border-top: 1px solid var(--gray-300);
+  margin-top: 32px;
+}
+
+.post-nav a { color: var(--blue); }
+
+/* ─── Footer ─── */
+.site-footer {
+  background: var(--gray-100);
+  border-top: 1px solid var(--gray-300);
+}
+
+.site-footer .container {
+  max-width: 980px;
+  padding: 20px 22px;
+  text-align: center;
+}
+
+.site-footer p {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+/* ─── Pagination ─── */
+.pagination-nav {
+  margin: 48px 0 24px;
+  text-align: center;
+}
+
+.pagination {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  list-style: none;
+  padding: 0;
+}
+
+.pagination li a, .pagination li span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 40px;
+  padding: 0 12px;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--gray-700);
+  transition: all 0.2s;
+}
+
+.pagination li a:hover {
+  background: var(--gray-100);
+  color: var(--black);
+  text-decoration: none;
+}
+
+.pagination li span.active {
+  background: var(--black);
+  color: var(--white);
+}
+
+.pagination .page-dots {
+  color: var(--gray-500);
+  min-width: 32px;
+  font-size: 0.9rem;
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 640px) {
+  .post-card {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .post-thumb {
+    width: 100%;
+    height: 200px;
+    border-radius: 12px;
+  }
+
+  .post-list h1 { font-size: 1.6rem; margin-top: 32px; }
+
+  .post-header h1 { font-size: 1.6rem; }
+
+  .post-single { padding: 32px 0 48px; }
+
+  .post-featured .featured-image img { height: 240px; }
+  .post-featured h2 { font-size: 1.3rem; }
+
+  .post-content { font-size: 1rem; }
+}
+</style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="index.html" class="site-title">오늘의 뉴스 브리핑</a>
+      <nav>
+        <a href="index.html">홈</a>
+      </nav>
+    </div>
+  </header>
+  
+  <nav class="category-nav">
+    <div class="container">
+      <a href="index.html" class="active">전체</a>
+        <a href="category-politics.html">정치</a>
+        <a href="category-society.html">사회</a>
+        <a href="category-economy.html">경제</a>
+        <a href="category-entertainment.html">연예</a>
+        <a href="category-life.html">생활</a>
+        <a href="category-it.html">IT</a>
+        <a href="category-sports.html">스포츠</a>
+        <a href="category-fashion.html">패션</a>
+        
+    </div>
+  </nav>
+  <main class="container">
+    <div class="post-list">
+      <h1>오늘의 뉴스</h1>
+      <p class="post-list-subtitle">전체 360개 게시물 — 12/12 페이지</p>
+      
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-03-31-민생추경26조원확정.html"><img src="https://picsum.photos/seed/1083/1200/630" alt="민생 추경 26.2조 확정! 고유가 피해지원금 60만 원 누가 받나?" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">일반</span>
+          <span class="post-date">2026-03-31</span>
+        </div>
+        <h2><a href="2026-03-31-민생추경26조원확정.html">민생 추경 26.2조 확정! 고유가 피해지원금 60만 원 누가 받나?</a></h2>
+        <p class="post-summary"> 핵심 요약
+
+26.2조 원 규모의 '전쟁 추경' 국무회의 의결 및 확정
+소득 하위 70% 국민 3,577만 명에게 '고유가 피해지원금' 지급
+1인당 최소 10만 원에서 최대 60만 원까지 소득·지역별 차등 지급
+취약계층 4월 말 우선 지급, 일반 대상자 순차 지급 예정
+지역 경제 활성화를 위해 전액 지역화폐(카드·모바일...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-03-31-국민의힘공관위사퇴.html"><img src="https://picsum.photos/seed/6513/1200/630" alt="국민의힘 공관위 전원 사퇴! 이정현 사의 표명에 여권 흔들? (이유 분석)" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">일반</span>
+          <span class="post-date">2026-03-31</span>
+        </div>
+        <h2><a href="2026-03-31-국민의힘공관위사퇴.html">국민의힘 공관위 전원 사퇴! 이정현 사의 표명에 여권 흔들? (이유 분석)</a></h2>
+        <p class="post-summary"> 핵심 요약
+
+이정현 국민의힘 공천관리위원장 및 위원 전원 일괄 사퇴 발표
+지방선거 공천 업무 90% 이상 완료에 따른 사실상의 활동 종료
+다가올 국회의원 재·보궐 선거를 위한 새로운 공관위 구성 필요성 제기
+이정현 전 위원장, 호남 지역(전남·광주) 선거 지휘에 집중할 전망
+사퇴 과정에서의 공천 방식 이견 및 혁신 추진...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-03-31-강소라딸공개.html"><img src="https://picsum.photos/seed/8466/1200/630" alt="강소라 딸 최초 공개! 붕어빵 외모에 200% 놀란 이유? (슈돌 출연?)" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">일반</span>
+          <span class="post-date">2026-03-31</span>
+        </div>
+        <h2><a href="2026-03-31-강소라딸공개.html">강소라 딸 최초 공개! 붕어빵 외모에 200% 놀란 이유? (슈돌 출연?)</a></h2>
+        <p class="post-summary"> 핵심 요약
+
+배우 강소라, 방송과 SNS를 통해 두 딸의 얼굴을 최초로 공개하며 화제
+엄마를 쏙 빼닮은 '리틀 강소라'급 비주얼로 네티즌들 사이에서 폭발적 반응
+2021년 첫째 딸, 2023년 둘째 딸 출산 이후 신비주의를 깨고 가족 일상 공유
+방송 복귀와 함께 '워킹맘'으로서의 친근한 이미지 구축 중
+팬들은 "유전자의...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-03-31-63지방선거여야판세분석.html"><img src="https://picsum.photos/seed/2049/1200/630" alt="6·3 지방선거 D-65 여야 판세 완벽 분석" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">일반</span>
+          <span class="post-date">2026-03-31</span>
+        </div>
+        <h2><a href="2026-03-31-63지방선거여야판세분석.html">6·3 지방선거 D-65 여야 판세 완벽 분석</a></h2>
+        <p class="post-summary"> 핵심 요약
+
+6월 3일 제9회 전국동시지방선거 65일 앞두고 여야 선거 구도 본격화
+민주당 지지율 46% vs 국민의힘 18%…이재명 대통령 69% 지지율에 여당 유리
+국민의힘, 공천 갈등과 험지 후보난으로 이중고…TK 수성 여부 주목
+
+ 사건/이슈 개요
+오는 6월 3일 제9회 전국동시지방선거가 치러집니다. 광역단체장,...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-03-31-2027최저임금심의시작.html"><img src="https://picsum.photos/seed/2781/1200/630" alt="2027년 최저임금 심의 오늘 시작! 7.3% 오를까?" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">일반</span>
+          <span class="post-date">2026-03-31</span>
+        </div>
+        <h2><a href="2026-03-31-2027최저임금심의시작.html">2027년 최저임금 심의 오늘 시작! 7.3% 오를까?</a></h2>
+        <p class="post-summary"> 핵심 요약
+
+김영훈 고용노동부 장관, 3월 31일 최저임금위원회에 2027년 최저임금 심의 공식 요청
+한국노총, 7.3%(월 32만3,408원) 인상 요구율 확정
+경영계, 경기 둔화·인건비 부담 이유로 동결 또는 최소 인상 주장할 전망
+2026년 적용 최저임금은 시간당 1만2,600원 수준
+최임위 90일 이내 심의 완료...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-03-30-장서희몽골초상권사칭피해.html"><img src="https://picsum.photos/seed/7134/1200/630" alt="장서희, 몽골 사칭 사이트에 초상권 피해 법적 조치" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">일반</span>
+          <span class="post-date">2026-03-30</span>
+        </div>
+        <h2><a href="2026-03-30-장서희몽골초상권사칭피해.html">장서희, 몽골 사칭 사이트에 초상권 피해 법적 조치</a></h2>
+        <p class="post-summary"> 핵심 요약
+
+배우 장서희, 몽골에서 자신의 이름·초상을 무단 사용한 화장품 사이트 발견
+SNS를 통해 직접 피해 사실 공개하며 소비자 피해 예방 경고
+현재 해당 업체에 대해 법적 조치 진행 중
+
+ 사건/이슈 개요
+배우 장서희가 몽골에서 자신의 이름과 초상권을 무단으로 사용해 화장품을 판매하는 사이트가 있다는 사실을 발견...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-03-30-아이린Biggest-Fan.html"><img src="https://picsum.photos/seed/4203/1200/630" alt="아이린 정규 1집 Biggest Fan 오늘 발매" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">일반</span>
+          <span class="post-date">2026-03-30</span>
+        </div>
+        <h2><a href="2026-03-30-아이린Biggest-Fan.html">아이린 정규 1집 Biggest Fan 오늘 발매</a></h2>
+        <p class="post-summary"> 핵심 요약
+
+레드벨벳 아이린, 첫 정규 앨범 《Biggest Fan》 2026년 3월 30일 오후 6시 공개
+총 10트랙 수록, 타이틀곡 동명의 'Biggest Fan'은 밝고 에너지 넘치는 팝댄스 곡
+이전 미니앨범 《Like A Flower》(2024년 11월) 이후 약 1년 4개월 만의 컴백
+
+ 사건/이슈 개요
+레드...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-03-30-노킹스반트럼프시위800만명.html"><img src="https://picsum.photos/seed/8027/1200/630" alt="노킹스 반트럼프 시위 800만명, 역대 최대 규모" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">일반</span>
+          <span class="post-date">2026-03-30</span>
+        </div>
+        <h2><a href="2026-03-30-노킹스반트럼프시위800만명.html">노킹스 반트럼프 시위 800만명, 역대 최대 규모</a></h2>
+        <p class="post-summary"> 핵심 요약
+
+3월 28일 미국 전역과 유럽에서 '노 킹스(No Kings)' 반트럼프 시위 역사상 최대 규모로 진행
+약 800만 명 이상 참가, 단일 집회로는 미국 역사상 최대 규모로 평가
+LA 등 일부 지역에서 경찰 해산 시도 및 75명 체포 발생
+
+ 사건/이슈 개요
+2026년 3월 28일(현지 시각) 미국 전역과 유...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-03-30-25조추경여야합의4월10일처리.html"><img src="https://picsum.photos/seed/2365/1200/630" alt="25조 추경 여야 합의 — 4월 10일 국회 처리 확정" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">일반</span>
+          <span class="post-date">2026-03-30</span>
+        </div>
+        <h2><a href="2026-03-30-25조추경여야합의4월10일처리.html">25조 추경 여야 합의 — 4월 10일 국회 처리 확정</a></h2>
+        <p class="post-summary"> 핵심 요약
+
+민주당·국민의힘, 25조 원 규모 추경안 4월 10일까지 본회의 처리 합의
+정부는 3월 31일 추경안 국회 제출 예정, 중동 전쟁 장기화 경제 위기 대응
+시정연설·예산심의 일정 합의… 추경 혜택 국민에게 언제 전달되나
+
+ 사건/이슈 개요
+3월 30일, 더불어민주당 한병도 원내대표와 국민의힘 송언석 원내대표는...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-03-27-전장연버스탑승시위.html"><img src="https://picsum.photos/seed/2580/1200/630" alt="전장연 광화문 버스 탑승시위 경찰 대치 이동권 촉구" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">일반</span>
+          <span class="post-date">2026-03-27</span>
+        </div>
+        <h2><a href="2026-03-27-전장연버스탑승시위.html">전장연 광화문 버스 탑승시위 경찰 대치 이동권 촉구</a></h2>
+        <p class="post-summary"> 핵심 요약
+
+전국장애인차별철폐연대(전장연), 3월 27일 광화문 버스 승강장서 탑승 시위 진행
+활동가 20여 명 휠체어 탄 채 버스 탑승 시도, 경찰과 대치
+장애인 이동권 보장 예산 확보 및 관련 법 개정 촉구
+
+ 사건/이슈 개요
+전국장애인차별철폐연대(전장연)는 3월 27일 오전 서울 종로구 광화문 버스 승강장에서 버스...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-03-27-석유최고가격제2차시행.html"><img src="https://picsum.photos/seed/3640/1200/630" alt="석유 최고가격제 2차 시행, 휘발유 2000원 돌파하나" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">일반</span>
+          <span class="post-date">2026-03-27</span>
+        </div>
+        <h2><a href="2026-03-27-석유최고가격제2차시행.html">석유 최고가격제 2차 시행, 휘발유 2000원 돌파하나</a></h2>
+        <p class="post-summary"> 핵심 요약
+
+2026년 3월 27일 0시부터 2차 석유 최고가격제 전격 시행
+휘발유·경유 모두 리터당 2000원 초과 가능성
+유류세 인하율 확대로 일부 가격 부담 완화 기대
+
+ 사건/이슈 개요
+정부가 2026년 3월 27일(금) 0시를 기해 2차 석유 최고가격제를 시행했다. 중동 지역의 군사적 충돌로 인한 국제 유가 폭...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-03-27-대구조명공장화재.html"><img src="https://picsum.photos/seed/159/1200/630" alt="대구 조명공장 화재, 대응 1단계 발령…인명피해 없어" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">일반</span>
+          <span class="post-date">2026-03-27</span>
+        </div>
+        <h2><a href="2026-03-27-대구조명공장화재.html">대구 조명공장 화재, 대응 1단계 발령…인명피해 없어</a></h2>
+        <p class="post-summary"> 핵심 요약
+
+3월 26일 밤 대구 방촌동 조명자재 공장서 화재 발생
+인접 건물로 번져 소방 대응 1단계 발령, 137명 투입
+인명피해 없이 오후 10시 26분 큰 불길 잡혀
+
+ 사건/이슈 개요
+2026년 3월 26일(목) 오후 8시 43분경 대구 동구 방촌동에 위치한 조명자재 제조 공장에서 큰 불이 났다. 불길이 인접 ...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-03-27-노웅래항소심결심.html"><img src="https://picsum.photos/seed/6907/1200/630" alt="노웅래 항소심 결심 연기, 4월 8일로 변경" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">일반</span>
+          <span class="post-date">2026-03-27</span>
+        </div>
+        <h2><a href="2026-03-27-노웅래항소심결심.html">노웅래 항소심 결심 연기, 4월 8일로 변경</a></h2>
+        <p class="post-summary"> 핵심 요약
+
+1심 무죄 노웅래 전 의원 항소심, 결심 공판 4월 8일로 연기
+검찰 "수사 절차 적법" 주장하며 유죄 판결 재촉구
+불법 정치자금 6000만원 수수 혐의 2심 판단에 관심 집중
+
+ 사건/이슈 개요
+불법 정치자금 수수 혐의로 기소됐다가 1심에서 무죄를 선고받은 노웅래 전 더불어민주당 의원(서울 마포갑)의 항소...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-03-27-김소영약물레시피.html"><img src="https://picsum.photos/seed/7182/1200/630" alt="강북 모텔 살인 '약물 레시피' SNS 확산 모방범죄 우려" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">일반</span>
+          <span class="post-date">2026-03-27</span>
+        </div>
+        <h2><a href="2026-03-27-김소영약물레시피.html">강북 모텔 살인 '약물 레시피' SNS 확산 모방범죄 우려</a></h2>
+        <p class="post-summary"> 핵심 요약
+
+강북구 모텔 연쇄살인 사건 피의자 김소영(21)의 범행 약물 정보가 SNS에 급속 확산
+관련 게시물 조회수 200만 회 돌파, 모방범죄 우려 커져
+식약처·경찰 경고 속 SBS '그것이 알고 싶다' 방송도 논란
+
+ 사건/이슈 개요
+강북구 모텔에서 2025년 10월부터 2026년 2월까지 남성 6명에게 약물을 ...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-03-27-OECD경제성장률.html"><img src="https://picsum.photos/seed/4901/1200/630" alt="OECD 한국 성장률 2.1→1.7% 하향 중동전쟁 직격탄" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">일반</span>
+          <span class="post-date">2026-03-27</span>
+        </div>
+        <h2><a href="2026-03-27-OECD경제성장률.html">OECD 한국 성장률 2.1→1.7% 하향 중동전쟁 직격탄</a></h2>
+        <p class="post-summary"> 핵심 요약
+
+OECD, 2026년 한국 경제성장률 전망 2.1%에서 1.7%로 0.4%p 하향 조정
+G20 국가 중 두 번째로 큰 폭의 하향 조정, 주요 원인은 중동전쟁
+물가 전망도 1.8%에서 2.7%로 대폭 상향, 스태그플레이션 우려 대두
+
+ 사건/이슈 개요
+경제협력개발기구(OECD)가 3월 26일 발표한 경제 전망...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-03-26-소셜미디어중독배심원판결.html"><img src="https://picsum.photos/seed/4260/1200/630" alt="Meta·YouTube 소셜미디어 중독 배상 판결, 무슨 내용?" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">일반</span>
+          <span class="post-date">2026-03-26</span>
+        </div>
+        <h2><a href="2026-03-26-소셜미디어중독배심원판결.html">Meta·YouTube 소셜미디어 중독 배상 판결, 무슨 내용?</a></h2>
+        <p class="post-summary"> 핵심 요약
+
+미국 배심원단, 메타·유튜브에 소셜미디어 중독 책임 인정
+총 600만 달러 배상 판결, 미국 최초의 배심원 판결
+약 2000건 유사 소송의 방향을 가를 분수령
+
+ 사건/이슈 개요
+2026년 3월 25일(현지시간), 미국 캘리포니아 배심원단이 메타(인스타그램)와 구글(유튜브)이 소셜미디어 중독으로 인한 피해에...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-03-26-광화문한글현판논란.html"><img src="https://picsum.photos/seed/6434/1200/630" alt="광화문 현판 한글 vs 한자 논란, 진짜 문제는 뭘까?" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">일반</span>
+          <span class="post-date">2026-03-26</span>
+        </div>
+        <h2><a href="2026-03-26-광화문한글현판논란.html">광화문 현판 한글 vs 한자 논란, 진짜 문제는 뭘까?</a></h2>
+        <p class="post-summary">핵심 요약
+
+문화체육관광부, 광화문 한글 현판 추가 설치 공론화 착수
+3월 31일 전문가 토론회 개최 후 4월 국민 설문조사 예정
+BTS 배경으로도 유명한 광화문, 현판 교체 두고 찬반 팽팽
+
+사건/이슈 개요
+문화체육관광부가 광화문 현판에 한글을 추가로 병기하는 방안을 공론화 테이블에 올렸습니다. 현재 광화문에는 '光化門...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-03-26-강선우구속적부심기각.html"><img src="https://picsum.photos/seed/1557/1200/630" alt="강선우 의원 구속적부심 기각, 공천 금품 수수 혐의" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">일반</span>
+          <span class="post-date">2026-03-26</span>
+        </div>
+        <h2><a href="2026-03-26-강선우구속적부심기각.html">강선우 의원 구속적부심 기각, 공천 금품 수수 혐의</a></h2>
+        <p class="post-summary"> 핵심 요약
+
+법원, 강선우 무소속 의원 구속적부심 청구 기각
+지방선거 공천 대가 금품 수수 혐의
+구속 상태로 수사 계속 진행 예정
+
+ 사건/이슈 개요
+법원은 2026년 3월 26일, 지방선거 공천 대가로 금품을 수수한 혐의를 받는 강선우 무소속 의원이 청구한 구속적부심사를 기각했습니다. 이에 따라 강 의원은 구속 상태를...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-03-26-GS칼텍스현대건설PO.html"><img src="https://picsum.photos/seed/8717/1200/630" alt="여자배구 GS칼텍스 vs 현대건설 — 오늘 PO 시작!" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">일반</span>
+          <span class="post-date">2026-03-26</span>
+        </div>
+        <h2><a href="2026-03-26-GS칼텍스현대건설PO.html">여자배구 GS칼텍스 vs 현대건설 — 오늘 PO 시작!</a></h2>
+        <p class="post-summary"> 핵심 요약
+
+2025~2026 V리그 여자부 플레이오프(PO), 26일부터 3전 2선승제 시작
+정규리그 2위 현대건설 힐스테이트 vs 준PO 승자 GS칼텍스 맞대결
+승자는 챔피언결정전 직행, 양 팀 핵심 외국인 선수 대결이 관전 포인트
+
+ 사건/이슈 개요
+프로배구 2025~2026 V리그 여자부 플레이오프가 3월 26일...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-인천Utd연승도전.html"><img src="https://picsum.photos/seed/7688/1200/630" alt="무고사 앞세운 인천 Utd, 김천상무 꺾고 시즌 첫 2연승 노린다" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-인천Utd연승도전.html">무고사 앞세운 인천 Utd, 김천상무 꺾고 시즌 첫 2연승 노린다</a></h2>
+        <p class="post-summary">
+핵심 요약
+
+인천 유나이티드가 4월 2일 홈에서 김천 상무를 상대로 K리그1 경기를 치른다.
+팀의 간판 공격수 무고사가 선발 출격해 득점포 가동을 예고했다.
+지난 경기 승리의 기세를 이어 시즌 첫 2연승 달성을 목표로 하고 있다.
+김천 상무는 군 팀 특유의 기동력과 조직력을 앞세워 인천의 공세를 막아낼 계획이다.
+인천은...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-이정후샌프란시스코호수비.html"><img src="https://picsum.photos/seed/8926/1200/630" alt="샌프란시스코 이정후 '미친 수비'! 몸 날려 팀 구한 '바람의 손자' 현지 극찬" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-이정후샌프란시스코호수비.html">샌프란시스코 이정후 '미친 수비'! 몸 날려 팀 구한 '바람의 손자' 현지 극찬</a></h2>
+        <p class="post-summary">
+핵심 요약
+
+샌프란시스코 자이언츠의 이정후가 샌디에이고전에서 실점을 막아내는 환상적인 호수비를 선보였다.
+5회말 안타성 타구를 몸을 날려 잡아내며 선발 투수의 어깨를 가볍게 했다.
+타격에서는 3타수 무안타 1볼넷으로 다소 아쉬웠으나, 수비력만큼은 메이저리그 최상위권임을 증명했다.
+현지 언론과 팬들은 이정후의 수비 범위를...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-삼성3000승강민호2500경기.html"><img src="https://picsum.photos/seed/5078/1200/630" alt="삼성 라이온즈 통산 3000승 금자탑! 강민호 2500경기 출장 대기록까지 겹경사" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-삼성3000승강민호2500경기.html">삼성 라이온즈 통산 3000승 금자탑! 강민호 2500경기 출장 대기록까지 겹경사</a></h2>
+        <p class="post-summary">
+핵심 요약
+
+삼성 라이온즈가 KBO 리그 역사상 최초로 팀 통산 3,000승이라는 대기록을 달성했다.
+주전 포수 강민호는 역대 최초 2,500경기 출장이라는 전무후무한 기록을 세웠다.
+1일 잠실 두산전에서 승리하며 두 개의 대기록이 동시에 탄생하는 드라마를 썼다.
+삼성의 명문 구단 입지를 다시 한번 증명하는 계기가 되었...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-광주최연소준프로.html"><img src="https://picsum.photos/seed/9865/1200/630" alt="광주 FC의 미래, 만 16세 MF 박성현 '최연소 준프로' 계약 체결" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-광주최연소준프로.html">광주 FC의 미래, 만 16세 MF 박성현 '최연소 준프로' 계약 체결</a></h2>
+        <p class="post-summary">
+핵심 요약
+
+광주 FC가 팀 역사상 최연소인 만 16세 미드필더 박성현과 준프로 계약을 맺었다.
+박성현은 광주 유스팀인 금호고 소속으로 뛰어난 잠재력을 인정받은 유망주다.
+이번 계약은 광주의 유스 육성 시스템인 '광주형 화수분 축구'의 성과로 평가받는다.
+박성현은 탄탄한 기본기와 창의적인 패스 능력을 갖춘 공격형 미드필...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-중국메타마누스규제.html"><img src="https://picsum.photos/seed/9037/1200/630" alt="중국 메타의 AI 기업 마누스 인수 차단 시나리오? 빅테크 규제 확산" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">IT</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-중국메타마누스규제.html">중국 메타의 AI 기업 마누스 인수 차단 시나리오? 빅테크 규제 확산</a></h2>
+        <p class="post-summary">
+핵심 요약
+중국 정부가 페이스북의 모기업 메타(Meta)가 추진 중인 혁신 AI 스타트업 '마누스(Manus)'의 인수에 대해 강력한 규제 가능성을 시사하며 글로벌 IT 업계에 파장이 일고 있다. 자국의 데이터 안보와 기술 유출 방지를 명분으로 내세운 이번 조치는 미국과 중국 간의 기술 패권 다툼이 AI 소프트웨어 분야...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-베놈스틸러멀웨어.html"><img src="https://picsum.photos/seed/8361/1200/630" alt="베놈 스틸러' 멀웨어 확산 중! 스마트폰 보안 긴급 점검 필수" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">IT</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-베놈스틸러멀웨어.html">베놈 스틸러' 멀웨어 확산 중! 스마트폰 보안 긴급 점검 필수</a></h2>
+        <p class="post-summary">
+핵심 요약
+최근 안드로이드 스마트폰을 겨냥한 신종 멀웨어 '베놈 스틸러(Venom Stealer)'가 전 세계적으로 빠르게 확산되며 사용자들의 개인정보를 위협하고 있다. 이 악성코드는 기존의 백신 프로그램을 우회하는 지능형 수법을 사용하며 은행 계좌 정보뿐만 아니라 암호화폐 지갑까지 탈취하는 것으로 확인됐다. 전문가들은...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-메타AI스마트안경.html"><img src="https://picsum.photos/seed/5202/1200/630" alt="메타 도수 렌즈 내장 AI 스마트안경 출시! 안경의 미래가 바뀐다" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">IT</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-메타AI스마트안경.html">메타 도수 렌즈 내장 AI 스마트안경 출시! 안경의 미래가 바뀐다</a></h2>
+        <p class="post-summary">
+핵심 요약
+메타(구 페이스북)가 시력 교정용 도수 렌즈를 기본 탑재할 수 있는 차세대 AI 스마트안경을 전격 공개하며 웨어러블 시장의 판도 변화를 예고했다. 이번 신제품은 별도의 카메라나 디스플레이 없이도 안경 다리에 내장된 스피커와 AI 어시스턴트를 통해 실시간 번역, 정보 검색, 음악 감상 등을 수행할 수 있다. 디...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-TSMC엔비디아생산.html"><img src="https://picsum.photos/seed/2206/1200/630" alt="TSMC 3나노 병목에 엔비디아 50시리즈 생산량 비상!" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">IT</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-TSMC엔비디아생산.html">TSMC 3나노 병목에 엔비디아 50시리즈 생산량 비상!</a></h2>
+        <p class="post-summary">
+핵심 요약
+세계 최대 파운드리 업체인 TSMC의 생산 라인에 과부하가 걸리면서 엔비디아의 차세대 GPU '블랙웰'과 RTX 50 시리즈 생산 계획에 차질이 생겼다. 3나노 공정의 수율 안정화가 예상보다 늦어지고 있는 가운데 엔비디아가 시장 수요를 맞추기 위해 출하량을 조절하고 있다는 소식이 전해졌다. 이는 AI 가속기 ...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-오후_이대통령부산특별법난색.html"><img src="https://picsum.photos/seed/6503/1200/630" alt="이 대통령 \"부산만 특별법?\" 난색 파장에 지자체 비상" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">정치</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-오후_이대통령부산특별법난색.html">이 대통령 \"부산만 특별법?\" 난색 파장에 지자체 비상</a></h2>
+        <p class="post-summary">
+핵심 요약
+
+이 대통령이 '부산 글로벌특별법'에 대해 형평성 문제를 제기하며 사실상 난색을 표했다.
+부산 지역 정가와 시민단체는 대통령의 발언이 지역 균형 발전에 역행한다며 강력 반발하고 있다.
+대통령실은 특정 지역에만 특혜를 주는 입법은 헌법적 가치와 충돌할 수 있다는 논리를 펴고 있다.
+이번 발언으로 인해 여권 내 ...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-오후_부산특별법지자체반발.html"><img src="https://picsum.photos/seed/5343/1200/630" alt="부산 글로벌특별법 난색에 지자체·시민단체 집단 반발 조짐" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">사회</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-오후_부산특별법지자체반발.html">부산 글로벌특별법 난색에 지자체·시민단체 집단 반발 조짐</a></h2>
+        <p class="post-summary">
+핵심 요약
+
+이 대통령의 '부산 특별법 형평성' 발언 이후 부산 지역 시민단체와 지자체가 거세게 들고 일어났다.
+부산시청은 정부의 갑작스러운 입장 변화에 당혹감을 표하며 대책 마련에 부심하고 있다.
+시민단체들은 \"부산 엑스포 유치 실패 보상책마저 빼앗으려 한다\"며 강력한 장외 투쟁을 예고했다.
+지역 경제계는 특별법 ...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-오후_추경안여야대립심화.html"><img src="https://picsum.photos/seed/5797/1200/630" alt="추경안 둘러싼 여야 대립 심화, 경제적 폭풍 전야의 국회" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">경제</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-오후_추경안여야대립심화.html">추경안 둘러싼 여야 대립 심화, 경제적 폭풍 전야의 국회</a></h2>
+        <p class="post-summary">
+핵심 요약
+
+정부의 대규모 추가경정예산(추경)안을 두고 여야가 타협점 없는 정면 충돌을 이어가고 있다.
+야당은 정부의 추경안이 '매표용'이라며 대폭 삭감을 주장하는 반면, 여당은 '민생 구제'를 위해 시급한 처리를 촉구하고 있다.
+경제 전문가들은 이번 추경이 인플레이션을 자극하고 국가 채무를 가중시킬 수 있다는 우려를 ...</p>
+      </div>
+    </article>
+      
+    <nav class="pagination-nav">
+      <ul class="pagination">
+        <li><a href="page-11.html">&laquo; 이전</a></li>
+<li><a href="index.html">1</a></li>
+<li><span class="page-dots">…</span></li>
+<li><a href="page-6.html">6</a></li>
+<li><a href="page-7.html">7</a></li>
+<li><a href="page-8.html">8</a></li>
+<li><a href="page-9.html">9</a></li>
+<li><a href="page-10.html">10</a></li>
+<li><a href="page-11.html">11</a></li>
+<li><span class="active">12</span></li>
+
+      </ul>
+    </nav>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 오늘의 뉴스 브리핑</p>
+    </div>
+  </footer>
+</body>
+</html>

@@ -21,8 +21,8 @@ CSS_FILE = STATIC_DIR / "css" / "style.css"
 
 SITE_TITLE = "오늘의 뉴스 브리핑"
 
-# 메인 페이지 노출 게시물 수
-MAIN_PAGE_LIMIT = 50
+# 페이지당 게시물 수
+POSTS_PER_PAGE = 30
 
 # 카테고리 정의 (slug → 표시 이름)
 CATEGORIES = {
@@ -292,46 +292,104 @@ def render_post_cards(posts, show_featured=True):
     return cards
 
 
-def render_index(posts, limit=MAIN_PAGE_LIMIT):
-    """메인 페이지 (전체, 최신 N개)"""
-    display_posts = posts[:limit]
-    cards = render_post_cards(display_posts, show_featured=True)
+def pagination_html(current_page, total_pages, prefix="index"):
+    """페이지네이션 네비게이션 HTML 생성"""
+    if total_pages <= 1:
+        return ""
 
-    more_html = ""
-    if len(posts) > limit:
-        more_html = f"""
-    <div style="text-align:center;margin:48px 0;">
-      <p style="color:var(--gray-700,#6e6e73);font-size:15px;">
-        전체 {len(posts)}개 게시물 중 최신 {limit}개를 표시합니다.
-        카테고리별로 더 많은 게시물을 확인하세요.
-      </p>
-    </div>"""
+    def page_href(p):
+        if prefix == "index":
+            return "index.html" if p == 1 else f"page-{p}.html"
+        else:
+            return f"{prefix}.html" if p == 1 else f"{prefix}-page-{p}.html"
+
+    items = ""
+
+    # 이전 버튼
+    if current_page > 1:
+        items += f'<li><a href="{page_href(current_page - 1)}">&laquo; 이전</a></li>\n'
+
+    # 페이지 번호 (최대 7개 표시)
+    start = max(1, current_page - 3)
+    end = min(total_pages, start + 6)
+    start = max(1, end - 6)
+
+    if start > 1:
+        items += f'<li><a href="{page_href(1)}">1</a></li>\n'
+        if start > 2:
+            items += '<li><span class="page-dots">…</span></li>\n'
+
+    for p in range(start, end + 1):
+        if p == current_page:
+            items += f'<li><span class="active">{p}</span></li>\n'
+        else:
+            items += f'<li><a href="{page_href(p)}">{p}</a></li>\n'
+
+    if end < total_pages:
+        if end < total_pages - 1:
+            items += '<li><span class="page-dots">…</span></li>\n'
+        items += f'<li><a href="{page_href(total_pages)}">{total_pages}</a></li>\n'
+
+    # 다음 버튼
+    if current_page < total_pages:
+        items += f'<li><a href="{page_href(current_page + 1)}">다음 &raquo;</a></li>\n'
+
+    return f"""
+    <nav class="pagination-nav">
+      <ul class="pagination">
+        {items}
+      </ul>
+    </nav>"""
+
+
+def render_index(posts, page=1, total_pages=1):
+    """메인 페이지 (페이지네이션)"""
+    start = (page - 1) * POSTS_PER_PAGE
+    end = start + POSTS_PER_PAGE
+    display_posts = posts[start:end]
+    show_featured = (page == 1)
+    cards = render_post_cards(display_posts, show_featured=show_featured)
+    pager = pagination_html(page, total_pages, prefix="index")
+
+    subtitle = "최신 뉴스를 빠르고 정확하게 전달합니다."
+    if page > 1:
+        subtitle = f"전체 {len(posts)}개 게시물 — {page}/{total_pages} 페이지"
 
     return f"""{html_head(SITE_TITLE, "최신 뉴스를 빠르고 정확하게")}
 {html_header("all")}
   <main class="container">
     <div class="post-list">
       <h1>오늘의 뉴스</h1>
-      <p class="post-list-subtitle">최신 뉴스를 빠르고 정확하게 전달합니다.</p>
+      <p class="post-list-subtitle">{subtitle}</p>
       {cards}
-      {more_html}
+      {pager}
     </div>
   </main>
 {html_footer()}"""
 
 
-def render_category_page(cat_slug, cat_name, posts):
-    """카테고리별 게시판 페이지"""
-    cards = render_post_cards(posts, show_featured=True)
-    count = len(posts)
+def render_category_page(cat_slug, cat_name, all_posts, page=1, total_pages=1):
+    """카테고리별 게시판 페이지 (페이지네이션)"""
+    start = (page - 1) * POSTS_PER_PAGE
+    end = start + POSTS_PER_PAGE
+    display_posts = all_posts[start:end]
+    show_featured = (page == 1)
+    cards = render_post_cards(display_posts, show_featured=show_featured)
+    pager = pagination_html(page, total_pages, prefix=f"category-{cat_slug}")
+    count = len(all_posts)
+
+    subtitle = f"{cat_name} 관련 뉴스 {count}건"
+    if page > 1:
+        subtitle = f"{cat_name} 관련 뉴스 {count}건 — {page}/{total_pages} 페이지"
 
     return f"""{html_head(f"{cat_name} — {SITE_TITLE}", f"{cat_name} 카테고리 뉴스")}
 {html_header(cat_slug)}
   <main class="container">
     <div class="post-list">
       <h1>{cat_name}</h1>
-      <p class="post-list-subtitle">{cat_name} 관련 뉴스 {count}건</p>
+      <p class="post-list-subtitle">{subtitle}</p>
       {cards}
+      {pager}
     </div>
   </main>
 {html_footer()}"""
@@ -400,12 +458,18 @@ def build():
     # md 파일 생성 시간 기준 역순 정렬 (최신 파일이 위)
     posts.sort(key=lambda x: x["file_ctime"], reverse=True)
 
-    # ── 메인 페이지 (전체, 최신 N개) ──
-    index_html = render_index(posts, MAIN_PAGE_LIMIT)
-    (PUBLIC_DIR / "index.html").write_text(index_html, encoding="utf-8")
-    print(f"  메인 페이지: 최신 {min(len(posts), MAIN_PAGE_LIMIT)}개 / 전체 {len(posts)}개")
+    # ── 메인 페이지 (페이지네이션) ──
+    import math
+    total_main_pages = max(1, math.ceil(len(posts) / POSTS_PER_PAGE))
+    for page_num in range(1, total_main_pages + 1):
+        page_html = render_index(posts, page=page_num, total_pages=total_main_pages)
+        if page_num == 1:
+            (PUBLIC_DIR / "index.html").write_text(page_html, encoding="utf-8")
+        else:
+            (PUBLIC_DIR / f"page-{page_num}.html").write_text(page_html, encoding="utf-8")
+    print(f"  메인 페이지: {total_main_pages}페이지 (전체 {len(posts)}개, 페이지당 {POSTS_PER_PAGE}개)")
 
-    # ── 카테고리별 게시판 페이지 ──
+    # ── 카테고리별 게시판 페이지 (페이지네이션) ──
     cat_posts = defaultdict(list)
     for p in posts:
         if p["cat_slug"]:
@@ -415,10 +479,15 @@ def build():
         if cat_slug == "all":
             continue
         cat_page_posts = cat_posts.get(cat_slug, [])
-        cat_html = render_category_page(cat_slug, cat_name, cat_page_posts)
-        out_path = PUBLIC_DIR / f"category-{cat_slug}.html"
-        out_path.write_text(cat_html, encoding="utf-8")
-        print(f"  카테고리 [{cat_name}]: {len(cat_page_posts)}개")
+        total_cat_pages = max(1, math.ceil(len(cat_page_posts) / POSTS_PER_PAGE))
+        for page_num in range(1, total_cat_pages + 1):
+            cat_html = render_category_page(cat_slug, cat_name, cat_page_posts, page=page_num, total_pages=total_cat_pages)
+            if page_num == 1:
+                out_path = PUBLIC_DIR / f"category-{cat_slug}.html"
+            else:
+                out_path = PUBLIC_DIR / f"category-{cat_slug}-page-{page_num}.html"
+            out_path.write_text(cat_html, encoding="utf-8")
+        print(f"  카테고리 [{cat_name}]: {len(cat_page_posts)}개 ({total_cat_pages}페이지)")
 
     print(f"  완료!")
 

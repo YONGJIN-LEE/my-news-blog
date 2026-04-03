@@ -448,31 +448,49 @@ img { max-width: 100%; height: auto; display: block; }
 }
 
 /* ─── Pagination ─── */
+.pagination-nav {
+  margin: 48px 0 24px;
+  text-align: center;
+}
+
 .pagination {
-  display: flex;
+  display: inline-flex;
   justify-content: center;
+  align-items: center;
   gap: 4px;
-  margin: 40px 0;
   list-style: none;
   padding: 0;
 }
 
 .pagination li a, .pagination li span {
-  display: inline-block;
-  padding: 8px 14px;
-  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 40px;
+  padding: 0 12px;
+  border-radius: 10px;
   font-size: 0.85rem;
+  font-weight: 500;
   color: var(--gray-700);
-}
-
-.pagination .active span {
-  background: var(--blue);
-  color: var(--white);
+  transition: all 0.2s;
 }
 
 .pagination li a:hover {
   background: var(--gray-100);
+  color: var(--black);
   text-decoration: none;
+}
+
+.pagination li span.active {
+  background: var(--black);
+  color: var(--white);
+}
+
+.pagination .page-dots {
+  color: var(--gray-500);
+  min-width: 32px;
+  font-size: 0.9rem;
 }
 
 /* ─── Responsive ─── */
@@ -534,13 +552,66 @@ img { max-width: 100%; height: auto; display: block; }
     <article class="post-featured">
       <div class="post-meta-top">
         <span class="post-category">연예</span>
-        <span class="post-date">2026-04-03</span>
+        <span class="post-date">2026-04-02</span>
       </div>
-      <div class="featured-image"><img src="http://imgnews.naver.net/image/382/2026/04/02/0001265861_002_20260402092007447.jpg" alt="한선화 고스트스튜디오 전속계약 10년 전 인연 다시 잇는 의리의 재회 결국 통했다" loading="lazy"></div>
-      <h2><a href="2026-04-03-한선화전속계약.html">한선화 고스트스튜디오 전속계약 10년 전 인연 다시 잇는 의리의 재회 결국 통했다</a></h2>
-      <p class="post-summary">![[공식] 한선화, 고스트 스튜디오와 전속계약](http://imgnews.naver.net/image/382/2026/04/02/0001265861_002_20260402092007447.jpg)
+      <div class="featured-image"><img src="https://img.extmovie.com/files/attach/images/135/473/233/073/060b83cc51c55b9f920751a0eb6e2faf.jpg" alt="조이현 지우학2 이어 바른연애 길잡이 주연 캐스팅" loading="lazy"></div>
+      <h2><a href="2026-04-02-조이현바른연애길잡이.html">조이현 지우학2 이어 바른연애 길잡이 주연 캐스팅</a></h2>
+      <p class="post-summary">핵심 요약
+
+배우 조이현이 인기 웹툰 원작 드라마 '바른연애 길잡이'의 여주인공으로 낙점됐다.
+'지금 우리 학교는 2' 촬영 이후 차기작으로 선택하며 대세 행보를 이어간다.
+원작 캐릭터와의 완벽한 싱크로율로 팬들의 기대감이 폭발하고 있다.
+청춘 로맨스물의 새로운 아이콘으로 부상하며 글로벌 스타 입지를 굳힐 전망이다.
+
+
+...</p>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-아이유_변우석_웨딩화보.html"><img src="https://img.animalplanet.co.kr/thumbnail/2026/04/02/1200/35n7fp766055ckau955u.jpg" alt="아이유와 변우석의 미리보는 웨딩화보 비주얼 조합" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">연예</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-아이유_변우석_웨딩화보.html">아이유와 변우석의 미리보는 웨딩화보 비주얼 조합</a></h2>
+        <p class="post-summary">연예계에서 보기만 해도 눈이 정화되는 조합이 탄생했네요. 바로 아이유와 변우석의 웨딩화보 소식인데요. 21세기 대군부인이라는 컨셉으로 공개된 이번 화보는 벌써부터 팬들 사이에서 뜨거운 반응을 얻고 있습니다.
+두 사람의 독보적인 분위기가 웨딩 화보라는 컨셉과 만나면서 정말 영화의 한 장면 같은 느낌을 주더라고요. 비주얼 합...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-아이돌출신배우결혼.html"><img src="https://cdnweb01.wikitree.co.kr/webdata/editor/202204/21/img_20220421101058_03ff4082.webp" alt="아이돌 출신 유명 여배우 매니저와 30년 인연 결실" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">연예</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-아이돌출신배우결혼.html">아이돌 출신 유명 여배우 매니저와 30년 인연 결실</a></h2>
+        <p class="post-summary">핵심 요약
+
+아이돌 그룹 출신의 유명 여배우가 오랜 시간 함께한 매니저와 백년가약을 맺는다.
+두 사람의 첫 만남은 무려 30년 전 롯데 광고 촬영 현장이었던 것으로 밝혀졌다.
+연예계 동료들과 팬들은 긴 세월을 돌고 돌아 맺어진 이들의 영화 같은 사랑에 축복을 보내고 있다.
+신뢰를 바탕으로 한 스타와 매니저의 결혼 소식은 ...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-03-한선화전속계약.html"><img src="http://imgnews.naver.net/image/382/2026/04/02/0001265861_002_20260402092007447.jpg" alt="한선화 고스트스튜디오 전속계약 10년 전 인연 다시 잇는 의리의 재회 결국 통했다" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">연예</span>
+          <span class="post-date">2026-04-03</span>
+        </div>
+        <h2><a href="2026-04-03-한선화전속계약.html">한선화 고스트스튜디오 전속계약 10년 전 인연 다시 잇는 의리의 재회 결국 통했다</a></h2>
+        <p class="post-summary">![[공식] 한선화, 고스트 스튜디오와 전속계약](http://imgnews.naver.net/image/382/2026/04/02/0001265861_002_20260402092007447.jpg)
 핵심 요약
 배우 한선화가 고스트스튜디오와 전속계약을 체결하며 새로운 도약을 예고했다. 이번 계약은 과거 10년 전 함께했던...</p>
+      </div>
     </article>
     <article class="post-card">
       <div class="post-thumb">
@@ -577,27 +648,6 @@ img { max-width: 100%; height: auto; display: block; }
     </article>
     <article class="post-card">
       <div class="post-thumb">
-              <a href="2026-04-02-조이현바른연애길잡이.html"><img src="https://img.extmovie.com/files/attach/images/135/473/233/073/060b83cc51c55b9f920751a0eb6e2faf.jpg" alt="조이현 지우학2 이어 바른연애 길잡이 주연 캐스팅" loading="lazy"></a>
-            </div>
-      <div class="post-info">
-        <div class="post-meta-top">
-          <span class="post-category">연예</span>
-          <span class="post-date">2026-04-02</span>
-        </div>
-        <h2><a href="2026-04-02-조이현바른연애길잡이.html">조이현 지우학2 이어 바른연애 길잡이 주연 캐스팅</a></h2>
-        <p class="post-summary">핵심 요약
-
-배우 조이현이 인기 웹툰 원작 드라마 '바른연애 길잡이'의 여주인공으로 낙점됐다.
-'지금 우리 학교는 2' 촬영 이후 차기작으로 선택하며 대세 행보를 이어간다.
-원작 캐릭터와의 완벽한 싱크로율로 팬들의 기대감이 폭발하고 있다.
-청춘 로맨스물의 새로운 아이콘으로 부상하며 글로벌 스타 입지를 굳힐 전망이다.
-
-
-...</p>
-      </div>
-    </article>
-    <article class="post-card">
-      <div class="post-thumb">
               <a href="2026-04-02-아이유변우석웨딩화보.html"><img src="https://picsum.photos/seed/9751/1200/630" alt="아이유 변우석 21세기 대군 부부 웨딩 화보 공개" loading="lazy"></a>
             </div>
       <div class="post-info">
@@ -614,38 +664,7 @@ img { max-width: 100%; height: auto; display: block; }
 가상의 '대군 부부'를 연상시키는 로맨틱한 분위기가 대중의 상상력을...</p>
       </div>
     </article>
-    <article class="post-card">
-      <div class="post-thumb">
-              <a href="2026-04-02-아이유_변우석_웨딩화보.html"><img src="https://img.animalplanet.co.kr/thumbnail/2026/04/02/1200/35n7fp766055ckau955u.jpg" alt="아이유와 변우석의 미리보는 웨딩화보 비주얼 조합" loading="lazy"></a>
-            </div>
-      <div class="post-info">
-        <div class="post-meta-top">
-          <span class="post-category">연예</span>
-          <span class="post-date">2026-04-02</span>
-        </div>
-        <h2><a href="2026-04-02-아이유_변우석_웨딩화보.html">아이유와 변우석의 미리보는 웨딩화보 비주얼 조합</a></h2>
-        <p class="post-summary">연예계에서 보기만 해도 눈이 정화되는 조합이 탄생했네요. 바로 아이유와 변우석의 웨딩화보 소식인데요. 21세기 대군부인이라는 컨셉으로 공개된 이번 화보는 벌써부터 팬들 사이에서 뜨거운 반응을 얻고 있습니다.
-두 사람의 독보적인 분위기가 웨딩 화보라는 컨셉과 만나면서 정말 영화의 한 장면 같은 느낌을 주더라고요. 비주얼 합...</p>
-      </div>
-    </article>
-    <article class="post-card">
-      <div class="post-thumb">
-              <a href="2026-04-02-아이돌출신배우결혼.html"><img src="https://cdnweb01.wikitree.co.kr/webdata/editor/202204/21/img_20220421101058_03ff4082.webp" alt="아이돌 출신 유명 여배우 매니저와 30년 인연 결실" loading="lazy"></a>
-            </div>
-      <div class="post-info">
-        <div class="post-meta-top">
-          <span class="post-category">연예</span>
-          <span class="post-date">2026-04-02</span>
-        </div>
-        <h2><a href="2026-04-02-아이돌출신배우결혼.html">아이돌 출신 유명 여배우 매니저와 30년 인연 결실</a></h2>
-        <p class="post-summary">핵심 요약
-
-아이돌 그룹 출신의 유명 여배우가 오랜 시간 함께한 매니저와 백년가약을 맺는다.
-두 사람의 첫 만남은 무려 30년 전 롯데 광고 촬영 현장이었던 것으로 밝혀졌다.
-연예계 동료들과 팬들은 긴 세월을 돌고 돌아 맺어진 이들의 영화 같은 사랑에 축복을 보내고 있다.
-신뢰를 바탕으로 한 스타와 매니저의 결혼 소식은 ...</p>
-      </div>
-    </article>
+      
     </div>
   </main>
 

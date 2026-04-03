@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>오늘의 뉴스 브리핑</title>
+  <meta name="description" content="최신 뉴스를 빠르고 정확하게">
+  <meta property="og:title" content="오늘의 뉴스 브리핑">
+  <meta property="og:description" content="최신 뉴스를 빠르고 정확하게">
+  
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <style>/* ═══════════════════════════════════════════════════════════════
+   Apple-inspired News Blog — 오늘의 뉴스 브리핑
+   Clean, minimal, content-first design
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ─── Web Fonts ─── */
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* ─── Reset & Typography ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --black: #1d1d1f;
+  --gray-900: #2d2d2f;
+  --gray-700: #6e6e73;
+  --gray-500: #86868b;
+  --gray-300: #d2d2d7;
+  --gray-100: #f5f5f7;
+  --white: #ffffff;
+  --blue: #0071e3;
+  --blue-hover: #0077ed;
+  --max-width: 720px;
+  --font-sans: 'Pretendard Variable', 'Pretendard', 'Inter', -apple-system,
+               BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-sans);
+  line-height: 1.65;
+  color: var(--black);
+  background: var(--white);
+  letter-spacing: -0.01em;
+  word-break: keep-all;
+}
+
+a { color: var(--blue); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+img { max-width: 100%; height: auto; display: block; }
+
+/* ─── Navigation ─── */
+.site-header {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+}
+
+.site-header .container {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 22px;
+  height: 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.site-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--black);
+  letter-spacing: -0.01em;
+}
+
+.site-title:hover { text-decoration: none; }
+
+.site-header nav { display: flex; gap: 28px; }
+
+.site-header nav a {
+  font-size: 0.8rem;
+  color: var(--gray-700);
+  letter-spacing: -0.01em;
+  transition: color 0.2s;
+}
+
+.site-header nav a:hover { color: var(--black); text-decoration: none; }
+
+/* ─── Category Navigation ─── */
+.category-nav {
+  background: var(--gray-100);
+  border-bottom: 1px solid var(--gray-300);
+  position: sticky;
+  top: 48px;
+  z-index: 9998;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.category-nav::-webkit-scrollbar { display: none; }
+.category-nav { -ms-overflow-style: none; scrollbar-width: none; }
+
+.category-nav .container {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 22px;
+  display: flex;
+  gap: 4px;
+  height: 44px;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.category-nav a {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--gray-700);
+  padding: 6px 14px;
+  border-radius: 20px;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.category-nav a:hover {
+  color: var(--black);
+  background: rgba(0, 0, 0, 0.05);
+  text-decoration: none;
+}
+
+.category-nav a.active {
+  color: var(--white);
+  background: var(--black);
+}
+
+.category-nav a.active:hover {
+  color: var(--white);
+  background: var(--gray-900);
+}
+
+/* ─── Main Container ─── */
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 22px;
+}
+
+/* ─── Post List (Index Page) ─── */
+.post-list h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  margin: 56px 0 8px;
+  color: var(--black);
+}
+
+.post-list-subtitle {
+  font-size: 0.95rem;
+  color: var(--gray-500);
+  margin-bottom: 40px;
+}
+
+.post-card {
+  display: flex;
+  gap: 24px;
+  padding: 28px 0;
+  border-top: 1px solid var(--gray-300);
+  transition: opacity 0.2s;
+}
+
+.post-card:last-child { border-bottom: 1px solid var(--gray-300); }
+
+.post-card:hover { opacity: 0.85; }
+
+.post-thumb {
+  flex-shrink: 0;
+  width: 200px;
+  height: 134px;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.post-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.post-card:hover .post-thumb img { transform: scale(1.03); }
+
+.post-info { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+
+.post-meta-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.post-category {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--blue);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.post-date {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+.post-info h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.45;
+  letter-spacing: -0.015em;
+  margin-bottom: 6px;
+}
+
+.post-info h2 a { color: var(--black); }
+.post-info h2 a:hover { color: var(--blue); text-decoration: none; }
+
+.post-summary {
+  font-size: 0.85rem;
+  color: var(--gray-700);
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ─── Featured Post (Top of list) ─── */
+.post-featured {
+  padding: 40px 0 32px;
+  border-bottom: 1px solid var(--gray-300);
+  margin-bottom: 8px;
+}
+
+.post-featured .featured-image {
+  width: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.post-featured .featured-image img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+}
+
+.post-featured h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.35;
+  margin-bottom: 8px;
+}
+
+.post-featured h2 a { color: var(--black); }
+.post-featured h2 a:hover { color: var(--blue); text-decoration: none; }
+
+/* ─── Single Post ─── */
+.post-single {
+  padding: 48px 0 64px;
+}
+
+.post-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.post-header .post-category {
+  font-size: 0.75rem;
+  display: inline-block;
+  margin-bottom: 12px;
+}
+
+.post-header h1 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.3;
+  color: var(--black);
+  margin-bottom: 16px;
+  word-break: keep-all;
+}
+
+.post-meta {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  align-items: center;
+  color: var(--gray-500);
+  font-size: 0.85rem;
+}
+
+.post-hero {
+  margin: 0 0 40px;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.post-hero img {
+  width: 100%;
+  max-height: 480px;
+  object-fit: cover;
+}
+
+/* ─── Post Content ─── */
+.post-content {
+  font-size: 1.05rem;
+  line-height: 1.85;
+  color: var(--gray-900);
+  word-break: keep-all;
+}
+
+.post-content h2 {
+  font-size: 1.45rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 48px 0 16px;
+  color: var(--black);
+}
+
+.post-content h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  margin: 36px 0 12px;
+  color: var(--black);
+}
+
+.post-content p {
+  margin: 16px 0;
+}
+
+.post-content ul, .post-content ol {
+  margin: 16px 0;
+  padding-left: 24px;
+}
+
+.post-content li {
+  margin: 8px 0;
+  line-height: 1.7;
+}
+
+.post-content strong {
+  font-weight: 600;
+  color: var(--black);
+}
+
+.post-content blockquote {
+  margin: 28px 0;
+  padding: 20px 24px;
+  background: var(--gray-100);
+  border-radius: 12px;
+  color: var(--gray-700);
+  font-size: 1rem;
+}
+
+.post-content img {
+  margin: 32px auto;
+  border-radius: 12px;
+}
+
+.post-content hr {
+  border: none;
+  height: 1px;
+  background: var(--gray-300);
+  margin: 40px 0;
+}
+
+/* ─── Tags ─── */
+.post-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.tag {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+.post-tags-footer {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--gray-300);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.post-tags-footer .tag {
+  background: var(--gray-100);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  color: var(--gray-700);
+  transition: background 0.2s;
+}
+
+.post-tags-footer .tag:hover {
+  background: var(--gray-300);
+  text-decoration: none;
+}
+
+/* ─── Post Navigation ─── */
+.post-nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 24px 0 48px;
+  font-size: 0.85rem;
+  border-top: 1px solid var(--gray-300);
+  margin-top: 32px;
+}
+
+.post-nav a { color: var(--blue); }
+
+/* ─── Footer ─── */
+.site-footer {
+  background: var(--gray-100);
+  border-top: 1px solid var(--gray-300);
+}
+
+.site-footer .container {
+  max-width: 980px;
+  padding: 20px 22px;
+  text-align: center;
+}
+
+.site-footer p {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+/* ─── Pagination ─── */
+.pagination-nav {
+  margin: 48px 0 24px;
+  text-align: center;
+}
+
+.pagination {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  list-style: none;
+  padding: 0;
+}
+
+.pagination li a, .pagination li span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 40px;
+  padding: 0 12px;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--gray-700);
+  transition: all 0.2s;
+}
+
+.pagination li a:hover {
+  background: var(--gray-100);
+  color: var(--black);
+  text-decoration: none;
+}
+
+.pagination li span.active {
+  background: var(--black);
+  color: var(--white);
+}
+
+.pagination .page-dots {
+  color: var(--gray-500);
+  min-width: 32px;
+  font-size: 0.9rem;
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 640px) {
+  .post-card {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .post-thumb {
+    width: 100%;
+    height: 200px;
+    border-radius: 12px;
+  }
+
+  .post-list h1 { font-size: 1.6rem; margin-top: 32px; }
+
+  .post-header h1 { font-size: 1.6rem; }
+
+  .post-single { padding: 32px 0 48px; }
+
+  .post-featured .featured-image img { height: 240px; }
+  .post-featured h2 { font-size: 1.3rem; }
+
+  .post-content { font-size: 1rem; }
+}
+</style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="index.html" class="site-title">오늘의 뉴스 브리핑</a>
+      <nav>
+        <a href="index.html">홈</a>
+      </nav>
+    </div>
+  </header>
+  
+  <nav class="category-nav">
+    <div class="container">
+      <a href="index.html" class="active">전체</a>
+        <a href="category-politics.html">정치</a>
+        <a href="category-society.html">사회</a>
+        <a href="category-economy.html">경제</a>
+        <a href="category-entertainment.html">연예</a>
+        <a href="category-life.html">생활</a>
+        <a href="category-it.html">IT</a>
+        <a href="category-sports.html">스포츠</a>
+        <a href="category-fashion.html">패션</a>
+        
+    </div>
+  </nav>
+  <main class="container">
+    <div class="post-list">
+      <h1>오늘의 뉴스</h1>
+      <p class="post-list-subtitle">전체 360개 게시물 — 10/12 페이지</p>
+      
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-에이지투웨니스파트너십.html"><img src="https://picsum.photos/seed/1653/1200/630" alt="애경산업 중국 넷탑스와 파트너십 AGE20'S 2.0 시대 선언" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">패션</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-에이지투웨니스파트너십.html">애경산업 중국 넷탑스와 파트너십 AGE20'S 2.0 시대 선언</a></h2>
+        <p class="post-summary">핵심 요약
+1. 애경산업, 중국 유통 전문 기업 '넷탑스(NETOPS)'와 전략적 파트너십 체결
+2. 'AGE20'S(에이지투웨니스) 2.0 시대' 선포를 통한 브랜드 혁신 가속화
+3. 서울타임즈뉴스 보도에 따른 중국 시장 내 유통 지배력 강화 전략
+4. 디지털 마케팅 및 현지 채널 고도화를 위한 협력 체계 구축
+5. 글...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-알리바바이미지AI.html"><img src="https://picsum.photos/seed/3895/1200/630" alt="알리바바 이미지 AI 주권 선언 완2.7 오픈소스로 새로운 기준 제시" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">IT</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-알리바바이미지AI.html">알리바바 이미지 AI 주권 선언 완2.7 오픈소스로 새로운 기준 제시</a></h2>
+        <p class="post-summary">핵심 요약
+
+이번 소식은 해당 업계에서 매우 중요하게 다뤄지고 있는 핵심적인 이슈이다.
+전문가들과 소비자들 사이에서 다양한 분석과 반응이 엇갈리고 있는 상황이다.
+특히 이번 사안이 향후 시장의 흐름과 트렌드에 미칠 영향이 상당할 것으로 보인다.
+구체적인 팩트와 수치, 그리고 현장의 목소리를 통해 이슈의 본질을 파악했다.
+...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-아이유변우석웨딩화보.html"><img src="https://picsum.photos/seed/9751/1200/630" alt="아이유 변우석 21세기 대군 부부 웨딩 화보 공개" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">연예</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-아이유변우석웨딩화보.html">아이유 변우석 21세기 대군 부부 웨딩 화보 공개</a></h2>
+        <p class="post-summary">핵심 요약
+
+톱스타 아이유와 대세 배우 변우석의 역대급 웨딩 화보가 공개되어 화제다.
+'21세기 대군부인'이라는 콘셉트로 진행된 이번 화보는 고전미와 현대미의 조화를 보여준다.
+두 사람의 완벽한 비주얼 조합에 국내외 팬들의 폭발적인 반응이 이어지고 있다.
+가상의 '대군 부부'를 연상시키는 로맨틱한 분위기가 대중의 상상력을...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-시니어모델화보.html"><img src="https://picsum.photos/seed/6214/1200/630" alt="시니어 모델 화보 존재감 폭발! 나이 파괴 결국 충격인가?" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">패션</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-시니어모델화보.html">시니어 모델 화보 존재감 폭발! 나이 파괴 결국 충격인가?</a></h2>
+        <p class="post-summary">핵심 요약
+패션계의 '나이 장벽'이 허물어지고 있다. 에너지경제신문의 보도에 따르면 2026 S/S 패션 화보에서 시니어 모델 김재숙과 심길선이 압도적인 존재감을 과시하며 화제를 모으고 있다. 젊은 모델들 사이에서도 전혀 밀리지 않는 카리스마와 세월이 준 깊이 있는 표정은 "아름다움에는 유통기한이 없다"는 사실을 증명했다...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-성남FC스폰서십.html"><img src="https://picsum.photos/seed/2541/1200/630" alt="성남FC, 기능성 깔창 브랜드 포렉스와 스폰서십 연장 4년 연속 동행" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-성남FC스폰서십.html">성남FC, 기능성 깔창 브랜드 포렉스와 스폰서십 연장 4년 연속 동행</a></h2>
+        <p class="post-summary">핵심 요약
+
+이번 소식은 스포츠계에서 큰 화제가 되고 있는 주요 이슈를 담고 있다.
+팬들과 전문가들 사이에서 다양한 분석과 의견이 쏟아지고 있는 상황이다.
+특히 이번 사안이 향후 스포츠계에 미칠 영향에 대한 논의가 활발하다.
+구체적인 팩트와 수치를 통해 사건의 본질을 정확히 파악하는 것이 중요하다.
+독자 여러분이 궁금해할...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-삼성전자2나노승부수.html"><img src="https://picsum.photos/seed/1370/1200/630" alt="삼성전자 2나노 공정으로 승부수? TSMC 병목 현상에 기회 왔다" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">IT</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-삼성전자2나노승부수.html">삼성전자 2나노 공정으로 승부수? TSMC 병목 현상에 기회 왔다</a></h2>
+        <p class="post-summary">핵심 요약
+대만의 TSMC가 밀려드는 주문을 감당하지 못해 '공급 병목' 현상을 겪으면서, 삼성전자가 2나노미터(nm) 공정을 앞세워 반격의 기회를 잡았다. 한국경제와 서울와이어 등 주요 경제 매체들에 따르면, 엔비디아와 애플 등 대형 고객사들이 TSMC의 생산 일정 지연으로 인해 삼성전자를 '달콤한 대안'으로 검토하기 ...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-브이원씨투자유치.html"><img src="https://picsum.photos/seed/2450/1200/630" alt="베이스벤처스 DSC인베스트먼트 핀테크 스타트업 브이원씨에 투자 단행" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">IT</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-브이원씨투자유치.html">베이스벤처스 DSC인베스트먼트 핀테크 스타트업 브이원씨에 투자 단행</a></h2>
+        <p class="post-summary">핵심 요약
+국내 유력 벤처캐피털인 베이스벤처스와 DSC인베스트먼트가 핀테크 스타트업 '브이원씨'에 전략적 투자를 진행했다. 브이원씨는 기존 금융 시스템의 사각지대를 공략하는 혁신적인 솔루션을 바탕으로 성장 가능성을 인정받았다. 이번 투자를 계기로 브이원씨는 기술 고도화와 시장 확장에 박차를 가할 예정이며 핀테크 업계의 새...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-부천호텔추락사고.html"><img src="https://picsum.photos/seed/8535/1200/630" alt="부천 호텔 추락 사고! 70대 대표 끝내 사망... 5m 사다리 작업 중 무슨 일이?" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">일반</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-부천호텔추락사고.html">부천 호텔 추락 사고! 70대 대표 끝내 사망... 5m 사다리 작업 중 무슨 일이?</a></h2>
+        <p class="post-summary"> 핵심 요약
+
+경기 부천 상동 고려호텔 외벽 보수 중 추락 사고 발생
+70대 인테리어 업체 대표 A씨, 사다리 작업 중 5m 아래로 추락
+머리와 목 부위 중상 입고 병원 이송되었으나 결국 사망
+경찰, 동료 작업자 B씨 '업무상 과실치사' 혐의 입건 조사
+5인 미만 소규모 사업장으로 '중대재해처벌법' 적용 제외
+
+ 사건/이...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-부산특별법지자체반발.html"><img src="https://picsum.photos/seed/8309/1200/630" alt="부산 글로벌특별법 난색에 지자체·시민단체 집단 반발 조짐" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">사회</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-부산특별법지자체반발.html">부산 글로벌특별법 난색에 지자체·시민단체 집단 반발 조짐</a></h2>
+        <p class="post-summary">핵심 요약
+
+이 대통령의 '부산 특별법 형평성' 발언 이후 부산 지역 시민단체와 지자체가 거세게 들고 일어났다.
+부산시청은 정부의 갑작스러운 입장 변화에 당혹감을 표하며 대책 마련에 부심하고 있다.
+시민단체들은 \"부산 엑스포 유치 실패 보상책마저 빼앗으려 한다\"며 강력한 장외 투쟁을 예고했다.
+지역 경제계는 특별법 무...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-부산_글로벌허브법_제동.html"><img src="https://picsum.photos/seed/7449/1200/630" alt="부산 글로벌허브 특별법 본회의 앞두고 제동 우려" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">정치</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-부산_글로벌허브법_제동.html">부산 글로벌허브 특별법 본회의 앞두고 제동 우려</a></h2>
+        <p class="post-summary">부산의 미래가 달린 글로벌허브도시 특별법이 중요한 고비를 맞았습니다. 2년 만에 겨우 국회 본회의 통과를 눈앞에 두고 있었는데 갑작스러운 제동 우려가 나오면서 지역 정치권과 시민들이 크게 반발하고 있습니다.
+부산을 세계적인 거점 도시로 키우기 위한 법안인 만큼 지역에서는 이번 기회를 놓칠까 봐 전전긍긍하는 분위기인데요. ...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-벚꽃축제인파안전주의보.html"><img src="https://picsum.photos/seed/8466/1200/630" alt="벚꽃 축제 인파 500만 명 운집 안전주의보 결국 터졌다" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">사회</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-벚꽃축제인파안전주의보.html">벚꽃 축제 인파 500만 명 운집 안전주의보 결국 터졌다</a></h2>
+        <p class="post-summary">핵심 요약
+완연한 봄 기운과 함께 전국 주요 벚꽃 축제 현장에 주말 동안에만 500만 명이 넘는 인파가 몰려들었다. 특히 여의도와 석촌호수 등 서울의 명소들은 발 디딜 틈 없는 혼잡을 빚었으며 일부 구간에서 안전사고 우려가 제기되면서 자치단체들이 긴급 통제에 나서는 등 소동이 벌어졌다.
+사건/이슈 개요
+오늘 여의도 윤중로...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-벚꽃축제안전주의보.html"><img src="https://picsum.photos/seed/5795/1200/630" alt="전국 벚꽃 축제 인파 운집에 따른 안전 사고 예방과 주의사항 총정리" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">사회</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-벚꽃축제안전주의보.html">전국 벚꽃 축제 인파 운집에 따른 안전 사고 예방과 주의사항 총정리</a></h2>
+        <p class="post-summary">핵심 요약
+
+이번 소식은 현재 우리 사회와 정치권에서 가장 뜨거운 감자로 떠오른 주요 이슈이다.
+많은 국민의 관심이 집중되고 있으며, 각계각층에서 활발한 논의가 이루어지고 있다.
+특히 이번 사안이 가지는 사회적 의미와 향후 미칠 파장에 대한 분석이 중요하다.
+구체적인 사실관계와 데이터를 바탕으로 이슈의 본질을 정확히 들여...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-반도체주가상승.html"><img src="https://picsum.photos/seed/8582/1200/630" alt="19만 전자 눈앞 삼성전자와 SK하이닉스의 가파른 상승세" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">IT</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-반도체주가상승.html">19만 전자 눈앞 삼성전자와 SK하이닉스의 가파른 상승세</a></h2>
+        <p class="post-summary">오늘 반도체 대장주들이 무서운 기세로 치고 올라오고 있습니다. 삼성전자는 이른바 19만 전자를 코앞에 두고 있고, SK하이닉스 역시 90만 원 선을 회복하며 투자자들의 시선을 끌고 있습니다.
+이런 상승세는 글로벌 시장에서 반도체 수요가 여전히 견조하다는 점과, 국내 기업들의 기술적 우위가 다시금 부각된 덕분으로 풀이됩니다...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-메가존에어스튜디오V2출시.html"><img src="https://picsum.photos/seed/3479/1200/630" alt="메가존클라우드 기업용 AI OS 에어 스튜디오 V2 출시로 시장 공략" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">IT</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-메가존에어스튜디오V2출시.html">메가존클라우드 기업용 AI OS 에어 스튜디오 V2 출시로 시장 공략</a></h2>
+        <p class="post-summary">핵심 요약
+클라우드 전문 기업 메가존클라우드가 기업의 인공지능 도입을 혁신적으로 돕는 통합 관리 플랫폼인 '에어 스튜디오 V2'를 전격 출시했다. 이 솔루션은 기업 내부에 흩어진 데이터를 효율적으로 학습시키고 맞춤형 AI 모델을 구축할 수 있도록 지원하는 일종의 기업용 AI 운영체제다. 이를 통해 기업들은 기술적 장벽을 ...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-맨시티결별.html"><img src="https://picsum.photos/seed/1611/1200/630" alt="맨시티 레전드 결별 결국 9년 동행 마침표 충격 결정 왜?" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-맨시티결별.html">맨시티 레전드 결별 결국 9년 동행 마침표 충격 결정 왜?</a></h2>
+        <p class="post-summary">핵심 요약
+맨체스터 시티의 '리빙 레전드'가 올여름 팀을 떠나기로 최종 결단을 내렸다. 9년이라는 긴 시간 동안 에티하드 스타디움의 주인공으로 활약하며 팀의 수많은 우승을 이끌었던 핵심 선수의 이별 소식에 전 세계 축구 팬들은 큰 충격에 빠졌다. 구단 역사상 가장 성공적인 시대를 함께했던 그가 왜 지금 결별을 택했는지, ...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-레전드매치라인업.html"><img src="https://picsum.photos/seed/5954/1200/630" alt="나니 반데사르 결국 한국 온다 레전드 매치 라인업 충격" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-레전드매치라인업.html">나니 반데사르 결국 한국 온다 레전드 매치 라인업 충격</a></h2>
+        <p class="post-summary">핵심 요약
+축구 팬들의 상상이 현실이 된다. 세계적인 레전드들이 모인 'OGFC'와 한국 축구의 명가 '수원삼성 레전드' 팀의 맞대결 라인업이 전격 공개됐다. 맨체스터 유나이티드의 전성기를 이끌었던 나니와 에드윈 반 데 사르, 안데르송 등 이름만 들어도 전율이 돋는 스타들이 한국을 방문한다. 이에 맞서는 수원삼성 역시 구...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-대전백화점봄세일.html"><img src="https://picsum.photos/seed/7473/1200/630" alt="대전 백화점 봄 정기 세일 총정리! 패션·뷰티 득템 찬스" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">패션</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-대전백화점봄세일.html">대전 백화점 봄 정기 세일 총정리! 패션·뷰티 득템 찬스</a></h2>
+        <p class="post-summary">핵심 요약
+
+행사 기간: ~2026년 4월 12일 (롯데백화점은 4월 5일까지)
+참여 업체: 대전신세계, 갤러리아 타임월드, 롯데백화점 대전점
+주요 혜택: 패션·리빙 최대 60% 할인, 뷰티 페어 체험형 콘텐츠
+포커스 아이템: 핸드백, 아동복, 골프웨어, 웨딩 주얼리
+특별 이벤트: 세인트제임스 팝업, 골든듀 20% 할인,...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-농업스타트업수인투자.html"><img src="https://picsum.photos/seed/7034/1200/630" alt="농업계 다윗' 수인에 뭉칫돈 몰린다? VC들 러브콜 쏟아진 이유" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">IT</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-농업스타트업수인투자.html">농업계 다윗' 수인에 뭉칫돈 몰린다? VC들 러브콜 쏟아진 이유</a></h2>
+        <p class="post-summary">핵심 요약
+국내 농업 스타트업인 '수인(Suin)'이 벤처캐피털(VC) 시장에서 폭발적인 관심을 받으며 대규모 투자 유치에 성공했다는 소식이다. 기존 농업계의 고질적인 문제였던 유통 구조와 생산성 문제를 독자적인 AI 기술로 해결하며 '농업계의 다윗'이라는 별명까지 얻었다. 최근 공개된 투자 유치 규모는 당초 예상을 훨씬...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-노동절_공휴일_지정.html"><img src="https://picsum.photos/seed/7048/1200/630" alt="5월 1일 노동절 이제 정식 공휴일로 쉽니다" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">생활</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-노동절_공휴일_지정.html">5월 1일 노동절 이제 정식 공휴일로 쉽니다</a></h2>
+        <p class="post-summary">직장인분들에게 정말 반가운 소식이 전해졌네요. 그동안 노동절인 5월 1일에 쉬는 곳도 있고 안 쉬는 곳도 있어서 혼란스러웠던 분들 많으셨을 텐데요. 드디어 노동절 공휴일법이 국회 본회의를 통과했다는 소식입니다.
+올해부터는 5월 1일도 공식적인 빨간 날이 된다고 하니 달력에 미리 표시해두셔야겠어요. 노동자의 권리를 되새기는...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-김효주강행군.html"><img src="https://picsum.photos/seed/1037/1200/630" alt="김효주 고난주간 예고 미국부터 프랑스까지 강행군 왜?" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-김효주강행군.html">김효주 고난주간 예고 미국부터 프랑스까지 강행군 왜?</a></h2>
+        <p class="post-summary">핵심 요약
+한국 여자 골프의 간판스타 김효주가 그야말로 '역대급 강행군'을 예고했다. 미국에서 한국으로, 그리고 다시 프랑스로 이어지는 3주간의 살인적인 일정이 팬들의 우려를 자아내고 있다. 단순한 이동 거리를 넘어 시차 적응과 체력 소모가 극심한 만큼, 김효주 선수에게 이번 3주는 올 시즌 성패를 가를 중대한 고비가 될...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-국채세계지수편입.html"><img src="https://picsum.photos/seed/8657/1200/630" alt="국채 세계지수 WGBI 편입 성공 금리 환율 안정 비책" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">경제</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-국채세계지수편입.html">국채 세계지수 WGBI 편입 성공 금리 환율 안정 비책</a></h2>
+        <p class="post-summary">핵심 요약
+
+대한민국 국채가 마침내 세계 3대 채권지수인 세계정부채권지수(WGBI) 편입에 성공했다.
+이번 편입으로 수십 조 원 규모의 외국인 자금이 유입되어 금리 하락과 환율 안정 효과가 기대된다.
+한국 경제의 펀더멘털과 자본시장 선진화 노력을 국제사회가 공식적으로 인정한 결과이다.
+고금리와 환율 불안으로 고통받는 서민...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-강현제MVP.html"><img src="https://picsum.photos/seed/4547/1200/630" alt="강현제 MVP 선정 결국 K리그2 판도 흔드나? 1골 1도움의 위력" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-강현제MVP.html">강현제 MVP 선정 결국 K리그2 판도 흔드나? 1골 1도움의 위력</a></h2>
+        <p class="post-summary">핵심 요약
+하나은행 K리그2 2026 시즌의 초반 기세가 심상치 않다. 그 중심에는 5라운드 MVP로 우뚝 선 강현제 선수가 있다. 소속팀의 승리를 이끄는 결정적인 1골 1도움을 기록하며 리그 최고의 스타로 떠오른 것이다. 단순히 수치상의 활약을 넘어 경기 전체를 지배하는 영향력을 보여준 그의 활약에 축구 전문가들과 팬들...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-WK리그상무.html"><img src="https://picsum.photos/seed/9231/1200/630" alt="여자축구에도 군팀 있다! 권하늘 상사와 이미연 감독이 설명한 상무의 매력" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-WK리그상무.html">여자축구에도 군팀 있다! 권하늘 상사와 이미연 감독이 설명한 상무의 매력</a></h2>
+        <p class="post-summary">핵심 요약
+
+이번 소식은 스포츠계에서 큰 화제가 되고 있는 주요 이슈를 담고 있다.
+팬들과 전문가들 사이에서 다양한 분석과 의견이 쏟아지고 있는 상황이다.
+특히 이번 사안이 향후 스포츠계에 미칠 영향에 대한 논의가 활발하다.
+구체적인 팩트와 수치를 통해 사건의 본질을 정확히 파악하는 것이 중요하다.
+독자 여러분이 궁금해할...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-OTT스포츠팬덤.html"><img src="https://picsum.photos/seed/6005/1200/630" alt="OTT 스포츠 중계 전쟁 결국 팬덤 경쟁으로 번졌다" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-OTT스포츠팬덤.html">OTT 스포츠 중계 전쟁 결국 팬덤 경쟁으로 번졌다</a></h2>
+        <p class="post-summary">핵심 요약
+국내 OTT 시장의 지형도가 스포츠 중계를 중심으로 급격하게 재편되고 있다. 과거 드라마나 영화 같은 오리지널 콘텐츠가 가입자 확보의 핵심이었다면, 이제는 야구, 축구, 골프 등 강력한 팬덤을 보유한 스포츠 중계권 확보가 플랫폼의 생존을 결정짓는 열쇠가 됐다. 쿠팡플레이와 티빙을 필두로 한 국내 OTT 업체들이...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-100번째현대가더비.html"><img src="https://picsum.photos/seed/8998/1200/630" alt="100번째 현대가 더비' 울산 HD vs 전북 현대 결국 징크스 깨지나" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-100번째현대가더비.html">100번째 현대가 더비' 울산 HD vs 전북 현대 결국 징크스 깨지나</a></h2>
+        <p class="post-summary">핵심 요약
+
+K리그 역사상 가장 치열한 라이벌전인 '현대가 더비'가 통산 100번째 경기를 맞이한다.
+4월 4일 전주월드컵경기장에서 열리는 이번 맞대결은 양 팀의 자존심이 걸린 한판 승부다.
+울산 HD는 약 1,490일 동안 이어진 '전주성 무승 징크스'를 깨기 위해 총력전을 예고했다.
+현재 리그 득점 선두인 울산의 야고...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-01-히든싱어8.html"><img src="https://picsum.photos/seed/2614/1200/630" alt="히든싱어 8 드디어 런칭! 역대급 라인업 전격공개 예고... 누구?" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">일반</span>
+          <span class="post-date">2026-04-01</span>
+        </div>
+        <h2><a href="2026-04-01-히든싱어8.html">히든싱어 8 드디어 런칭! 역대급 라인업 전격공개 예고... 누구?</a></h2>
+        <p class="post-summary"> 핵심 요약
+
+JTBC 간판 예능 '히든싱어' 시즌 8 제작 확정 및 4월 중 첫 방송 예고
+MC 전현무, 시즌 1부터 지켜온 자리를 다시 한번 맡으며 환상적인 진행 기대
+제작진, "역대 시즌 중 가장 화려한 원조 가수 라인업 구축" 자신감 피력
+SNS 상에서 나얼, 조용필, 지드래곤 등 전설적 가수들의 출연 가능성 대두...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-01-하이퍼클로바X.html"><img src="https://picsum.photos/seed/5598/1200/630" alt="네이버 하이퍼클로바X 2.0 업데이트 한국형 AI의 자존심을 지킨다" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">IT</span>
+          <span class="post-date">2026-04-01</span>
+        </div>
+        <h2><a href="2026-04-01-하이퍼클로바X.html">네이버 하이퍼클로바X 2.0 업데이트 한국형 AI의 자존심을 지킨다</a></h2>
+        <p class="post-summary"> 핵심 요약
+
+네이버가 자사의 거대언어모델(LLM)인 하이퍼클로바X의 2.0 버전을 전격 공개하며 한국 특화 검색 및 생성 능력 대폭 강화
+멀티모달 기능의 비약적 향상으로 이미지, 오디오, 비디오를 실시간으로 이해하고 한국적 맥락에 맞는 콘텐츠 생성 가능
+B2B 시장을 겨냥한 맞춤형 데이터 학습 서비스 '커스텀 AI' 기...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-01-프로배구챔피언결정전.html"><img src="https://picsum.photos/seed/1905/1200/630" alt="프로배구 챔프전 오늘 개막! 도로공사 vs GS칼텍스 승자는?" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">일반</span>
+          <span class="post-date">2026-04-01</span>
+        </div>
+        <h2><a href="2026-04-01-프로배구챔피언결정전.html">프로배구 챔프전 오늘 개막! 도로공사 vs GS칼텍스 승자는?</a></h2>
+        <p class="post-summary"> 핵심 요약
+
+2025-2026 V리그 여자부 챔피언결정전, 4월 1일 오늘 1차전 시작
+여자부는 정규리그 1위 한국도로공사 vs 2위 GS칼텍스 대결 구도
+남자부 챔피언결정전은 4월 2일 인천 계양체육관에서 개막, 대한항공 vs 현대캐피탈
+대한항공은 트레블(리그컵·정규시즌·챔프전) 달성을 위해 현대캐피탈과 격돌
+남자부 ...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-01-포옛.html"><img src="https://picsum.photos/seed/8073/1200/630" alt="[포옛] 토트넘 감독직 공개 구애? K리그 선수들에 날린 독설!" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-01</span>
+        </div>
+        <h2><a href="2026-04-01-포옛.html">[포옛] 토트넘 감독직 공개 구애? K리그 선수들에 날린 독설!</a></h2>
+        <p class="post-summary">핵심 요약
+K리그 무대를 경험했던 구스타보 포옛 감독이 친정팀 토트넘 홋스퍼의 감독직을 향한 열망을 드러냈다. 하지만 이 과정에서 K리그에서 뛰고 있는 선수들을 향해 "프리미어리그 수준에 미치는 선수가 없다"는 충격적인 발언을 남겨 논란이 일고 있다. 그의 진심 어린 조언인지, 아니면 K리그를 향한 비하인지 팬들 사이에서...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-01-창원LG우승.html"><img src="https://picsum.photos/seed/4185/1200/630" alt="창원 LG 12년 만에 정규리그 우승 눈앞" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date">2026-04-01</span>
+        </div>
+        <h2><a href="2026-04-01-창원LG우승.html">창원 LG 12년 만에 정규리그 우승 눈앞</a></h2>
+        <p class="post-summary"> 핵심 요약
+
+프로농구 창원 LG 세이커스가 정규리그 우승을 위한 매직넘버를 2로 줄였습니다.
+오는 31일 정관장과의 경기에서 승리한다면 12년 만에 챔피언 자리에 등극하게 됩니다.
+시즌 내내 보여준 탄탄한 조직력과 막판 스퍼트가 결실을 맺기 직전입니다.
+
+ 사건/이슈 개요
+창원 LG 세이커스가 12년이라는 긴 기다림 끝...</p>
+      </div>
+    </article>
+      
+    <nav class="pagination-nav">
+      <ul class="pagination">
+        <li><a href="page-9.html">&laquo; 이전</a></li>
+<li><a href="index.html">1</a></li>
+<li><span class="page-dots">…</span></li>
+<li><a href="page-6.html">6</a></li>
+<li><a href="page-7.html">7</a></li>
+<li><a href="page-8.html">8</a></li>
+<li><a href="page-9.html">9</a></li>
+<li><span class="active">10</span></li>
+<li><a href="page-11.html">11</a></li>
+<li><a href="page-12.html">12</a></li>
+<li><a href="page-11.html">다음 &raquo;</a></li>
+
+      </ul>
+    </nav>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 오늘의 뉴스 브리핑</p>
+    </div>
+  </footer>
+</body>
+</html>

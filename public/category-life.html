@@ -448,31 +448,49 @@ img { max-width: 100%; height: auto; display: block; }
 }
 
 /* ─── Pagination ─── */
+.pagination-nav {
+  margin: 48px 0 24px;
+  text-align: center;
+}
+
 .pagination {
-  display: flex;
+  display: inline-flex;
   justify-content: center;
+  align-items: center;
   gap: 4px;
-  margin: 40px 0;
   list-style: none;
   padding: 0;
 }
 
 .pagination li a, .pagination li span {
-  display: inline-block;
-  padding: 8px 14px;
-  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 40px;
+  padding: 0 12px;
+  border-radius: 10px;
   font-size: 0.85rem;
+  font-weight: 500;
   color: var(--gray-700);
-}
-
-.pagination .active span {
-  background: var(--blue);
-  color: var(--white);
+  transition: all 0.2s;
 }
 
 .pagination li a:hover {
   background: var(--gray-100);
+  color: var(--black);
   text-decoration: none;
+}
+
+.pagination li span.active {
+  background: var(--black);
+  color: var(--white);
+}
+
+.pagination .page-dots {
+  color: var(--gray-500);
+  min-width: 32px;
+  font-size: 0.9rem;
 }
 
 /* ─── Responsive ─── */
@@ -541,6 +559,7 @@ img { max-width: 100%; height: auto; display: block; }
       <p class="post-summary">직장인분들에게 정말 반가운 소식이 전해졌네요. 그동안 노동절인 5월 1일에 쉬는 곳도 있고 안 쉬는 곳도 있어서 혼란스러웠던 분들 많으셨을 텐데요. 드디어 노동절 공휴일법이 국회 본회의를 통과했다는 소식입니다.
 올해부터는 5월 1일도 공식적인 빨간 날이 된다고 하니 달력에 미리 표시해두셔야겠어요. 노동자의 권리를 되새기는...</p>
     </article>
+      
     </div>
   </main>
 

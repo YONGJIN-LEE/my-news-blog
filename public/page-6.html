@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>오늘의 뉴스 브리핑</title>
+  <meta name="description" content="최신 뉴스를 빠르고 정확하게">
+  <meta property="og:title" content="오늘의 뉴스 브리핑">
+  <meta property="og:description" content="최신 뉴스를 빠르고 정확하게">
+  
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <style>/* ═══════════════════════════════════════════════════════════════
+   Apple-inspired News Blog — 오늘의 뉴스 브리핑
+   Clean, minimal, content-first design
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ─── Web Fonts ─── */
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* ─── Reset & Typography ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --black: #1d1d1f;
+  --gray-900: #2d2d2f;
+  --gray-700: #6e6e73;
+  --gray-500: #86868b;
+  --gray-300: #d2d2d7;
+  --gray-100: #f5f5f7;
+  --white: #ffffff;
+  --blue: #0071e3;
+  --blue-hover: #0077ed;
+  --max-width: 720px;
+  --font-sans: 'Pretendard Variable', 'Pretendard', 'Inter', -apple-system,
+               BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-sans);
+  line-height: 1.65;
+  color: var(--black);
+  background: var(--white);
+  letter-spacing: -0.01em;
+  word-break: keep-all;
+}
+
+a { color: var(--blue); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+img { max-width: 100%; height: auto; display: block; }
+
+/* ─── Navigation ─── */
+.site-header {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+}
+
+.site-header .container {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 22px;
+  height: 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.site-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--black);
+  letter-spacing: -0.01em;
+}
+
+.site-title:hover { text-decoration: none; }
+
+.site-header nav { display: flex; gap: 28px; }
+
+.site-header nav a {
+  font-size: 0.8rem;
+  color: var(--gray-700);
+  letter-spacing: -0.01em;
+  transition: color 0.2s;
+}
+
+.site-header nav a:hover { color: var(--black); text-decoration: none; }
+
+/* ─── Category Navigation ─── */
+.category-nav {
+  background: var(--gray-100);
+  border-bottom: 1px solid var(--gray-300);
+  position: sticky;
+  top: 48px;
+  z-index: 9998;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.category-nav::-webkit-scrollbar { display: none; }
+.category-nav { -ms-overflow-style: none; scrollbar-width: none; }
+
+.category-nav .container {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 22px;
+  display: flex;
+  gap: 4px;
+  height: 44px;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.category-nav a {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--gray-700);
+  padding: 6px 14px;
+  border-radius: 20px;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.category-nav a:hover {
+  color: var(--black);
+  background: rgba(0, 0, 0, 0.05);
+  text-decoration: none;
+}
+
+.category-nav a.active {
+  color: var(--white);
+  background: var(--black);
+}
+
+.category-nav a.active:hover {
+  color: var(--white);
+  background: var(--gray-900);
+}
+
+/* ─── Main Container ─── */
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 22px;
+}
+
+/* ─── Post List (Index Page) ─── */
+.post-list h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  margin: 56px 0 8px;
+  color: var(--black);
+}
+
+.post-list-subtitle {
+  font-size: 0.95rem;
+  color: var(--gray-500);
+  margin-bottom: 40px;
+}
+
+.post-card {
+  display: flex;
+  gap: 24px;
+  padding: 28px 0;
+  border-top: 1px solid var(--gray-300);
+  transition: opacity 0.2s;
+}
+
+.post-card:last-child { border-bottom: 1px solid var(--gray-300); }
+
+.post-card:hover { opacity: 0.85; }
+
+.post-thumb {
+  flex-shrink: 0;
+  width: 200px;
+  height: 134px;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.post-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.post-card:hover .post-thumb img { transform: scale(1.03); }
+
+.post-info { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+
+.post-meta-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.post-category {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--blue);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.post-date {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+.post-info h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.45;
+  letter-spacing: -0.015em;
+  margin-bottom: 6px;
+}
+
+.post-info h2 a { color: var(--black); }
+.post-info h2 a:hover { color: var(--blue); text-decoration: none; }
+
+.post-summary {
+  font-size: 0.85rem;
+  color: var(--gray-700);
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ─── Featured Post (Top of list) ─── */
+.post-featured {
+  padding: 40px 0 32px;
+  border-bottom: 1px solid var(--gray-300);
+  margin-bottom: 8px;
+}
+
+.post-featured .featured-image {
+  width: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.post-featured .featured-image img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+}
+
+.post-featured h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.35;
+  margin-bottom: 8px;
+}
+
+.post-featured h2 a { color: var(--black); }
+.post-featured h2 a:hover { color: var(--blue); text-decoration: none; }
+
+/* ─── Single Post ─── */
+.post-single {
+  padding: 48px 0 64px;
+}
+
+.post-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.post-header .post-category {
+  font-size: 0.75rem;
+  display: inline-block;
+  margin-bottom: 12px;
+}
+
+.post-header h1 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.3;
+  color: var(--black);
+  margin-bottom: 16px;
+  word-break: keep-all;
+}
+
+.post-meta {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  align-items: center;
+  color: var(--gray-500);
+  font-size: 0.85rem;
+}
+
+.post-hero {
+  margin: 0 0 40px;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.post-hero img {
+  width: 100%;
+  max-height: 480px;
+  object-fit: cover;
+}
+
+/* ─── Post Content ─── */
+.post-content {
+  font-size: 1.05rem;
+  line-height: 1.85;
+  color: var(--gray-900);
+  word-break: keep-all;
+}
+
+.post-content h2 {
+  font-size: 1.45rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 48px 0 16px;
+  color: var(--black);
+}
+
+.post-content h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  margin: 36px 0 12px;
+  color: var(--black);
+}
+
+.post-content p {
+  margin: 16px 0;
+}
+
+.post-content ul, .post-content ol {
+  margin: 16px 0;
+  padding-left: 24px;
+}
+
+.post-content li {
+  margin: 8px 0;
+  line-height: 1.7;
+}
+
+.post-content strong {
+  font-weight: 600;
+  color: var(--black);
+}
+
+.post-content blockquote {
+  margin: 28px 0;
+  padding: 20px 24px;
+  background: var(--gray-100);
+  border-radius: 12px;
+  color: var(--gray-700);
+  font-size: 1rem;
+}
+
+.post-content img {
+  margin: 32px auto;
+  border-radius: 12px;
+}
+
+.post-content hr {
+  border: none;
+  height: 1px;
+  background: var(--gray-300);
+  margin: 40px 0;
+}
+
+/* ─── Tags ─── */
+.post-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.tag {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+.post-tags-footer {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--gray-300);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.post-tags-footer .tag {
+  background: var(--gray-100);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  color: var(--gray-700);
+  transition: background 0.2s;
+}
+
+.post-tags-footer .tag:hover {
+  background: var(--gray-300);
+  text-decoration: none;
+}
+
+/* ─── Post Navigation ─── */
+.post-nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 24px 0 48px;
+  font-size: 0.85rem;
+  border-top: 1px solid var(--gray-300);
+  margin-top: 32px;
+}
+
+.post-nav a { color: var(--blue); }
+
+/* ─── Footer ─── */
+.site-footer {
+  background: var(--gray-100);
+  border-top: 1px solid var(--gray-300);
+}
+
+.site-footer .container {
+  max-width: 980px;
+  padding: 20px 22px;
+  text-align: center;
+}
+
+.site-footer p {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+/* ─── Pagination ─── */
+.pagination-nav {
+  margin: 48px 0 24px;
+  text-align: center;
+}
+
+.pagination {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  list-style: none;
+  padding: 0;
+}
+
+.pagination li a, .pagination li span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 40px;
+  padding: 0 12px;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--gray-700);
+  transition: all 0.2s;
+}
+
+.pagination li a:hover {
+  background: var(--gray-100);
+  color: var(--black);
+  text-decoration: none;
+}
+
+.pagination li span.active {
+  background: var(--black);
+  color: var(--white);
+}
+
+.pagination .page-dots {
+  color: var(--gray-500);
+  min-width: 32px;
+  font-size: 0.9rem;
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 640px) {
+  .post-card {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .post-thumb {
+    width: 100%;
+    height: 200px;
+    border-radius: 12px;
+  }
+
+  .post-list h1 { font-size: 1.6rem; margin-top: 32px; }
+
+  .post-header h1 { font-size: 1.6rem; }
+
+  .post-single { padding: 32px 0 48px; }
+
+  .post-featured .featured-image img { height: 240px; }
+  .post-featured h2 { font-size: 1.3rem; }
+
+  .post-content { font-size: 1rem; }
+}
+</style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="index.html" class="site-title">오늘의 뉴스 브리핑</a>
+      <nav>
+        <a href="index.html">홈</a>
+      </nav>
+    </div>
+  </header>
+  
+  <nav class="category-nav">
+    <div class="container">
+      <a href="index.html" class="active">전체</a>
+        <a href="category-politics.html">정치</a>
+        <a href="category-society.html">사회</a>
+        <a href="category-economy.html">경제</a>
+        <a href="category-entertainment.html">연예</a>
+        <a href="category-life.html">생활</a>
+        <a href="category-it.html">IT</a>
+        <a href="category-sports.html">스포츠</a>
+        <a href="category-fashion.html">패션</a>
+        
+    </div>
+  </nav>
+  <main class="container">
+    <div class="post-list">
+      <h1>오늘의 뉴스</h1>
+      <p class="post-list-subtitle">전체 360개 게시물 — 6/12 페이지</p>
+      
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-03-31-황석희번역가성범죄의혹.html"><img src="https://cbimg.xyz/data/file/c18/17748667609037.jpg" alt="황석희 번역가 3번 성범죄 전과 충격 폭로" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">일반</span>
+          <span class="post-date">2026-03-31</span>
+        </div>
+        <h2><a href="2026-03-31-황석희번역가성범죄의혹.html">황석희 번역가 3번 성범죄 전과 충격 폭로</a></h2>
+        <p class="post-summary"> 핵심 요약
+
+유명 영화 번역가 황석희, 디스패치가 3차례 성범죄 이력 보도
+2005년 강제추행·폭행, 2014년 준유사강간 및 신체촬영 혐의
+두 차례 모두 집행유예 선고 받아 논란…황석희 측 "변호사와 검토 중"
+
+
+ 사건/이슈 개요
+2026년 3월 30일, 국내 유명 연예매체 디스패치가 영화 번역가 황석희의 성범죄 전...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-03-31-환율1540원돌파.html"><img src="https://img.animalplanet.co.kr/thumbnail/2026/03/16/1200/24jaxno02m008777stlr.jpg" alt="환율 1540원 돌파! 17년 만의 최고치에 경제 비상? (원인 분석)" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">일반</span>
+          <span class="post-date">2026-03-31</span>
+        </div>
+        <h2><a href="2026-03-31-환율1540원돌파.html">환율 1540원 돌파! 17년 만의 최고치에 경제 비상? (원인 분석)</a></h2>
+        <p class="post-summary"> 핵심 요약
+
+원/달러 환율 장중 1,535원 돌파, 1,540원 선 위협
+2009년 금융위기 이후 17년 만에 가장 높은 수준 기록
+중동 전쟁 장기화에 따른 지정학적 리스크와 안전자산(달러) 선호 현상
+수입 물가 상승으로 인한 국내 인플레이션 압력 가중 우려
+외화 부채 기업 및 해외 유학생 가계의 경제적 부담 급증
+
+
+...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-03-31-환율1500원돌파.html"><img src="https://i.ytimg.com/vi/6lEa16U7yhI/sddefault.jpg" alt="환율 1500원 돌파! 중동전쟁 충격 한국 경제 왜 이러나?" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">일반</span>
+          <span class="post-date">2026-03-31</span>
+        </div>
+        <h2><a href="2026-03-31-환율1500원돌파.html">환율 1500원 돌파! 중동전쟁 충격 한국 경제 왜 이러나?</a></h2>
+        <p class="post-summary"> 핵심 요약
+
+원·달러 환율이 심리적 저항선인 1,500원을 넘어서며 금융시장 충격 확산
+중동전쟁 장기화로 인한 달러 강세·유가 급등·글로벌 위험자산 회피가 복합 작용
+수입 물가 상승이 가속화되며 소비자물가 상승 압박 재강화
+외환 당국이 시장 안정화 개입을 시사했지만 구조적 불안 요인은 지속
+코스피 지수도 같은 기간 2....</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-03-31-한동훈등판설.html"><img src="https://cdnweb01.wikitree.co.kr/webdata/editor/202511/17/img_20251117112819_471e68df.webp" alt="한동훈 등판설! 63 지방선거 출마 확정? 정치권 흔드는 3가지 시나리오" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">일반</span>
+          <span class="post-date">2026-03-31</span>
+        </div>
+        <h2><a href="2026-03-31-한동훈등판설.html">한동훈 등판설! 63 지방선거 출마 확정? 정치권 흔드는 3가지 시나리오</a></h2>
+        <p class="post-summary"> 핵심 요약
+
+한동훈 전 국민의힘 비상대책위원장, 오늘 정치 토크쇼 전격 출연 예정
+6월 3일로 예정된 제10회 전국동시지방선거 출마 여부에 관심 집중
+보수 진영 재편의 핵심 키맨으로 부상하며 지지층 결집 가속화
+여당 내 공천 논란 및 야당의 개헌 발의 등 정국 변화의 중심
+전문가들, "오늘 발언 수위에 따라 대권 가도 ...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-03-31-트럼프이란공격유예.html"><img src="https://t1.daumcdn.net/news/202603/27/newsy/20260327082629609eywm.jpg" alt="트럼프 이란 공격 유예 4월6일까지! 결국 합의 가나?" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">일반</span>
+          <span class="post-date">2026-03-31</span>
+        </div>
+        <h2><a href="2026-03-31-트럼프이란공격유예.html">트럼프 이란 공격 유예 4월6일까지! 결국 합의 가나?</a></h2>
+        <p class="post-summary"> 핵심 요약
+
+트럼프 대통령, 이란 발전소·에너지 시설 공격 기한 4월 6일까지 3번째 유예
+48시간 → 5일 → 10일 연장…총 3차례 연속 공격 유예
+이란, 호르무즈 해협으로 유조선 10척 통과 허용해 협상 진정성 표명
+트럼프 "대화 잘 진행 중…호르무즈 개방이 합의 핵심"
+한국 에너지 수급·환율에도 직접 영향…이번 ...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-03-31-코스피시총840조증발.html"><img src="https://upload3.inven.co.kr/upload/2022/06/22/bbs/i15469588696.jpg?MW=800" alt="코스피 시총 840조 증발! 중동전쟁 한 달 충격 총정리" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">일반</span>
+          <span class="post-date">2026-03-31</span>
+        </div>
+        <h2><a href="2026-03-31-코스피시총840조증발.html">코스피 시총 840조 증발! 중동전쟁 한 달 충격 총정리</a></h2>
+        <p class="post-summary"> 핵심 요약
+
+중동전쟁 발발 후 한 달간 코스피·코스닥 합산 시가총액 840조 원 이상 증발
+유가증권시장(코스피) 단독으로 798조 원 이상 감소, 코스닥 42조 원 추가 하락
+삼성전자·SK하이닉스 두 종목에서만 372조 원 빠져나가 전체 감소분의 44% 차지
+원·달러 환율은 1,500원을 돌파하며 금융시장 불안감이 극도...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-03-31-조갑경전며느리폭로.html"><img src="https://img-s-msn-com.akamaized.net/tenant/amp/entityid/AA1ZIeFU.img?w=1200&h=801&m=4&q=79" alt="조갑경 전 며느리 폭로 양육비 미지급 논란 홍서범 공식 사과" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">일반</span>
+          <span class="post-date">2026-03-31</span>
+        </div>
+        <h2><a href="2026-03-31-조갑경전며느리폭로.html">조갑경 전 며느리 폭로 양육비 미지급 논란 홍서범 공식 사과</a></h2>
+        <p class="post-summary"> 핵심 요약
+
+가수 조갑경·홍서범 부부 아들의 '불륜 및 양육비 미지급' 폭로전 확산
+전 며느리, "아들의 외도와 시부모의 방관으로 18개월 아이 홀로 키워" 주장
+시부모에게 도움 요청했으나 "성인 일은 알아서 하라"며 외면당했다 폭로
+홍서범·조갑경 측, "부모로서 책임 통감하며 지도하겠다" 공식 사과문 발표
+전 며느리 ...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-03-31-전소미JYP성교육폭로.html"><img src="https://img.seoul.co.kr/img/upload/2026/03/31/SSC_20260331144952_O2.png.webp" alt="전소미 JYP 성교육 폭로 충격! "중요한 건 다 빠졌다" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">일반</span>
+          <span class="post-date">2026-03-31</span>
+        </div>
+        <h2><a href="2026-03-31-전소미JYP성교육폭로.html">전소미 JYP 성교육 폭로 충격! "중요한 건 다 빠졌다</a></h2>
+        <p class="post-summary"> 핵심 요약
+
+전소미, SBS '아니 근데 진짜!'에서 JYP 연습생 성교육 솔직 폭로
+"중요한 건 다 빼고 이야기하더라" 발언으로 현장·시청자 폭소
+JYP는 인성교육, 성교육, 해킹 교육 등 67가지 연습생 교육 진행
+전소미 "집에서 이미 제대로 된 성교육 받았다" 당당히 발언
+K팝 연습생 교육 시스템에 대한 새로운 관...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-03-31-인순이딸박세인.html"><img src="https://img1.daumcdn.net/thumb/R1280x0.fjpg/?fname=http://t1.daumcdn.net/brunch/service/user/15cL/image/gl38Ib6ro3z_7MBVnshYvmdwsy0.jpg" alt="인순이 딸 박세인 고백! 7번 수술 끝에 손가락 잃은 충격적 사고 왜?" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">일반</span>
+          <span class="post-date">2026-03-31</span>
+        </div>
+        <h2><a href="2026-03-31-인순이딸박세인.html">인순이 딸 박세인 고백! 7번 수술 끝에 손가락 잃은 충격적 사고 왜?</a></h2>
+        <p class="post-summary"> 핵심 요약
+
+TV조선 '조선의 사랑꾼' 출연, 미국 LA 사고 당시 상황 최초 고백
+차와 벽 사이에 손이 끼는 사고로 수부외과 대수술 7차례 진행
+결국 왼쪽 새끼손가락을 잃게 되었으나 당당하게 극복한 모습 공개
+"내 몸의 일부일 뿐" 의수 없이 당당한 모습에 시청자들 감동
+엄마 인순이와 남편의 지지 속에 상처를 딛고 일...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-03-31-인사동식당화재.html"><img src="https://cdnweb01.wikitree.co.kr/webdata/editor/202310/08/202310081721361195.jpg" alt="인사동 식당 화재 발생! 점심시간 손님들 긴급 대피 (인명 피해는?)" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">일반</span>
+          <span class="post-date">2026-03-31</span>
+        </div>
+        <h2><a href="2026-03-31-인사동식당화재.html">인사동 식당 화재 발생! 점심시간 손님들 긴급 대피 (인명 피해는?)</a></h2>
+        <p class="post-summary"> 핵심 요약
+
+3월 31일 낮 12시경 서울 종로구 인사동 소재 식당에서 화재 발생
+유동 인구 많은 점심시간 발생했으나 식당 직원 및 손님 신속 대피
+소방 인력 60여 명, 차량 20여 대 투입되어 1시간 만에 완전 진화
+현재까지 확인된 인명 피해 없음, 식당 주방 일부 소실 등 재산 피해 발생
+소방 당국, 주방 내 조리...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-03-31-울산초등생사고.html"><img src="https://img1.daumcdn.net/thumb/R1280x0.fjpg/?fname=http://t1.daumcdn.net/brunch/service/user/fiVN/image/EiPl5Pt3wLMoLhcHH2AUaPhvfCw.jpg" alt="울산 아파트 단지 9세 초등생 SUV 사망 사고 주민들 눈물바다" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">일반</span>
+          <span class="post-date">2026-03-31</span>
+        </div>
+        <h2><a href="2026-03-31-울산초등생사고.html">울산 아파트 단지 9세 초등생 SUV 사망 사고 주민들 눈물바다</a></h2>
+        <p class="post-summary"> 핵심 요약
+
+울산 북구 아파트 단지 내 횡단보도서 9세 여아, SUV 차량에 치여 사망
+지난 30일 오후 6시경 학원 하차 후 귀가 중 참변
+사고 현장에 마련된 임시 추모 공간에 주민들 애도 물결 이어져
+경찰, 60대 운전자 입건 및 단지 내 제한속도 준수 여부 집중 조사
+아파트 단지 내 도로 안전 대책 강화 및 '사유...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-03-31-아르헨티나총기난사.html"><img src="https://cbimg.xyz/data/file/c18/17749357752611.png" alt="아르헨티나 교내 총기 난사! 13세 신입생 사망? 충격적인 범행 동기" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">일반</span>
+          <span class="post-date">2026-03-31</span>
+        </div>
+        <h2><a href="2026-03-31-아르헨티나총기난사.html">아르헨티나 교내 총기 난사! 13세 신입생 사망? 충격적인 범행 동기</a></h2>
+        <p class="post-summary"> 핵심 요약
+
+아르헨티나 산타페주의 한 학교에서 15세 학생이 산탄총을 난사하는 참사 발생
+이 사고로 올해 입학한 13세 신입생 1명이 숨지고 8명이 중경상을 입음
+가해 학생은 범행 직후 현장에서 체포되었으며, 평소 불만이 누적된 상태였던 것으로 파악
+아르헨티나 전역이 충격에 빠졌으며, 교내 보안 및 총기 규제 목소리 확...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-03-31-손흥민.html"><img src="https://thumb.mtstarnews.com/21/2021/05/2021050909561733656_1.jpg/dims/resize/1200/crop/1200x630!/optimize" alt="손흥민 EPL 150호 골 금자탑! 토트넘의 전설이 된 쏘니!" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">일반</span>
+          <span class="post-date">2026-03-31</span>
+        </div>
+        <h2><a href="2026-03-31-손흥민.html">손흥민 EPL 150호 골 금자탑! 토트넘의 전설이 된 쏘니!</a></h2>
+        <p class="post-summary"> 핵심 요약 (5개)
+1. 손흥민, 리버풀과의 홈 경기에서 득점하며 EPL 통산 150호 골 대기록 달성
+2. 프리미어리그 역사상 11번째로 '150골 고지' 점령한 선수가 됨
+3. 아시아인 최초의 기록이자, 현역 EPL 선수 중 최다 득점 3위 기록
+4. 경기 직후 현지 매체와 팬들의 찬사 쏟아지며 '토트넘 역대 최고의...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-03-31-서울지하철파업.html"><img src="https://img2.yna.co.kr/mpic/YH/2023/11/10/MYH20231110011900641_P4.jpg" alt="서울 지하철 2호선 내일부터 전면 파업! 출근길 비상!" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">일반</span>
+          <span class="post-date">2026-03-31</span>
+        </div>
+        <h2><a href="2026-03-31-서울지하철파업.html">서울 지하철 2호선 내일부터 전면 파업! 출근길 비상!</a></h2>
+        <p class="post-summary"> 핵심 요약 (5개)
+1. 서울교통공사 노동조합, 임금 협상 결렬로 내일 오전 5시부터 2호선 전면 파업 돌입
+2. 노조 측 요구안: 1인 승무제 도입 철회 및 신규 인력 충원
+3. 서울시, 비상 수송 대책 본부 가동 및 대체 인력 투입 예정
+4. 2호선 이용객 200만 명, 출퇴근 시간대 극심한 혼잡 우려
+5. 버스·택...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-03-31-비트코인.html"><img src="https://scs-phinf.pstatic.net/MjAyNTA4MjdfMTY0/MDAxNzU2MjczODYwOTk5.TNCayLrB15B1RtdV3fE_HMvUFoQB0gzMN306h4EENtsg.PzNgMedDVw2AkaA7HP6nHjfX9YQNIq2bC3MFd5nkJnwg.PNG/ChatGPT_Image_2025%EB%85%84_8%EC%9B%94_27%EC%9D%BC_%EC%98%A4%ED%9B%84_02_50_55.png?type=w800" alt="비트코인 1억 5천만 원 돌파! 결국 디지털 금의 귀환인가?" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">일반</span>
+          <span class="post-date">2026-03-31</span>
+        </div>
+        <h2><a href="2026-03-31-비트코인.html">비트코인 1억 5천만 원 돌파! 결국 디지털 금의 귀환인가?</a></h2>
+        <p class="post-summary"> 핵심 요약 (5개)
+1. 비트코인(BTC), 국내 거래소 기준 1억 5,400만 원 기록하며 역대 최고가 경신
+2. 미국 현지 비트코인 ETF로의 대규모 자금 유입이 주요 상승 원인
+3. 반감기 이후 공급 부족 현상 심화되며 가격 상승 가속화
+4. 글로벌 금융 기관들의 포트폴리오 편입 가속화로 신뢰도 상승
+5. 전문가들...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-03-31-부영이중근출산장려금.html"><img src="https://img1.daumcdn.net/thumb/R1280x0.fpng/?fname=http://t1.daumcdn.net/brunch/service/user/54rL/image/OGIX-3hfhRzbJ9PRWa0zjBTS9Ls.png" alt="부영 이중근 회장 출산장려금 1억 퇴사자도 안 돌려받는 이유" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">일반</span>
+          <span class="post-date">2026-03-31</span>
+        </div>
+        <h2><a href="2026-03-31-부영이중근출산장려금.html">부영 이중근 회장 출산장려금 1억 퇴사자도 안 돌려받는 이유</a></h2>
+        <p class="post-summary"> 핵심 요약
+
+부영그룹 이중근 회장, 출산장려금 1억 원 파격 지원 정책 화제
+입사 하루 만에 아이 낳아도 1억 원 전액 지급 (실제 사례 공개)
+돈 받고 바로 퇴사하거나 이직해도 반환 의무 전혀 없음
+"우리 회사 떠나도 대한민국 국민 늘어나는 것이 더 중요" 소신
+합계출산율 1.5명 달성까지 제도 지속하겠다는 강력한 의...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-03-31-미세먼지31급증.html"><img src="https://www.korea.kr/newsWeb/resources/attaches/2026.02/25/07_00(1).jpg" alt="미세먼지 31% 급증! 3월 서울 최악 원인 완벽분석" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">일반</span>
+          <span class="post-date">2026-03-31</span>
+        </div>
+        <h2><a href="2026-03-31-미세먼지31급증.html">미세먼지 31% 급증! 3월 서울 최악 원인 완벽분석</a></h2>
+        <p class="post-summary"> 핵심 요약
+
+2026년 3월 1~27일 서울에서 초미세먼지 '나쁨' 이상 일수가 21일로, 전년 동기 대비 31% 이상 증가
+중국 랴오닝성 대규모 산불로 발생한 미세먼지가 북서풍 타고 한반도 유입
+'고기압 돔' 현상(대기 정체)이 오염물질의 국내 정체를 심화
+강수량 감소와 건조한 대기가 상황 악화에 추가로 기여
+중동전쟁...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-03-31-리센스메디컬코스닥상장.html"><img src="https://www.hansbiz.co.kr/news/photo/202512/804598_807803_521.jpg" alt="리센스메디컬 코스닥 상장! 공모가 1.1만원 결과 총정리" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">일반</span>
+          <span class="post-date">2026-03-31</span>
+        </div>
+        <h2><a href="2026-03-31-리센스메디컬코스닥상장.html">리센스메디컬 코스닥 상장! 공모가 1.1만원 결과 총정리</a></h2>
+        <p class="post-summary"> 핵심 요약
+
+의료기기 전문기업 리센스메디컬, 2026년 3월 31일 코스닥 시장 신규 상장
+공모가 11,000원 확정, 코스닥 시장에서 의료기기 업종 새 얼굴로 주목
+중동전쟁·고환율·코스피 하락세 등 험난한 시장 환경 속 상장 강행
+상장 당일 시초가 형성 및 가격 흐름이 시장의 큰 관심을 받음
+회사는 재활 및 수술 보조...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-03-31-대전안전공업화재수사원인규명.html"><img src="https://img1.daumcdn.net/thumb/S1200x630/?fname=https://t1.daumcdn.net/news/202603/21/yonhap/20260321194032535houd.jpg" alt="대전 안전공업 화재 74명 사상 원인 수사 총정리" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">일반</span>
+          <span class="post-date">2026-03-31</span>
+        </div>
+        <h2><a href="2026-03-31-대전안전공업화재수사원인규명.html">대전 안전공업 화재 74명 사상 원인 수사 총정리</a></h2>
+        <p class="post-summary"> 핵심 요약
+
+2026년 3월 20일 대전 대덕구 안전공업 화재로 사망 14명·부상 60명 등 74명 사상
+나트륨 저장 물질로 인한 진화 지연, 절삭유 기름때가 급격한 불길 확산 주요 원인 추정
+경찰·소방 합동 현장 감식 및 압수수색…3월 30일 마지막 희생자 발인 완료
+
+
+ 사건/이슈 개요
+지난 3월 20일 오후 1시 ...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-03-31-대구캐리어시신발견.html"><img src="https://minio.nculture.org/amsweb-opt/multimedia_assets/101/112890/159269/c/%EB%8C%80%EA%B5%AC-%EC%8B%A0%EC%B2%9C_%EA%B2%BD%EB%8C%80%EA%B5%90-%EC%88%98%EB%B3%80-%EC%82%B0%EC%B1%85%EB%A1%9C-%EC%A0%84%EA%B2%BD-%283%29-medium-size.jpg" alt="대구 하천 캐리어 여성 시신 발견 50대 피해자 신원 확인 충격" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">일반</span>
+          <span class="post-date">2026-03-31</span>
+        </div>
+        <h2><a href="2026-03-31-대구캐리어시신발견.html">대구 하천 캐리어 여성 시신 발견 50대 피해자 신원 확인 충격</a></h2>
+        <p class="post-summary"> 핵심 요약
+
+대구 신천 잠수교 아래서 여성 시신이 담긴 캐리어 발견
+31일 오전 10시 30분경 "수상한 가방이 떠 있다"는 시민 신고로 수사 착수
+피해자는 50대 한국인 여성으로 확인, 발견 당시 소지품 전무
+1차 검안 결과 흉기에 의한 외상 흔적은 없어... 국과수 부검 의뢰
+경찰, 주변 CCTV 분석 및 관계성 범...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-03-31-국제유가100달러.html"><img src="https://www.dogdrip.net/dvs/d/26/03/12/f962fe582b4eca581cca072c8700bef0.png" alt="국제 유가 100달러 돌파! 기름값 폭등에 RE100 대응 시급한 이유?" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">일반</span>
+          <span class="post-date">2026-03-31</span>
+        </div>
+        <h2><a href="2026-03-31-국제유가100달러.html">국제 유가 100달러 돌파! 기름값 폭등에 RE100 대응 시급한 이유?</a></h2>
+        <p class="post-summary"> 핵심 요약
+
+서부 텍사스산 원유(WTI) 가격 배럴당 100달러 돌파, 2년 만의 최고치
+중동 정세 불안 및 산유국 감산 연장이 주요 가격 상승 원인으로 지목
+국내 휘발유 가격 리터당 2,000원 선 위협, 물가 상승 압력 가중
+이재명 대통령, 에너지 위기 심각성 언급 및 RE100 전환 가속화 주문
+수출 기업들, 고유...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-03-31-광화문받들어총조형물논란.html"><img src="https://cdn.mania.kr/dvdprime/file/2603/sisa_3592372_20260330184156_35e342b3fa29b703_thumb.jpg" alt="광화문광장 받들어총 조형물 결국 설치 강행" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">일반</span>
+          <span class="post-date">2026-03-31</span>
+        </div>
+        <h2><a href="2026-03-31-광화문받들어총조형물논란.html">광화문광장 받들어총 조형물 결국 설치 강행</a></h2>
+        <p class="post-summary"> 핵심 요약
+
+서울시, 광화문광장에 한국전쟁 참전국 기리는 '받들어총' 조형물 4월 말 설치 강행 방침
+국토부 공사중지명령 불구하고 서울시가 공사 계속 진행 논란
+민주화 성지인 광화문광장에 군사 조형물 설치 부적절하다는 비판 vs 참전국 감사 당연하다는 찬성 팽팽
+
+
+ 사건/이슈 개요
+서울시가 광화문광장에 한국전쟁 참전국...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-03-31-경인아라뱃길시신.html"><img src="https://img9.yna.co.kr/photo/yna/YH/2016/06/26/PYH2016062606470006500_P4.jpg" alt="경인아라뱃길 시신 발견 충격! 신원 미상 남성, 경찰 수사 착수" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">일반</span>
+          <span class="post-date">2026-03-31</span>
+        </div>
+        <h2><a href="2026-03-31-경인아라뱃길시신.html">경인아라뱃길 시신 발견 충격! 신원 미상 남성, 경찰 수사 착수</a></h2>
+        <p class="post-summary"> 핵심 요약
+
+인천 경인아라뱃길 수로 인근에서 신원 미상의 남성 시신 1구 발견
+행인이 수면에 떠 있는 물체를 발견하고 경찰에 신고, 즉시 수습 완료
+발견 당시 시신은 부패가 상당히 진행된 상태, 외상 여부는 정밀 조사 중
+경찰, 인근 CCTV 분석 및 실종 신고 명단 대조를 통해 신원 확인에 주력
+유족 및 목격자 확보를...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-03-31-갤럭시롤.html"><img src="https://i.namu.wiki/i/txlYaZy6R2S4gPyU9CCe6rCEOuqyGCzverKcuahSZkLST_yIdxxWefVfMtuj-dxU2LhY6HAfq0WyZTuneIR7dw.svg" alt="삼성 갤럭시 롤 공개! 화면이 늘어나는 폰의 충격 비주얼!" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">일반</span>
+          <span class="post-date">2026-03-31</span>
+        </div>
+        <h2><a href="2026-03-31-갤럭시롤.html">삼성 갤럭시 롤 공개! 화면이 늘어나는 폰의 충격 비주얼!</a></h2>
+        <p class="post-summary"> 핵심 요약 (5개)
+1. 삼성전자, 세계 최초 상용화 롤러블 스마트폰 '갤럭시 롤(Galaxy Roll)' 전격 공개
+2. 버튼 하나로 6.7인치 화면이 8.1인치로 확장되는 혁신적인 폼팩터 구현
+3. 폴더블 폰의 단점인 주름 문제 완벽 해결, 한층 얇아진 두께와 가벼운 무게
+4. 업그레이드된 갤럭시 AI 탑재로 확장된...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-03-31-xAI창립멤버전원이탈.html"><img src="https://image.ytn.co.kr/general/jpg/2026/0330/202603300526570580_t.jpg" alt="머스크 xAI 창립 멤버 11명 전원 이탈! 3년만에 충격" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">일반</span>
+          <span class="post-date">2026-03-31</span>
+        </div>
+        <h2><a href="2026-03-31-xAI창립멤버전원이탈.html">머스크 xAI 창립 멤버 11명 전원 이탈! 3년만에 충격</a></h2>
+        <p class="post-summary"> 핵심 요약
+
+일론 머스크의 AI 스타트업 xAI, 창업 3년 만에 공동창업자 11명 전원 이탈
+마지막으로 남아있던 로스 노딘마저 최근 퇴사 확인
+머스크 "처음부터 제대로 구축 안 됐다…기초부터 다시" 선언
+xAI, 현재 대규모 조직 재편 작업 중…신규 인력으로 완전 교체
+AI 업계 긴장…xAI의 경쟁력 유지 여부에 의문...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-03-31-KF21양산1호기.html"><img src="https://www.korea.kr/newsWeb/resources/attaches/2026.03/26/0326-2(1).jpg" alt="KF-21 양산 1호기 출고! 25년 꿈 드디어 결실, 충격 스펙 공개" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">일반</span>
+          <span class="post-date">2026-03-31</span>
+        </div>
+        <h2><a href="2026-03-31-KF21양산1호기.html">KF-21 양산 1호기 출고! 25년 꿈 드디어 결실, 충격 스펙 공개</a></h2>
+        <p class="post-summary"> 핵심 요약
+
+2026년 3월 25일 경남 사천 한국항공우주산업(KAI) 공장에서 KF-21 보라매 양산 1호기 출고식 거행
+총사업비 16조 5,000억 원(연구개발비 8.1조 + 양산비 8.4조) 투입된 국내 최대 방산 프로젝트
+KF-21은 최고속도 마하 1.8, 최대 항속거리 2,900km의 4.5세대 초음속 전투기
+...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-03-31-BTS아리랑.html"><img src="https://www.korea.kr/admin2011/upload/photo/2026/03/22/9746e4ffcdded4d3f5aee55d6a944958_THUMB_3.jpg" alt="BTS 아리랑 컴백 라이브 1840만 명 돌파! 전 세계가 놀란 이유는?" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">일반</span>
+          <span class="post-date">2026-03-31</span>
+        </div>
+        <h2><a href="2026-03-31-BTS아리랑.html">BTS 아리랑 컴백 라이브 1840만 명 돌파! 전 세계가 놀란 이유는?</a></h2>
+        <p class="post-summary"> 핵심 요약
+
+BTS 넷플릭스 컴백 라이브 '아리랑' 시청자 수 1,840만 명 돌파
+전 세계 190여 개국 동시 송출, 역대 최다 시청 기록 경신
+한국 전통 선율 '아리랑'을 현대적으로 재해석한 무대 연출
+실시간 트위터(X) 트렌드 1위 점령 및 전 세계적 화제성 입증
+컴백 직후 주요 음원 차트 '줄세우기' 성공하며 독...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-03-30-호르무즈해협봉쇄에너지위기.html"><img src="https://www.chosun.com/resizer/v2/ZBZSEFJX35GJFP2KE4MBOT2QYQ.jpg?auth=4bbc7dfbde09a37d398d1d17ae8581d891e7e295949b1791d18ed4a975f94bed&width=1200&height=630&focal=1186,153" alt="호르무즈해협 봉쇄 유가 폭등 한국 영향은" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">일반</span>
+          <span class="post-date">2026-03-30</span>
+        </div>
+        <h2><a href="2026-03-30-호르무즈해협봉쇄에너지위기.html">호르무즈해협 봉쇄 유가 폭등 한국 영향은</a></h2>
+        <p class="post-summary"> 핵심 요약
+
+2026년 2월 28일 이후 호르무즈 해협 선박 통행 사실상 중단
+국제 유가 배럴당 111달러 돌파, 150~200달러 전망도 제기
+한국, 중동산 원유·LNG 대량 수입 의존으로 직접 타격 우려
+
+
+ 사건/이슈 개요
+2026년 2월 28일, 이란 최고 지도자에 대한 군사 공격 이후 중동 정세가 급격히 불안정...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-03-30-한강전미도서비평가협회상한국최초.html"><img src="https://image.aladin.co.kr/img/events/foreign/2026/01/2025nbcc_260327_logo.jpg" alt="한강 작가 전미도서비평가협회상 수상 — 한국 소설 최초" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">일반</span>
+          <span class="post-date">2026-03-30</span>
+        </div>
+        <h2><a href="2026-03-30-한강전미도서비평가협회상한국최초.html">한강 작가 전미도서비평가협회상 수상 — 한국 소설 최초</a></h2>
+        <p class="post-summary"> 핵심 요약
+
+한강의 소설 '작별하지 않는다' 영어판이 미국 전미도서비평가협회상 소설 부문 수상
+한국 소설로는 역사상 최초 수상, 노벨문학상 이후 또 한 번의 쾌거
+제주 4·3 사건을 세 여성의 시선으로 그린 작품으로 세계적 인정 받아
+
+
+ 사건/이슈 개요
+2026년 3월 26일(현지시간), 미국 뉴욕에서 열린 전미도서비...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-03-30-한강전미도서비평가협회상.html"><img src="https://image.ytn.co.kr/general/jpg/2026/0121/202601211352396388_t.jpg" alt="한강 작별하지않는다 미국 NBCC상 수상!" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">일반</span>
+          <span class="post-date">2026-03-30</span>
+        </div>
+        <h2><a href="2026-03-30-한강전미도서비평가협회상.html">한강 작별하지않는다 미국 NBCC상 수상!</a></h2>
+        <p class="post-summary"> 핵심 요약
+
+한강 소설 '작별하지 않는다' 영어판, 전미도서비평가협회상(NBCC) 소설 부문 수상
+한국 작가 소설로는 최초 수상이라는 역사적 기록 달성
+노벨문학상에 이어 미국 주요 문학상까지 석권하며 세계적 위상 재확인
+
+
+ 사건/이슈 개요
+노벨문학상 수상 작가 한강이 또 하나의 국제적 문학상을 품에 안았습니다. 장편소...</p>
+      </div>
+    </article>
+      
+    <nav class="pagination-nav">
+      <ul class="pagination">
+        <li><a href="page-5.html">&laquo; 이전</a></li>
+<li><a href="index.html">1</a></li>
+<li><span class="page-dots">…</span></li>
+<li><a href="page-3.html">3</a></li>
+<li><a href="page-4.html">4</a></li>
+<li><a href="page-5.html">5</a></li>
+<li><span class="active">6</span></li>
+<li><a href="page-7.html">7</a></li>
+<li><a href="page-8.html">8</a></li>
+<li><a href="page-9.html">9</a></li>
+<li><span class="page-dots">…</span></li>
+<li><a href="page-12.html">12</a></li>
+<li><a href="page-7.html">다음 &raquo;</a></li>
+
+      </ul>
+    </nav>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 오늘의 뉴스 브리핑</p>
+    </div>
+  </footer>
+</body>
+</html>

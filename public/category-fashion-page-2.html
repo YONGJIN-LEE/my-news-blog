@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>패션 — 오늘의 뉴스 브리핑</title>
+  <meta name="description" content="패션 카테고리 뉴스">
+  <meta property="og:title" content="패션 — 오늘의 뉴스 브리핑">
+  <meta property="og:description" content="패션 카테고리 뉴스">
+  
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <style>/* ═══════════════════════════════════════════════════════════════
+   Apple-inspired News Blog — 오늘의 뉴스 브리핑
+   Clean, minimal, content-first design
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ─── Web Fonts ─── */
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* ─── Reset & Typography ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --black: #1d1d1f;
+  --gray-900: #2d2d2f;
+  --gray-700: #6e6e73;
+  --gray-500: #86868b;
+  --gray-300: #d2d2d7;
+  --gray-100: #f5f5f7;
+  --white: #ffffff;
+  --blue: #0071e3;
+  --blue-hover: #0077ed;
+  --max-width: 720px;
+  --font-sans: 'Pretendard Variable', 'Pretendard', 'Inter', -apple-system,
+               BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-sans);
+  line-height: 1.65;
+  color: var(--black);
+  background: var(--white);
+  letter-spacing: -0.01em;
+  word-break: keep-all;
+}
+
+a { color: var(--blue); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+img { max-width: 100%; height: auto; display: block; }
+
+/* ─── Navigation ─── */
+.site-header {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+}
+
+.site-header .container {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 22px;
+  height: 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.site-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--black);
+  letter-spacing: -0.01em;
+}
+
+.site-title:hover { text-decoration: none; }
+
+.site-header nav { display: flex; gap: 28px; }
+
+.site-header nav a {
+  font-size: 0.8rem;
+  color: var(--gray-700);
+  letter-spacing: -0.01em;
+  transition: color 0.2s;
+}
+
+.site-header nav a:hover { color: var(--black); text-decoration: none; }
+
+/* ─── Category Navigation ─── */
+.category-nav {
+  background: var(--gray-100);
+  border-bottom: 1px solid var(--gray-300);
+  position: sticky;
+  top: 48px;
+  z-index: 9998;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.category-nav::-webkit-scrollbar { display: none; }
+.category-nav { -ms-overflow-style: none; scrollbar-width: none; }
+
+.category-nav .container {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 22px;
+  display: flex;
+  gap: 4px;
+  height: 44px;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.category-nav a {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--gray-700);
+  padding: 6px 14px;
+  border-radius: 20px;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.category-nav a:hover {
+  color: var(--black);
+  background: rgba(0, 0, 0, 0.05);
+  text-decoration: none;
+}
+
+.category-nav a.active {
+  color: var(--white);
+  background: var(--black);
+}
+
+.category-nav a.active:hover {
+  color: var(--white);
+  background: var(--gray-900);
+}
+
+/* ─── Main Container ─── */
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 22px;
+}
+
+/* ─── Post List (Index Page) ─── */
+.post-list h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  margin: 56px 0 8px;
+  color: var(--black);
+}
+
+.post-list-subtitle {
+  font-size: 0.95rem;
+  color: var(--gray-500);
+  margin-bottom: 40px;
+}
+
+.post-card {
+  display: flex;
+  gap: 24px;
+  padding: 28px 0;
+  border-top: 1px solid var(--gray-300);
+  transition: opacity 0.2s;
+}
+
+.post-card:last-child { border-bottom: 1px solid var(--gray-300); }
+
+.post-card:hover { opacity: 0.85; }
+
+.post-thumb {
+  flex-shrink: 0;
+  width: 200px;
+  height: 134px;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.post-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.post-card:hover .post-thumb img { transform: scale(1.03); }
+
+.post-info { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+
+.post-meta-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.post-category {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--blue);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.post-date {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+.post-info h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.45;
+  letter-spacing: -0.015em;
+  margin-bottom: 6px;
+}
+
+.post-info h2 a { color: var(--black); }
+.post-info h2 a:hover { color: var(--blue); text-decoration: none; }
+
+.post-summary {
+  font-size: 0.85rem;
+  color: var(--gray-700);
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ─── Featured Post (Top of list) ─── */
+.post-featured {
+  padding: 40px 0 32px;
+  border-bottom: 1px solid var(--gray-300);
+  margin-bottom: 8px;
+}
+
+.post-featured .featured-image {
+  width: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.post-featured .featured-image img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+}
+
+.post-featured h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.35;
+  margin-bottom: 8px;
+}
+
+.post-featured h2 a { color: var(--black); }
+.post-featured h2 a:hover { color: var(--blue); text-decoration: none; }
+
+/* ─── Single Post ─── */
+.post-single {
+  padding: 48px 0 64px;
+}
+
+.post-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.post-header .post-category {
+  font-size: 0.75rem;
+  display: inline-block;
+  margin-bottom: 12px;
+}
+
+.post-header h1 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.3;
+  color: var(--black);
+  margin-bottom: 16px;
+  word-break: keep-all;
+}
+
+.post-meta {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  align-items: center;
+  color: var(--gray-500);
+  font-size: 0.85rem;
+}
+
+.post-hero {
+  margin: 0 0 40px;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.post-hero img {
+  width: 100%;
+  max-height: 480px;
+  object-fit: cover;
+}
+
+/* ─── Post Content ─── */
+.post-content {
+  font-size: 1.05rem;
+  line-height: 1.85;
+  color: var(--gray-900);
+  word-break: keep-all;
+}
+
+.post-content h2 {
+  font-size: 1.45rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 48px 0 16px;
+  color: var(--black);
+}
+
+.post-content h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  margin: 36px 0 12px;
+  color: var(--black);
+}
+
+.post-content p {
+  margin: 16px 0;
+}
+
+.post-content ul, .post-content ol {
+  margin: 16px 0;
+  padding-left: 24px;
+}
+
+.post-content li {
+  margin: 8px 0;
+  line-height: 1.7;
+}
+
+.post-content strong {
+  font-weight: 600;
+  color: var(--black);
+}
+
+.post-content blockquote {
+  margin: 28px 0;
+  padding: 20px 24px;
+  background: var(--gray-100);
+  border-radius: 12px;
+  color: var(--gray-700);
+  font-size: 1rem;
+}
+
+.post-content img {
+  margin: 32px auto;
+  border-radius: 12px;
+}
+
+.post-content hr {
+  border: none;
+  height: 1px;
+  background: var(--gray-300);
+  margin: 40px 0;
+}
+
+/* ─── Tags ─── */
+.post-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.tag {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+.post-tags-footer {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--gray-300);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.post-tags-footer .tag {
+  background: var(--gray-100);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  color: var(--gray-700);
+  transition: background 0.2s;
+}
+
+.post-tags-footer .tag:hover {
+  background: var(--gray-300);
+  text-decoration: none;
+}
+
+/* ─── Post Navigation ─── */
+.post-nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 24px 0 48px;
+  font-size: 0.85rem;
+  border-top: 1px solid var(--gray-300);
+  margin-top: 32px;
+}
+
+.post-nav a { color: var(--blue); }
+
+/* ─── Footer ─── */
+.site-footer {
+  background: var(--gray-100);
+  border-top: 1px solid var(--gray-300);
+}
+
+.site-footer .container {
+  max-width: 980px;
+  padding: 20px 22px;
+  text-align: center;
+}
+
+.site-footer p {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+/* ─── Pagination ─── */
+.pagination-nav {
+  margin: 48px 0 24px;
+  text-align: center;
+}
+
+.pagination {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  list-style: none;
+  padding: 0;
+}
+
+.pagination li a, .pagination li span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 40px;
+  padding: 0 12px;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--gray-700);
+  transition: all 0.2s;
+}
+
+.pagination li a:hover {
+  background: var(--gray-100);
+  color: var(--black);
+  text-decoration: none;
+}
+
+.pagination li span.active {
+  background: var(--black);
+  color: var(--white);
+}
+
+.pagination .page-dots {
+  color: var(--gray-500);
+  min-width: 32px;
+  font-size: 0.9rem;
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 640px) {
+  .post-card {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .post-thumb {
+    width: 100%;
+    height: 200px;
+    border-radius: 12px;
+  }
+
+  .post-list h1 { font-size: 1.6rem; margin-top: 32px; }
+
+  .post-header h1 { font-size: 1.6rem; }
+
+  .post-single { padding: 32px 0 48px; }
+
+  .post-featured .featured-image img { height: 240px; }
+  .post-featured h2 { font-size: 1.3rem; }
+
+  .post-content { font-size: 1rem; }
+}
+</style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="index.html" class="site-title">오늘의 뉴스 브리핑</a>
+      <nav>
+        <a href="index.html">홈</a>
+      </nav>
+    </div>
+  </header>
+  
+  <nav class="category-nav">
+    <div class="container">
+      <a href="index.html">전체</a>
+        <a href="category-politics.html">정치</a>
+        <a href="category-society.html">사회</a>
+        <a href="category-economy.html">경제</a>
+        <a href="category-entertainment.html">연예</a>
+        <a href="category-life.html">생활</a>
+        <a href="category-it.html">IT</a>
+        <a href="category-sports.html">스포츠</a>
+        <a href="category-fashion.html" class="active">패션</a>
+        
+    </div>
+  </nav>
+  <main class="container">
+    <div class="post-list">
+      <h1>패션</h1>
+      <p class="post-list-subtitle">패션 관련 뉴스 40건 — 2/2 페이지</p>
+      
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-03-GS샵스타일나우.html"><img src="http://imgnews.naver.net/image/421/2014/09/30/1036735_article_99_20140930112905.jpg" alt="GS샵 '스타일NOW 더김동은' 론칭 패션 쇼핑의 새로운 패러다임" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">패션</span>
+          <span class="post-date">2026-04-03</span>
+        </div>
+        <h2><a href="2026-04-03-GS샵스타일나우.html">GS샵 '스타일NOW 더김동은' 론칭 패션 쇼핑의 새로운 패러다임</a></h2>
+        <p class="post-summary">
+핵심 요약
+
+홈쇼핑 업계의 강자 GS샵이 패션 전문 프로그램 '스타일NOW 더김동은'을 전격 론칭했다.
+대한민국 최고의 패션 디렉터 김동은이 직접 출연하여 트렌드 분석과 코디법을 전수한다.
+실시간 소통을 강화한 '라이브 커머스' 형식의 방송을 통해 시청자들의 궁금증을 즉각 해소한다.
+단순한 판매를 넘어 패션 잡지를 보는...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-03-2026뷰티트렌드.html"><img src="http://imgnews.naver.net/image/5100/2025/12/22/0000198731_001_20251222060219857.jpg" alt="2026 뷰티 트렌드 '덜어냄의 미학' 정교한 미니멀리즘이 온다" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">패션</span>
+          <span class="post-date">2026-04-03</span>
+        </div>
+        <h2><a href="2026-04-03-2026뷰티트렌드.html">2026 뷰티 트렌드 '덜어냄의 미학' 정교한 미니멀리즘이 온다</a></h2>
+        <p class="post-summary">
+핵심 요약
+
+2026년 뷰티 업계의 핵심 키워드는 '많이 바르기'가 아닌 '정교하게 덜어내기'이다.
+복잡한 스킨케어 단계를 획기적으로 줄인 '스키피케어(Skip-care)'가 주류로 급부상했다.
+인위적인 광택보다는 본연의 피부 결을 살리는 '내추럴 피니시' 메이크업이 대세다.
+화장품 성분의 다이어트를 통해 피부 자극을 ...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-포엣코어패션트렌드.html"><img src="https://picsum.photos/seed/885/1200/630" alt="로고 대신 지성을 입는다 포엣코어 패션이 사랑받는 이유" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">패션</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-포엣코어패션트렌드.html">로고 대신 지성을 입는다 포엣코어 패션이 사랑받는 이유</a></h2>
+        <p class="post-summary">핵심 요약
+
+이번 소식은 해당 업계에서 매우 중요하게 다뤄지고 있는 핵심적인 이슈이다.
+전문가들과 소비자들 사이에서 다양한 분석과 반응이 엇갈리고 있는 상황이다.
+특히 이번 사안이 향후 시장의 흐름과 트렌드에 미칠 영향이 상당할 것으로 보인다.
+구체적인 팩트와 수치, 그리고 현장의 목소리를 통해 이슈의 본질을 파악했다.
+...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-태광산업애경인수.html"><img src="https://picsum.photos/seed/2576/1200/630" alt="태광산업 애경 인수 성과 AGE20'S 2.0 시대 전격 선포" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">패션</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-태광산업애경인수.html">태광산업 애경 인수 성과 AGE20'S 2.0 시대 전격 선포</a></h2>
+        <p class="post-summary">핵심 요약
+1. 태광산업, 애경산업 인수 7일 만에 'AGE20'S 2.0' 시대 선포로 광폭 행보
+2. 뷰티경제 보도에 따른 태광의 강력한 지배력과 사업 재편 의지 확인
+3. 전통 산업군인 태광산업의 뷰티 시장 본격 진출 및 신성장 동력 확보
+4. 인수 초기 혼란을 잠재우고 브랜드 비전을 제시하는 속도감 있는 경영
+5....</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-컴온스타일할인.html"><img src="https://picsum.photos/seed/2303/1200/630" alt="CJ온스타일 컴온스타일 할인 혜택 총정리! 쇼핑 꿀팁" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">패션</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-컴온스타일할인.html">CJ온스타일 컴온스타일 할인 혜택 총정리! 쇼핑 꿀팁</a></h2>
+        <p class="post-summary">핵심 요약
+
+행사 기간: 2026년 4월 3일 ~ 4월 12일 (10일간)
+주요 할인: 앱 회원 매일 30% 할인 쿠폰, 카드 10% 추가 할인
+적립 혜택: '텐텐텐' 100대 브랜드 10% 적립
+신규 브랜드: 젝시믹스, 분크, 세터, 바이오던스, 로우로우
+특별관: KBO 전문관, 트래블 에딧, 웰니스관 운영
+
+사건/이슈...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-자이언티슈즈패션.html"><img src="https://picsum.photos/seed/5802/1200/630" alt="자이언티의 독특한 슈즈 패션 채영 신발 아니냐는 말까지 나온 이유" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">패션</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-자이언티슈즈패션.html">자이언티의 독특한 슈즈 패션 채영 신발 아니냐는 말까지 나온 이유</a></h2>
+        <p class="post-summary">평소 남다른 패션 감각을 자랑하는 가수 자이언티가 최근 선보인 신발 스타일이 온라인에서 화제입니다. 트와이스 채영과 공개 열애 중인 그가 마치 여자친구의 신발을 빌려 신은 듯한 독특한 디자인의 슈즈를 착용하고 나타났기 때문입니다.
+이번에 포착된 자이언티의 패션은 팬들 사이에서도 호불호가 확실히 갈리는 분위기입니다. 실험적...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-여름롱원피스트렌드.html"><img src="https://picsum.photos/seed/9019/1200/630" alt="2026-04-02 올여름 패션 키워드: 시원하고 우아한 롱 원피스의 귀환" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">패션</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-여름롱원피스트렌드.html">2026-04-02 올여름 패션 키워드: 시원하고 우아한 롱 원피스의 귀환</a></h2>
+        <p class="post-summary">핵심 요약
+2026년 여름 시즌, 패션계는 다시 한번 '롱 원피스'에 주목하고 있다. 런웨이에서 포착된 5가지 주요 트렌드를 중심으로 올여름 거리를 수놓을 우아하고 실용적인 스타일링을 분석한다.
+사건/이슈 개요
+전 세계 주요 패션 위크에서 발표된 2026 S/S 컬렉션의 공통된 특징 중 하나는 발목까지 내려오는 맥시 기장...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-에이지투웨니스파트너십.html"><img src="https://picsum.photos/seed/1653/1200/630" alt="애경산업 중국 넷탑스와 파트너십 AGE20'S 2.0 시대 선언" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">패션</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-에이지투웨니스파트너십.html">애경산업 중국 넷탑스와 파트너십 AGE20'S 2.0 시대 선언</a></h2>
+        <p class="post-summary">핵심 요약
+1. 애경산업, 중국 유통 전문 기업 '넷탑스(NETOPS)'와 전략적 파트너십 체결
+2. 'AGE20'S(에이지투웨니스) 2.0 시대' 선포를 통한 브랜드 혁신 가속화
+3. 서울타임즈뉴스 보도에 따른 중국 시장 내 유통 지배력 강화 전략
+4. 디지털 마케팅 및 현지 채널 고도화를 위한 협력 체계 구축
+5. 글...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-시니어모델화보.html"><img src="https://picsum.photos/seed/6214/1200/630" alt="시니어 모델 화보 존재감 폭발! 나이 파괴 결국 충격인가?" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">패션</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-시니어모델화보.html">시니어 모델 화보 존재감 폭발! 나이 파괴 결국 충격인가?</a></h2>
+        <p class="post-summary">핵심 요약
+패션계의 '나이 장벽'이 허물어지고 있다. 에너지경제신문의 보도에 따르면 2026 S/S 패션 화보에서 시니어 모델 김재숙과 심길선이 압도적인 존재감을 과시하며 화제를 모으고 있다. 젊은 모델들 사이에서도 전혀 밀리지 않는 카리스마와 세월이 준 깊이 있는 표정은 "아름다움에는 유통기한이 없다"는 사실을 증명했다...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-02-대전백화점봄세일.html"><img src="https://picsum.photos/seed/7473/1200/630" alt="대전 백화점 봄 정기 세일 총정리! 패션·뷰티 득템 찬스" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">패션</span>
+          <span class="post-date">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-대전백화점봄세일.html">대전 백화점 봄 정기 세일 총정리! 패션·뷰티 득템 찬스</a></h2>
+        <p class="post-summary">핵심 요약
+
+행사 기간: ~2026년 4월 12일 (롯데백화점은 4월 5일까지)
+참여 업체: 대전신세계, 갤러리아 타임월드, 롯데백화점 대전점
+주요 혜택: 패션·리빙 최대 60% 할인, 뷰티 페어 체험형 콘텐츠
+포커스 아이템: 핸드백, 아동복, 골프웨어, 웨딩 주얼리
+특별 이벤트: 세인트제임스 팝업, 골든듀 20% 할인,...</p>
+      </div>
+    </article>
+      
+    <nav class="pagination-nav">
+      <ul class="pagination">
+        <li><a href="category-fashion.html">&laquo; 이전</a></li>
+<li><a href="category-fashion.html">1</a></li>
+<li><span class="active">2</span></li>
+
+      </ul>
+    </nav>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 오늘의 뉴스 브리핑</p>
+    </div>
+  </footer>
+</body>
+</html>

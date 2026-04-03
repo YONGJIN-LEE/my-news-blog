@@ -448,31 +448,49 @@ img { max-width: 100%; height: auto; display: block; }
 }
 
 /* ─── Pagination ─── */
+.pagination-nav {
+  margin: 48px 0 24px;
+  text-align: center;
+}
+
 .pagination {
-  display: flex;
+  display: inline-flex;
   justify-content: center;
+  align-items: center;
   gap: 4px;
-  margin: 40px 0;
   list-style: none;
   padding: 0;
 }
 
 .pagination li a, .pagination li span {
-  display: inline-block;
-  padding: 8px 14px;
-  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 40px;
+  padding: 0 12px;
+  border-radius: 10px;
   font-size: 0.85rem;
+  font-weight: 500;
   color: var(--gray-700);
-}
-
-.pagination .active span {
-  background: var(--blue);
-  color: var(--white);
+  transition: all 0.2s;
 }
 
 .pagination li a:hover {
   background: var(--gray-100);
+  color: var(--black);
   text-decoration: none;
+}
+
+.pagination li span.active {
+  background: var(--black);
+  color: var(--white);
+}
+
+.pagination .page-dots {
+  color: var(--gray-500);
+  min-width: 32px;
+  font-size: 0.9rem;
 }
 
 /* ─── Responsive ─── */
@@ -534,182 +552,12 @@ img { max-width: 100%; height: auto; display: block; }
     <article class="post-featured">
       <div class="post-meta-top">
         <span class="post-category">패션</span>
-        <span class="post-date">2026-04-03</span>
+        <span class="post-date">2026-04-02</span>
       </div>
-      <div class="featured-image"><img src="http://imgnews.naver.net/image/5317/2015/09/04/635769792027672500_99_20150904161322.jpg" alt="흰색 티셔츠 하나로 끝내는 패셔니스타들의 8가지 스타일링 연출법" loading="lazy"></div>
-      <h2><a href="2026-04-03-흰색티셔츠스타일링.html">흰색 티셔츠 하나로 끝내는 패셔니스타들의 8가지 스타일링 연출법</a></h2>
-      <p class="post-summary">
-핵심 요약
-
-가장 기본적이지만 가장 어려운 '흰색 티셔츠'를 완벽하게 소화하는 8가지 비법이 공개되었다.
-데님과의 정석 매치부터 포멀한 슬랙스, 화려한 스커트까지 흰색 티셔츠의 무한 변신을 다뤘다.
-2026년에는 티셔츠의 핏(Fit)과 목 라인의 디테일에 따라 분위기가 결정된다.
-패셔니스타들은 티셔츠를 바지 안에 넣거나...</p>
-    </article>
-    <article class="post-card">
-      <div class="post-thumb">
-              <a href="2026-04-03-자이언티신발논란.html"><img src="http://imgnews.naver.net/image/016/2024/04/05/20240405050140_0_20240405095301272.jpg" alt="자이언티 여친 신발 논란? 트와이스 채영과 커플룩의 파격적 행보" loading="lazy"></a>
-            </div>
-      <div class="post-info">
-        <div class="post-meta-top">
-          <span class="post-category">패션</span>
-          <span class="post-date">2026-04-03</span>
-        </div>
-        <h2><a href="2026-04-03-자이언티신발논란.html">자이언티 여친 신발 논란? 트와이스 채영과 커플룩의 파격적 행보</a></h2>
-        <p class="post-summary">
-핵심 요약
-
-가수 자이언티가 트와이스 채영과의 열애 공개 이후 파격적인 패션 행보로 연일 화제를 모으고 있다.
-최근 포착된 자이언티의 신발 스타일링이 여성용 제품이라는 의혹과 함께 온라인상에서 뜨거운 설전이 벌어졌다.
-'여친 신발을 훔쳐 신은 것 아니냐'는 농담 섞인 반응부터 '새로운 패션 지평을 열었다'는 극찬까지 호...</p>
-      </div>
-    </article>
-    <article class="post-card">
-      <div class="post-thumb">
-              <a href="2026-04-03-지속가능섬유ESG.html"><img src="http://imgnews.naver.net/image/5319/2025/05/27/0000030802_004_20250527120615966.jpg" alt="ESG 열풍 타고 진화하는 지속 가능 섬유 패션 넘어 라이프스타일 장악" loading="lazy"></a>
-            </div>
-      <div class="post-info">
-        <div class="post-meta-top">
-          <span class="post-category">패션</span>
-          <span class="post-date">2026-04-03</span>
-        </div>
-        <h2><a href="2026-04-03-지속가능섬유ESG.html">ESG 열풍 타고 진화하는 지속 가능 섬유 패션 넘어 라이프스타일 장악</a></h2>
-        <p class="post-summary">
-핵심 요약
-
-친환경 소재인 '지속 가능 섬유'가 단순한 의류를 넘어 인테리어, 침구 등 라이프스타일 전반으로 확산되고 있다.
-기업 경영의 필수 요소인 ESG(환경·사회·지배구조) 가치가 섬유 산업의 패러다임을 완전히 바꾸어 놓았다.
-폐플라스틱 재활용 섬유부터 생분해성 소재까지 혁신적인 신소재 개발이 가속화되고 있다.
-가...</p>
-      </div>
-    </article>
-    <article class="post-card">
-      <div class="post-thumb">
-              <a href="2026-04-03-여름롱원피스.html"><img src="http://imgnews.naver.net/image/5027/2020/07/05/0000040208_001_20200713173002324.jpg" alt="보그 선정 올여름 머스트해브 아이템 롱 원피스 트렌드 5" loading="lazy"></a>
-            </div>
-      <div class="post-info">
-        <div class="post-meta-top">
-          <span class="post-category">패션</span>
-          <span class="post-date">2026-04-03</span>
-        </div>
-        <h2><a href="2026-04-03-여름롱원피스.html">보그 선정 올여름 머스트해브 아이템 롱 원피스 트렌드 5</a></h2>
-        <p class="post-summary">
-핵심 요약
-
-2026년 여름 시즌, 패션계가 주목하는 단 하나의 아이템은 바로 '롱 원피스'이다.
-보그 코리아는 런웨이 분석을 통해 올여름을 관통할 5가지 핵심 드레스 트렌드를 제시했다.
-발목까지 내려오는 맥시 기장에 과감한 슬릿과 시스루 소재가 더해져 시원함을 극대화했다.
-에스닉한 보헤미안 무드부터 극강의 미니멀리즘까...</p>
-      </div>
-    </article>
-    <article class="post-card">
-      <div class="post-thumb">
-              <a href="2026-04-03-미우미우앞치마.html"><img src="http://imgnews.naver.net/image/5779/2025/10/09/0000070868_007_20251009082613411.jpg" alt="미우미우 앞치마가 패션이 된다? 올여름 파격적인 에이프런 룩 분석" loading="lazy"></a>
-            </div>
-      <div class="post-info">
-        <div class="post-meta-top">
-          <span class="post-category">패션</span>
-          <span class="post-date">2026-04-03</span>
-        </div>
-        <h2><a href="2026-04-03-미우미우앞치마.html">미우미우 앞치마가 패션이 된다? 올여름 파격적인 에이프런 룩 분석</a></h2>
-        <p class="post-summary">
-핵심 요약
-
-명품 브랜드 미우미우(Miu Miu)가 이번 여름 시즌 핵심 아이템으로 '앞치마'를 제안하며 패션계를 뒤흔들고 있다.
-주방에서나 보던 앞치마가 런웨이를 거쳐 가장 힙한 스트리트 패션 아이템으로 변신했다.
-하퍼스 바자는 이번 트렌드를 '유틸리티와 로맨티시즘의 기묘한 만남'으로 정의했다.
-단순히 옷 위에 두르는...</p>
-      </div>
-    </article>
-    <article class="post-card">
-      <div class="post-thumb">
-              <a href="2026-04-03-남성패션트렌드.html"><img src="https://img1.daumcdn.net/thumb/R1280x0.fjpg/?fname=http://t1.kakaocdn.net/brunch/service/user/etBo/image/eH9fV0yVejEyvYuhVB7-KNedD6I.jpg" alt="에스콰이어 선정 2026 S/S 남성 패션 5대 트렌드 총정리" loading="lazy"></a>
-            </div>
-      <div class="post-info">
-        <div class="post-meta-top">
-          <span class="post-category">패션</span>
-          <span class="post-date">2026-04-03</span>
-        </div>
-        <h2><a href="2026-04-03-남성패션트렌드.html">에스콰이어 선정 2026 S/S 남성 패션 5대 트렌드 총정리</a></h2>
-        <p class="post-summary">
-핵심 요약
-
-2026년 봄·여름 시즌을 주도할 남성 패션의 핵심은 실용성과 예술성의 결합이다.
-워크웨어의 재해석을 통해 기능적인 포켓과 견고한 소재가 런웨이를 장악했다.
-파스텔 톤을 넘어선 강렬한 원색의 대비가 남성복에서도 과감하게 시도된다.
-지속 가능한 소재를 활용한 친환경 에코 패션이 선택이 아닌 필수로 자리 잡았다...</p>
-      </div>
-    </article>
-    <article class="post-card">
-      <div class="post-thumb">
-              <a href="2026-04-03-GS샵스타일나우.html"><img src="http://imgnews.naver.net/image/421/2014/09/30/1036735_article_99_20140930112905.jpg" alt="GS샵 '스타일NOW 더김동은' 론칭 패션 쇼핑의 새로운 패러다임" loading="lazy"></a>
-            </div>
-      <div class="post-info">
-        <div class="post-meta-top">
-          <span class="post-category">패션</span>
-          <span class="post-date">2026-04-03</span>
-        </div>
-        <h2><a href="2026-04-03-GS샵스타일나우.html">GS샵 '스타일NOW 더김동은' 론칭 패션 쇼핑의 새로운 패러다임</a></h2>
-        <p class="post-summary">
-핵심 요약
-
-홈쇼핑 업계의 강자 GS샵이 패션 전문 프로그램 '스타일NOW 더김동은'을 전격 론칭했다.
-대한민국 최고의 패션 디렉터 김동은이 직접 출연하여 트렌드 분석과 코디법을 전수한다.
-실시간 소통을 강화한 '라이브 커머스' 형식의 방송을 통해 시청자들의 궁금증을 즉각 해소한다.
-단순한 판매를 넘어 패션 잡지를 보는...</p>
-      </div>
-    </article>
-    <article class="post-card">
-      <div class="post-thumb">
-              <a href="2026-04-03-2026뷰티트렌드.html"><img src="http://imgnews.naver.net/image/5100/2025/12/22/0000198731_001_20251222060219857.jpg" alt="2026 뷰티 트렌드 '덜어냄의 미학' 정교한 미니멀리즘이 온다" loading="lazy"></a>
-            </div>
-      <div class="post-info">
-        <div class="post-meta-top">
-          <span class="post-category">패션</span>
-          <span class="post-date">2026-04-03</span>
-        </div>
-        <h2><a href="2026-04-03-2026뷰티트렌드.html">2026 뷰티 트렌드 '덜어냄의 미학' 정교한 미니멀리즘이 온다</a></h2>
-        <p class="post-summary">
-핵심 요약
-
-2026년 뷰티 업계의 핵심 키워드는 '많이 바르기'가 아닌 '정교하게 덜어내기'이다.
-복잡한 스킨케어 단계를 획기적으로 줄인 '스키피케어(Skip-care)'가 주류로 급부상했다.
-인위적인 광택보다는 본연의 피부 결을 살리는 '내추럴 피니시' 메이크업이 대세다.
-화장품 성분의 다이어트를 통해 피부 자극을 ...</p>
-      </div>
-    </article>
-    <article class="post-card">
-      <div class="post-thumb">
-              <a href="2026-04-02-흰티셔츠스타일링.html"><img src="https://image.musinsa.com/mfile_s01/2021/03/10/59aa958b026e21766e8f27a1f265e037143004.jpg" alt="흰색 티셔츠 한 장으로 완성하는 8가지 스타일링 연출법" loading="lazy"></a>
-            </div>
-      <div class="post-info">
-        <div class="post-meta-top">
-          <span class="post-category">패션</span>
-          <span class="post-date">2026-04-02</span>
-        </div>
-        <h2><a href="2026-04-02-흰티셔츠스타일링.html">흰색 티셔츠 한 장으로 완성하는 8가지 스타일링 연출법</a></h2>
-        <p class="post-summary">누구나 옷장에 하나쯤은 가지고 있는 기본 아이템, 흰색 티셔츠는 계절과 유행을 타지 않는 최고의 패션 아이템입니다. 하지만 평범한 만큼 스타일리시하게 입기는 의외로 까다롭기도 하죠. 최근 베트남 매체에서 소개한 흰색 티셔츠 활용법 8가지는 시대를 초월하는 세련된 코디 팁을 담고 있습니다.
+      <div class="featured-image"><img src="https://image.musinsa.com/mfile_s01/2021/03/10/59aa958b026e21766e8f27a1f265e037143004.jpg" alt="흰색 티셔츠 한 장으로 완성하는 8가지 스타일링 연출법" loading="lazy"></div>
+      <h2><a href="2026-04-02-흰티셔츠스타일링.html">흰색 티셔츠 한 장으로 완성하는 8가지 스타일링 연출법</a></h2>
+      <p class="post-summary">누구나 옷장에 하나쯤은 가지고 있는 기본 아이템, 흰색 티셔츠는 계절과 유행을 타지 않는 최고의 패션 아이템입니다. 하지만 평범한 만큼 스타일리시하게 입기는 의외로 까다롭기도 하죠. 최근 베트남 매체에서 소개한 흰색 티셔츠 활용법 8가지는 시대를 초월하는 세련된 코디 팁을 담고 있습니다.
 가장 기본인 데님 팬츠와의 조합부...</p>
-      </div>
-    </article>
-    <article class="post-card">
-      <div class="post-thumb">
-              <a href="2026-04-02-포엣코어패션트렌드.html"><img src="https://picsum.photos/seed/885/1200/630" alt="로고 대신 지성을 입는다 포엣코어 패션이 사랑받는 이유" loading="lazy"></a>
-            </div>
-      <div class="post-info">
-        <div class="post-meta-top">
-          <span class="post-category">패션</span>
-          <span class="post-date">2026-04-02</span>
-        </div>
-        <h2><a href="2026-04-02-포엣코어패션트렌드.html">로고 대신 지성을 입는다 포엣코어 패션이 사랑받는 이유</a></h2>
-        <p class="post-summary">핵심 요약
-
-이번 소식은 해당 업계에서 매우 중요하게 다뤄지고 있는 핵심적인 이슈이다.
-전문가들과 소비자들 사이에서 다양한 분석과 반응이 엇갈리고 있는 상황이다.
-특히 이번 사안이 향후 시장의 흐름과 트렌드에 미칠 영향이 상당할 것으로 보인다.
-구체적인 팩트와 수치, 그리고 현장의 목소리를 통해 이슈의 본질을 파악했다.
-...</p>
-      </div>
     </article>
     <article class="post-card">
       <div class="post-thumb">
@@ -762,45 +610,6 @@ img { max-width: 100%; height: auto; display: block; }
 5. 신성통상의 내수 시장 방어와 가성비 중심의 경쟁력 확보
 
 사건/...</p>
-      </div>
-    </article>
-    <article class="post-card">
-      <div class="post-thumb">
-              <a href="2026-04-02-태광산업애경인수.html"><img src="https://picsum.photos/seed/2576/1200/630" alt="태광산업 애경 인수 성과 AGE20'S 2.0 시대 전격 선포" loading="lazy"></a>
-            </div>
-      <div class="post-info">
-        <div class="post-meta-top">
-          <span class="post-category">패션</span>
-          <span class="post-date">2026-04-02</span>
-        </div>
-        <h2><a href="2026-04-02-태광산업애경인수.html">태광산업 애경 인수 성과 AGE20'S 2.0 시대 전격 선포</a></h2>
-        <p class="post-summary">핵심 요약
-1. 태광산업, 애경산업 인수 7일 만에 'AGE20'S 2.0' 시대 선포로 광폭 행보
-2. 뷰티경제 보도에 따른 태광의 강력한 지배력과 사업 재편 의지 확인
-3. 전통 산업군인 태광산업의 뷰티 시장 본격 진출 및 신성장 동력 확보
-4. 인수 초기 혼란을 잠재우고 브랜드 비전을 제시하는 속도감 있는 경영
-5....</p>
-      </div>
-    </article>
-    <article class="post-card">
-      <div class="post-thumb">
-              <a href="2026-04-02-컴온스타일할인.html"><img src="https://picsum.photos/seed/2303/1200/630" alt="CJ온스타일 컴온스타일 할인 혜택 총정리! 쇼핑 꿀팁" loading="lazy"></a>
-            </div>
-      <div class="post-info">
-        <div class="post-meta-top">
-          <span class="post-category">패션</span>
-          <span class="post-date">2026-04-02</span>
-        </div>
-        <h2><a href="2026-04-02-컴온스타일할인.html">CJ온스타일 컴온스타일 할인 혜택 총정리! 쇼핑 꿀팁</a></h2>
-        <p class="post-summary">핵심 요약
-
-행사 기간: 2026년 4월 3일 ~ 4월 12일 (10일간)
-주요 할인: 앱 회원 매일 30% 할인 쿠폰, 카드 10% 추가 할인
-적립 혜택: '텐텐텐' 100대 브랜드 10% 적립
-신규 브랜드: 젝시믹스, 분크, 세터, 바이오던스, 로우로우
-특별관: KBO 전문관, 트래블 에딧, 웰니스관 운영
-
-사건/이슈...</p>
       </div>
     </article>
     <article class="post-card">
@@ -898,54 +707,6 @@ img { max-width: 100%; height: auto; display: block; }
     </article>
     <article class="post-card">
       <div class="post-thumb">
-              <a href="2026-04-02-자이언티슈즈패션.html"><img src="https://picsum.photos/seed/5802/1200/630" alt="자이언티의 독특한 슈즈 패션 채영 신발 아니냐는 말까지 나온 이유" loading="lazy"></a>
-            </div>
-      <div class="post-info">
-        <div class="post-meta-top">
-          <span class="post-category">패션</span>
-          <span class="post-date">2026-04-02</span>
-        </div>
-        <h2><a href="2026-04-02-자이언티슈즈패션.html">자이언티의 독특한 슈즈 패션 채영 신발 아니냐는 말까지 나온 이유</a></h2>
-        <p class="post-summary">평소 남다른 패션 감각을 자랑하는 가수 자이언티가 최근 선보인 신발 스타일이 온라인에서 화제입니다. 트와이스 채영과 공개 열애 중인 그가 마치 여자친구의 신발을 빌려 신은 듯한 독특한 디자인의 슈즈를 착용하고 나타났기 때문입니다.
-이번에 포착된 자이언티의 패션은 팬들 사이에서도 호불호가 확실히 갈리는 분위기입니다. 실험적...</p>
-      </div>
-    </article>
-    <article class="post-card">
-      <div class="post-thumb">
-              <a href="2026-04-02-여름롱원피스트렌드.html"><img src="https://picsum.photos/seed/9019/1200/630" alt="2026-04-02 올여름 패션 키워드: 시원하고 우아한 롱 원피스의 귀환" loading="lazy"></a>
-            </div>
-      <div class="post-info">
-        <div class="post-meta-top">
-          <span class="post-category">패션</span>
-          <span class="post-date">2026-04-02</span>
-        </div>
-        <h2><a href="2026-04-02-여름롱원피스트렌드.html">2026-04-02 올여름 패션 키워드: 시원하고 우아한 롱 원피스의 귀환</a></h2>
-        <p class="post-summary">핵심 요약
-2026년 여름 시즌, 패션계는 다시 한번 '롱 원피스'에 주목하고 있다. 런웨이에서 포착된 5가지 주요 트렌드를 중심으로 올여름 거리를 수놓을 우아하고 실용적인 스타일링을 분석한다.
-사건/이슈 개요
-전 세계 주요 패션 위크에서 발표된 2026 S/S 컬렉션의 공통된 특징 중 하나는 발목까지 내려오는 맥시 기장...</p>
-      </div>
-    </article>
-    <article class="post-card">
-      <div class="post-thumb">
-              <a href="2026-04-02-에이지투웨니스파트너십.html"><img src="https://picsum.photos/seed/1653/1200/630" alt="애경산업 중국 넷탑스와 파트너십 AGE20'S 2.0 시대 선언" loading="lazy"></a>
-            </div>
-      <div class="post-info">
-        <div class="post-meta-top">
-          <span class="post-category">패션</span>
-          <span class="post-date">2026-04-02</span>
-        </div>
-        <h2><a href="2026-04-02-에이지투웨니스파트너십.html">애경산업 중국 넷탑스와 파트너십 AGE20'S 2.0 시대 선언</a></h2>
-        <p class="post-summary">핵심 요약
-1. 애경산업, 중국 유통 전문 기업 '넷탑스(NETOPS)'와 전략적 파트너십 체결
-2. 'AGE20'S(에이지투웨니스) 2.0 시대' 선포를 통한 브랜드 혁신 가속화
-3. 서울타임즈뉴스 보도에 따른 중국 시장 내 유통 지배력 강화 전략
-4. 디지털 마케팅 및 현지 채널 고도화를 위한 협력 체계 구축
-5. 글...</p>
-      </div>
-    </article>
-    <article class="post-card">
-      <div class="post-thumb">
               <a href="2026-04-02-에이지투웨니스중국.html"><img src="https://dimg.donga.com/wps/NEWS/IMAGE/2021/06/29/107670128.5.jpg" alt="에이지투웨니스 중국 시장 재도약 시동 애경산업의 야심찬 행보" loading="lazy"></a>
             </div>
       <div class="post-info">
@@ -960,20 +721,6 @@ img { max-width: 100%; height: auto; display: block; }
 3. 기능성 파운데이션의 원조로서 'K-뷰티'의 자존심 회복 선언
 4. 현지화 전략과 디지털 플랫폼 활용을 통한 브랜드 인지도 제고
 5. 포스트 코로나 ...</p>
-      </div>
-    </article>
-    <article class="post-card">
-      <div class="post-thumb">
-              <a href="2026-04-02-시니어모델화보.html"><img src="https://picsum.photos/seed/6214/1200/630" alt="시니어 모델 화보 존재감 폭발! 나이 파괴 결국 충격인가?" loading="lazy"></a>
-            </div>
-      <div class="post-info">
-        <div class="post-meta-top">
-          <span class="post-category">패션</span>
-          <span class="post-date">2026-04-02</span>
-        </div>
-        <h2><a href="2026-04-02-시니어모델화보.html">시니어 모델 화보 존재감 폭발! 나이 파괴 결국 충격인가?</a></h2>
-        <p class="post-summary">핵심 요약
-패션계의 '나이 장벽'이 허물어지고 있다. 에너지경제신문의 보도에 따르면 2026 S/S 패션 화보에서 시니어 모델 김재숙과 심길선이 압도적인 존재감을 과시하며 화제를 모으고 있다. 젊은 모델들 사이에서도 전혀 밀리지 않는 카리스마와 세월이 준 깊이 있는 표정은 "아름다움에는 유통기한이 없다"는 사실을 증명했다...</p>
       </div>
     </article>
     <article class="post-card">
@@ -1101,25 +848,6 @@ img { max-width: 100%; height: auto; display: block; }
     </article>
     <article class="post-card">
       <div class="post-thumb">
-              <a href="2026-04-02-대전백화점봄세일.html"><img src="https://picsum.photos/seed/7473/1200/630" alt="대전 백화점 봄 정기 세일 총정리! 패션·뷰티 득템 찬스" loading="lazy"></a>
-            </div>
-      <div class="post-info">
-        <div class="post-meta-top">
-          <span class="post-category">패션</span>
-          <span class="post-date">2026-04-02</span>
-        </div>
-        <h2><a href="2026-04-02-대전백화점봄세일.html">대전 백화점 봄 정기 세일 총정리! 패션·뷰티 득템 찬스</a></h2>
-        <p class="post-summary">핵심 요약
-
-행사 기간: ~2026년 4월 12일 (롯데백화점은 4월 5일까지)
-참여 업체: 대전신세계, 갤러리아 타임월드, 롯데백화점 대전점
-주요 혜택: 패션·리빙 최대 60% 할인, 뷰티 페어 체험형 콘텐츠
-포커스 아이템: 핸드백, 아동복, 골프웨어, 웨딩 주얼리
-특별 이벤트: 세인트제임스 팝업, 골든듀 20% 할인,...</p>
-      </div>
-    </article>
-    <article class="post-card">
-      <div class="post-thumb">
               <a href="2026-04-02-누그레이치크신상.html"><img src="https://shop-phinf.pstatic.net/20251211_146/17654459784609O9bq_PNG/41064004937671866_1924182038.png" alt="누그레이 세모 탭 치크 출시! 뷰티 신상 결국 총정리?" loading="lazy"></a>
             </div>
       <div class="post-info">
@@ -1204,6 +932,128 @@ img { max-width: 100%; height: auto; display: block; }
 단순히 단계를 줄이는...</p>
       </div>
     </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-03-흰색티셔츠스타일링.html"><img src="http://imgnews.naver.net/image/5317/2015/09/04/635769792027672500_99_20150904161322.jpg" alt="흰색 티셔츠 하나로 끝내는 패셔니스타들의 8가지 스타일링 연출법" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">패션</span>
+          <span class="post-date">2026-04-03</span>
+        </div>
+        <h2><a href="2026-04-03-흰색티셔츠스타일링.html">흰색 티셔츠 하나로 끝내는 패셔니스타들의 8가지 스타일링 연출법</a></h2>
+        <p class="post-summary">
+핵심 요약
+
+가장 기본적이지만 가장 어려운 '흰색 티셔츠'를 완벽하게 소화하는 8가지 비법이 공개되었다.
+데님과의 정석 매치부터 포멀한 슬랙스, 화려한 스커트까지 흰색 티셔츠의 무한 변신을 다뤘다.
+2026년에는 티셔츠의 핏(Fit)과 목 라인의 디테일에 따라 분위기가 결정된다.
+패셔니스타들은 티셔츠를 바지 안에 넣거나...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-03-지속가능섬유ESG.html"><img src="http://imgnews.naver.net/image/5319/2025/05/27/0000030802_004_20250527120615966.jpg" alt="ESG 열풍 타고 진화하는 지속 가능 섬유 패션 넘어 라이프스타일 장악" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">패션</span>
+          <span class="post-date">2026-04-03</span>
+        </div>
+        <h2><a href="2026-04-03-지속가능섬유ESG.html">ESG 열풍 타고 진화하는 지속 가능 섬유 패션 넘어 라이프스타일 장악</a></h2>
+        <p class="post-summary">
+핵심 요약
+
+친환경 소재인 '지속 가능 섬유'가 단순한 의류를 넘어 인테리어, 침구 등 라이프스타일 전반으로 확산되고 있다.
+기업 경영의 필수 요소인 ESG(환경·사회·지배구조) 가치가 섬유 산업의 패러다임을 완전히 바꾸어 놓았다.
+폐플라스틱 재활용 섬유부터 생분해성 소재까지 혁신적인 신소재 개발이 가속화되고 있다.
+가...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-03-자이언티신발논란.html"><img src="http://imgnews.naver.net/image/016/2024/04/05/20240405050140_0_20240405095301272.jpg" alt="자이언티 여친 신발 논란? 트와이스 채영과 커플룩의 파격적 행보" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">패션</span>
+          <span class="post-date">2026-04-03</span>
+        </div>
+        <h2><a href="2026-04-03-자이언티신발논란.html">자이언티 여친 신발 논란? 트와이스 채영과 커플룩의 파격적 행보</a></h2>
+        <p class="post-summary">
+핵심 요약
+
+가수 자이언티가 트와이스 채영과의 열애 공개 이후 파격적인 패션 행보로 연일 화제를 모으고 있다.
+최근 포착된 자이언티의 신발 스타일링이 여성용 제품이라는 의혹과 함께 온라인상에서 뜨거운 설전이 벌어졌다.
+'여친 신발을 훔쳐 신은 것 아니냐'는 농담 섞인 반응부터 '새로운 패션 지평을 열었다'는 극찬까지 호...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-03-여름롱원피스.html"><img src="http://imgnews.naver.net/image/5027/2020/07/05/0000040208_001_20200713173002324.jpg" alt="보그 선정 올여름 머스트해브 아이템 롱 원피스 트렌드 5" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">패션</span>
+          <span class="post-date">2026-04-03</span>
+        </div>
+        <h2><a href="2026-04-03-여름롱원피스.html">보그 선정 올여름 머스트해브 아이템 롱 원피스 트렌드 5</a></h2>
+        <p class="post-summary">
+핵심 요약
+
+2026년 여름 시즌, 패션계가 주목하는 단 하나의 아이템은 바로 '롱 원피스'이다.
+보그 코리아는 런웨이 분석을 통해 올여름을 관통할 5가지 핵심 드레스 트렌드를 제시했다.
+발목까지 내려오는 맥시 기장에 과감한 슬릿과 시스루 소재가 더해져 시원함을 극대화했다.
+에스닉한 보헤미안 무드부터 극강의 미니멀리즘까...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-03-미우미우앞치마.html"><img src="http://imgnews.naver.net/image/5779/2025/10/09/0000070868_007_20251009082613411.jpg" alt="미우미우 앞치마가 패션이 된다? 올여름 파격적인 에이프런 룩 분석" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">패션</span>
+          <span class="post-date">2026-04-03</span>
+        </div>
+        <h2><a href="2026-04-03-미우미우앞치마.html">미우미우 앞치마가 패션이 된다? 올여름 파격적인 에이프런 룩 분석</a></h2>
+        <p class="post-summary">
+핵심 요약
+
+명품 브랜드 미우미우(Miu Miu)가 이번 여름 시즌 핵심 아이템으로 '앞치마'를 제안하며 패션계를 뒤흔들고 있다.
+주방에서나 보던 앞치마가 런웨이를 거쳐 가장 힙한 스트리트 패션 아이템으로 변신했다.
+하퍼스 바자는 이번 트렌드를 '유틸리티와 로맨티시즘의 기묘한 만남'으로 정의했다.
+단순히 옷 위에 두르는...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+              <a href="2026-04-03-남성패션트렌드.html"><img src="https://img1.daumcdn.net/thumb/R1280x0.fjpg/?fname=http://t1.kakaocdn.net/brunch/service/user/etBo/image/eH9fV0yVejEyvYuhVB7-KNedD6I.jpg" alt="에스콰이어 선정 2026 S/S 남성 패션 5대 트렌드 총정리" loading="lazy"></a>
+            </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">패션</span>
+          <span class="post-date">2026-04-03</span>
+        </div>
+        <h2><a href="2026-04-03-남성패션트렌드.html">에스콰이어 선정 2026 S/S 남성 패션 5대 트렌드 총정리</a></h2>
+        <p class="post-summary">
+핵심 요약
+
+2026년 봄·여름 시즌을 주도할 남성 패션의 핵심은 실용성과 예술성의 결합이다.
+워크웨어의 재해석을 통해 기능적인 포켓과 견고한 소재가 런웨이를 장악했다.
+파스텔 톤을 넘어선 강렬한 원색의 대비가 남성복에서도 과감하게 시도된다.
+지속 가능한 소재를 활용한 친환경 에코 패션이 선택이 아닌 필수로 자리 잡았다...</p>
+      </div>
+    </article>
+      
+    <nav class="pagination-nav">
+      <ul class="pagination">
+        <li><span class="active">1</span></li>
+<li><a href="category-fashion-page-2.html">2</a></li>
+<li><a href="category-fashion-page-2.html">다음 &raquo;</a></li>
+
+      </ul>
+    </nav>
     </div>
   </main>
 
