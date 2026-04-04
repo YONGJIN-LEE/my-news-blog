@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>부천의 힘 제주 원정서 증명할까? — 오늘의 뉴스 브리핑</title>
+  <meta name="description" content="부천의 힘 제주 원정서 증명할까?">
+  <meta property="og:title" content="부천의 힘 제주 원정서 증명할까? — 오늘의 뉴스 브리핑">
+  <meta property="og:description" content="부천의 힘 제주 원정서 증명할까?">
+  <meta property="og:image" content="http://imgnews.naver.net/image/014/2013/01/26/20130126000459533_59_20130126000603.jpg">
+  <meta property="og:type" content="article">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <style>/* ═══════════════════════════════════════════════════════════════
+   Apple-inspired News Blog — 오늘의 뉴스 브리핑
+   Clean, minimal, content-first design
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ─── Web Fonts ─── */
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* ─── Reset & Typography ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --black: #1d1d1f;
+  --gray-900: #2d2d2f;
+  --gray-700: #6e6e73;
+  --gray-500: #86868b;
+  --gray-300: #d2d2d7;
+  --gray-100: #f5f5f7;
+  --white: #ffffff;
+  --blue: #0071e3;
+  --blue-hover: #0077ed;
+  --max-width: 720px;
+  --font-sans: 'Pretendard Variable', 'Pretendard', 'Inter', -apple-system,
+               BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-sans);
+  line-height: 1.65;
+  color: var(--black);
+  background: var(--white);
+  letter-spacing: -0.01em;
+  word-break: keep-all;
+}
+
+a { color: var(--blue); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+img { max-width: 100%; height: auto; display: block; }
+
+/* ─── Navigation ─── */
+.site-header {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+}
+
+.site-header .container {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 22px;
+  height: 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.site-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--black);
+  letter-spacing: -0.01em;
+}
+
+.site-title:hover { text-decoration: none; }
+
+.site-header nav { display: flex; gap: 28px; }
+
+.site-header nav a {
+  font-size: 0.8rem;
+  color: var(--gray-700);
+  letter-spacing: -0.01em;
+  transition: color 0.2s;
+}
+
+.site-header nav a:hover { color: var(--black); text-decoration: none; }
+
+/* ─── Category Navigation ─── */
+.category-nav {
+  background: var(--gray-100);
+  border-bottom: 1px solid var(--gray-300);
+  position: sticky;
+  top: 48px;
+  z-index: 9998;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.category-nav::-webkit-scrollbar { display: none; }
+.category-nav { -ms-overflow-style: none; scrollbar-width: none; }
+
+.category-nav .container {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 22px;
+  display: flex;
+  gap: 4px;
+  height: 44px;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.category-nav a {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--gray-700);
+  padding: 6px 14px;
+  border-radius: 20px;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.category-nav a:hover {
+  color: var(--black);
+  background: rgba(0, 0, 0, 0.05);
+  text-decoration: none;
+}
+
+.category-nav a.active {
+  color: var(--white);
+  background: var(--black);
+}
+
+.category-nav a.active:hover {
+  color: var(--white);
+  background: var(--gray-900);
+}
+
+/* ─── Main Container ─── */
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 22px;
+}
+
+/* ─── Post List (Index Page) ─── */
+.post-list h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  margin: 56px 0 8px;
+  color: var(--black);
+}
+
+.post-list-subtitle {
+  font-size: 0.95rem;
+  color: var(--gray-500);
+  margin-bottom: 40px;
+}
+
+.post-card {
+  display: flex;
+  gap: 24px;
+  padding: 28px 0;
+  border-top: 1px solid var(--gray-300);
+  transition: opacity 0.2s;
+}
+
+.post-card:last-child { border-bottom: 1px solid var(--gray-300); }
+
+.post-card:hover { opacity: 0.85; }
+
+.post-thumb {
+  flex-shrink: 0;
+  width: 200px;
+  height: 134px;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.post-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.post-card:hover .post-thumb img { transform: scale(1.03); }
+
+.post-info { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+
+.post-meta-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.post-category {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--blue);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.post-date {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+.post-date-relative {
+  font-size: 0.72rem;
+  color: var(--blue);
+  font-weight: 500;
+  margin-left: 6px;
+}
+
+.post-meta .post-date-relative {
+  margin-left: 8px;
+  font-size: 0.82rem;
+}
+
+.post-info h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.45;
+  letter-spacing: -0.015em;
+  margin-bottom: 6px;
+}
+
+.post-info h2 a { color: var(--black); }
+.post-info h2 a:hover { color: var(--blue); text-decoration: none; }
+
+.post-summary {
+  font-size: 0.85rem;
+  color: var(--gray-700);
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ─── Featured Post (Top of list) ─── */
+.post-featured {
+  padding: 40px 0 32px;
+  border-bottom: 1px solid var(--gray-300);
+  margin-bottom: 8px;
+}
+
+.post-featured .featured-image {
+  width: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.post-featured .featured-image img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+}
+
+.post-featured h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.35;
+  margin-bottom: 8px;
+}
+
+.post-featured h2 a { color: var(--black); }
+.post-featured h2 a:hover { color: var(--blue); text-decoration: none; }
+
+/* ─── Single Post ─── */
+.post-single {
+  padding: 48px 0 64px;
+}
+
+.post-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.post-header .post-category {
+  font-size: 0.75rem;
+  display: inline-block;
+  margin-bottom: 12px;
+}
+
+.post-header h1 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.3;
+  color: var(--black);
+  margin-bottom: 16px;
+  word-break: keep-all;
+}
+
+.post-meta {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  align-items: center;
+  color: var(--gray-500);
+  font-size: 0.85rem;
+}
+
+.post-hero {
+  margin: 0 0 40px;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.post-hero img {
+  width: 100%;
+  max-height: 480px;
+  object-fit: cover;
+}
+
+/* ─── Post Content ─── */
+.post-content {
+  font-size: 1.05rem;
+  line-height: 1.85;
+  color: var(--gray-900);
+  word-break: keep-all;
+}
+
+.post-content h2 {
+  font-size: 1.45rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 48px 0 16px;
+  color: var(--black);
+}
+
+.post-content h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  margin: 36px 0 12px;
+  color: var(--black);
+}
+
+.post-content p {
+  margin: 16px 0;
+}
+
+.post-content ul, .post-content ol {
+  margin: 16px 0;
+  padding-left: 24px;
+}
+
+.post-content li {
+  margin: 8px 0;
+  line-height: 1.7;
+}
+
+.post-content strong {
+  font-weight: 600;
+  color: var(--black);
+}
+
+.post-content blockquote {
+  margin: 28px 0;
+  padding: 20px 24px;
+  background: var(--gray-100);
+  border-radius: 12px;
+  color: var(--gray-700);
+  font-size: 1rem;
+}
+
+.post-content img {
+  margin: 32px auto;
+  border-radius: 12px;
+}
+
+.post-content hr {
+  border: none;
+  height: 1px;
+  background: var(--gray-300);
+  margin: 40px 0;
+}
+
+/* ─── Tags ─── */
+.post-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.tag {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+.post-tags-footer {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--gray-300);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.post-tags-footer .tag {
+  background: var(--gray-100);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  color: var(--gray-700);
+  transition: background 0.2s;
+}
+
+.post-tags-footer .tag:hover {
+  background: var(--gray-300);
+  text-decoration: none;
+}
+
+/* ─── Post Navigation ─── */
+.post-nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 24px 0 48px;
+  font-size: 0.85rem;
+  border-top: 1px solid var(--gray-300);
+  margin-top: 32px;
+}
+
+.post-nav a { color: var(--blue); }
+
+/* ─── Footer ─── */
+.site-footer {
+  background: var(--gray-100);
+  border-top: 1px solid var(--gray-300);
+}
+
+.site-footer .container {
+  max-width: 980px;
+  padding: 20px 22px;
+  text-align: center;
+}
+
+.site-footer p {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+/* ─── Pagination ─── */
+.pagination-nav {
+  margin: 48px 0 24px;
+  text-align: center;
+}
+
+.pagination {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  list-style: none;
+  padding: 0;
+}
+
+.pagination li a, .pagination li span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 40px;
+  padding: 0 12px;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--gray-700);
+  transition: all 0.2s;
+}
+
+.pagination li a:hover {
+  background: var(--gray-100);
+  color: var(--black);
+  text-decoration: none;
+}
+
+.pagination li span.active {
+  background: var(--black);
+  color: var(--white);
+}
+
+.pagination .page-dots {
+  color: var(--gray-500);
+  min-width: 32px;
+  font-size: 0.9rem;
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 640px) {
+  .post-card {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .post-thumb {
+    width: 100%;
+    height: 200px;
+    border-radius: 12px;
+  }
+
+  .post-list h1 { font-size: 1.6rem; margin-top: 32px; }
+
+  .post-header h1 { font-size: 1.6rem; }
+
+  .post-single { padding: 32px 0 48px; }
+
+  .post-featured .featured-image img { height: 240px; }
+  .post-featured h2 { font-size: 1.3rem; }
+
+  .post-content { font-size: 1rem; }
+}
+</style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="index.html" class="site-title">오늘의 뉴스 브리핑</a>
+      <nav>
+        <a href="index.html">홈</a>
+      </nav>
+    </div>
+  </header>
+  
+  <nav class="category-nav">
+    <div class="container">
+      <a href="index.html">전체</a>
+        <a href="category-politics.html">정치</a>
+        <a href="category-society.html">사회</a>
+        <a href="category-economy.html">경제</a>
+        <a href="category-entertainment.html">연예</a>
+        <a href="category-life.html">생활</a>
+        <a href="category-it.html">IT</a>
+        <a href="category-sports.html" class="active">스포츠</a>
+        <a href="category-fashion.html">패션</a>
+        
+    </div>
+  </nav>
+  <main class="container">
+    <article class="post-single">
+      <header class="post-header">
+        <span class="post-category">스포츠</span>
+        <h1>부천의 힘 제주 원정서 증명할까?</h1>
+        <div class="post-meta">
+          <time datetime="2026-04-05">2026-04-05</time>
+          <div class="post-tags"><span class="tag">#부천FC</span> <span class="tag">#제주유나이티드</span> <span class="tag">#제주원정</span> <span class="tag">#연고이전더비</span> <span class="tag">#부천의힘</span> <span class="tag">#K리그</span> <span class="tag">#축구팬응원</span> <span class="tag">#역사적매치</span> <span class="tag">#스포츠분석</span> <span class="tag">#축구뉴스</span> <span class="tag">#원정응원단</span> <span class="tag">#부천FC1995</span> <span class="tag">#더비매치</span> <span class="tag">#K리그스토리</span></div>
+        </div>
+      </header>
+      
+      <div class="post-hero">
+        <img src="http://imgnews.naver.net/image/014/2013/01/26/20130126000459533_59_20130126000603.jpg" alt="부천의 힘 제주 원정서 증명할까?" loading="lazy" onerror="this.onerror=null;this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMjIwIj4KPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KPHN0b3Agb2Zmc2V0PSIwJSIgc3R5bGU9InN0b3AtY29sb3I6I2Q2MzAzMSIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6I2ZmNzY3NSIvPgo8L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIyMjAiIGZpbGw9InVybCgjZykiIHJ4PSIxMiIvPgo8dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjgiIGZvbnQtd2VpZ2h0PSI2MDAiCmZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC44NSkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuMzVlbSI+7Iqk7Y+s7LigPC90ZXh0Pjwvc3ZnPg=='">
+      </div>
+      <div class="post-content">
+        <figure style="text-align:center;margin:32px 0;"><img src="http://imgnews.naver.net/image/014/2013/01/26/20130126000459533_59_20130126000603.jpg" alt="제주, 연고 이전 후 부천과의 첫 맞대결 ‘뜨거운 관심’" style="max-width:100%;border-radius:12px;" loading="lazy"></figure>
+<h2>핵심 요약</h2>
+<p>부천FC1995가 팀 역사상 뜻깊은 제주 원정길에 오른다. 이번 경기는 단순한 원정 경기를 넘어, 부천의 수많은 팬과 함께하는 첫 번째 제주 원정이라는 점에서 그 의미가 남다르다. 부천은 제주 유나이티드(과거 부천 SK)를 상대로 '부천의 힘'이 무엇인지 확실히 보여주겠다는 각오다. 팬들의 뜨거운 응원을 등에 업고 제주 땅에서 승점 3점을 따올 수 있을지 축구계의 이목이 쏠리고 있다.</p>
+<h2>사건/이슈 개요</h2>
+<p>부천FC 팬들에게 제주 원정은 남다른 감회를 불러일으키는 이벤트다. 부천 시민들이 직접 만든 구단인 부천FC가 과거 연고 이전을 통해 팀을 떠났던 상대를 만나기 위해 제주도로 향하기 때문이다. 이번 원정은 구단 창단 이후 처음으로 대규모 원정 응원단이 비행기를 타고 건너가는 역사적인 날이다. 부천 구단은 이번 경기를 준비하며 "우리의 정체성과 자부심을 증명하는 자리"라며 승리에 대한 강한 의지를 드러냈다. 선수들 또한 팬들의 열망을 잘 알고 있다. 주장 선수를 비롯한 주축 자원들은 "비행기를 타고 응원 오시는 팬들을 위해 반드시 승리하겠다"며 전의를 불태우고 있다. 제주는 현재 K리그1 상위권에 위치한 강팀이지만, 부천은 특유의 조직력과 투지로 맞서겠다는 전략이다. 특히 이번 경기는 두 팀의 역사적 배경 때문에 '연고 이전 더비'로 불리며 축구 팬들 사이에서 뜨거운 감자로 떠올랐다. 부천이 제주 하늘 아래에서 승전고를 울릴 수 있을지, 운명의 한판 승부가 다가오고 있다.</p>
+<h2>상세 내용</h2>
+<h3>역사적 배경과 팬들의 자부심</h3>
+<p>부천FC는 2006년 부천 SK가 제주로 연고를 이전한 아픔을 딛고, 팬들의 힘으로 재탄생한 구단이다. 그렇기에 제주와의 경기는 성적 이상의 가치를 지닌다. 부천 팬들에게 제주 원정은 잃어버린 자부심을 되찾는 성전과도 같다. 이번에 동행하는 수백 명의 원정 응원단은 부천의 상징인 붉은색 유니폼을 입고 서귀포 월드컵 경기장을 붉게 물들일 예정이다. 이들의 응원 소리는 선수들에게 12번째 선수가 되어 큰 힘을 실어줄 것이다.</p>
+<h3>전술적 준비와 승리 시나리오</h3>
+<p>객관적인 전력 면에서는 제주가 앞서는 것이 사실이다. 하지만 부천은 이번 시즌 끈끈한 수비와 날카로운 역습으로 이변을 연출해왔다. 이영민 감독은 제주의 중원을 압박하고 빠른 측면 돌파를 통해 상대의 수비 뒷공간을 공략할 계획이다. 특히 세트피스 상황에서의 집중력을 높이기 위해 훈련 시간을 대폭 늘렸다. 한 골 승부가 될 가능성이 큰 만큼, 실점을 최소화하면서 단 한 번의 기회를 득점으로 연결하는 것이 승리의 핵심이다.</p>
+<h3>선수들의 심리적 무장과 동기부여</h3>
+<p>부천 선수단은 이번 원정을 앞두고 특별 정신 교육을 진행할 정도로 결연한 태도를 보이고 있다. 구단의 역사를 배우고 팬들의 마음을 이해하는 시간을 가짐으로써, 경기장에서 한 발 더 뛰어야 하는 이유를 명확히 했다. 신인 선수들부터 베테랑까지 "팀의 자부심을 걸고 싸우겠다"는 일념으로 뭉쳐 있다. 제주 원정이라는 특수한 환경과 이동에 따른 피로감이 변수지만, 정신력이 이를 상쇄할 수 있다는 믿음이 팀 내부에 가득하다.</p>
+<h3>원정 팬들을 위한 특별 이벤트와 지원</h3>
+<p>부천 구단은 제주 원정에 참여하는 팬들을 위해 다양한 편의를 제공하고 있다. 항공권과 숙박권을 결합한 패키지 상품을 기획하고, 경기장까지의 셔틀버스 운영 등 팬들이 오로지 응원에만 집중할 수 있는 환경을 조성했다. 또한, 제주 현지에서 팬들과 선수단이 소통할 수 있는 소규모 행사도 계획 중이다. 이러한 구단의 세심한 배려는 팬들의 충성도를 높이고 원정 분위기를 한층 끌어올리는 효과를 낼 것이다.</p>
+<h2>왜 주목받나?</h2>
+<p>K리그 내에서 스토리텔링이 가장 확실한 매치업 중 하나다. 연고 이전이라는 아픈 역사를 가진 부천이 자생적으로 살아남아 원조 팀과 맞붙는 그림은 한 편의 드라마와 같다. 리그 전체 흥행 측면에서도 이러한 라이벌 관계는 매우 긍정적이다. 또한, K리그2 팀인 부천이 K리그1의 강호 제주를 상대로 어떤 경기력을 보여줄지도 기술적인 관심사다. '언더독의 반란'을 꿈꾸는 부천의 도전 정신이 많은 축구 팬에게 감동을 주고 있다.</p>
+<h2>앞으로의 전망</h2>
+<p>이번 경기 결과에 따라 부천의 시즌 흐름은 큰 전환점을 맞이할 것이다. 만약 제주 원정에서 승리하거나 대등한 경기를 펼친다면, 팀의 자신감은 하늘을 찌를 듯 높아질 것이다. 이는 리그 순위 경쟁에서도 강력한 동력이 된다. 설령 결과가 좋지 않더라도 팬들과 함께한 이번 원정은 팀의 결속력을 더욱 단단하게 만들 소중한 자산이 될 것이다. 장기적으로는 부천과 제주의 대결이 K리그를 대표하는 명품 더비로 발전해 나갈 것으로 보인다.</p>
+<h2>마무리</h2>
+<p>부천FC의 제주 원정은 승패를 떠나 이미 승리한 도전이다. 팬들의 힘으로 만든 팀이 팬들과 함께 비행기를 타고 적진으로 향하는 모습 자체가 한국 축구가 나아가야 할 방향을 보여주기 때문이다. 부천의 힘이 제주에서 어떻게 발휘될지 진심으로 궁금하다. 여러분은 부천의 역사적인 제주 원정길에 대해 어떻게 생각하시나요? 부천 선수들에게 응원의 한마디를 부탁드립니다.</p>
+      </div>
+      <footer class="post-footer">
+        <div class="post-tags-footer"><a class="tag">#부천FC</a> <a class="tag">#제주유나이티드</a> <a class="tag">#제주원정</a> <a class="tag">#연고이전더비</a> <a class="tag">#부천의힘</a> <a class="tag">#K리그</a> <a class="tag">#축구팬응원</a> <a class="tag">#역사적매치</a> <a class="tag">#스포츠분석</a> <a class="tag">#축구뉴스</a> <a class="tag">#원정응원단</a> <a class="tag">#부천FC1995</a> <a class="tag">#더비매치</a> <a class="tag">#K리그스토리</a></div>
+      </footer>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 오늘의 뉴스 브리핑</p>
+    </div>
+  </footer>
+
+<script>
+(function(){
+  function relTime(dateStr){
+    var d = dateStr.includes('T') ? new Date(dateStr + '+09:00') : new Date(dateStr + 'T09:00:00+09:00');
+    var now = new Date();
+    var diff = Math.floor((now - d) / 1000);
+    if(diff < 0) return '';
+    if(diff < 60) return '방금 전';
+    if(diff < 3600) return Math.floor(diff/60) + '분 전';
+    if(diff < 86400) return Math.floor(diff/3600) + '시간 전';
+    if(diff < 604800) return Math.floor(diff/86400) + '일 전';
+    if(diff < 2592000) return Math.floor(diff/604800) + '주 전';
+    return '';
+  }
+  document.querySelectorAll('.post-date[data-date]').forEach(function(el){
+    var r = relTime(el.getAttribute('data-date'));
+    if(r) el.insertAdjacentHTML('afterend', '<span class="post-date-relative">' + r + '</span>');
+  });
+  document.querySelectorAll('time[datetime]').forEach(function(el){
+    var r = relTime(el.getAttribute('datetime'));
+    if(r) el.insertAdjacentHTML('afterend', '<span class="post-date-relative">' + r + '</span>');
+  });
+})();
+</script>
+</body>
+</html>

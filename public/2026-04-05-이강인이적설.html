@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>이강인 이적설 2군데 중 어디로 갈까? — 오늘의 뉴스 브리핑</title>
+  <meta name="description" content="이강인 이적설 2군데 중 어디로 갈까?">
+  <meta property="og:title" content="이강인 이적설 2군데 중 어디로 갈까? — 오늘의 뉴스 브리핑">
+  <meta property="og:description" content="이강인 이적설 2군데 중 어디로 갈까?">
+  <meta property="og:image" content="http://imgnews.naver.net/image/109/2019/07/18/0004052389_002_20190718153116500.jpeg">
+  <meta property="og:type" content="article">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <style>/* ═══════════════════════════════════════════════════════════════
+   Apple-inspired News Blog — 오늘의 뉴스 브리핑
+   Clean, minimal, content-first design
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ─── Web Fonts ─── */
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* ─── Reset & Typography ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --black: #1d1d1f;
+  --gray-900: #2d2d2f;
+  --gray-700: #6e6e73;
+  --gray-500: #86868b;
+  --gray-300: #d2d2d7;
+  --gray-100: #f5f5f7;
+  --white: #ffffff;
+  --blue: #0071e3;
+  --blue-hover: #0077ed;
+  --max-width: 720px;
+  --font-sans: 'Pretendard Variable', 'Pretendard', 'Inter', -apple-system,
+               BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-sans);
+  line-height: 1.65;
+  color: var(--black);
+  background: var(--white);
+  letter-spacing: -0.01em;
+  word-break: keep-all;
+}
+
+a { color: var(--blue); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+img { max-width: 100%; height: auto; display: block; }
+
+/* ─── Navigation ─── */
+.site-header {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+}
+
+.site-header .container {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 22px;
+  height: 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.site-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--black);
+  letter-spacing: -0.01em;
+}
+
+.site-title:hover { text-decoration: none; }
+
+.site-header nav { display: flex; gap: 28px; }
+
+.site-header nav a {
+  font-size: 0.8rem;
+  color: var(--gray-700);
+  letter-spacing: -0.01em;
+  transition: color 0.2s;
+}
+
+.site-header nav a:hover { color: var(--black); text-decoration: none; }
+
+/* ─── Category Navigation ─── */
+.category-nav {
+  background: var(--gray-100);
+  border-bottom: 1px solid var(--gray-300);
+  position: sticky;
+  top: 48px;
+  z-index: 9998;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.category-nav::-webkit-scrollbar { display: none; }
+.category-nav { -ms-overflow-style: none; scrollbar-width: none; }
+
+.category-nav .container {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 22px;
+  display: flex;
+  gap: 4px;
+  height: 44px;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.category-nav a {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--gray-700);
+  padding: 6px 14px;
+  border-radius: 20px;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.category-nav a:hover {
+  color: var(--black);
+  background: rgba(0, 0, 0, 0.05);
+  text-decoration: none;
+}
+
+.category-nav a.active {
+  color: var(--white);
+  background: var(--black);
+}
+
+.category-nav a.active:hover {
+  color: var(--white);
+  background: var(--gray-900);
+}
+
+/* ─── Main Container ─── */
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 22px;
+}
+
+/* ─── Post List (Index Page) ─── */
+.post-list h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  margin: 56px 0 8px;
+  color: var(--black);
+}
+
+.post-list-subtitle {
+  font-size: 0.95rem;
+  color: var(--gray-500);
+  margin-bottom: 40px;
+}
+
+.post-card {
+  display: flex;
+  gap: 24px;
+  padding: 28px 0;
+  border-top: 1px solid var(--gray-300);
+  transition: opacity 0.2s;
+}
+
+.post-card:last-child { border-bottom: 1px solid var(--gray-300); }
+
+.post-card:hover { opacity: 0.85; }
+
+.post-thumb {
+  flex-shrink: 0;
+  width: 200px;
+  height: 134px;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.post-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.post-card:hover .post-thumb img { transform: scale(1.03); }
+
+.post-info { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+
+.post-meta-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.post-category {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--blue);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.post-date {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+.post-date-relative {
+  font-size: 0.72rem;
+  color: var(--blue);
+  font-weight: 500;
+  margin-left: 6px;
+}
+
+.post-meta .post-date-relative {
+  margin-left: 8px;
+  font-size: 0.82rem;
+}
+
+.post-info h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.45;
+  letter-spacing: -0.015em;
+  margin-bottom: 6px;
+}
+
+.post-info h2 a { color: var(--black); }
+.post-info h2 a:hover { color: var(--blue); text-decoration: none; }
+
+.post-summary {
+  font-size: 0.85rem;
+  color: var(--gray-700);
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ─── Featured Post (Top of list) ─── */
+.post-featured {
+  padding: 40px 0 32px;
+  border-bottom: 1px solid var(--gray-300);
+  margin-bottom: 8px;
+}
+
+.post-featured .featured-image {
+  width: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.post-featured .featured-image img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+}
+
+.post-featured h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.35;
+  margin-bottom: 8px;
+}
+
+.post-featured h2 a { color: var(--black); }
+.post-featured h2 a:hover { color: var(--blue); text-decoration: none; }
+
+/* ─── Single Post ─── */
+.post-single {
+  padding: 48px 0 64px;
+}
+
+.post-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.post-header .post-category {
+  font-size: 0.75rem;
+  display: inline-block;
+  margin-bottom: 12px;
+}
+
+.post-header h1 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.3;
+  color: var(--black);
+  margin-bottom: 16px;
+  word-break: keep-all;
+}
+
+.post-meta {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  align-items: center;
+  color: var(--gray-500);
+  font-size: 0.85rem;
+}
+
+.post-hero {
+  margin: 0 0 40px;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.post-hero img {
+  width: 100%;
+  max-height: 480px;
+  object-fit: cover;
+}
+
+/* ─── Post Content ─── */
+.post-content {
+  font-size: 1.05rem;
+  line-height: 1.85;
+  color: var(--gray-900);
+  word-break: keep-all;
+}
+
+.post-content h2 {
+  font-size: 1.45rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 48px 0 16px;
+  color: var(--black);
+}
+
+.post-content h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  margin: 36px 0 12px;
+  color: var(--black);
+}
+
+.post-content p {
+  margin: 16px 0;
+}
+
+.post-content ul, .post-content ol {
+  margin: 16px 0;
+  padding-left: 24px;
+}
+
+.post-content li {
+  margin: 8px 0;
+  line-height: 1.7;
+}
+
+.post-content strong {
+  font-weight: 600;
+  color: var(--black);
+}
+
+.post-content blockquote {
+  margin: 28px 0;
+  padding: 20px 24px;
+  background: var(--gray-100);
+  border-radius: 12px;
+  color: var(--gray-700);
+  font-size: 1rem;
+}
+
+.post-content img {
+  margin: 32px auto;
+  border-radius: 12px;
+}
+
+.post-content hr {
+  border: none;
+  height: 1px;
+  background: var(--gray-300);
+  margin: 40px 0;
+}
+
+/* ─── Tags ─── */
+.post-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.tag {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+.post-tags-footer {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--gray-300);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.post-tags-footer .tag {
+  background: var(--gray-100);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  color: var(--gray-700);
+  transition: background 0.2s;
+}
+
+.post-tags-footer .tag:hover {
+  background: var(--gray-300);
+  text-decoration: none;
+}
+
+/* ─── Post Navigation ─── */
+.post-nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 24px 0 48px;
+  font-size: 0.85rem;
+  border-top: 1px solid var(--gray-300);
+  margin-top: 32px;
+}
+
+.post-nav a { color: var(--blue); }
+
+/* ─── Footer ─── */
+.site-footer {
+  background: var(--gray-100);
+  border-top: 1px solid var(--gray-300);
+}
+
+.site-footer .container {
+  max-width: 980px;
+  padding: 20px 22px;
+  text-align: center;
+}
+
+.site-footer p {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+/* ─── Pagination ─── */
+.pagination-nav {
+  margin: 48px 0 24px;
+  text-align: center;
+}
+
+.pagination {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  list-style: none;
+  padding: 0;
+}
+
+.pagination li a, .pagination li span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 40px;
+  padding: 0 12px;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--gray-700);
+  transition: all 0.2s;
+}
+
+.pagination li a:hover {
+  background: var(--gray-100);
+  color: var(--black);
+  text-decoration: none;
+}
+
+.pagination li span.active {
+  background: var(--black);
+  color: var(--white);
+}
+
+.pagination .page-dots {
+  color: var(--gray-500);
+  min-width: 32px;
+  font-size: 0.9rem;
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 640px) {
+  .post-card {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .post-thumb {
+    width: 100%;
+    height: 200px;
+    border-radius: 12px;
+  }
+
+  .post-list h1 { font-size: 1.6rem; margin-top: 32px; }
+
+  .post-header h1 { font-size: 1.6rem; }
+
+  .post-single { padding: 32px 0 48px; }
+
+  .post-featured .featured-image img { height: 240px; }
+  .post-featured h2 { font-size: 1.3rem; }
+
+  .post-content { font-size: 1rem; }
+}
+</style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="index.html" class="site-title">오늘의 뉴스 브리핑</a>
+      <nav>
+        <a href="index.html">홈</a>
+      </nav>
+    </div>
+  </header>
+  
+  <nav class="category-nav">
+    <div class="container">
+      <a href="index.html">전체</a>
+        <a href="category-politics.html">정치</a>
+        <a href="category-society.html">사회</a>
+        <a href="category-economy.html">경제</a>
+        <a href="category-entertainment.html">연예</a>
+        <a href="category-life.html">생활</a>
+        <a href="category-it.html">IT</a>
+        <a href="category-sports.html" class="active">스포츠</a>
+        <a href="category-fashion.html">패션</a>
+        
+    </div>
+  </nav>
+  <main class="container">
+    <article class="post-single">
+      <header class="post-header">
+        <span class="post-category">스포츠</span>
+        <h1>이강인 이적설 2군데 중 어디로 갈까?</h1>
+        <div class="post-meta">
+          <time datetime="2026-04-05">2026-04-05</time>
+          <div class="post-tags"><span class="tag">#이강인</span> <span class="tag">#이강인이적</span> <span class="tag">#아틀레티코마드리드</span> <span class="tag">#프리미어리그</span> <span class="tag">#EPL</span> <span class="tag">#PSG</span> <span class="tag">#축구이적시장</span> <span class="tag">#HEREWEGO</span> <span class="tag">#2026월드컵</span> <span class="tag">#축구뉴스</span> <span class="tag">#스포츠분석</span> <span class="tag">#대한민국축구대표팀</span> <span class="tag">#유럽축구</span> <span class="tag">#몸값폭등</span></div>
+        </div>
+      </header>
+      
+      <div class="post-hero">
+        <img src="http://imgnews.naver.net/image/109/2019/07/18/0004052389_002_20190718153116500.jpeg" alt="이강인 이적설 2군데 중 어디로 갈까?" loading="lazy" onerror="this.onerror=null;this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMjIwIj4KPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KPHN0b3Agb2Zmc2V0PSIwJSIgc3R5bGU9InN0b3AtY29sb3I6I2Q2MzAzMSIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6I2ZmNzY3NSIvPgo8L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIyMjAiIGZpbGw9InVybCgjZykiIHJ4PSIxMiIvPgo8dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjgiIGZvbnQtd2VpZ2h0PSI2MDAiCmZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC44NSkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuMzVlbSI+7Iqk7Y+s7LigPC90ZXh0Pjwvc3ZnPg=='">
+      </div>
+      <div class="post-content">
+        <figure style="text-align:center;margin:32px 0;"><img src="http://imgnews.naver.net/image/109/2019/07/18/0004052389_002_20190718153116500.jpeg" alt="西언론, "이강인, 이적 결심...발렌시아에서 출전시간 문제"" style="max-width:100%;border-radius:12px;" loading="lazy"></figure>
+<h2>핵심 요약</h2>
+<p>대한민국 축구의 미래이자 핵심인 이강인을 둘러싼 이적설이 다시 한번 뜨겁게 달아오르고 있다. 스페인의 강호 아틀레티코 마드리드와 잉글랜드 프리미어리그(EPL) 유수의 구단들이 이강인 영입을 위해 본격적인 움직임을 시작했다는 소식이다. 특히 'HERE WE GO'로 유명한 이적 시장 전문가들의 확인까지 더해지며 이강인의 이적은 시간문제라는 분석이 지배적이다. 다가올 월드컵 이후 이강인의 몸값은 더욱 치솟을 것으로 예상되며, 그가 어떤 선택을 할지에 전 세계의 관심이 쏠리고 있다.</p>
+<h2>사건/이슈 개요</h2>
+<p>이강인의 주가가 연일 상한가를 치고 있다. 파리 생제르맹(PSG)에서 꾸준한 활약을 보여주고 있는 이강인에게 유럽 빅클럽들의 러브콜이 쏟아지고 있다. 가장 구체적인 움직임을 보이는 곳은 스페인 라리가의 아틀레티코 마드리드다. 이강인의 창의적인 패스와 탈압박 능력이 시메오네 감독의 전술에 완벽히 부합한다는 평가다. 동시에 프리미어리그의 복수 구단들도 거액의 이적료를 준비하며 이강인 쟁탈전에 가세했다. 이강인은 이미 라리가에서 검증된 자원이며, PSG를 거치며 챔피언스리그 등 큰 무대 경험까지 쌓았다. 이제 그는 단순한 유망주를 넘어 팀의 승패를 결정지을 수 있는 핵심 자원으로 성장했다. 현지 매체들은 이강인이 자신의 스타일과 가장 잘 맞는 팀을 고를 수 있는 '갑'의 위치에 있다고 분석한다. 특히 이번 2026 월드컵이 이강인의 가치를 폭발시킬 결정적인 계기가 될 것이라는 전망이 나오면서, 빅클럽들의 영입 경쟁은 더욱 치열해질 전망이다.</p>
+<h2>상세 내용</h2>
+<h3>아틀레티코 마드리드행의 장단점 분석</h3>
+<p>아틀레티코 마드리드는 오래전부터 이강인에게 관심을 보여온 팀이다. 스페인 언어가 능숙하고 라리가 무대 적응이 필요 없다는 점은 이강인에게 큰 메리트다. 시메오네 감독의 끈끈한 조직력 축구에 이강인의 창의성이 더해진다면 엄청난 파괴력을 낼 수 있다. 하지만 아틀레티코 특유의 수비 가담 요구와 거친 활동량이 이강인의 공격적 재능을 제한할 수 있다는 우려도 존재한다. 그럼에도 불구하고 주전급으로 확실히 활용될 가능성이 크다는 점은 거부하기 힘든 제안이다.</p>
+<h3>프리미어리그 진출 시 예상되는 변화</h3>
+<p>잉글랜드 프리미어리그는 모든 축구 선수의 꿈의 무대다. 빠른 템포와 강력한 신체 능력이 강조되는 EPL에서 이강인이 살아남을 수 있을지에 대해서는 의견이 갈린다. 하지만 최근 EPL 역시 기술적인 미드필더의 중요성이 커지고 있어, 이강인의 정교한 왼발 킥과 시야는 충분히 경쟁력이 있다. 특히 맨체스터 시티나 아스널 같은 팀들의 관심은 이강인이 세계 최고 수준의 전술 속에서 더욱 성장할 수 있는 기회를 제공한다. 높은 연봉과 압도적인 중계권 수익에 따른 구단의 재정 능력도 무시할 수 없는 요소다.</p>
+<h3>월드컵 이후 몸값 폭등 예고</h3>
+<p>2026 월드컵은 이강인에게 진정한 시험대이자 기회의 장이다. 대표팀의 실질적인 에이스로서 이강인이 월드컵에서 인상적인 활약을 펼친다면, 현재 거론되는 이적료는 그야말로 시작에 불과할 수 있다. 이미 카타르 월드컵을 통해 세계적인 인지도를 쌓은 그이기에, 이번 대회에서의 성과는 그를 '월드클래스' 반열에 올릴 마지막 퍼즐이 될 것이다. 이강인 측 역시 이적 시기를 월드컵 전후로 조율하며 최상의 시나리오를 구상 중인 것으로 알려졌다.</p>
+<h3>이강인의 개인적인 선택과 성장 방향</h3>
+<p>이강인은 단순히 돈을 쫓는 선수가 아니다. 그는 자신이 가장 즐겁게 축구할 수 있고, 더 많이 뛸 수 있는 환경을 최우선으로 고려한다. PSG에서의 주전 경쟁을 통해 그는 한 단계 더 성숙해졌으며, 이제는 팀의 중심축으로서 역할을 수행하길 원한다. 그의 에이전트 역시 선수의 의사를 존중하며 신중하게 협상을 이어가고 있다. 이강인이 어떤 리그, 어떤 팀을 선택하느냐에 따라 그의 커리어뿐만 아니라 대한민국 대표팀의 전술적 완성도도 달라질 것이다.</p>
+<h2>왜 주목받나?</h2>
+<p>이강인은 현재 아시아 축구를 대표하는 아이콘이다. 손흥민의 뒤를 이을 차세대 리더로서 그의 행보 하나하나가 국내 팬들에게는 초미의 관심사다. 또한, 유럽 시장에서도 20대 초반의 나이에 이 정도의 기술과 경험을 갖춘 미드필더를 찾기 어렵기에 그의 희소성은 매우 높다. 마케팅적인 측면에서도 한국 시장을 포함한 아시아 전역에 미치는 영향력이 상당해, 구단들 입장에서는 전력 강화와 상업적 이득을 동시에 챙길 수 있는 최고의 카드다.</p>
+<h2>앞으로의 전망</h2>
+<p>이강인의 이적 논의는 월드컵이 다가올수록 더욱 구체화될 것이다. 현재로서는 아틀레티코와 EPL 팀들 사이의 눈치싸움이 치열하다. 이강인이 월드컵에서 부상 없이 최고의 컨디션을 유지한다면, 역대 한국인 최고 이적료 경신도 충분히 가능하다. 월드컵 종료 직후 열릴 여름 이적 시장에서 이강인이 입을 새로운 유니폼이 무엇일지 지켜보는 것은 2026년 축구계의 가장 큰 흥밋거리가 될 것이다.</p>
+<h2>마무리</h2>
+<p>대한민국 축구의 보배 이강인이 더 큰 무대를 향한 날갯짓을 준비하고 있다. 어느 리그로 가든 그가 보여줄 환상적인 플레이를 기대하는 팬들의 마음은 설레기만 한다. 이강인이 본인에게 가장 잘 맞는 최선의 선택을 하기를 진심으로 응원한다. 여러분은 이강인이 아틀레티코 마드리드와 프리미어리그 중 어디로 가는 것이 더 나은 선택이라고 생각하시나요? 댓글로 여러분의 의견을 남겨주세요.</p>
+      </div>
+      <footer class="post-footer">
+        <div class="post-tags-footer"><a class="tag">#이강인</a> <a class="tag">#이강인이적</a> <a class="tag">#아틀레티코마드리드</a> <a class="tag">#프리미어리그</a> <a class="tag">#EPL</a> <a class="tag">#PSG</a> <a class="tag">#축구이적시장</a> <a class="tag">#HEREWEGO</a> <a class="tag">#2026월드컵</a> <a class="tag">#축구뉴스</a> <a class="tag">#스포츠분석</a> <a class="tag">#대한민국축구대표팀</a> <a class="tag">#유럽축구</a> <a class="tag">#몸값폭등</a></div>
+      </footer>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 오늘의 뉴스 브리핑</p>
+    </div>
+  </footer>
+
+<script>
+(function(){
+  function relTime(dateStr){
+    var d = dateStr.includes('T') ? new Date(dateStr + '+09:00') : new Date(dateStr + 'T09:00:00+09:00');
+    var now = new Date();
+    var diff = Math.floor((now - d) / 1000);
+    if(diff < 0) return '';
+    if(diff < 60) return '방금 전';
+    if(diff < 3600) return Math.floor(diff/60) + '분 전';
+    if(diff < 86400) return Math.floor(diff/3600) + '시간 전';
+    if(diff < 604800) return Math.floor(diff/86400) + '일 전';
+    if(diff < 2592000) return Math.floor(diff/604800) + '주 전';
+    return '';
+  }
+  document.querySelectorAll('.post-date[data-date]').forEach(function(el){
+    var r = relTime(el.getAttribute('data-date'));
+    if(r) el.insertAdjacentHTML('afterend', '<span class="post-date-relative">' + r + '</span>');
+  });
+  document.querySelectorAll('time[datetime]').forEach(function(el){
+    var r = relTime(el.getAttribute('datetime'));
+    if(r) el.insertAdjacentHTML('afterend', '<span class="post-date-relative">' + r + '</span>');
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>오늘의 뉴스 브리핑</title>
+  <meta name="description" content="최신 뉴스를 빠르고 정확하게">
+  <meta property="og:title" content="오늘의 뉴스 브리핑">
+  <meta property="og:description" content="최신 뉴스를 빠르고 정확하게">
+  
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <style>/* ═══════════════════════════════════════════════════════════════
+   Apple-inspired News Blog — 오늘의 뉴스 브리핑
+   Clean, minimal, content-first design
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ─── Web Fonts ─── */
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* ─── Reset & Typography ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --black: #1d1d1f;
+  --gray-900: #2d2d2f;
+  --gray-700: #6e6e73;
+  --gray-500: #86868b;
+  --gray-300: #d2d2d7;
+  --gray-100: #f5f5f7;
+  --white: #ffffff;
+  --blue: #0071e3;
+  --blue-hover: #0077ed;
+  --max-width: 720px;
+  --font-sans: 'Pretendard Variable', 'Pretendard', 'Inter', -apple-system,
+               BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-sans);
+  line-height: 1.65;
+  color: var(--black);
+  background: var(--white);
+  letter-spacing: -0.01em;
+  word-break: keep-all;
+}
+
+a { color: var(--blue); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+img { max-width: 100%; height: auto; display: block; }
+
+/* ─── Navigation ─── */
+.site-header {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+}
+
+.site-header .container {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 22px;
+  height: 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.site-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--black);
+  letter-spacing: -0.01em;
+}
+
+.site-title:hover { text-decoration: none; }
+
+.site-header nav { display: flex; gap: 28px; }
+
+.site-header nav a {
+  font-size: 0.8rem;
+  color: var(--gray-700);
+  letter-spacing: -0.01em;
+  transition: color 0.2s;
+}
+
+.site-header nav a:hover { color: var(--black); text-decoration: none; }
+
+/* ─── Category Navigation ─── */
+.category-nav {
+  background: var(--gray-100);
+  border-bottom: 1px solid var(--gray-300);
+  position: sticky;
+  top: 48px;
+  z-index: 9998;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.category-nav::-webkit-scrollbar { display: none; }
+.category-nav { -ms-overflow-style: none; scrollbar-width: none; }
+
+.category-nav .container {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 22px;
+  display: flex;
+  gap: 4px;
+  height: 44px;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.category-nav a {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--gray-700);
+  padding: 6px 14px;
+  border-radius: 20px;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.category-nav a:hover {
+  color: var(--black);
+  background: rgba(0, 0, 0, 0.05);
+  text-decoration: none;
+}
+
+.category-nav a.active {
+  color: var(--white);
+  background: var(--black);
+}
+
+.category-nav a.active:hover {
+  color: var(--white);
+  background: var(--gray-900);
+}
+
+/* ─── Main Container ─── */
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 22px;
+}
+
+/* ─── Post List (Index Page) ─── */
+.post-list h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  margin: 56px 0 8px;
+  color: var(--black);
+}
+
+.post-list-subtitle {
+  font-size: 0.95rem;
+  color: var(--gray-500);
+  margin-bottom: 40px;
+}
+
+.post-card {
+  display: flex;
+  gap: 24px;
+  padding: 28px 0;
+  border-top: 1px solid var(--gray-300);
+  transition: opacity 0.2s;
+}
+
+.post-card:last-child { border-bottom: 1px solid var(--gray-300); }
+
+.post-card:hover { opacity: 0.85; }
+
+.post-thumb {
+  flex-shrink: 0;
+  width: 200px;
+  height: 134px;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.post-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.post-card:hover .post-thumb img { transform: scale(1.03); }
+
+.post-info { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+
+.post-meta-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.post-category {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--blue);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.post-date {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+.post-date-relative {
+  font-size: 0.72rem;
+  color: var(--blue);
+  font-weight: 500;
+  margin-left: 6px;
+}
+
+.post-meta .post-date-relative {
+  margin-left: 8px;
+  font-size: 0.82rem;
+}
+
+.post-info h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.45;
+  letter-spacing: -0.015em;
+  margin-bottom: 6px;
+}
+
+.post-info h2 a { color: var(--black); }
+.post-info h2 a:hover { color: var(--blue); text-decoration: none; }
+
+.post-summary {
+  font-size: 0.85rem;
+  color: var(--gray-700);
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ─── Featured Post (Top of list) ─── */
+.post-featured {
+  padding: 40px 0 32px;
+  border-bottom: 1px solid var(--gray-300);
+  margin-bottom: 8px;
+}
+
+.post-featured .featured-image {
+  width: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.post-featured .featured-image img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+}
+
+.post-featured h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.35;
+  margin-bottom: 8px;
+}
+
+.post-featured h2 a { color: var(--black); }
+.post-featured h2 a:hover { color: var(--blue); text-decoration: none; }
+
+/* ─── Single Post ─── */
+.post-single {
+  padding: 48px 0 64px;
+}
+
+.post-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.post-header .post-category {
+  font-size: 0.75rem;
+  display: inline-block;
+  margin-bottom: 12px;
+}
+
+.post-header h1 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.3;
+  color: var(--black);
+  margin-bottom: 16px;
+  word-break: keep-all;
+}
+
+.post-meta {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  align-items: center;
+  color: var(--gray-500);
+  font-size: 0.85rem;
+}
+
+.post-hero {
+  margin: 0 0 40px;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.post-hero img {
+  width: 100%;
+  max-height: 480px;
+  object-fit: cover;
+}
+
+/* ─── Post Content ─── */
+.post-content {
+  font-size: 1.05rem;
+  line-height: 1.85;
+  color: var(--gray-900);
+  word-break: keep-all;
+}
+
+.post-content h2 {
+  font-size: 1.45rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 48px 0 16px;
+  color: var(--black);
+}
+
+.post-content h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  margin: 36px 0 12px;
+  color: var(--black);
+}
+
+.post-content p {
+  margin: 16px 0;
+}
+
+.post-content ul, .post-content ol {
+  margin: 16px 0;
+  padding-left: 24px;
+}
+
+.post-content li {
+  margin: 8px 0;
+  line-height: 1.7;
+}
+
+.post-content strong {
+  font-weight: 600;
+  color: var(--black);
+}
+
+.post-content blockquote {
+  margin: 28px 0;
+  padding: 20px 24px;
+  background: var(--gray-100);
+  border-radius: 12px;
+  color: var(--gray-700);
+  font-size: 1rem;
+}
+
+.post-content img {
+  margin: 32px auto;
+  border-radius: 12px;
+}
+
+.post-content hr {
+  border: none;
+  height: 1px;
+  background: var(--gray-300);
+  margin: 40px 0;
+}
+
+/* ─── Tags ─── */
+.post-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.tag {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+.post-tags-footer {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--gray-300);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.post-tags-footer .tag {
+  background: var(--gray-100);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  color: var(--gray-700);
+  transition: background 0.2s;
+}
+
+.post-tags-footer .tag:hover {
+  background: var(--gray-300);
+  text-decoration: none;
+}
+
+/* ─── Post Navigation ─── */
+.post-nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 24px 0 48px;
+  font-size: 0.85rem;
+  border-top: 1px solid var(--gray-300);
+  margin-top: 32px;
+}
+
+.post-nav a { color: var(--blue); }
+
+/* ─── Footer ─── */
+.site-footer {
+  background: var(--gray-100);
+  border-top: 1px solid var(--gray-300);
+}
+
+.site-footer .container {
+  max-width: 980px;
+  padding: 20px 22px;
+  text-align: center;
+}
+
+.site-footer p {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+/* ─── Pagination ─── */
+.pagination-nav {
+  margin: 48px 0 24px;
+  text-align: center;
+}
+
+.pagination {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  list-style: none;
+  padding: 0;
+}
+
+.pagination li a, .pagination li span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 40px;
+  padding: 0 12px;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--gray-700);
+  transition: all 0.2s;
+}
+
+.pagination li a:hover {
+  background: var(--gray-100);
+  color: var(--black);
+  text-decoration: none;
+}
+
+.pagination li span.active {
+  background: var(--black);
+  color: var(--white);
+}
+
+.pagination .page-dots {
+  color: var(--gray-500);
+  min-width: 32px;
+  font-size: 0.9rem;
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 640px) {
+  .post-card {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .post-thumb {
+    width: 100%;
+    height: 200px;
+    border-radius: 12px;
+  }
+
+  .post-list h1 { font-size: 1.6rem; margin-top: 32px; }
+
+  .post-header h1 { font-size: 1.6rem; }
+
+  .post-single { padding: 32px 0 48px; }
+
+  .post-featured .featured-image img { height: 240px; }
+  .post-featured h2 { font-size: 1.3rem; }
+
+  .post-content { font-size: 1rem; }
+}
+</style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="index.html" class="site-title">오늘의 뉴스 브리핑</a>
+      <nav>
+        <a href="index.html">홈</a>
+      </nav>
+    </div>
+  </header>
+  
+  <nav class="category-nav">
+    <div class="container">
+      <a href="index.html" class="active">전체</a>
+        <a href="category-politics.html">정치</a>
+        <a href="category-society.html">사회</a>
+        <a href="category-economy.html">경제</a>
+        <a href="category-entertainment.html">연예</a>
+        <a href="category-life.html">생활</a>
+        <a href="category-it.html">IT</a>
+        <a href="category-sports.html">스포츠</a>
+        <a href="category-fashion.html">패션</a>
+        
+    </div>
+  </nav>
+  <main class="container">
+    <div class="post-list">
+      <h1>오늘의 뉴스</h1>
+      <p class="post-list-subtitle">전체 418개 게시물 — 14/14 페이지</p>
+      
+    <article class="post-card">
+      <div class="post-thumb">
+        <a href="2026-04-02-한국축구1000회A매치.html"><img src="https://img-cdn.theqoo.net/fANcie.jpg" alt="통산 1000번째 A매치' 한국 축구 금자탑 결국 영국서 새 역사 썼다" loading="lazy" onerror="this.onerror=null;this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMjIwIj4KPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KPHN0b3Agb2Zmc2V0PSIwJSIgc3R5bGU9InN0b3AtY29sb3I6I2Q2MzAzMSIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6I2ZmNzY3NSIvPgo8L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIyMjAiIGZpbGw9InVybCgjZykiIHJ4PSIxMiIvPgo8dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjgiIGZvbnQtd2VpZ2h0PSI2MDAiCmZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC44NSkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuMzVlbSI+7Iqk7Y+s7LigPC90ZXh0Pjwvc3ZnPg=='"></a>
+      </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date" data-date="2026-04-02T20:05:57">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-한국축구1000회A매치.html">통산 1000번째 A매치' 한국 축구 금자탑 결국 영국서 새 역사 썼다</a></h2>
+        <p class="post-summary">핵심 요약
+
+대한민국 축구 국가대표팀이 코트디부아르와의 평가전을 통해 통산 1000번째 A매치를 기록했다.
+1948년 대표팀 창설 이후 약 78년 만에 달성한 위대한 대기록이다.
+이번 경기는 축구의 본고장 영국에서 개최되어 전 세계 축구 팬들의 이목을 집중시켰다.
+홍명보 감독은 1000회 기념 경기에서 다양한 전술적 실험...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+        <a href="2026-04-02-한보배결혼.html"><img src="https://pimg.mk.co.kr/news/cms/202604/01/news-p.v1.20260401.42fd00b90498448da17311188525d59d_R.jpg" alt="마수리 한보배 8년 열애 끝 결혼식 사진 공개와 축하 물결" loading="lazy" onerror="this.onerror=null;this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMjIwIj4KPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KPHN0b3Agb2Zmc2V0PSIwJSIgc3R5bGU9InN0b3AtY29sb3I6IzZjNWNlNyIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6I2EyOWJmZSIvPgo8L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIyMjAiIGZpbGw9InVybCgjZykiIHJ4PSIxMiIvPgo8dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjgiIGZvbnQtd2VpZ2h0PSI2MDAiCmZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC44NSkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuMzVlbSI+7Jew7JiIPC90ZXh0Pjwvc3ZnPg=='"></a>
+      </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">연예</span>
+          <span class="post-date" data-date="2026-04-02T20:05:57">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-한보배결혼.html">마수리 한보배 8년 열애 끝 결혼식 사진 공개와 축하 물결</a></h2>
+        <p class="post-summary">핵심 요약
+
+이번 소식은 현재 우리 사회와 정치권에서 가장 뜨거운 감자로 떠오른 주요 이슈이다.
+많은 국민의 관심이 집중되고 있으며, 각계각층에서 활발한 논의가 이루어지고 있다.
+특히 이번 사안이 가지는 사회적 의미와 향후 미칠 파장에 대한 분석이 중요하다.
+구체적인 사실관계와 데이터를 바탕으로 이슈의 본질을 정확히 들여...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+        <a href="2026-04-02-혁신당_시정연설_피켓팅.html"><img src="https://wimg.heraldcorp.com/content/default/2019/10/22/20191022000396_0.jpg" alt="조국혁신당 시정연설 피켓팅 예고에 국회 긴장감" loading="lazy" onerror="this.onerror=null;this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMjIwIj4KPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KPHN0b3Agb2Zmc2V0PSIwJSIgc3R5bGU9InN0b3AtY29sb3I6IzFhMWEyZSIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6IzE2MjEzZSIvPgo8L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIyMjAiIGZpbGw9InVybCgjZykiIHJ4PSIxMiIvPgo8dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjgiIGZvbnQtd2VpZ2h0PSI2MDAiCmZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC44NSkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuMzVlbSI+7KCV7LmYPC90ZXh0Pjwvc3ZnPg=='"></a>
+      </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">정치</span>
+          <span class="post-date" data-date="2026-04-02T20:05:57">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-혁신당_시정연설_피켓팅.html">조국혁신당 시정연설 피켓팅 예고에 국회 긴장감</a></h2>
+        <p class="post-summary">국회에서 또 한 번 여야 간의 팽팽한 대립이 예상됩니다. 조국혁신당이 대통령의 시정연설에 맞춰 피켓팅을 진행하겠다고 예고했기 때문인데요. 이에 대해 더불어민주당 측은 일단 하지 않을 것으로 예상한다며 신중한 입장을 보이고 있습니다.
+대통령의 연설이 예정된 자리에서 야당의 강력한 항의 퍼포먼스가 이어질지 아니면 원만한 진행...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+        <a href="2026-04-02-홍명보손흥민신뢰.html"><img src="https://img5.yna.co.kr/photo/yna/YH/2026/04/02/PYH2026040210470001300_P4.jpg" alt="홍명보 손흥민은 축구대표팀의 중심 한 번도 의심한 적 없어" loading="lazy" onerror="this.onerror=null;this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMjIwIj4KPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KPHN0b3Agb2Zmc2V0PSIwJSIgc3R5bGU9InN0b3AtY29sb3I6I2Q2MzAzMSIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6I2ZmNzY3NSIvPgo8L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIyMjAiIGZpbGw9InVybCgjZykiIHJ4PSIxMiIvPgo8dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjgiIGZvbnQtd2VpZ2h0PSI2MDAiCmZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC44NSkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuMzVlbSI+7Iqk7Y+s7LigPC90ZXh0Pjwvc3ZnPg=='"></a>
+      </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date" data-date="2026-04-02T20:05:57">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-홍명보손흥민신뢰.html">홍명보 손흥민은 축구대표팀의 중심 한 번도 의심한 적 없어</a></h2>
+        <p class="post-summary">핵심 요약
+
+이번 소식은 스포츠계에서 큰 화제가 되고 있는 주요 이슈를 담고 있다.
+팬들과 전문가들 사이에서 다양한 분석과 의견이 쏟아지고 있는 상황이다.
+특히 이번 사안이 향후 스포츠계에 미칠 영향에 대한 논의가 활발하다.
+구체적인 팩트와 수치를 통해 사건의 본질을 정확히 파악하는 것이 중요하다.
+독자 여러분이 궁금해할...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+        <a href="2026-04-02-화성FC유소년축구.html"><img src="https://cdn.footballist.co.kr/news/thumbnail/202604/208597_169049_422_v150.jpg" alt="벌써 5년' 화성FC 유소년 축구교실 2026 시즌 개막 결국 시작됐다" loading="lazy" onerror="this.onerror=null;this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMjIwIj4KPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KPHN0b3Agb2Zmc2V0PSIwJSIgc3R5bGU9InN0b3AtY29sb3I6I2Q2MzAzMSIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6I2ZmNzY3NSIvPgo8L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIyMjAiIGZpbGw9InVybCgjZykiIHJ4PSIxMiIvPgo8dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjgiIGZvbnQtd2VpZ2h0PSI2MDAiCmZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC44NSkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuMzVlbSI+7Iqk7Y+s7LigPC90ZXh0Pjwvc3ZnPg=='"></a>
+      </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date" data-date="2026-04-02T20:05:57">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-화성FC유소년축구.html">벌써 5년' 화성FC 유소년 축구교실 2026 시즌 개막 결국 시작됐다</a></h2>
+        <p class="post-summary">핵심 요약
+
+화성FC 유소년 축구교실이 창단 5주년을 맞아 2026 시즌 공식 개막을 알렸다.
+지역 내 초등학생을 대상으로 한 이번 프로그램은 역대 최대 규모인 300명이 참여한다.
+전직 프로 선수들로 구성된 코치진이 직접 기술 전수와 인성 교육을 병행한다.
+화성시는 이번 교실을 통해 제2의 손흥민을 발굴하겠다는 강력한 ...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+        <a href="2026-04-02-환율1550원돌파.html"><img src="https://i.ytimg.com/vi/C3L6OXv2RJw/sddefault.jpg" alt="환율 1550원 돌파 수입물가 비상 결국 1600원 가나" loading="lazy" onerror="this.onerror=null;this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMjIwIj4KPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KPHN0b3Agb2Zmc2V0PSIwJSIgc3R5bGU9InN0b3AtY29sb3I6IzBhM2Q2MiIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6IzNjNjM4MiIvPgo8L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIyMjAiIGZpbGw9InVybCgjZykiIHJ4PSIxMiIvPgo8dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjgiIGZvbnQtd2VpZ2h0PSI2MDAiCmZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC44NSkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuMzVlbSI+6rK97KCcPC90ZXh0Pjwvc3ZnPg=='"></a>
+      </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">경제</span>
+          <span class="post-date" data-date="2026-04-02T20:05:57">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-환율1550원돌파.html">환율 1550원 돌파 수입물가 비상 결국 1600원 가나</a></h2>
+        <p class="post-summary">핵심 요약
+원/달러 환율이 심리적 마지노선인 1550원을 돌파하며 외환 시장에 큰 충격을 주고 있다. 이는 글로벌 달러 강세와 국내 수출 부진이 겹친 결과로 수입 원가 상승에 따른 국내 소비자 물가 폭등 우려가 현실화되고 있다.
+
+사건/이슈 개요
+오늘 서울 외환시장에서 원/달러 환율은 개장 직후 가파르게 상승하여 1550...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+        <a href="2026-04-02-환율_1500원_투자팁.html"><img src="https://scs-phinf.pstatic.net/MjAyNjAzMjBfMzMg/MDAxNzczOTcyMjgwMzUz.fkNT5pPHOySD-ZIpW2k8PHqIFZcyhEdr-j5ZtHUbIG4g.mHfTFUIUEjZgaGCR2rAGEhd0DcXgA43zXC0onm92Fawg.PNG/ChatGPT_Image_2026%EB%85%84_3%EC%9B%94_20%EC%9D%BC_%EC%98%A4%EC%A0%84_11_01_19.png?type=w800" alt="환율 1500원 시대 투자자들이 꼭 챙겨야 할 포인트" loading="lazy" onerror="this.onerror=null;this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMjIwIj4KPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KPHN0b3Agb2Zmc2V0PSIwJSIgc3R5bGU9InN0b3AtY29sb3I6IzBhM2Q2MiIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6IzNjNjM4MiIvPgo8L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIyMjAiIGZpbGw9InVybCgjZykiIHJ4PSIxMiIvPgo8dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjgiIGZvbnQtd2VpZ2h0PSI2MDAiCmZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC44NSkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuMzVlbSI+6rK97KCcPC90ZXh0Pjwvc3ZnPg=='"></a>
+      </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">경제</span>
+          <span class="post-date" data-date="2026-04-02T20:05:57">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-환율_1500원_투자팁.html">환율 1500원 시대 투자자들이 꼭 챙겨야 할 포인트</a></h2>
+        <p class="post-summary">요즘 환율이 1500원 선을 넘나들면서 투자자분들의 고민이 깊어지고 있죠. 고환율 시대가 현실화된 지금 단순히 걱정만 하기보다는 상황에 맞는 투자 전략을 세우는 게 무엇보다 중요해 보입니다.
+우선 환율 변동에 민감한 종목들을 다시 한번 점검해볼 필요가 있습니다. 수출 비중이 높은 기업들에게는 기회가 될 수도 있지만 원자재...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+        <a href="2026-04-02-흰티셔츠스타일링.html"><img src="https://image.musinsa.com/mfile_s01/2021/03/10/59aa958b026e21766e8f27a1f265e037143004.jpg" alt="흰색 티셔츠 한 장으로 완성하는 8가지 스타일링 연출법" loading="lazy" onerror="this.onerror=null;this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMjIwIj4KPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KPHN0b3Agb2Zmc2V0PSIwJSIgc3R5bGU9InN0b3AtY29sb3I6I2UxNzA1NSIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6I2ZhYjFhMCIvPgo8L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIyMjAiIGZpbGw9InVybCgjZykiIHJ4PSIxMiIvPgo8dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjgiIGZvbnQtd2VpZ2h0PSI2MDAiCmZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC44NSkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuMzVlbSI+7Yyo7IWYPC90ZXh0Pjwvc3ZnPg=='"></a>
+      </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">패션</span>
+          <span class="post-date" data-date="2026-04-02T20:05:57">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-흰티셔츠스타일링.html">흰색 티셔츠 한 장으로 완성하는 8가지 스타일링 연출법</a></h2>
+        <p class="post-summary">누구나 옷장에 하나쯤은 가지고 있는 기본 아이템, 흰색 티셔츠는 계절과 유행을 타지 않는 최고의 패션 아이템입니다. 하지만 평범한 만큼 스타일리시하게 입기는 의외로 까다롭기도 하죠. 최근 베트남 매체에서 소개한 흰색 티셔츠 활용법 8가지는 시대를 초월하는 세련된 코디 팁을 담고 있습니다.
+가장 기본인 데님 팬츠와의 조합부...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+        <a href="2026-04-02-TSMC엔비디아생산.html"><img src="https://nimage.g-enews.com/phpwas/restmb_allidxmake.php?idx=5&simg=2025112108513403559fbbec65dfb210178127232.jpg" alt="TSMC 3나노 병목에 엔비디아 50시리즈 생산량 비상!" loading="lazy" onerror="this.onerror=null;this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMjIwIj4KPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KPHN0b3Agb2Zmc2V0PSIwJSIgc3R5bGU9InN0b3AtY29sb3I6IzA5ODRlMyIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6Izc0YjlmZiIvPgo8L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIyMjAiIGZpbGw9InVybCgjZykiIHJ4PSIxMiIvPgo8dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjgiIGZvbnQtd2VpZ2h0PSI2MDAiCmZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC44NSkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuMzVlbSI+SVQ8L3RleHQ+PC9zdmc+'"></a>
+      </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">IT</span>
+          <span class="post-date" data-date="2026-04-02T19:52:54">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-TSMC엔비디아생산.html">TSMC 3나노 병목에 엔비디아 50시리즈 생산량 비상!</a></h2>
+        <p class="post-summary">
+핵심 요약
+세계 최대 파운드리 업체인 TSMC의 생산 라인에 과부하가 걸리면서 엔비디아의 차세대 GPU '블랙웰'과 RTX 50 시리즈 생산 계획에 차질이 생겼다. 3나노 공정의 수율 안정화가 예상보다 늦어지고 있는 가운데 엔비디아가 시장 수요를 맞추기 위해 출하량을 조절하고 있다는 소식이 전해졌다. 이는 AI 가속기 ...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+        <a href="2026-04-02-iOS265베타1출시.html"><img src="https://i1.ruliweb.com/img/23/03/29/1872a6cee7753c872.jpeg" alt="애플 iOS 26.5 베타 1 전격 공개 시리 다중 명령과 보안 혁신" loading="lazy" onerror="this.onerror=null;this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMjIwIj4KPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KPHN0b3Agb2Zmc2V0PSIwJSIgc3R5bGU9InN0b3AtY29sb3I6IzA5ODRlMyIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6Izc0YjlmZiIvPgo8L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIyMjAiIGZpbGw9InVybCgjZykiIHJ4PSIxMiIvPgo8dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjgiIGZvbnQtd2VpZ2h0PSI2MDAiCmZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC44NSkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuMzVlbSI+SVQ8L3RleHQ+PC9zdmc+'"></a>
+      </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">IT</span>
+          <span class="post-date" data-date="2026-04-02T19:52:54">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-iOS265베타1출시.html">애플 iOS 26.5 베타 1 전격 공개 시리 다중 명령과 보안 혁신</a></h2>
+        <p class="post-summary">
+핵심 요약
+애플이 개발자를 대상으로 iOS 26.5의 첫 번째 베타 버전을 공식 배포했다. 이번 업데이트의 핵심은 인텔리전스 기능의 고도화로 요약된다. 특히 사용자들이 오랜 시간 기다려온 시리(Siri)의 다중 명령 처리 능력이 대폭 강화되었으며 개인정보 보호를 위한 AI 전용 보안 아키텍처인 프라이빗 클라우드 컴퓨팅(...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+        <a href="2026-04-02-광주최연소준프로.html"><img src="http://imgnews.naver.net/image/076/2016/07/25/2016072601001972500141681_99_20160725103204.jpg" alt="광주 FC의 미래, 만 16세 MF 박성현 '최연소 준프로' 계약 체결" loading="lazy" onerror="this.onerror=null;this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMjIwIj4KPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KPHN0b3Agb2Zmc2V0PSIwJSIgc3R5bGU9InN0b3AtY29sb3I6I2Q2MzAzMSIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6I2ZmNzY3NSIvPgo8L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIyMjAiIGZpbGw9InVybCgjZykiIHJ4PSIxMiIvPgo8dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjgiIGZvbnQtd2VpZ2h0PSI2MDAiCmZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC44NSkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuMzVlbSI+7Iqk7Y+s7LigPC90ZXh0Pjwvc3ZnPg=='"></a>
+      </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date" data-date="2026-04-02T19:52:54">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-광주최연소준프로.html">광주 FC의 미래, 만 16세 MF 박성현 '최연소 준프로' 계약 체결</a></h2>
+        <p class="post-summary">
+핵심 요약
+
+광주 FC가 팀 역사상 최연소인 만 16세 미드필더 박성현과 준프로 계약을 맺었다.
+박성현은 광주 유스팀인 금호고 소속으로 뛰어난 잠재력을 인정받은 유망주다.
+이번 계약은 광주의 유스 육성 시스템인 '광주형 화수분 축구'의 성과로 평가받는다.
+박성현은 탄탄한 기본기와 창의적인 패스 능력을 갖춘 공격형 미드필...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+        <a href="2026-04-02-국대오스트리아전패배.html"><img src="https://image.xportsnews.com/contents/images/upload/article/2025/0715/1752584681104909.jpg" alt="한국 축구, 오스트리아 원정 0-1 석패... 월드컵 전 마지막 모의고사 '숙제" loading="lazy" onerror="this.onerror=null;this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMjIwIj4KPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KPHN0b3Agb2Zmc2V0PSIwJSIgc3R5bGU9InN0b3AtY29sb3I6I2Q2MzAzMSIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6I2ZmNzY3NSIvPgo8L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIyMjAiIGZpbGw9InVybCgjZykiIHJ4PSIxMiIvPgo8dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjgiIGZvbnQtd2VpZ2h0PSI2MDAiCmZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC44NSkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuMzVlbSI+7Iqk7Y+s7LigPC90ZXh0Pjwvc3ZnPg=='"></a>
+      </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date" data-date="2026-04-02T19:52:54">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-국대오스트리아전패배.html">한국 축구, 오스트리아 원정 0-1 석패... 월드컵 전 마지막 모의고사 '숙제</a></h2>
+        <p class="post-summary">
+핵심 요약
+
+대한민국 축구 국가대표팀이 3월 31일(현지 시간) 오스트리아와의 친선경기에서 0-1로 패했다.
+후반 3분 마르셀 자비처에게 내준 선제골이 그대로 결승골이 되었다.
+손흥민, 이강인 등 정예 멤버가 총출동했으나 오스트리아의 견고한 수비를 뚫지 못했다.
+3월 A매치 2연전을 모두 패배로 마무리하며 월드컵 본선을...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+        <a href="2026-04-02-리니지클래식하이네.html"><img src="https://cdn.pgr21.com/pb/data/humor/14d23efe606690c94bbe315fa6455bf2.webp" alt="리니지 클래식 하이네 업데이트로 엔씨소프트 주가 반등하나?" loading="lazy" onerror="this.onerror=null;this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMjIwIj4KPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KPHN0b3Agb2Zmc2V0PSIwJSIgc3R5bGU9InN0b3AtY29sb3I6IzA5ODRlMyIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6Izc0YjlmZiIvPgo8L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIyMjAiIGZpbGw9InVybCgjZykiIHJ4PSIxMiIvPgo8dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjgiIGZvbnQtd2VpZ2h0PSI2MDAiCmZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC44NSkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuMzVlbSI+SVQ8L3RleHQ+PC9zdmc+'"></a>
+      </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">IT</span>
+          <span class="post-date" data-date="2026-04-02T19:52:54">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-리니지클래식하이네.html">리니지 클래식 하이네 업데이트로 엔씨소프트 주가 반등하나?</a></h2>
+        <p class="post-summary">
+핵심 요약
+엔씨소프트의 '리니지 클래식'이 신규 지역 '하이네' 업데이트 이후 폭발적인 이용자 유입과 매출 상승세를 기록하며 화려하게 부활했다. 수중 도시라는 독특한 컨셉과 과거의 향수를 자극하는 콘텐츠가 올드 게이머들의 마음을 완벽히 사로잡은 결과다. 이번 흥행이 최근 침체기를 겪던 엔씨소프트의 실적 개선과 주가 회복...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+        <a href="2026-04-02-베놈스틸러멀웨어.html"><img src="http://imgnews.naver.net/image/5016/2023/09/13/0000111574_001_20230913123801045.jpg" alt="베놈 스틸러' 멀웨어 확산 중! 스마트폰 보안 긴급 점검 필수" loading="lazy" onerror="this.onerror=null;this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMjIwIj4KPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KPHN0b3Agb2Zmc2V0PSIwJSIgc3R5bGU9InN0b3AtY29sb3I6IzA5ODRlMyIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6Izc0YjlmZiIvPgo8L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIyMjAiIGZpbGw9InVybCgjZykiIHJ4PSIxMiIvPgo8dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjgiIGZvbnQtd2VpZ2h0PSI2MDAiCmZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC44NSkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuMzVlbSI+SVQ8L3RleHQ+PC9zdmc+'"></a>
+      </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">IT</span>
+          <span class="post-date" data-date="2026-04-02T19:52:54">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-베놈스틸러멀웨어.html">베놈 스틸러' 멀웨어 확산 중! 스마트폰 보안 긴급 점검 필수</a></h2>
+        <p class="post-summary">
+핵심 요약
+최근 안드로이드 스마트폰을 겨냥한 신종 멀웨어 '베놈 스틸러(Venom Stealer)'가 전 세계적으로 빠르게 확산되며 사용자들의 개인정보를 위협하고 있다. 이 악성코드는 기존의 백신 프로그램을 우회하는 지능형 수법을 사용하며 은행 계좌 정보뿐만 아니라 암호화폐 지갑까지 탈취하는 것으로 확인됐다. 전문가들은...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+        <a href="2026-04-02-삼성3000승강민호2500경기.html"><img src="https://img1.newsis.com/2026/04/01/NISI20260401_0002100218_web.jpg" alt="삼성 라이온즈 통산 3000승 금자탑! 강민호 2500경기 출장 대기록까지 겹경사" loading="lazy" onerror="this.onerror=null;this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMjIwIj4KPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KPHN0b3Agb2Zmc2V0PSIwJSIgc3R5bGU9InN0b3AtY29sb3I6I2Q2MzAzMSIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6I2ZmNzY3NSIvPgo8L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIyMjAiIGZpbGw9InVybCgjZykiIHJ4PSIxMiIvPgo8dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjgiIGZvbnQtd2VpZ2h0PSI2MDAiCmZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC44NSkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuMzVlbSI+7Iqk7Y+s7LigPC90ZXh0Pjwvc3ZnPg=='"></a>
+      </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date" data-date="2026-04-02T19:52:54">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-삼성3000승강민호2500경기.html">삼성 라이온즈 통산 3000승 금자탑! 강민호 2500경기 출장 대기록까지 겹경사</a></h2>
+        <p class="post-summary">
+핵심 요약
+
+삼성 라이온즈가 KBO 리그 역사상 최초로 팀 통산 3,000승이라는 대기록을 달성했다.
+주전 포수 강민호는 역대 최초 2,500경기 출장이라는 전무후무한 기록을 세웠다.
+1일 잠실 두산전에서 승리하며 두 개의 대기록이 동시에 탄생하는 드라마를 썼다.
+삼성의 명문 구단 입지를 다시 한번 증명하는 계기가 되었...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+        <a href="2026-04-02-삼성AITV베트남.html"><img src="https://scs-phinf.pstatic.net/MjAyNDA0MTZfMTU2/MDAxNzEzMjY4MTE4NDk4.vewCk71m4iHTRS1j1HLGmsxr4JEoMOeVPfG8rxVAUx8g.TAWPB3slZHtEccIsY4gXIKgoLWhfKkno3wUVYSIbd4Ug.PNG/image.png?type=w800" alt="삼성 AI TV 베트남 1위 탈환 위해 2026년형 신모델 투입!" loading="lazy" onerror="this.onerror=null;this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMjIwIj4KPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KPHN0b3Agb2Zmc2V0PSIwJSIgc3R5bGU9InN0b3AtY29sb3I6IzA5ODRlMyIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6Izc0YjlmZiIvPgo8L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIyMjAiIGZpbGw9InVybCgjZykiIHJ4PSIxMiIvPgo8dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjgiIGZvbnQtd2VpZ2h0PSI2MDAiCmZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC44NSkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuMzVlbSI+SVQ8L3RleHQ+PC9zdmc+'"></a>
+      </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">IT</span>
+          <span class="post-date" data-date="2026-04-02T19:52:54">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-삼성AITV베트남.html">삼성 AI TV 베트남 1위 탈환 위해 2026년형 신모델 투입!</a></h2>
+        <p class="post-summary">
+핵심 요약
+삼성전자가 2026년형 최신 AI TV 라인업을 베트남 시장에 전격 출시하며 동남아시아 시장 공략에 박차를 가한다. 이번 신모델은 업그레이드된 NQ8 AI 프로세서를 탑재해 화질과 음향을 실시간으로 최적화하는 것은 물론 베트남어 전용 음성 인식 기능을 대폭 강화한 것이 특징이다. 가전 시장의 격전지로 떠오른 ...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+        <a href="2026-04-02-애플WWDC2026일정.html"><img src="https://underkg.co.kr:44391/files/attach/images/145/072/110/002/65edb0065304bf0db682dbcf1045a319.jpg" alt="애플 WWDC 2026 일정 발표! 6월 8일 'AI 시리' 공개 확정?" loading="lazy" onerror="this.onerror=null;this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMjIwIj4KPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KPHN0b3Agb2Zmc2V0PSIwJSIgc3R5bGU9InN0b3AtY29sb3I6IzA5ODRlMyIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6Izc0YjlmZiIvPgo8L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIyMjAiIGZpbGw9InVybCgjZykiIHJ4PSIxMiIvPgo8dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjgiIGZvbnQtd2VpZ2h0PSI2MDAiCmZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC44NSkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuMzVlbSI+SVQ8L3RleHQ+PC9zdmc+'"></a>
+      </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">IT</span>
+          <span class="post-date" data-date="2026-04-02T19:52:54">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-애플WWDC2026일정.html">애플 WWDC 2026 일정 발표! 6월 8일 'AI 시리' 공개 확정?</a></h2>
+        <p class="post-summary">
+핵심 요약
+애플이 전 세계 개발자들의 축제인 'WWDC 2026'을 오는 6월 8일부터 12일까지 개최한다고 공식 발표했다. 이번 행사의 최대 관전 포인트는 더욱 진화한 인공지능이 탑재된 iOS 20과 맥 OS의 변화다. 특히 단순한 답변을 넘어 사용자의 의도를 완벽히 파악해 실행까지 옮기는 차세대 '시리(Siri) A...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+        <a href="2026-04-02-애플시리다중명령.html"><img src="https://help.apple.com/assets/5C913108094622D50F674514/5C91310A094622D50F67451E/ko_KR/c78beac247e3f65fd11eb46f3d405d69.png" alt="애플 시리 다중 명령 처리 성공! 비서가 진짜 똑똑해졌다" loading="lazy" onerror="this.onerror=null;this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMjIwIj4KPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KPHN0b3Agb2Zmc2V0PSIwJSIgc3R5bGU9InN0b3AtY29sb3I6IzA5ODRlMyIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6Izc0YjlmZiIvPgo8L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIyMjAiIGZpbGw9InVybCgjZykiIHJ4PSIxMiIvPgo8dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjgiIGZvbnQtd2VpZ2h0PSI2MDAiCmZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC44NSkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuMzVlbSI+SVQ8L3RleHQ+PC9zdmc+'"></a>
+      </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">IT</span>
+          <span class="post-date" data-date="2026-04-02T19:52:54">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-애플시리다중명령.html">애플 시리 다중 명령 처리 성공! 비서가 진짜 똑똑해졌다</a></h2>
+        <p class="post-summary">
+핵심 요약
+애플이 차세대 인공지능 시리(Siri)의 다중 명령 처리 기능을 내부적으로 성공리에 시험 중인 것으로 알려졌다. 그동안 사용자가 한 번에 한 가지 질문만 던져야 했던 한계를 넘어 "오늘 날씨 알려주고 오후 3시 회의 취소한 뒤에 마트에 우유 사라고 메모해줘" 같은 복잡한 연속 명령을 완벽히 이해하고 수행하게 ...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+        <a href="2026-04-02-오후_MLB폰세부상와이스호투.html"><img src="https://dimg.donga.com/wps/NEWS/IMAGE/2003/05/09/6893841.1.jpg" alt="MLB 엇갈린 출발, 폰세 무릎 통증으로 이탈한 날 와이스는 무실점 호투" loading="lazy" onerror="this.onerror=null;this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMjIwIj4KPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KPHN0b3Agb2Zmc2V0PSIwJSIgc3R5bGU9InN0b3AtY29sb3I6I2Q2MzAzMSIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6I2ZmNzY3NSIvPgo8L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIyMjAiIGZpbGw9InVybCgjZykiIHJ4PSIxMiIvPgo8dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjgiIGZvbnQtd2VpZ2h0PSI2MDAiCmZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC44NSkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuMzVlbSI+7Iqk7Y+s7LigPC90ZXh0Pjwvc3ZnPg=='"></a>
+      </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date" data-date="2026-04-02T19:52:54">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-오후_MLB폰세부상와이스호투.html">MLB 엇갈린 출발, 폰세 무릎 통증으로 이탈한 날 와이스는 무실점 호투</a></h2>
+        <p class="post-summary">
+핵심 요약
+
+메이저리그(MLB) 개막 초반 한국계 및 관련 선수들의 희비가 극명하게 엇갈렸다.
+폰세는 경기 도중 심각한 무릎 통증을 호소하며 쓰러져 시즌 운용에 비상이 걸렸다.
+반면 와이스는 2이닝 동안 단 한 점도 내주지 않는 완벽한 투구로 팀의 기대를 모았다.
+전문가들은 폰세의 부상 정도에 따라 소속팀의 선발 로테이...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+        <a href="2026-04-02-이정후샌프란시스코호수비.html"><img src="https://mydaily.co.kr/photos/2025/04/21/2025042107471812284_l.jpg" alt="샌프란시스코 이정후 '미친 수비'! 몸 날려 팀 구한 '바람의 손자' 현지 극찬" loading="lazy" onerror="this.onerror=null;this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMjIwIj4KPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KPHN0b3Agb2Zmc2V0PSIwJSIgc3R5bGU9InN0b3AtY29sb3I6I2Q2MzAzMSIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6I2ZmNzY3NSIvPgo8L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIyMjAiIGZpbGw9InVybCgjZykiIHJ4PSIxMiIvPgo8dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjgiIGZvbnQtd2VpZ2h0PSI2MDAiCmZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC44NSkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuMzVlbSI+7Iqk7Y+s7LigPC90ZXh0Pjwvc3ZnPg=='"></a>
+      </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date" data-date="2026-04-02T19:52:54">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-이정후샌프란시스코호수비.html">샌프란시스코 이정후 '미친 수비'! 몸 날려 팀 구한 '바람의 손자' 현지 극찬</a></h2>
+        <p class="post-summary">
+핵심 요약
+
+샌프란시스코 자이언츠의 이정후가 샌디에이고전에서 실점을 막아내는 환상적인 호수비를 선보였다.
+5회말 안타성 타구를 몸을 날려 잡아내며 선발 투수의 어깨를 가볍게 했다.
+타격에서는 3타수 무안타 1볼넷으로 다소 아쉬웠으나, 수비력만큼은 메이저리그 최상위권임을 증명했다.
+현지 언론과 팬들은 이정후의 수비 범위를...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+        <a href="2026-04-02-인천Utd연승도전.html"><img src="http://imgnews.naver.net/image/657/2024/05/04/0000025571_003_20240504101405599.jpg" alt="무고사 앞세운 인천 Utd, 김천상무 꺾고 시즌 첫 2연승 노린다" loading="lazy" onerror="this.onerror=null;this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMjIwIj4KPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KPHN0b3Agb2Zmc2V0PSIwJSIgc3R5bGU9InN0b3AtY29sb3I6I2Q2MzAzMSIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6I2ZmNzY3NSIvPgo8L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIyMjAiIGZpbGw9InVybCgjZykiIHJ4PSIxMiIvPgo8dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjgiIGZvbnQtd2VpZ2h0PSI2MDAiCmZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC44NSkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuMzVlbSI+7Iqk7Y+s7LigPC90ZXh0Pjwvc3ZnPg=='"></a>
+      </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">스포츠</span>
+          <span class="post-date" data-date="2026-04-02T19:52:54">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-인천Utd연승도전.html">무고사 앞세운 인천 Utd, 김천상무 꺾고 시즌 첫 2연승 노린다</a></h2>
+        <p class="post-summary">
+핵심 요약
+
+인천 유나이티드가 4월 2일 홈에서 김천 상무를 상대로 K리그1 경기를 치른다.
+팀의 간판 공격수 무고사가 선발 출격해 득점포 가동을 예고했다.
+지난 경기 승리의 기세를 이어 시즌 첫 2연승 달성을 목표로 하고 있다.
+김천 상무는 군 팀 특유의 기동력과 조직력을 앞세워 인천의 공세를 막아낼 계획이다.
+인천은...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+        <a href="2026-04-02-중국메타마누스규제.html"><img src="https://img1.newsis.com/2025/03/07/NISI20250307_0001786217_web.jpg" alt="중국 메타의 AI 기업 마누스 인수 차단 시나리오? 빅테크 규제 확산" loading="lazy" onerror="this.onerror=null;this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMjIwIj4KPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KPHN0b3Agb2Zmc2V0PSIwJSIgc3R5bGU9InN0b3AtY29sb3I6IzA5ODRlMyIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6Izc0YjlmZiIvPgo8L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIyMjAiIGZpbGw9InVybCgjZykiIHJ4PSIxMiIvPgo8dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjgiIGZvbnQtd2VpZ2h0PSI2MDAiCmZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC44NSkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuMzVlbSI+SVQ8L3RleHQ+PC9zdmc+'"></a>
+      </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">IT</span>
+          <span class="post-date" data-date="2026-04-02T19:52:54">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-중국메타마누스규제.html">중국 메타의 AI 기업 마누스 인수 차단 시나리오? 빅테크 규제 확산</a></h2>
+        <p class="post-summary">
+핵심 요약
+중국 정부가 페이스북의 모기업 메타(Meta)가 추진 중인 혁신 AI 스타트업 '마누스(Manus)'의 인수에 대해 강력한 규제 가능성을 시사하며 글로벌 IT 업계에 파장이 일고 있다. 자국의 데이터 안보와 기술 유출 방지를 명분으로 내세운 이번 조치는 미국과 중국 간의 기술 패권 다툼이 AI 소프트웨어 분야...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+        <a href="2026-04-02-오후_대통령연설국힘반응.html"><img src="http://image.chosun.com/sitedata/image/201602/04/2016020400360_0.jpg" alt="대통령 연설 끝까지 자리 지킨 국힘 의원들, 악수하며 '민원' 봇물" loading="lazy" onerror="this.onerror=null;this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMjIwIj4KPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KPHN0b3Agb2Zmc2V0PSIwJSIgc3R5bGU9InN0b3AtY29sb3I6IzZjNzU3ZCIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6I2FkYjViZCIvPgo8L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIyMjAiIGZpbGw9InVybCgjZykiIHJ4PSIxMiIvPgo8dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjgiIGZvbnQtd2VpZ2h0PSI2MDAiCmZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC44NSkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuMzVlbSI+4YSM4YWl4Ya84YSO4YW1PC90ZXh0Pjwvc3ZnPg=='"></a>
+      </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">정치</span>
+          <span class="post-date" data-date="2026-04-02T19:49:25">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-오후_대통령연설국힘반응.html">대통령 연설 끝까지 자리 지킨 국힘 의원들, 악수하며 '민원' 봇물</a></h2>
+        <p class="post-summary">
+핵심 요약
+
+이 대통령의 국회 연설 현장에서 국민의힘 의원 전원이 끝까지 자리를 지키며 예우를 갖췄다.
+연설 종료 후 대통령은 퇴장하며 여당 의원들과 일일이 악수하며 인사를 나눴다.
+일부 의원들은 대통령과 악수하는 짧은 순간을 이용해 지역구 현안 등 '번개 민원'을 제기했다.
+야당의 항의와 고성 속에서도 여당은 결속된 ...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+        <a href="2026-04-02-오후_미우미우앞치마트렌드.html"><img src="https://cdn.eyesmag.com/content/uploads/sliderImages/2025/10/08/%EC%A0%9C%EB%AA%A9%20%EC%97%86%EC%9D%8C-3_0002_Sandra%20H%C3%BCller_Miu%20Miu%20SS26%20Dinner-95c94a5d-49de-401d-8777-a69f4d16d3d2.jpg" alt="2026-04-02 미우미우 앞치마 트렌드: 레이어드 패션의 새로운 공식" loading="lazy" onerror="this.onerror=null;this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMjIwIj4KPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KPHN0b3Agb2Zmc2V0PSIwJSIgc3R5bGU9InN0b3AtY29sb3I6IzZjNzU3ZCIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6I2FkYjViZCIvPgo8L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIyMjAiIGZpbGw9InVybCgjZykiIHJ4PSIxMiIvPgo8dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjgiIGZvbnQtd2VpZ2h0PSI2MDAiCmZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC44NSkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuMzVlbSI+4YSR4YWi4YSJ4YWn4YarPC90ZXh0Pjwvc3ZnPg=='"></a>
+      </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">패션</span>
+          <span class="post-date" data-date="2026-04-02T19:49:25">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-오후_미우미우앞치마트렌드.html">2026-04-02 미우미우 앞치마 트렌드: 레이어드 패션의 새로운 공식</a></h2>
+        <p class="post-summary">
+핵심 요약
+패션 하우스 미우미우(Miu Miu)가 2026년 런웨이를 통해 '앞치마(Apron)'를 활용한 파격적인 스타일링을 선보였다. 이는 단순한 작업복의 개념을 넘어 현대적인 레이어드 패션의 새로운 공식으로 자리매김하고 있다.
+사건/이슈 개요
+최근 파리에서 진행된 2026 S/S 컬렉션에서 미우미우는 '일상의 재해...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+        <a href="2026-04-02-오후_부산특별법지자체반발.html"><img src="http://imgnews.naver.net/image/421/2020/11/03/0004967205_001_20201103110405598.jpg" alt="부산 글로벌특별법 난색에 지자체·시민단체 집단 반발 조짐" loading="lazy" onerror="this.onerror=null;this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMjIwIj4KPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KPHN0b3Agb2Zmc2V0PSIwJSIgc3R5bGU9InN0b3AtY29sb3I6IzZjNzU3ZCIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6I2FkYjViZCIvPgo8L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIyMjAiIGZpbGw9InVybCgjZykiIHJ4PSIxMiIvPgo8dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjgiIGZvbnQtd2VpZ2h0PSI2MDAiCmZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC44NSkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuMzVlbSI+4YSJ4YWh4YSS4YWsPC90ZXh0Pjwvc3ZnPg=='"></a>
+      </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">사회</span>
+          <span class="post-date" data-date="2026-04-02T19:49:25">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-오후_부산특별법지자체반발.html">부산 글로벌특별법 난색에 지자체·시민단체 집단 반발 조짐</a></h2>
+        <p class="post-summary">
+핵심 요약
+
+이 대통령의 '부산 특별법 형평성' 발언 이후 부산 지역 시민단체와 지자체가 거세게 들고 일어났다.
+부산시청은 정부의 갑작스러운 입장 변화에 당혹감을 표하며 대책 마련에 부심하고 있다.
+시민단체들은 \"부산 엑스포 유치 실패 보상책마저 빼앗으려 한다\"며 강력한 장외 투쟁을 예고했다.
+지역 경제계는 특별법 ...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+        <a href="2026-04-02-오후_송언석매표추경비판.html"><img src="https://image.ytn.co.kr/general/jpg/2025/0619/202506191819557056_t.jpg" alt="송언석 \"李대통령 매표 추경 정치연설\" 강력 비판, 전쟁 핑계 삼나" loading="lazy" onerror="this.onerror=null;this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMjIwIj4KPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KPHN0b3Agb2Zmc2V0PSIwJSIgc3R5bGU9InN0b3AtY29sb3I6IzZjNzU3ZCIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6I2FkYjViZCIvPgo8L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIyMjAiIGZpbGw9InVybCgjZykiIHJ4PSIxMiIvPgo8dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjgiIGZvbnQtd2VpZ2h0PSI2MDAiCmZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC44NSkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuMzVlbSI+4YSM4YWl4Ya84YSO4YW1PC90ZXh0Pjwvc3ZnPg=='"></a>
+      </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">정치</span>
+          <span class="post-date" data-date="2026-04-02T19:49:25">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-오후_송언석매표추경비판.html">송언석 \"李대통령 매표 추경 정치연설\" 강력 비판, 전쟁 핑계 삼나</a></h2>
+        <p class="post-summary">
+핵심 요약
+
+국민의힘 송언석 의원이 이 대통령의 추경 관련 연설을 '매표 행위'라고 규정했다.
+이번 연설이 전쟁 상황을 핑계로 선거용 선심성 예산을 편성하려는 정치적 의도라고 비판했다.
+송 의원은 국가 재정 건전성을 무시한 채 선거를 앞두고 대규모 자금을 풀려 한다고 지적했다.
+여권 내부에서도 재정 부담에 대한 우려의 ...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+        <a href="2026-04-02-오후_이대통령부산특별법난색.html"><img src="https://ojsfile.ohmynews.com/CRI_T_IMG/2026/0402/A0003220698_T.jpg" alt="이 대통령 \"부산만 특별법?\" 난색 파장에 지자체 비상" loading="lazy" onerror="this.onerror=null;this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMjIwIj4KPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KPHN0b3Agb2Zmc2V0PSIwJSIgc3R5bGU9InN0b3AtY29sb3I6IzZjNzU3ZCIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6I2FkYjViZCIvPgo8L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIyMjAiIGZpbGw9InVybCgjZykiIHJ4PSIxMiIvPgo8dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjgiIGZvbnQtd2VpZ2h0PSI2MDAiCmZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC44NSkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuMzVlbSI+4YSM4YWl4Ya84YSO4YW1PC90ZXh0Pjwvc3ZnPg=='"></a>
+      </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">정치</span>
+          <span class="post-date" data-date="2026-04-02T19:49:25">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-오후_이대통령부산특별법난색.html">이 대통령 \"부산만 특별법?\" 난색 파장에 지자체 비상</a></h2>
+        <p class="post-summary">
+핵심 요약
+
+이 대통령이 '부산 글로벌특별법'에 대해 형평성 문제를 제기하며 사실상 난색을 표했다.
+부산 지역 정가와 시민단체는 대통령의 발언이 지역 균형 발전에 역행한다며 강력 반발하고 있다.
+대통령실은 특정 지역에만 특혜를 주는 입법은 헌법적 가치와 충돌할 수 있다는 논리를 펴고 있다.
+이번 발언으로 인해 여권 내 ...</p>
+      </div>
+    </article>
+    <article class="post-card">
+      <div class="post-thumb">
+        <a href="2026-04-02-오후_추경안여야대립심화.html"><img src="https://cdn.newsworker.co.kr/news/thumbnail/202506/384405_407363_410_v150.jpg" alt="추경안 둘러싼 여야 대립 심화, 경제적 폭풍 전야의 국회" loading="lazy" onerror="this.onerror=null;this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMjIwIj4KPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KPHN0b3Agb2Zmc2V0PSIwJSIgc3R5bGU9InN0b3AtY29sb3I6IzZjNzU3ZCIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6I2FkYjViZCIvPgo8L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIyMjAiIGZpbGw9InVybCgjZykiIHJ4PSIxMiIvPgo8dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjgiIGZvbnQtd2VpZ2h0PSI2MDAiCmZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC44NSkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuMzVlbSI+4YSA4YWn4Ya84YSM4YWmPC90ZXh0Pjwvc3ZnPg=='"></a>
+      </div>
+      <div class="post-info">
+        <div class="post-meta-top">
+          <span class="post-category">경제</span>
+          <span class="post-date" data-date="2026-04-02T19:49:25">2026-04-02</span>
+        </div>
+        <h2><a href="2026-04-02-오후_추경안여야대립심화.html">추경안 둘러싼 여야 대립 심화, 경제적 폭풍 전야의 국회</a></h2>
+        <p class="post-summary">
+핵심 요약
+
+정부의 대규모 추가경정예산(추경)안을 두고 여야가 타협점 없는 정면 충돌을 이어가고 있다.
+야당은 정부의 추경안이 '매표용'이라며 대폭 삭감을 주장하는 반면, 여당은 '민생 구제'를 위해 시급한 처리를 촉구하고 있다.
+경제 전문가들은 이번 추경이 인플레이션을 자극하고 국가 채무를 가중시킬 수 있다는 우려를 ...</p>
+      </div>
+    </article>
+      
+    <nav class="pagination-nav">
+      <ul class="pagination">
+        <li><a href="page-13.html">&laquo; 이전</a></li>
+<li><a href="index.html">1</a></li>
+<li><span class="page-dots">…</span></li>
+<li><a href="page-8.html">8</a></li>
+<li><a href="page-9.html">9</a></li>
+<li><a href="page-10.html">10</a></li>
+<li><a href="page-11.html">11</a></li>
+<li><a href="page-12.html">12</a></li>
+<li><a href="page-13.html">13</a></li>
+<li><span class="active">14</span></li>
+
+      </ul>
+    </nav>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 오늘의 뉴스 브리핑</p>
+    </div>
+  </footer>
+
+<script>
+(function(){
+  function relTime(dateStr){
+    var d = dateStr.includes('T') ? new Date(dateStr + '+09:00') : new Date(dateStr + 'T09:00:00+09:00');
+    var now = new Date();
+    var diff = Math.floor((now - d) / 1000);
+    if(diff < 0) return '';
+    if(diff < 60) return '방금 전';
+    if(diff < 3600) return Math.floor(diff/60) + '분 전';
+    if(diff < 86400) return Math.floor(diff/3600) + '시간 전';
+    if(diff < 604800) return Math.floor(diff/86400) + '일 전';
+    if(diff < 2592000) return Math.floor(diff/604800) + '주 전';
+    return '';
+  }
+  document.querySelectorAll('.post-date[data-date]').forEach(function(el){
+    var r = relTime(el.getAttribute('data-date'));
+    if(r) el.insertAdjacentHTML('afterend', '<span class="post-date-relative">' + r + '</span>');
+  });
+  document.querySelectorAll('time[datetime]').forEach(function(el){
+    var r = relTime(el.getAttribute('datetime'));
+    if(r) el.insertAdjacentHTML('afterend', '<span class="post-date-relative">' + r + '</span>');
+  });
+})();
+</script>
+</body>
+</html>

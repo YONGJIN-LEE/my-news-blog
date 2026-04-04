@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>애플 WWDC 2026 일정 발표 시리 2.0 기대감 — 오늘의 뉴스 브리핑</title>
+  <meta name="description" content="애플 WWDC 2026 일정 발표 시리 2.0 기대감">
+  <meta property="og:title" content="애플 WWDC 2026 일정 발표 시리 2.0 기대감 — 오늘의 뉴스 브리핑">
+  <meta property="og:description" content="애플 WWDC 2026 일정 발표 시리 2.0 기대감">
+  <meta property="og:image" content="http://imgnews.naver.net/image/5137/2025/12/18/0000230782_002_20251218113216413.png">
+  <meta property="og:type" content="article">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <style>/* ═══════════════════════════════════════════════════════════════
+   Apple-inspired News Blog — 오늘의 뉴스 브리핑
+   Clean, minimal, content-first design
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ─── Web Fonts ─── */
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* ─── Reset & Typography ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --black: #1d1d1f;
+  --gray-900: #2d2d2f;
+  --gray-700: #6e6e73;
+  --gray-500: #86868b;
+  --gray-300: #d2d2d7;
+  --gray-100: #f5f5f7;
+  --white: #ffffff;
+  --blue: #0071e3;
+  --blue-hover: #0077ed;
+  --max-width: 720px;
+  --font-sans: 'Pretendard Variable', 'Pretendard', 'Inter', -apple-system,
+               BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-sans);
+  line-height: 1.65;
+  color: var(--black);
+  background: var(--white);
+  letter-spacing: -0.01em;
+  word-break: keep-all;
+}
+
+a { color: var(--blue); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+img { max-width: 100%; height: auto; display: block; }
+
+/* ─── Navigation ─── */
+.site-header {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+}
+
+.site-header .container {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 22px;
+  height: 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.site-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--black);
+  letter-spacing: -0.01em;
+}
+
+.site-title:hover { text-decoration: none; }
+
+.site-header nav { display: flex; gap: 28px; }
+
+.site-header nav a {
+  font-size: 0.8rem;
+  color: var(--gray-700);
+  letter-spacing: -0.01em;
+  transition: color 0.2s;
+}
+
+.site-header nav a:hover { color: var(--black); text-decoration: none; }
+
+/* ─── Category Navigation ─── */
+.category-nav {
+  background: var(--gray-100);
+  border-bottom: 1px solid var(--gray-300);
+  position: sticky;
+  top: 48px;
+  z-index: 9998;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.category-nav::-webkit-scrollbar { display: none; }
+.category-nav { -ms-overflow-style: none; scrollbar-width: none; }
+
+.category-nav .container {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 22px;
+  display: flex;
+  gap: 4px;
+  height: 44px;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.category-nav a {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--gray-700);
+  padding: 6px 14px;
+  border-radius: 20px;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.category-nav a:hover {
+  color: var(--black);
+  background: rgba(0, 0, 0, 0.05);
+  text-decoration: none;
+}
+
+.category-nav a.active {
+  color: var(--white);
+  background: var(--black);
+}
+
+.category-nav a.active:hover {
+  color: var(--white);
+  background: var(--gray-900);
+}
+
+/* ─── Main Container ─── */
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 22px;
+}
+
+/* ─── Post List (Index Page) ─── */
+.post-list h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  margin: 56px 0 8px;
+  color: var(--black);
+}
+
+.post-list-subtitle {
+  font-size: 0.95rem;
+  color: var(--gray-500);
+  margin-bottom: 40px;
+}
+
+.post-card {
+  display: flex;
+  gap: 24px;
+  padding: 28px 0;
+  border-top: 1px solid var(--gray-300);
+  transition: opacity 0.2s;
+}
+
+.post-card:last-child { border-bottom: 1px solid var(--gray-300); }
+
+.post-card:hover { opacity: 0.85; }
+
+.post-thumb {
+  flex-shrink: 0;
+  width: 200px;
+  height: 134px;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.post-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.post-card:hover .post-thumb img { transform: scale(1.03); }
+
+.post-info { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+
+.post-meta-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.post-category {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--blue);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.post-date {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+.post-date-relative {
+  font-size: 0.72rem;
+  color: var(--blue);
+  font-weight: 500;
+  margin-left: 6px;
+}
+
+.post-meta .post-date-relative {
+  margin-left: 8px;
+  font-size: 0.82rem;
+}
+
+.post-info h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.45;
+  letter-spacing: -0.015em;
+  margin-bottom: 6px;
+}
+
+.post-info h2 a { color: var(--black); }
+.post-info h2 a:hover { color: var(--blue); text-decoration: none; }
+
+.post-summary {
+  font-size: 0.85rem;
+  color: var(--gray-700);
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ─── Featured Post (Top of list) ─── */
+.post-featured {
+  padding: 40px 0 32px;
+  border-bottom: 1px solid var(--gray-300);
+  margin-bottom: 8px;
+}
+
+.post-featured .featured-image {
+  width: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.post-featured .featured-image img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+}
+
+.post-featured h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.35;
+  margin-bottom: 8px;
+}
+
+.post-featured h2 a { color: var(--black); }
+.post-featured h2 a:hover { color: var(--blue); text-decoration: none; }
+
+/* ─── Single Post ─── */
+.post-single {
+  padding: 48px 0 64px;
+}
+
+.post-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.post-header .post-category {
+  font-size: 0.75rem;
+  display: inline-block;
+  margin-bottom: 12px;
+}
+
+.post-header h1 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.3;
+  color: var(--black);
+  margin-bottom: 16px;
+  word-break: keep-all;
+}
+
+.post-meta {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  align-items: center;
+  color: var(--gray-500);
+  font-size: 0.85rem;
+}
+
+.post-hero {
+  margin: 0 0 40px;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.post-hero img {
+  width: 100%;
+  max-height: 480px;
+  object-fit: cover;
+}
+
+/* ─── Post Content ─── */
+.post-content {
+  font-size: 1.05rem;
+  line-height: 1.85;
+  color: var(--gray-900);
+  word-break: keep-all;
+}
+
+.post-content h2 {
+  font-size: 1.45rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 48px 0 16px;
+  color: var(--black);
+}
+
+.post-content h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  margin: 36px 0 12px;
+  color: var(--black);
+}
+
+.post-content p {
+  margin: 16px 0;
+}
+
+.post-content ul, .post-content ol {
+  margin: 16px 0;
+  padding-left: 24px;
+}
+
+.post-content li {
+  margin: 8px 0;
+  line-height: 1.7;
+}
+
+.post-content strong {
+  font-weight: 600;
+  color: var(--black);
+}
+
+.post-content blockquote {
+  margin: 28px 0;
+  padding: 20px 24px;
+  background: var(--gray-100);
+  border-radius: 12px;
+  color: var(--gray-700);
+  font-size: 1rem;
+}
+
+.post-content img {
+  margin: 32px auto;
+  border-radius: 12px;
+}
+
+.post-content hr {
+  border: none;
+  height: 1px;
+  background: var(--gray-300);
+  margin: 40px 0;
+}
+
+/* ─── Tags ─── */
+.post-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.tag {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+.post-tags-footer {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--gray-300);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.post-tags-footer .tag {
+  background: var(--gray-100);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  color: var(--gray-700);
+  transition: background 0.2s;
+}
+
+.post-tags-footer .tag:hover {
+  background: var(--gray-300);
+  text-decoration: none;
+}
+
+/* ─── Post Navigation ─── */
+.post-nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 24px 0 48px;
+  font-size: 0.85rem;
+  border-top: 1px solid var(--gray-300);
+  margin-top: 32px;
+}
+
+.post-nav a { color: var(--blue); }
+
+/* ─── Footer ─── */
+.site-footer {
+  background: var(--gray-100);
+  border-top: 1px solid var(--gray-300);
+}
+
+.site-footer .container {
+  max-width: 980px;
+  padding: 20px 22px;
+  text-align: center;
+}
+
+.site-footer p {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+/* ─── Pagination ─── */
+.pagination-nav {
+  margin: 48px 0 24px;
+  text-align: center;
+}
+
+.pagination {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  list-style: none;
+  padding: 0;
+}
+
+.pagination li a, .pagination li span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 40px;
+  padding: 0 12px;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--gray-700);
+  transition: all 0.2s;
+}
+
+.pagination li a:hover {
+  background: var(--gray-100);
+  color: var(--black);
+  text-decoration: none;
+}
+
+.pagination li span.active {
+  background: var(--black);
+  color: var(--white);
+}
+
+.pagination .page-dots {
+  color: var(--gray-500);
+  min-width: 32px;
+  font-size: 0.9rem;
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 640px) {
+  .post-card {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .post-thumb {
+    width: 100%;
+    height: 200px;
+    border-radius: 12px;
+  }
+
+  .post-list h1 { font-size: 1.6rem; margin-top: 32px; }
+
+  .post-header h1 { font-size: 1.6rem; }
+
+  .post-single { padding: 32px 0 48px; }
+
+  .post-featured .featured-image img { height: 240px; }
+  .post-featured h2 { font-size: 1.3rem; }
+
+  .post-content { font-size: 1rem; }
+}
+</style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="index.html" class="site-title">오늘의 뉴스 브리핑</a>
+      <nav>
+        <a href="index.html">홈</a>
+      </nav>
+    </div>
+  </header>
+  
+  <nav class="category-nav">
+    <div class="container">
+      <a href="index.html">전체</a>
+        <a href="category-politics.html">정치</a>
+        <a href="category-society.html">사회</a>
+        <a href="category-economy.html">경제</a>
+        <a href="category-entertainment.html">연예</a>
+        <a href="category-life.html">생활</a>
+        <a href="category-it.html" class="active">IT</a>
+        <a href="category-sports.html">스포츠</a>
+        <a href="category-fashion.html">패션</a>
+        
+    </div>
+  </nav>
+  <main class="container">
+    <article class="post-single">
+      <header class="post-header">
+        <span class="post-category">IT</span>
+        <h1>애플 WWDC 2026 일정 발표 시리 2.0 기대감</h1>
+        <div class="post-meta">
+          <time datetime="2026-04-04">2026-04-04</time>
+          <div class="post-tags"></div>
+        </div>
+      </header>
+      
+      <div class="post-hero">
+        <img src="http://imgnews.naver.net/image/5137/2025/12/18/0000230782_002_20251218113216413.png" alt="애플 WWDC 2026 일정 발표 시리 2.0 기대감" loading="lazy" onerror="this.onerror=null;this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMjIwIj4KPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KPHN0b3Agb2Zmc2V0PSIwJSIgc3R5bGU9InN0b3AtY29sb3I6IzA5ODRlMyIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6Izc0YjlmZiIvPgo8L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIyMjAiIGZpbGw9InVybCgjZykiIHJ4PSIxMiIvPgo8dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjgiIGZvbnQtd2VpZ2h0PSI2MDAiCmZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC44NSkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuMzVlbSI+SVQ8L3RleHQ+PC9zdmc+'">
+      </div>
+      <div class="post-content">
+        <figure style="text-align:center;margin:32px 0;"><img src="http://imgnews.naver.net/image/5137/2025/12/18/0000230782_002_20251218113216413.png" alt="AI 지각생 애플…2026년 차세대 시리로 반격 나설까" style="max-width:100%;border-radius:12px;" loading="lazy"></figure>
+<h2>핵심 요약</h2>
+<p>애플이 2026년 세계 개발자 컨퍼런스(WWDC 2026)를 오는 6월 8일부터 12일까지 개최한다고 전격 발표했다. 2026년 4월 4일 공개된 이번 행사 일정과 함께 공개된 티저 이미지는 한층 진화된 인공지능(AI)을 암시하고 있어 전 세계의 이목이 집중되고 있다. 특히 이번 WWDC에서는 애플 인텔리전스의 정점이자 완전한 대화형 AI로 거듭난 '시리 2.0(Siri 2.0)'과 함께 iOS 20 등 차세대 운영체제가 공개될 것으로 보여 애플의 AI 대역전극이 시작될 것이라는 관측이 나온다.</p>
+<h2>사건 개요</h2>
+<p>애플은 4월 4일 오후 공식 홈페이지와 개발자 메일을 통해 WWDC 2026 개최 소식을 알렸다. 예년과 마찬가지로 온라인 중심의 행사로 진행되되 첫날 키노트에는 일부 개발자와 학생들을 애플 파크로 초청하는 오프라인 행사를 병행한다. 이번 컨퍼런스의 슬로건은 "Hello, Intelligence"로 정해졌으며 이는 작년에 선보인 애플 인텔리전스를 넘어선 본격적인 AI 생태계의 완성을 의미하는 것으로 풀이된다. 전 세계 애플 유저와 투자자들은 시리가 과연 챗GPT를 넘어선 진정한 개인 비서로 진화했을지에 대해 높은 기대감을 드러내고 있다.</p>
+<h2>상세 내용</h2>
+<h3>시리 2.0과 온디바이스 AI의 혁명적 진화</h3>
+<p>이번 WWDC의 최대 관전 포인트는 단연 '시리 2.0'이다. 애플은 그동안 준비해온 대규모 언어모델(LLM)을 시리에 전면 도입하여 사용자의 문맥을 완벽하게 이해하고 복잡한 명령도 수행할 수 있는 지능을 부여할 것으로 보인다. 시리 2.0은 단순히 정보를 검색하는 수준을 넘어 앱 간의 장벽을 허물고 사용자의 습관을 학습해 선제적인 제안을 하는 수준에 이를 것으로 예상된다. 특히 애플의 강력한 프라이버시 보호 기술을 바탕으로 모든 연산이 기기 내부에서 처리되는 '온디바이스 AI'의 정수를 보여줄 것이라는 전망이다.</p>
+<h3>iOS 20과 iPadOS 20 등 차세대 OS의 변화</h3>
+<p>WWDC 2026에서는 아이폰의 새로운 두뇌가 될 iOS 20도 공개된다. iOS 20은 AI 기능을 시스템 전체에 녹여내어 사진 편집 메시지 작성 일정 관리 등 일상의 모든 경험을 지능화할 계획이다. 또한 아이패드 OS 20은 강력한 M5 칩셋의 성능을 활용해 맥북에 준하는 멀티태스킹 기능과 전문적인 창작 도구들을 AI와 결합해 선보일 것으로 보인다. 맥OS(macOS)와 워치OS(watchOS) 비전OS(visionOS) 역시 애플 인텔리전스 생태계 안에서 더욱 긴밀하게 연결되어 사용자에게 끊김 없는 경험을 선사할 전망이다.</p>
+<h3>개발자를 위한 새로운 AI 개발 도구와 API 공개</h3>
+<p>애플은 개발자들이 자신의 앱에 손쉽게 애플 인텔리전스 기능을 통합할 수 있도록 새로운 SDK와 API를 대거 공개할 예정이다. 특히 시리와 앱 간의 연동을 강화하는 '시리 킷(SiriKit) 3.0'은 개발자들이 코드 몇 줄만으로 앱의 핵심 기능을 시리로 조작할 수 있게 해준다. 또한 엑스코드(Xcode)에 내장된 AI 코딩 어시스턴트 기능도 한층 강화되어 앱 개발 속도와 품질을 획기적으로 높여줄 것으로 기대된다. 애플은 이를 통해 전 세계 3,000만 명이 넘는 개발자들을 애플의 AI 생태계로 더욱 깊숙이 끌어들인다는 전략이다.</p>
+<h3>비전 프로의 대중화와 킬러 콘텐츠 발표</h3>
+<p>출시 2년 차를 맞이한 비전 프로(Vision Pro)를 위한 새로운 비전OS 업데이트와 전용 콘텐츠도 기대를 모은다. AI를 활용해 일반 영상을 3D 공간 영상으로 변환해 주는 기능이나 사용자의 아바타(Persona)를 더욱 실감 나게 표현해 주는 기술 등이 공개될 것으로 보인다. 또한 그동안 지적받았던 킬러 앱 부재 문제를 해결하기 위해 애플이 직접 제작한 대형 게임과 교육용 콘텐츠들도 WWDC 무대에 오를 가능성이 크다. 비전 프로가 단순한 신기한 기기를 넘어 실생활에 유용한 플랫폼으로 자리 잡을 수 있을지 이번 WWDC에서 판가름 날 것이다.</p>
+<h2>왜 주목받나</h2>
+<p>애플의 이번 행사는 AI 경쟁에서 다소 뒤처졌다는 시장의 우려를 씻어낼 수 있는 결정적인 기회다. 구글과 마이크로소프트가 이미 AI 시장을 선점한 상황에서 애플은 특유의 하드웨어와 소프트웨어 통합 능력 그리고 강력한 보안 정책을 무기로 '가장 쓸모 있는 AI'가 무엇인지 보여주려 하고 있다. 시리 2.0의 성패는 향후 애플의 10년 성장을 좌우할 핵심 변수이며 이는 아이폰 교체 수요를 자극해 애플의 실적 개선에도 큰 영향을 미칠 것으로 보인다.</p>
+<h2>전망</h2>
+<p>WWDC 2026 이후 애플의 모든 기기는 AI를 중심으로 재편될 것이다. 시리는 단순한 기능이 아니라 운영체제 그 자체가 될 것이며 이는 우리가 기기를 다루는 방식을 '터치'에서 '대화'로 바꾸는 변곡점이 될 전망이다. 또한 애플 인텔리전스를 활용한 유료 구독 서비스 등 새로운 수익 모델이 발표될 가능성도 제기된다. 행사 첫날 공개될 키노트는 애플의 미래 비전을 확인할 수 있는 역사적인 순간이 될 것이며 전 세계 테크 업계의 표준을 다시 한번 정의할 것으로 보인다.</p>
+<h2>마무리</h2>
+<p>애플 WWDC 2026은 "기술은 인간의 삶을 더 편하게 만들어야 한다"는 애플의 철학이 AI라는 새로운 옷을 입고 나타나는 자리가 될 것이다. 6월 8일 애플 파크에서 울려 퍼질 팀 쿡의 인사는 우리가 오랫동안 기다려온 똑똑하고 안전한 개인 AI 비서의 탄생을 알리는 서막이 될지도 모른다. 애플이 준비한 AI 대반격이 과연 전 세계 유저들의 마음을 사로잡을 수 있을지 6월의 뜨거운 열기만큼이나 WWDC에 대한 기대감이 달아오르고 있다.</p>
+      </div>
+      <footer class="post-footer">
+        <div class="post-tags-footer"></div>
+      </footer>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 오늘의 뉴스 브리핑</p>
+    </div>
+  </footer>
+
+<script>
+(function(){
+  function relTime(dateStr){
+    var d = dateStr.includes('T') ? new Date(dateStr + '+09:00') : new Date(dateStr + 'T09:00:00+09:00');
+    var now = new Date();
+    var diff = Math.floor((now - d) / 1000);
+    if(diff < 0) return '';
+    if(diff < 60) return '방금 전';
+    if(diff < 3600) return Math.floor(diff/60) + '분 전';
+    if(diff < 86400) return Math.floor(diff/3600) + '시간 전';
+    if(diff < 604800) return Math.floor(diff/86400) + '일 전';
+    if(diff < 2592000) return Math.floor(diff/604800) + '주 전';
+    return '';
+  }
+  document.querySelectorAll('.post-date[data-date]').forEach(function(el){
+    var r = relTime(el.getAttribute('data-date'));
+    if(r) el.insertAdjacentHTML('afterend', '<span class="post-date-relative">' + r + '</span>');
+  });
+  document.querySelectorAll('time[datetime]').forEach(function(el){
+    var r = relTime(el.getAttribute('datetime'));
+    if(r) el.insertAdjacentHTML('afterend', '<span class="post-date-relative">' + r + '</span>');
+  });
+})();
+</script>
+</body>
+</html>
