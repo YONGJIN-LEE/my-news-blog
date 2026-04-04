@@ -7,3 +7,5 @@ node_modules/
 .wrangler/
 public/
 resources/
+.wrangler/
+public/
