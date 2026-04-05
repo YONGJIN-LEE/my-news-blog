@@ -4,7 +4,7 @@ date: 2026-03-30T14:00:00+09:00
 slug: "2026-03-30-원필솔로앨범Unpiltered"
 category: ""
 tags: ["원필", "DAY6", "Unpiltered", "사랑병동", "원필솔로", "데이식스원필", "원필컴백", "K팝", "케이팝신보", "오늘발매"]
-thumbnail: "https://shop-phinf.pstatic.net/20260311_163/1773197869199MrNJI_JPEG/107330718305299436_22772488.JPG"
+thumbnail: "https://picsum.photos/seed/866/1200/630"
 description: "DAY6 원필 솔로앨범 Unpiltered 오늘 발매"
 draft: false
 ---
@@ -13,9 +13,6 @@ draft: false
 - 타이틀곡 '사랑병동' 포함 총 7트랙 수록, 전곡 작사·작곡 참여
 - 5월 1~3일 단독 콘서트 개최 예정
 
-
-
-![DAY6 원필 솔로앨범 Unpiltered 오늘 발매](https://shop-phinf.pstatic.net/20260311_163/1773197869199MrNJI_JPEG/107330718305299436_22772488.JPG)
 
 ##  사건/이슈 개요
 

@@ -4,7 +4,7 @@ date: 2026-03-30T14:00:00+09:00
 slug: "2026-03-30-아이린Biggest-Fan"
 category: ""
 tags: ["아이린", "레드벨벳아이린", "BiggestFan", "아이린정규1집", "아이린솔로", "레드벨벳", "오늘신보", "K팝", "케이팝", "아이린컴백"]
-thumbnail: "https://image.ytn.co.kr/general/jpg/2026/0330/202603301033112275_t.jpg"
+thumbnail: "https://picsum.photos/seed/8988/1200/630"
 description: "아이린 정규 1집 Biggest Fan 오늘 발매"
 draft: false
 ---
@@ -13,9 +13,6 @@ draft: false
 - 총 10트랙 수록, 타이틀곡 동명의 'Biggest Fan'은 밝고 에너지 넘치는 팝댄스 곡
 - 이전 미니앨범 《Like A Flower》(2024년 11월) 이후 약 1년 4개월 만의 컴백
 
-
-
-![아이린 정규 1집 Biggest Fan 오늘 발매](https://image.ytn.co.kr/general/jpg/2026/0330/202603301033112275_t.jpg)
 
 ##  사건/이슈 개요
 
