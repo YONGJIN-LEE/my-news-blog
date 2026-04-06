@@ -8,7 +8,11 @@ thumbnail: "https://image.ytn.co.kr/general/jpg/2026/0330/202603301033112275_t.j
 description: "아이린 정규 1집 Biggest Fan 오늘 발매"
 draft: false
 ---
+![레드벨벳 아이린, 천상계 비주얼](http://imgnews.naver.net/image/421/2019/04/24/0003956362_001_20190424191307872.jpg)
+
 ##  핵심 요약
+
+![[E포토]레드벨벳 아이린, '사랑스러운 하트'](http://imgnews.naver.net/image/416/2019/05/17/0000243927_001_20190517172910457.jpg)
 - 레드벨벳 아이린, 첫 정규 앨범 《Biggest Fan》 2026년 3월 30일 오후 6시 공개
 - 총 10트랙 수록, 타이틀곡 동명의 'Biggest Fan'은 밝고 에너지 넘치는 팝댄스 곡
 - 이전 미니앨범 《Like A Flower》(2024년 11월) 이후 약 1년 4개월 만의 컴백
@@ -16,10 +20,14 @@ draft: false
 
 ##  사건/이슈 개요
 
+![11화 제목에 숨은 의미는? -언어의 정원](https://img1.daumcdn.net/thumb/R1280x0.fjpg/?fname=http://t1.daumcdn.net/brunch/service/user/afY0/image/4yyWQbc_KCyLA8g2ThwYtOLyNZg.jpg)
+
 레드벨벳의 리더 아이린이 2026년 3월 30일 오후 6시, 솔로 첫 정규 앨범 《Biggest Fan》을 발매했습니다. 지난 2024년 11월 발매한 미니 1집 《Like A Flower》로 솔로 데뷔를 성공적으로 알린 이후, 약 1년 4개월 만에 더욱 완성도 높은 정규 앨범으로 돌아온 것입니다. 이번 앨범에는 타이틀곡 'Biggest Fan'을 포함한 총 10곡이 수록되어 있으며, 앨범 전반에 걸쳐 '자기 자신을 가장 열렬히 지지하는 존재가 되겠다'는 핵심 메시지를 담아냈습니다.
 
 
 ##  상세 내용
+
+![수록곡이 더 좋은 앨범처럼](https://img1.daumcdn.net/thumb/R1280x0.fjpg/?fname=http://t1.daumcdn.net/brunch/service/user/11dZ/image/5ltmPSJy-T03DCGKdisxuN5u3EE.jpg)
 
 ### 앨범 제목에 담긴 의미
 
@@ -35,6 +43,8 @@ draft: false
 
 
 ##  왜 주목받나?
+
+![베이비몬스터, 첫 월드투어 서울 콘서트서 '전원 솔로 무대' 예고](https://cphoto.asiae.co.kr/listimglink/1/2024122014022460926_1734670944.jpg)
 
 아이린은 레드벨벳의 대표적인 비주얼이자 리더로 오랜 시간 많은 사랑을 받아온 아티스트입니다. 솔로 데뷔 이후 처음 선보이는 정규 앨범인 만큼, 단순한 신보 발매를 넘어 아이린이 어떤 음악적 색깔을 가진 솔로 아티스트인지를 본격적으로 증명하는 무대로 평가받고 있습니다. K-팝 팬덤뿐 아니라 음악 팬 전반의 관심이 쏠리는 이유이기도 합니다.
 
