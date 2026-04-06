@@ -688,9 +688,9 @@ def build():
             "file_ctime": file_ctime,
         })
 
-    # md 파일 생성 시간 기준 역순 정렬 (최신 파일이 위)
-    # frontmatter date 기준 역순 정렬 (최신 날짜 우선), 같은 날짜면 파일 생성 시간 역순
-    posts.sort(key=lambda x: (x["date"][:10], x["file_ctime"]), reverse=True)
+    # frontmatter date 전체 기준 역순 정렬 (최신 날짜+시간대 우선)
+    # 같은 datetime이면 제목 가나다순
+    posts.sort(key=lambda x: (x["date"][:19], x["title"]), reverse=True)
 
     # ── 메인 페이지 (페이지네이션) ──
     import math
