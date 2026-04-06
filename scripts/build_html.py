@@ -8,9 +8,15 @@ content/posts/*.md → public/*.html
 import os
 import re
 import json
+import unicodedata
 from pathlib import Path
 from datetime import datetime
 from collections import defaultdict
+
+
+def nfc(s):
+    """한글 파일명/URL 정규화 (NFC 완성형)"""
+    return unicodedata.normalize("NFC", s) if isinstance(s, str) else s
 
 SCRIPT_DIR = Path(__file__).parent.resolve()
 BLOG_DIR = SCRIPT_DIR.parent
@@ -69,15 +75,32 @@ def md_to_html(text):
         elif stripped.startswith("# "):
             if in_ul: html_lines.append("</ul>"); in_ul = False
             html_lines.append(f'<h1>{inline_fmt(stripped[2:])}</h1>')
-        elif re.match(r"!\[([^\]]*)\]\(([^)]+)\)", stripped):
-            m = re.match(r"!\[([^\]]*)\]\(([^)]+)\)", stripped)
-            if in_ul: html_lines.append("</ul>"); in_ul = False
-            html_lines.append(
-                f'<figure style="text-align:center;margin:32px 0;">'
-                f'<img src="{m.group(2)}" alt="{m.group(1)}" '
-                f'style="max-width:100%;border-radius:12px;" loading="lazy">'
-                f'</figure>'
-            )
+        elif re.match(r"!\[", stripped):
+            # 이미지 마크다운: ![alt](url) — alt에 대괄호 포함 가능
+            m = re.match(r"!\[(.*?)\]\((\S+)\)", stripped)
+            if not m:
+                # 더 관대한 매칭: 마지막 ](url) 패턴
+                m = re.search(r"\]\((\S+)\)\s*$", stripped)
+                if m:
+                    alt = re.sub(r"^!\[", "", stripped[:m.start()]).rstrip("]")
+                    url = m.group(1)
+                else:
+                    alt = ""
+                    url = ""
+            else:
+                alt = m.group(1)
+                url = m.group(2)
+            if url and url.startswith("http"):
+                if in_ul: html_lines.append("</ul>"); in_ul = False
+                safe_alt = alt.replace('"', '&quot;')[:100]
+                html_lines.append(
+                    f'<figure style="text-align:center;margin:32px 0;">'
+                    f'<img src="{url}" alt="{safe_alt}" '
+                    f'style="max-width:100%;border-radius:12px;" loading="lazy">'
+                    f'</figure>'
+                )
+            else:
+                continue  # 잘못된 이미지 마크다운은 무시 (평문으로 출력 안 함)
         elif stripped.startswith("- "):
             if not in_ul:
                 html_lines.append("<ul>")
@@ -180,6 +203,19 @@ def category_nav_html(active_slug="all"):
   </nav>"""
 
 
+def popular_sidebar_html():
+    """인기글 사이드바 (전체 페이지 좌측, JS로 채움)"""
+    return """
+  <aside class="popular-sidebar" id="popularSidebar" aria-label="인기 게시물">
+    <div class="popular-sidebar-inner">
+      <h3 class="popular-title">🔥 인기 게시물</h3>
+      <ol class="popular-list" id="popularList">
+        <li class="popular-empty">아직 좋아요를 받은 글이 없어요.</li>
+      </ol>
+    </div>
+  </aside>"""
+
+
 def html_header(active_category="all"):
     return f"""
   <header class="site-header">
@@ -190,7 +226,8 @@ def html_header(active_category="all"):
       </nav>
     </div>
   </header>
-  {category_nav_html(active_category)}"""
+  {category_nav_html(active_category)}
+  {popular_sidebar_html()}"""
 
 
 def relative_time_script():
@@ -199,7 +236,7 @@ def relative_time_script():
 <script>
 (function(){
   function relTime(dateStr){
-    var d = new Date(dateStr + 'T09:00:00+09:00');
+    var d = dateStr.includes('T') ? new Date(dateStr + '+09:00') : new Date(dateStr + 'T09:00:00+09:00');
     var now = new Date();
     var diff = Math.floor((now - d) / 1000);
     if(diff < 0) return '';
@@ -218,6 +255,92 @@ def relative_time_script():
     var r = relTime(el.getAttribute('datetime'));
     if(r) el.insertAdjacentHTML('afterend', '<span class=\"post-date-relative\">' + r + '</span>');
   });
+
+  // ─── 인기 사이드바 로드 ───
+  var popList = document.getElementById('popularList');
+  function esc(s){return (s||'').replace(/[&<>\"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#39;'}[c];});}
+  function renderPopular(items){
+    if(!popList) return;
+    if(!items || !items.length){
+      popList.innerHTML = '<li class=\"popular-empty\">아직 좋아요를 받은 글이 없어요.</li>';
+      return;
+    }
+    popList.innerHTML = items.map(function(it, i){
+      var thumb = it.thumbnail ? '<img src=\"'+esc(it.thumbnail)+'\" alt=\"\" loading=\"lazy\" onerror=\"this.style.display=\\'none\\'\">' : '<div class=\"popular-thumb-ph\"></div>';
+      return '<li class=\"popular-item\">'
+        + '<a href=\"'+esc(it.slug)+'.html\">'
+        + '<span class=\"popular-rank\">'+(i+1)+'</span>'
+        + '<div class=\"popular-thumb\">'+thumb+'</div>'
+        + '<div class=\"popular-meta\">'
+        +   '<div class=\"popular-item-title\">'+esc(it.title)+'</div>'
+        +   '<div class=\"popular-item-likes\">👍 '+(it.likes||0)+'</div>'
+        + '</div>'
+        + '</a></li>';
+    }).join('');
+  }
+  function loadPopular(){
+    fetch('/api/popular?limit=10').then(function(r){return r.ok?r.json():[];}).then(renderPopular).catch(function(){});
+  }
+  loadPopular();
+
+  // ─── 좋아요/싫어요 ───
+  var reactEl = document.querySelector('.post-reactions');
+  if(reactEl){
+    var slug = reactEl.getAttribute('data-slug');
+    var storeKey = 'vote:' + slug;
+    function setCount(k,v){
+      var el = reactEl.querySelector('[data-count=\"'+k+'\"]');
+      if(el) el.textContent = v;
+    }
+    function markActive(){
+      var s = localStorage.getItem(storeKey);
+      reactEl.querySelector('.like-btn').classList.toggle('active', s==='like');
+      reactEl.querySelector('.dislike-btn').classList.toggle('active', s==='dislike');
+    }
+    function loadStats(){
+      fetch('/api/stats?slug=' + encodeURIComponent(slug))
+        .then(function(r){return r.ok?r.json():{likes:0,dislikes:0};})
+        .then(function(d){ setCount('likes', d.likes||0); setCount('dislikes', d.dislikes||0); })
+        .catch(function(){});
+    }
+    function vote(action){
+      var payload = {
+        slug: slug,
+        action: action,
+        title: reactEl.getAttribute('data-title'),
+        thumbnail: reactEl.getAttribute('data-thumbnail'),
+        category: reactEl.getAttribute('data-category')
+      };
+      fetch('/api/vote', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify(payload)
+      }).then(function(r){return r.ok?r.json():null;}).then(function(d){
+        if(!d) return;
+        setCount('likes', d.likes||0);
+        setCount('dislikes', d.dislikes||0);
+        loadPopular();
+      }).catch(function(){});
+    }
+    reactEl.querySelectorAll('.reaction-btn').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var action = btn.getAttribute('data-action');
+        var cur = localStorage.getItem(storeKey);
+        if(cur === action){
+          vote(action === 'like' ? 'unlike' : 'undislike');
+          localStorage.removeItem(storeKey);
+        } else {
+          if(cur === 'like') vote('unlike');
+          if(cur === 'dislike') vote('undislike');
+          vote(action);
+          localStorage.setItem(storeKey, action);
+        }
+        markActive();
+      });
+    });
+    markActive();
+    loadStats();
+  }
 })();
 </script>"""
 
@@ -246,16 +369,37 @@ def render_post(meta, body_html):
         except: tags = []
 
     tags_html = " ".join(f'<span class="tag">#{t}</span>' for t in tags) if tags else ""
-    tags_footer = " ".join(f'<a class="tag">#{t}</a>' for t in tags) if tags else ""
+    tags_footer = "".join(f'<a class="tag">#{t} </a>' for t in tags) if tags else ""
 
     # 카테고리 slug 찾기
     cat_slug = CATEGORY_TO_SLUG.get(category, "all")
+
+    slug = meta.get("slug", "").strip('"') or title
+    thumb_for_data = thumbnail or ""
 
     hero_src = thumbnail or placeholder_svg(category, 720, 360)
     hero_img = img_with_fallback(hero_src, title, category)
     hero = f"""
       <div class="post-hero">
         {hero_img}
+      </div>"""
+
+    reactions = f"""
+      <div class="post-reactions"
+           data-slug="{slug}"
+           data-title="{title}"
+           data-thumbnail="{thumb_for_data}"
+           data-category="{category}">
+        <button type="button" class="reaction-btn like-btn" data-action="like" aria-label="좋아요">
+          <span class="reaction-icon">👍</span>
+          <span class="reaction-label">좋아요</span>
+          <span class="reaction-count" data-count="likes">0</span>
+        </button>
+        <button type="button" class="reaction-btn dislike-btn" data-action="dislike" aria-label="싫어요">
+          <span class="reaction-icon">👎</span>
+          <span class="reaction-label">싫어요</span>
+          <span class="reaction-count" data-count="dislikes">0</span>
+        </button>
       </div>"""
 
     return f"""{html_head(f"{title} — {SITE_TITLE}", title, thumbnail, True)}
@@ -266,7 +410,9 @@ def render_post(meta, body_html):
         <span class="post-category">{category}</span>
         <h1>{title}</h1>
         <div class="post-meta">
-          <time datetime="{date_str}">{date_str}</time>
+          <div class="post-date-group">
+            <time datetime="{date_str}">{date_str}</time>
+          </div>
           <div class="post-tags">{tags_html}</div>
         </div>
       </header>
@@ -274,6 +420,7 @@ def render_post(meta, body_html):
       <div class="post-content">
         {body_html}
       </div>
+      {reactions}
       <footer class="post-footer">
         <div class="post-tags-footer">{tags_footer}</div>
       </footer>
@@ -324,6 +471,7 @@ def render_post_cards(posts, show_featured=True):
     cards = ""
     for i, p in enumerate(posts):
         date_val = p['date'][:10]
+        date_iso = p.get('date_iso', date_val)
         cat = p.get('category', '')
         thumb_src = p.get("thumbnail") or placeholder_svg(cat)
 
@@ -333,7 +481,7 @@ def render_post_cards(posts, show_featured=True):
     <article class="post-featured">
       <div class="post-meta-top">
         <span class="post-category">{cat}</span>
-        <span class="post-date" data-date="{date_val}">{date_val}</span>
+        <span class="post-date" data-date="{date_iso}">{date_val}</span>
       </div>
       <div class="featured-image">{img_tag}</div>
       <h2><a href="{p['slug']}.html">{p['title']}</a></h2>
@@ -349,7 +497,7 @@ def render_post_cards(posts, show_featured=True):
       <div class="post-info">
         <div class="post-meta-top">
           <span class="post-category">{cat}</span>
-          <span class="post-date" data-date="{date_val}">{date_val}</span>
+          <span class="post-date" data-date="{date_iso}">{date_val}</span>
         </div>
         <h2><a href="{p['slug']}.html">{p['title']}</a></h2>
         <p class="post-summary">{p.get('summary', '')}</p>
@@ -491,7 +639,22 @@ def build():
             continue
 
         body_html = md_to_html(body)
-        slug = meta.get("slug", md_file.stem).strip('"')
+        slug = nfc(meta.get("slug", md_file.stem).strip('"'))
+        meta["slug"] = slug  # 정규화된 값으로 갱신 (render_post가 재사용)
+
+        # 상세 페이지 히어로 이미지와 본문 첫 이미지 중복 제거
+        thumb_url = meta.get("thumbnail", "").strip().strip('"').strip("'")
+        if thumb_url:
+            # 1) 정확히 같은 src를 가진 figure 제거
+            body_html = re.sub(
+                r'<figure[^>]*>\s*<img[^>]*src="' + re.escape(thumb_url) + r'"[^>]*>\s*</figure>',
+                '', body_html, count=1
+            )
+            # 2) 폴백: 본문 맨 앞 figure가 동일 URL이면 제거
+            first_img = re.search(r'<figure[^>]*>\s*<img[^>]*src="([^"]+)"', body_html)
+            if first_img and first_img.group(1) == thumb_url:
+                body_html = re.sub(r'<figure[^>]*>\s*<img[^>]*>\s*</figure>', '', body_html, count=1)
+
         summary = re.sub(r"<[^>]+>", "", body_html)[:180] + "..."
 
         # 카테고리 정규화
@@ -510,9 +673,13 @@ def build():
         except AttributeError:
             file_ctime = stat.st_mtime
 
+        # ISO 포맷 타임스탬프 (상대시간 계산용)
+        ctime_iso = datetime.fromtimestamp(file_ctime).strftime("%Y-%m-%dT%H:%M:%S")
+
         posts.append({
             "title": meta.get("title", ""),
             "date": meta.get("date", ""),
+            "date_iso": ctime_iso,
             "category": display_cat,
             "cat_slug": cat_slug,
             "thumbnail": meta.get("thumbnail", ""),
@@ -522,7 +689,8 @@ def build():
         })
 
     # md 파일 생성 시간 기준 역순 정렬 (최신 파일이 위)
-    posts.sort(key=lambda x: x["file_ctime"], reverse=True)
+    # frontmatter date 기준 역순 정렬 (최신 날짜 우선), 같은 날짜면 파일 생성 시간 역순
+    posts.sort(key=lambda x: (x["date"][:10], x["file_ctime"]), reverse=True)
 
     # ── 메인 페이지 (페이지네이션) ──
     import math

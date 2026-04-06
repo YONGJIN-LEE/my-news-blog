@@ -198,72 +198,87 @@ def main():
 
         print(f"  [{fixed+failed+1}] {title[:45]}...", end=" ", flush=True)
 
-        img_url = ""
+        # 포스트당 최대 3개 이미지 수집 (중복 제거)
+        TARGET_IMAGES = 3
+        img_urls = []
 
-        # ── 방법 1: 네이버 뉴스 검색 → 기사 OG 이미지 ──
-        news_items = search_naver_news(query, display=5)
+        def add_image(url):
+            if url and is_valid_image(url) and url not in img_urls:
+                img_urls.append(url)
+                return True
+            return False
+
+        # ── 방법 1: 네이버 뉴스 검색 → 여러 기사의 OG 이미지 수집 ──
+        news_items = search_naver_news(query, display=8)
         for item in news_items:
-            # originallink 우선, 없으면 link
+            if len(img_urls) >= TARGET_IMAGES:
+                break
             article_url = item.get("originallink") or item.get("link", "")
             if not article_url:
                 continue
             og = extract_og_image(article_url)
-            if is_valid_image(og):
-                img_url = og
-                break
+            add_image(og)
             time.sleep(0.05)
 
-        # ── 방법 2: 네이버 이미지 검색 (폴백) ──
-        if not img_url:
-            img_items = search_naver_images(query, display=5)
+        # ── 방법 2: 네이버 이미지 검색 (부족분 채우기) ──
+        if len(img_urls) < TARGET_IMAGES:
+            img_items = search_naver_images(query, display=8)
             for item in img_items:
-                link = item.get("link", "")
-                if is_valid_image(link):
-                    img_url = link
+                if len(img_urls) >= TARGET_IMAGES:
                     break
+                add_image(item.get("link", ""))
 
-        # ── 방법 3: 키워드 줄여서 재시도 ──
-        if not img_url:
+        # ── 방법 3: 키워드 줄여서 재시도 (여전히 부족하면) ──
+        if len(img_urls) < TARGET_IMAGES:
             short_query = " ".join(query.split()[:3])
-            news_items2 = search_naver_news(short_query, display=3)
-            for item in news_items2:
-                article_url = item.get("originallink") or item.get("link", "")
-                if not article_url:
-                    continue
-                og = extract_og_image(article_url)
-                if is_valid_image(og):
-                    img_url = og
-                    break
+            if short_query and short_query != query:
+                news_items2 = search_naver_news(short_query, display=5)
+                for item in news_items2:
+                    if len(img_urls) >= TARGET_IMAGES:
+                        break
+                    article_url = item.get("originallink") or item.get("link", "")
+                    if not article_url:
+                        continue
+                    og = extract_og_image(article_url)
+                    add_image(og)
+                    time.sleep(0.05)
 
-        if not img_url:
+        if not img_urls:
             print("✗ 이미지 없음")
             failed += 1
             continue
 
         # ── 적용 ──
         new_content = content
+        thumb_url = img_urls[0]
 
-        # 1) 썸네일 업데이트
+        # 1) 썸네일 업데이트 (첫 번째 이미지)
         if not has_valid_thumb:
             new_content = re.sub(
                 r'thumbnail:\s*"[^"]*"',
-                f'thumbnail: "{img_url}"',
+                f'thumbnail: "{thumb_url}"',
                 new_content,
             )
 
-        # 2) 본문 이미지 삽입
+        # 2) 본문 이미지 삽입 — 여러 섹션에 분산
         if not has_body_image:
             sections = new_content.split("\n## ")
-            if len(sections) >= 3:
-                sections[1] = sections[1] + f"\n\n![{title}]({img_url})\n"
-                new_content = "\n## ".join(sections)
-            elif len(sections) >= 2:
-                sections[1] = sections[1] + f"\n\n![{title}]({img_url})\n"
+            # 본문에 넣을 이미지: 썸네일 포함 전부 (build_html.py가 중복 제거)
+            body_imgs = img_urls[:TARGET_IMAGES]
+
+            if len(sections) >= 2 and body_imgs:
+                # 각 이미지를 서로 다른 섹션에 배치 (섹션 1, 2, 3 ... 순서로)
+                max_insert = min(len(body_imgs), len(sections) - 1)
+                for i in range(max_insert):
+                    sec_idx = i + 1  # 섹션 1부터
+                    img = body_imgs[i]
+                    alt = f"{title}" if i == 0 else f"{title} 관련 이미지 {i+1}"
+                    sections[sec_idx] = sections[sec_idx] + f"\n\n![{alt}]({img})\n"
                 new_content = "\n## ".join(sections)
 
         md_file.write_text(new_content, encoding="utf-8")
         fixed += 1
-        print(f"✓ 완료")
+        print(f"✓ 완료 ({len(img_urls)}장)")
 
         # API 속도 제한 방지
         time.sleep(0.2)

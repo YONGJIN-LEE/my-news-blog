@@ -117,7 +117,8 @@ def parse_markdown(content):
     title = strip_emojis(title_match.group(1).strip()) if title_match else ""
 
     tags = []
-    tag_match = re.search(r"\*\*태그[:\s]*\*\*\s*(.+)$", content, re.MULTILINE)
+    # **태그:** 볼드 형식 또는 플레인 태그: 형식 둘 다 매칭
+    tag_match = re.search(r"^\s*\*{0,2}태그\s*:\s*\*{0,2}\s*(.+)$", content, re.MULTILINE)
     if tag_match:
         tags = re.findall(r"#(\S+)", tag_match.group(1))
 
@@ -245,7 +246,7 @@ def get_fallback_image(keyword):
 
 
 # ─── Hugo 포스트 생성 ─────────────────────────────────────────────────────────
-def create_hugo_post(md_path, with_images=False, naver_creds=(None, None)):
+def create_hugo_post(md_path, with_images=True, naver_creds=(None, None)):
     filename = md_path.name
     meta = parse_filename(filename)
 
@@ -254,32 +255,66 @@ def create_hugo_post(md_path, with_images=False, naver_creds=(None, None)):
     if not title:
         title = meta["keyword"]
 
-    # 이미지 가져오기
+    # ─── 기존 Hugo 포스트에 이미 네이버 이미지가 있으면 보존 ───
+    existing_thumbnail = ""
+    slug_check = re.sub(r"[^\w가-힣-]", "", meta["keyword"].replace(" ", "-"))
+    slug_check = f"{meta['date']}-{slug_check}"
+    existing_post = CONTENT_DIR / f"{slug_check}.md"
+    if existing_post.exists():
+        existing_content = existing_post.read_text(encoding="utf-8")
+        thumb_m = re.search(r'^thumbnail:\s*"([^"]*)"', existing_content, re.MULTILINE)
+        if thumb_m and thumb_m.group(1) and "picsum.photos" not in thumb_m.group(1):
+            existing_thumbnail = thumb_m.group(1)
+
+    # ─── 이미지 가져오기 (항상 시도) ───
     thumbnail = ""
     body_images = []
-    if with_images and naver_creds[0]:
+
+    # 1) 본문에 이미 삽입된 이미지 URL 추출
+    inline_imgs = re.findall(r"!\[[^\]]*\]\(([^)]+)\)", content)
+
+    # 2) 네이버 이미지 검색
+    if naver_creds and naver_creds[0]:
         keywords = extract_search_keywords(title, tags, content)
-        images = fetch_naver_images(keywords, naver_creds[0], naver_creds[1], count=3)
+        images = fetch_naver_images(keywords, naver_creds[0], naver_creds[1], count=5)
         if images:
             thumbnail = images[0]["url"]
             body_images = images
-        else:
-            thumbnail = get_fallback_image(meta["keyword"])
-    else:
-        thumbnail = get_fallback_image(meta["keyword"])
+
+    # 3) 본문 인라인 이미지가 있으면 활용
+    if not thumbnail and inline_imgs:
+        thumbnail = inline_imgs[0]
+
+    # 4) 기존 포스트의 thumbnail 보존
+    if not thumbnail and existing_thumbnail:
+        thumbnail = existing_thumbnail
+
+    # 5) 최후 수단: fallback (picsum 대신 빈 문자열로 — 플레이스홀더 SVG 사용)
+    if not thumbnail:
+        thumbnail = ""
 
     # 마크다운 정리
     content = strip_emojis(content)
     content = re.sub(r"^(#{2,3}\s+)소제목\s*\d+\s*[:：]\s*", r"\1", content, flags=re.MULTILINE)
     content = re.sub(r"^#\s+.+\n+", "", content, count=1)
-    content = re.sub(r"\*\*태그[:\s]*\*\*\s*.+$", "", content, flags=re.MULTILINE)
+    # **태그:** 볼드 형식 또는 플레인 태그: 형식 둘 다 제거
+    content = re.sub(r"^\s*\*{0,2}태그\s*:\s*\*{0,2}\s*.+$", "", content, flags=re.MULTILINE)
     content = re.sub(r"\n---\n", "\n", content)
 
-    # 이미지 마크다운 삽입
+    # 이미지 마크다운 삽입 (최소 2장)
     if body_images:
-        img_md = "\n".join(f'![{img["alt"]}]({img["url"]})' for img in body_images[:1])
-        # 첫 이미지를 본문 앞에 삽입
-        content = img_md + "\n\n" + content
+        # 첫 이미지: 본문 상단
+        first_img = f'![{body_images[0]["alt"]}]({body_images[0]["url"]})'
+        content = first_img + "\n\n" + content
+        # 두 번째 이미지: 본문 중간 (첫 ## 소제목 뒤)
+        if len(body_images) >= 2:
+            second_img = f'\n![{body_images[1]["alt"]}]({body_images[1]["url"]})\n'
+            h2_match = re.search(r"(^##\s+.+\n)", content, re.MULTILINE)
+            if h2_match:
+                pos = h2_match.end()
+                content = content[:pos] + second_img + content[pos:]
+            else:
+                content = content + "\n" + second_img
 
     # slug 생성
     slug = re.sub(r"[^\w가-힣-]", "", meta["keyword"].replace(" ", "-"))
