@@ -377,8 +377,8 @@ def render_post(meta, body_html):
     slug = meta.get("slug", "").strip('"') or title
     thumb_for_data = thumbnail or ""
 
-    hero_src = thumbnail or placeholder_svg(category, 720, 360)
-    hero_img = img_with_fallback(hero_src, title, category)
+    hero_src = thumbnail if thumbnail and thumbnail.startswith("http") else ""
+    hero_img = img_with_fallback(hero_src, title, category) if hero_src else ""
     hero = f"""
       <div class="post-hero">
         {hero_img}
@@ -460,10 +460,11 @@ fill="rgba(255,255,255,0.85)" text-anchor="middle" dy=".35em">{label}</text></sv
 
 
 def img_with_fallback(src, alt, category, loading="lazy", extra_class=""):
-    """이미지 태그 + onerror 폴백"""
-    fallback = placeholder_svg(category)
+    """이미지 태그 (플레이스홀더 없음 — 로드 실패 시 숨김)"""
+    if not src or src.startswith("data:"):
+        return ""
     cls = f' class="{extra_class}"' if extra_class else ''
-    return f'<img src="{src}" alt="{alt}" loading="{loading}"{cls} onerror="this.onerror=null;this.src=\'{fallback}\'">'
+    return f'<img src="{src}" alt="{alt}" loading="{loading}"{cls} onerror="this.style.display=\'none\'">'
 
 
 def render_post_cards(posts, show_featured=True):
@@ -473,27 +474,26 @@ def render_post_cards(posts, show_featured=True):
         date_val = p['date'][:10]
         date_iso = p.get('date_iso', date_val)
         cat = p.get('category', '')
-        thumb_src = p.get("thumbnail") or placeholder_svg(cat)
+        thumb_src = p.get("thumbnail") or ""
+        img_tag = img_with_fallback(thumb_src, p["title"], cat) if thumb_src else ""
 
         if i == 0 and show_featured:
-            img_tag = img_with_fallback(thumb_src, p["title"], cat)
+            featured_img = f'<div class="featured-image">{img_tag}</div>' if img_tag else ""
             cards += f"""
     <article class="post-featured">
       <div class="post-meta-top">
         <span class="post-category">{cat}</span>
         <span class="post-date" data-date="{date_iso}">{date_val}</span>
       </div>
-      <div class="featured-image">{img_tag}</div>
+      {featured_img}
       <h2><a href="{p['slug']}.html">{p['title']}</a></h2>
       <p class="post-summary">{p.get('summary', '')}</p>
     </article>"""
         else:
-            img_tag = img_with_fallback(thumb_src, p["title"], cat)
+            thumb_html = f'<div class="post-thumb"><a href="{p["slug"]}.html">{img_tag}</a></div>' if img_tag else ""
             cards += f"""
     <article class="post-card">
-      <div class="post-thumb">
-        <a href="{p['slug']}.html">{img_tag}</a>
-      </div>
+      {thumb_html}
       <div class="post-info">
         <div class="post-meta-top">
           <span class="post-category">{cat}</span>
