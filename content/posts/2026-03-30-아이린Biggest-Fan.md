@@ -8,7 +8,7 @@ thumbnail: "https://image.ytn.co.kr/general/jpg/2026/0330/202603301033112275_t.j
 description: "아이린 정규 1집 Biggest Fan 오늘 발매"
 draft: false
 ---
-![레드벨벳 아이린, 천상계 비주얼](http://imgnews.naver.net/image/421/2019/04/24/0003956362_001_20190424191307872.jpg)
+![레드벨벳 아이린, 천상계 비주얼](https://imgnews.naver.net/image/421/2019/04/24/0003956362_001_20190424191307872.jpg)
 
 ##  핵심 요약
 
