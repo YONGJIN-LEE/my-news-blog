@@ -152,3 +152,34 @@ my-blog/
 - **다크모드**: CSS 변수로 간단히 추가 가능
 - **댓글**: Disqus 또는 giscus(GitHub) 연동
 - **WordPress 전환**: 도메인 유지한 채 WordPress로 마이그레이션 가능
+
+## 프로덕션 빌드 환경변수
+
+`scripts/build_html.py`는 아래 환경변수를 읽어 프로덕션 메타·스크립트를 주입합니다. 배포 파이프라인/Cloudflare Pages 빌드 설정에 등록하세요.
+
+| 변수 | 예시 | 용도 |
+|------|------|------|
+| `BASE_URL` | `https://news.example.com` | canonical, OG URL, sitemap, RSS |
+| `ADSENSE_CLIENT` | `ca-pub-1234567890123456` | AdSense 기본 스크립트 로드 |
+| `ADSENSE_SLOT_TOP` | `1234567890` | 본문 상단 광고 슬롯 ID |
+| `ADSENSE_SLOT_BOTTOM` | `9876543210` | 본문 하단 광고 슬롯 ID |
+| `GA4_ID` | `G-XXXXXXXXXX` | Google Analytics 4 측정 ID |
+| `GOOGLE_SITE_VERIFICATION` | 토큰 문자열 | Search Console 소유 확인 |
+| `NAVER_SITE_VERIFICATION` | 토큰 문자열 | Naver Search Advisor 확인 |
+| `COOKIE_CONSENT` | `0` 으로 설정 시 비활성 (기본 활성) | 쿠키 동의 배너 |
+
+로컬 테스트 예:
+```bash
+BASE_URL=https://yourdomain.com GA4_ID=G-XXXX python3 scripts/build_html.py
+```
+
+## 정식 서비스 전환 전 추가 작업 체크리스트
+
+- [ ] `content/contact.md`의 `TODO@example.com` 실제 이메일로 교체
+- [ ] `static/images/` 하위에 `og-default.png`, `logo.png` 추가
+- [ ] `static/` 루트에 `favicon.ico`, `apple-touch-icon.png` 추가
+- [ ] `robots.txt`·`ads.txt`의 `yourdomain.com` 및 pub-ID 실제 값으로 교체
+- [ ] 기존 포스트의 외부 핫링크 이미지(예: dogdrip.net) 자체 자산으로 교체
+- [ ] 포스트 `category` 프론트매터 비어 있는 파일(`category: ""`) 일괄 채우기
+- [ ] Blogger/네이버/개인블로그 중 canonical 대상 1곳 지정
+- [ ] AdSense 신청 (운영 3~6개월, 포스트 품질 정비 후)

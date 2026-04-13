@@ -26,6 +26,20 @@ STATIC_DIR = BLOG_DIR / "static"
 CSS_FILE = STATIC_DIR / "css" / "style.css"
 
 SITE_TITLE = "오늘의 뉴스 브리핑"
+SITE_DESCRIPTION = "최신 뉴스를 빠르고 정확하게 전달합니다"
+SITE_AUTHOR = "용진"
+
+# ─── 프로덕션 설정 (환경변수로 오버라이드 가능) ─────────────────────
+# 배포 시 `BASE_URL=https://실제도메인 python3 scripts/build_html.py` 식으로 주입
+BASE_URL = os.environ.get("BASE_URL", "https://my-news-blog.pages.dev").rstrip("/")
+ADSENSE_CLIENT = os.environ.get("ADSENSE_CLIENT", "")           # 예: "ca-pub-1234567890123456"
+ADSENSE_SLOT_TOP = os.environ.get("ADSENSE_SLOT_TOP", "")       # 본문 상단 슬롯 ID
+ADSENSE_SLOT_BOTTOM = os.environ.get("ADSENSE_SLOT_BOTTOM", "") # 본문 하단 슬롯 ID
+GA4_ID = os.environ.get("GA4_ID", "")                           # 예: "G-XXXXXXXXXX"
+GOOGLE_SITE_VERIFICATION = os.environ.get("GOOGLE_SITE_VERIFICATION", "")
+NAVER_SITE_VERIFICATION = os.environ.get("NAVER_SITE_VERIFICATION", "")
+DEFAULT_OG_IMAGE = "/images/og-default.png"
+COOKIE_CONSENT = os.environ.get("COOKIE_CONSENT", "1") == "1"
 
 # 페이지당 게시물 수
 POSTS_PER_PAGE = 30
@@ -166,23 +180,93 @@ def get_css():
     return ""
 
 
-def html_head(title, description="", thumbnail="", is_article=False):
+def html_head(title, description="", thumbnail="", is_article=False, canonical_path="", article_meta=None):
+    """
+    article_meta: is_article=True일 때 JSON-LD 생성용
+      {"title","description","image","date_published","date_modified","url"}
+    """
     css = get_css()
     og_type = "article" if is_article else "website"
+    og_image = thumbnail if thumbnail else f"{BASE_URL}{DEFAULT_OG_IMAGE}"
+    canonical = f"{BASE_URL}{canonical_path}" if canonical_path else BASE_URL + "/"
+    desc = description or SITE_DESCRIPTION
+
+    verify_google = f'\n  <meta name="google-site-verification" content="{GOOGLE_SITE_VERIFICATION}">' if GOOGLE_SITE_VERIFICATION else ""
+    verify_naver = f'\n  <meta name="naver-site-verification" content="{NAVER_SITE_VERIFICATION}">' if NAVER_SITE_VERIFICATION else ""
+
+    ga_snippet = ""
+    if GA4_ID:
+        ga_snippet = f"""
+  <script async src="https://www.googletagmanager.com/gtag/js?id={GA4_ID}"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){{dataLayer.push(arguments);}}
+    gtag('js', new Date());
+    gtag('config', '{GA4_ID}', {{ 'anonymize_ip': true }});
+  </script>"""
+
+    adsense_snippet = ""
+    if ADSENSE_CLIENT:
+        adsense_snippet = f"""
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={ADSENSE_CLIENT}" crossorigin="anonymous"></script>"""
+
+    jsonld = ""
+    if is_article and article_meta:
+        am = article_meta
+        jsonld_obj = {
+            "@context": "https://schema.org",
+            "@type": "NewsArticle",
+            "headline": am.get("title", ""),
+            "description": am.get("description", desc),
+            "image": am.get("image", og_image),
+            "datePublished": am.get("date_published", ""),
+            "dateModified": am.get("date_modified", am.get("date_published", "")),
+            "author": {"@type": "Person", "name": SITE_AUTHOR},
+            "publisher": {
+                "@type": "Organization",
+                "name": SITE_TITLE,
+                "logo": {"@type": "ImageObject", "url": f"{BASE_URL}/images/logo.png"}
+            },
+            "mainEntityOfPage": {"@type": "WebPage", "@id": am.get("url", canonical)}
+        }
+        jsonld = f'\n  <script type="application/ld+json">{json.dumps(jsonld_obj, ensure_ascii=False)}</script>'
+    elif not is_article:
+        jsonld_obj = {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": SITE_TITLE,
+            "url": BASE_URL + "/",
+            "description": SITE_DESCRIPTION,
+            "inLanguage": "ko-KR"
+        }
+        jsonld = f'\n  <script type="application/ld+json">{json.dumps(jsonld_obj, ensure_ascii=False)}</script>'
+
     return f"""<!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{title}</title>
-  <meta name="description" content="{description}">
+  <meta name="description" content="{desc}">
+  <meta name="author" content="{SITE_AUTHOR}">
+  <link rel="canonical" href="{canonical}">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="alternate" type="application/rss+xml" title="{SITE_TITLE}" href="{BASE_URL}/rss.xml">{verify_google}{verify_naver}
+  <meta property="og:site_name" content="{SITE_TITLE}">
   <meta property="og:title" content="{title}">
-  <meta property="og:description" content="{description}">
-  {"" if not thumbnail else f'<meta property="og:image" content="{thumbnail}">'}
+  <meta property="og:description" content="{desc}">
+  <meta property="og:url" content="{canonical}">
+  <meta property="og:image" content="{og_image}">
   <meta property="og:type" content="{og_type}">
+  <meta property="og:locale" content="ko_KR">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{title}">
+  <meta name="twitter:description" content="{desc}">
+  <meta name="twitter:image" content="{og_image}">{jsonld}
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>{ga_snippet}{adsense_snippet}
   <style>{css}</style>
 </head>
 <body>"""
@@ -220,9 +304,11 @@ def html_header(active_category="all"):
     return f"""
   <header class="site-header">
     <div class="container">
-      <a href="index.html" class="site-title">{SITE_TITLE}</a>
-      <nav>
-        <a href="index.html">홈</a>
+      <a href="/" class="site-title">{SITE_TITLE}</a>
+      <nav class="site-nav">
+        <a href="/">홈</a>
+        <a href="/about.html">소개</a>
+        <a href="/contact.html">문의</a>
       </nav>
     </div>
   </header>
@@ -346,15 +432,134 @@ def relative_time_script():
 
 
 def html_footer():
+    cookie_banner = ""
+    if COOKIE_CONSENT:
+        cookie_banner = """
+  <div id="cookie-consent" class="cookie-consent" hidden>
+    <div class="cookie-consent__inner">
+      <p>본 사이트는 이용자 경험 개선과 분석, 광고 목적을 위해 쿠키를 사용합니다.
+        자세한 내용은 <a href="/privacy.html">개인정보처리방침</a>을 확인해 주세요.</p>
+      <div class="cookie-consent__actions">
+        <button type="button" id="cookie-accept" class="btn btn-primary">동의</button>
+        <a href="/privacy.html" class="btn btn-ghost">자세히</a>
+      </div>
+    </div>
+  </div>
+  <script>
+  (function () {
+    var KEY = 'cookieConsent.v1';
+    var banner = document.getElementById('cookie-consent');
+    if (!banner) return;
+    try { if (localStorage.getItem(KEY) === 'accepted') return; } catch (e) {}
+    banner.hidden = false;
+    document.getElementById('cookie-accept').addEventListener('click', function () {
+      try { localStorage.setItem(KEY, 'accepted'); } catch (e) {}
+      banner.hidden = true;
+    });
+  })();
+  </script>"""
     return f"""
   <footer class="site-footer">
     <div class="container">
-      <p>&copy; {datetime.now().year} {SITE_TITLE}</p>
+      <nav class="footer-nav">
+        <a href="/about.html">소개</a>
+        <a href="/privacy.html">개인정보처리방침</a>
+        <a href="/disclaimer.html">면책조항</a>
+        <a href="/contact.html">문의</a>
+        <a href="/rss.xml">RSS</a>
+      </nav>
+      <p class="footer-copy">&copy; {datetime.now().year} {SITE_TITLE}. All rights reserved.</p>
+      <p class="footer-note">본 사이트는 공개 보도 자료를 종합한 뉴스 브리핑입니다. 자세한 내용은 <a href="/disclaimer.html">면책조항</a>을 참고하세요.</p>
     </div>
-  </footer>
+  </footer>{cookie_banner}
 {relative_time_script()}
 </body>
 </html>"""
+
+
+def ad_slot_html(slot_id):
+    """AdSense 슬롯 렌더링 (client/slot 미설정 시 빈 문자열)."""
+    if not (ADSENSE_CLIENT and slot_id):
+        return ""
+    return f"""
+      <div class="ad-slot">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="{ADSENSE_CLIENT}"
+             data-ad-slot="{slot_id}"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({{}});</script>
+      </div>"""
+
+
+def render_static_page(meta, body_html, slug):
+    """about/privacy/contact/disclaimer 같은 content/*.md 렌더링."""
+    title = meta.get("title", slug)
+    desc = meta.get("description", "") or SITE_DESCRIPTION
+    return f"""{html_head(f"{title} — {SITE_TITLE}", desc, "", False, f"/{slug}.html")}
+{html_header("all")}
+  <main class="container">
+    <article class="post-single static-page">
+      <header class="post-header">
+        <h1>{title}</h1>
+      </header>
+      <div class="post-content">
+        {body_html}
+      </div>
+    </article>
+  </main>
+{html_footer()}"""
+
+
+def render_sitemap(posts, static_slugs):
+    from datetime import timezone
+    now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    urls = [f"{BASE_URL}/"]
+    for s in static_slugs:
+        urls.append(f"{BASE_URL}/{s}.html")
+    for cs in CATEGORIES:
+        if cs == "all":
+            continue
+        urls.append(f"{BASE_URL}/category-{cs}.html")
+    for p in posts:
+        urls.append(f"{BASE_URL}/{p['slug']}.html")
+    items = "\n".join(
+        f"  <url><loc>{u}</loc><lastmod>{now}</lastmod></url>" for u in urls
+    )
+    return f"""<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+{items}
+</urlset>
+"""
+
+
+def render_rss(posts, limit=30):
+    from email.utils import format_datetime
+    from datetime import timezone
+    now = format_datetime(datetime.now(timezone.utc))
+    items_xml = []
+    for p in posts[:limit]:
+        link = f"{BASE_URL}/{p['slug']}.html"
+        title = p.get("title", "").replace("&", "&amp;").replace("<", "&lt;")
+        desc = (p.get("summary", "") or "").replace("&", "&amp;").replace("<", "&lt;")
+        items_xml.append(
+            f"    <item><title>{title}</title><link>{link}</link>"
+            f"<guid>{link}</guid><description>{desc}</description></item>"
+        )
+    items = "\n".join(items_xml)
+    return f"""<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>{SITE_TITLE}</title>
+    <link>{BASE_URL}/</link>
+    <description>{SITE_DESCRIPTION}</description>
+    <language>ko-KR</language>
+    <lastBuildDate>{now}</lastBuildDate>
+{items}
+  </channel>
+</rss>
+"""
 
 
 def render_post(meta, body_html):
@@ -402,7 +607,19 @@ def render_post(meta, body_html):
         </button>
       </div>"""
 
-    return f"""{html_head(f"{title} — {SITE_TITLE}", title, thumbnail, True)}
+    canonical_path = f"/{slug}.html"
+    article_meta = {
+        "title": title,
+        "description": (meta.get("description") or title),
+        "image": thumbnail or f"{BASE_URL}{DEFAULT_OG_IMAGE}",
+        "date_published": meta.get("date", ""),
+        "date_modified": meta.get("date", ""),
+        "url": f"{BASE_URL}{canonical_path}",
+    }
+    ad_top = ad_slot_html(ADSENSE_SLOT_TOP)
+    ad_bottom = ad_slot_html(ADSENSE_SLOT_BOTTOM)
+
+    return f"""{html_head(f"{title} — {SITE_TITLE}", meta.get("description", title), thumbnail, True, canonical_path, article_meta)}
 {html_header(cat_slug)}
   <main class="container">
     <article class="post-single">
@@ -417,12 +634,15 @@ def render_post(meta, body_html):
         </div>
       </header>
       {hero}
+      {ad_top}
       <div class="post-content">
         {body_html}
       </div>
+      {ad_bottom}
       {reactions}
       <footer class="post-footer">
         <div class="post-tags-footer">{tags_footer}</div>
+        <p class="post-disclaimer">본 기사는 공개 보도를 종합한 뉴스 브리핑입니다. 정정 요청은 <a href="/contact.html">문의</a>로 접수해 주세요.</p>
       </footer>
     </article>
   </main>
@@ -569,7 +789,8 @@ def render_index(posts, page=1, total_pages=1):
     if page > 1:
         subtitle = f"전체 {len(posts)}개 게시물 — {page}/{total_pages} 페이지"
 
-    return f"""{html_head(SITE_TITLE, "최신 뉴스를 빠르고 정확하게")}
+    canonical_path = "/" if page == 1 else f"/page-{page}.html"
+    return f"""{html_head(SITE_TITLE, SITE_DESCRIPTION, "", False, canonical_path)}
 {html_header("all")}
   <main class="container">
     <div class="post-list">
@@ -596,7 +817,8 @@ def render_category_page(cat_slug, cat_name, all_posts, page=1, total_pages=1):
     if page > 1:
         subtitle = f"{cat_name} 관련 뉴스 {count}건 — {page}/{total_pages} 페이지"
 
-    return f"""{html_head(f"{cat_name} — {SITE_TITLE}", f"{cat_name} 카테고리 뉴스")}
+    canonical_path = f"/category-{cat_slug}.html" if page == 1 else f"/category-{cat_slug}-page-{page}.html"
+    return f"""{html_head(f"{cat_name} — {SITE_TITLE}", f"{cat_name} 카테고리 뉴스", "", False, canonical_path)}
 {html_header(cat_slug)}
   <main class="container">
     <div class="post-list">
@@ -619,9 +841,18 @@ def build():
 
     PUBLIC_DIR.mkdir(parents=True, exist_ok=True)
 
+    # 이전 빌드 산출물 정리: 소스(.md)가 사라진 .html이 public/에 누적되면
+    # 잘못된 src(http://) 등을 영구적으로 들고 가게 된다. 매 빌드마다 정리.
+    import shutil
+    for f in PUBLIC_DIR.iterdir():
+        if f.is_file() and f.suffix in {".html", ".xml"}:
+            f.unlink()
+        elif f.is_dir() and f.name not in {"static", "assets"}:
+            # 카테고리 페이지(politics/ 등) 같은 디렉토리도 재생성 대상
+            shutil.rmtree(f, ignore_errors=True)
+
     # static 복사
     if STATIC_DIR.exists():
-        import shutil
         for src in STATIC_DIR.rglob("*"):
             if src.is_file():
                 dest = PUBLIC_DIR / src.relative_to(STATIC_DIR)
@@ -638,12 +869,22 @@ def build():
         if meta.get("draft") == "true":
             continue
 
+        # 방어 차원: body 내 모든 이미지 마크다운의 http://를 https://로 강제 변환
+        # (mixed content 차단으로 인한 썸네일 손실 방지)
+        body = re.sub(r'(!\[[^\]]*\]\()http://', r'\1https://', body)
+
         body_html = md_to_html(body)
+        # 빌드된 HTML에서도 혹시 남아있을 수 있는 http://image 도 https로 변환
+        body_html = re.sub(r'(<img[^>]*\ssrc=")http://', r'\1https://', body_html)
+
         slug = nfc(meta.get("slug", md_file.stem).strip('"'))
         meta["slug"] = slug  # 정규화된 값으로 갱신 (render_post가 재사용)
 
         # 상세 페이지 히어로 이미지와 본문 첫 이미지 중복 제거
         thumb_url = meta.get("thumbnail", "").strip().strip('"').strip("'")
+        if thumb_url.startswith("http://"):
+            thumb_url = "https://" + thumb_url[len("http://"):]
+            meta["thumbnail"] = thumb_url
         if thumb_url:
             # 1) 정확히 같은 src를 가진 figure 제거
             body_html = re.sub(
@@ -723,6 +964,30 @@ def build():
             out_path.write_text(cat_html, encoding="utf-8")
         print(f"  카테고리 [{cat_name}]: {len(cat_page_posts)}개 ({total_cat_pages}페이지)")
 
+    # ── 정적 페이지 (about/privacy/contact/disclaimer 등) ──
+    content_root = BLOG_DIR / "content"
+    static_slugs = []
+    if content_root.exists():
+        for md_file in content_root.glob("*.md"):
+            content = md_file.read_text(encoding="utf-8")
+            meta, body = parse_front_matter(content)
+            if meta.get("draft") == "true":
+                continue
+            body_html = md_to_html(body)
+            slug = nfc(meta.get("slug", md_file.stem).strip('"'))
+            page_html = render_static_page(meta, body_html, slug)
+            (PUBLIC_DIR / f"{slug}.html").write_text(page_html, encoding="utf-8")
+            static_slugs.append(slug)
+        if static_slugs:
+            print(f"  정적 페이지: {len(static_slugs)}개 ({', '.join(static_slugs)})")
+
+    # ── sitemap.xml ──
+    (PUBLIC_DIR / "sitemap.xml").write_text(render_sitemap(posts, static_slugs), encoding="utf-8")
+
+    # ── rss.xml ──
+    (PUBLIC_DIR / "rss.xml").write_text(render_rss(posts), encoding="utf-8")
+
+    print(f"  sitemap.xml / rss.xml 생성")
     print(f"  완료!")
 
 
