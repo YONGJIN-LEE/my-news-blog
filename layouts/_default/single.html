@@ -4,7 +4,8 @@
     <span class="post-category">{{ with .Params.category }}{{ . }}{{ end }}</span>
     <h1>{{ .Title }}</h1>
     <div class="post-meta">
-      <time>{{ .Date.Format "2006년 01월 02일" }}</time>
+      <time datetime="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}">{{ .Date.Format "2006년 01월 02일" }}</time>
+      <span class="post-author">· {{ .Site.Params.author }}</span>
       {{ with .Params.tags }}
       <div class="post-tags">
         {{ range . }}<span class="tag">#{{ . }}</span> {{ end }}
@@ -19,16 +20,23 @@
   </div>
   {{ end }}
 
+  {{ partial "adsense.html" (dict "slot" "" "format" "auto" "ctx" .) }}
+
   <div class="post-content">
     {{ .Content }}
   </div>
 
+  {{ partial "adsense.html" (dict "slot" "" "format" "auto" "ctx" .) }}
+
   <footer class="post-footer">
     {{ with .Params.tags }}
     <div class="post-tags-footer">
-      {{ range . }}<a href="/tags/{{ . }}" class="tag">#{{ . }}</a> {{ end }}
+      {{ range . }}<a href="/tags/{{ . | urlize }}/" class="tag">#{{ . }}</a> {{ end }}
     </div>
     {{ end }}
+    <p class="post-disclaimer">
+      본 기사는 공개 보도를 종합한 뉴스 브리핑입니다. 정정 요청은 <a href="/contact/">문의</a>로 접수해 주세요.
+    </p>
   </footer>
 </article>
 

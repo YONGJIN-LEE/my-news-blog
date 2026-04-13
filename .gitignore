@@ -7,5 +7,4 @@ node_modules/
 .wrangler/
 public/
 resources/
-.wrangler/
-public/
+content_backup_*/

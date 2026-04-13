@@ -1,0 +1,18 @@
+{{- /*
+  AdSense 광고 슬롯 partial
+  사용 예: {{ partial "adsense.html" (dict "slot" "1234567890" "format" "auto" "ctx" .) }}
+  - AdSense 미승인/미설정 상태에서는 렌더링하지 않음
+  - ctx는 글로벌 Site 접근용 (.)
+*/ -}}
+{{- $client := .ctx.Site.Params.adsenseClient -}}
+{{- if and $client .slot -}}
+<div class="ad-slot">
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="{{ $client }}"
+       data-ad-slot="{{ .slot }}"
+       data-ad-format="{{ .format | default "auto" }}"
+       data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+{{- end -}}

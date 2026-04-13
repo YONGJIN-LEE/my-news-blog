@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+Disallow: /drafts/
+
+# 공격적 크롤러 차단 예시 (필요 시 활성화)
+# User-agent: GPTBot
+# Disallow: /
+# User-agent: CCBot
+# Disallow: /
+
+Sitemap: https://my-news-blog.pages.dev/sitemap.xml

@@ -1,0 +1,27 @@
+<div id="cookie-consent" class="cookie-consent" hidden>
+  <div class="cookie-consent__inner">
+    <p>
+      본 사이트는 이용자 경험 개선과 분석, 광고 목적을 위해 쿠키를 사용합니다.
+      자세한 내용은 <a href="/privacy/">개인정보처리방침</a>을 확인해 주세요.
+    </p>
+    <div class="cookie-consent__actions">
+      <button type="button" id="cookie-accept" class="btn btn-primary">동의</button>
+      <a href="/privacy/" class="btn btn-ghost">자세히</a>
+    </div>
+  </div>
+</div>
+<script>
+(function () {
+  var KEY = 'cookieConsent.v1';
+  var banner = document.getElementById('cookie-consent');
+  if (!banner) return;
+  try {
+    if (localStorage.getItem(KEY) === 'accepted') return;
+  } catch (e) {}
+  banner.hidden = false;
+  document.getElementById('cookie-accept').addEventListener('click', function () {
+    try { localStorage.setItem(KEY, 'accepted'); } catch (e) {}
+    banner.hidden = true;
+  });
+})();
+</script>

@@ -1,0 +1,16 @@
+<footer class="site-footer">
+  <div class="container">
+    <nav class="footer-nav">
+      <a href="/about/">소개</a>
+      <a href="/privacy/">개인정보처리방침</a>
+      <a href="/disclaimer/">면책조항</a>
+      <a href="/contact/">문의</a>
+      <a href="/index.xml">RSS</a>
+    </nav>
+    <p class="footer-copy">&copy; {{ now.Year }} {{ .Site.Title }}. All rights reserved.</p>
+    <p class="footer-note">본 사이트는 공개 보도 자료를 종합한 뉴스 브리핑입니다. 자세한 내용은 <a href="/disclaimer/">면책조항</a>을 참고하세요.</p>
+  </div>
+</footer>
+{{- if .Site.Params.cookieConsent }}
+{{ partial "cookie-consent.html" . }}
+{{- end }}

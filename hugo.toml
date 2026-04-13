@@ -1,12 +1,37 @@
-baseURL = "https://yourdomain.com/"
+baseURL = "https://my-news-blog.pages.dev/"
 languageCode = "ko-KR"
 title = "오늘의 뉴스 브리핑"
 theme = ""
 defaultContentLanguage = "ko"
+enableRobotsTXT = true
+enableGitInfo = false
+
+# 정식 서비스 전환 시 baseURL을 실제 도메인으로 교체할 것
+# (빌드 시 `hugo --baseURL https://실제도메인/` 로도 오버라이드 가능)
 
 [params]
   description = "최신 뉴스를 빠르고 정확하게 전달합니다"
   author = "용진"
+  # AdSense 승인 후 pub-ID 입력 (예: "ca-pub-1234567890123456")
+  adsenseClient = ""
+  # Google Analytics 4 측정 ID (예: "G-XXXXXXXXXX")
+  ga4 = ""
+  # Google Search Console 인증 메타 값
+  googleSiteVerification = ""
+  # Naver Search Advisor 인증 메타 값
+  naverSiteVerification = ""
+  # 기본 Open Graph 이미지 (사이트 로고/배너 경로)
+  defaultOgImage = "/images/og-default.png"
+  # 쿠키 동의 배너 활성화
+  cookieConsent = true
+
+[params.author]
+  name = "용진"
+  email = "TODO@example.com"
+
+[taxonomies]
+  category = "categories"
+  tag = "tags"
 
 [markup]
   [markup.goldmark]
@@ -14,7 +39,23 @@ defaultContentLanguage = "ko"
       unsafe = true
 
 [outputs]
-  home = ["HTML", "RSS"]
+  home = ["HTML", "RSS", "JSON"]
+  section = ["HTML", "RSS"]
+
+[sitemap]
+  changefreq = "daily"
+  priority = 0.7
+  filename = "sitemap.xml"
 
 [pagination]
   pagerSize = 20
+
+[privacy]
+  [privacy.googleAnalytics]
+    anonymizeIP = true
+    respectDoNotTrack = true
+  [privacy.youtube]
+    privacyEnhanced = true
+
+[permalinks]
+  posts = "/:year/:month/:slug/"
