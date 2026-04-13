@@ -4,7 +4,7 @@ date: 2026-03-30T14:00:00+09:00
 slug: "2026-03-30-원필솔로앨범Unpiltered"
 category: ""
 tags: ["원필", "DAY6", "Unpiltered", "사랑병동", "원필솔로", "데이식스원필", "원필컴백", "K팝", "케이팝신보", "오늘발매"]
-thumbnail: "https://shop-phinf.pstatic.net/20260311_163/1773197869199MrNJI_JPEG/107330718305299436_22772488.JPG"
+thumbnail: ""
 description: "DAY6 원필 솔로앨범 Unpiltered 오늘 발매"
 draft: false
 ---
@@ -27,7 +27,7 @@ DAY6의 메인 보컬 원필이 솔로 미니 1집 《Unpiltered》(언필터드
 
 ##  상세 내용
 
-![ 레드벨벳, 8월 두 번째 단독콘서트 개최..달콤+오싹 예고- 스타뉴스  레드벨벳, 8월 두 번째 단독콘서트 개최..달콤+오싹 예고- 스타뉴스](https://thumb.mtstarnews.com/21/2018/07/2018070210030929786_1.jpg/dims/resize/1200/crop/1200x630!/optimize/)
+
 
 ### 앨범 콘셉트: 필터 없는 솔직함
 
