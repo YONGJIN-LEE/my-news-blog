@@ -239,12 +239,6 @@ def fetch_naver_images(queries, client_id, client_secret, count=3):
     return images
 
 
-def get_fallback_image(keyword):
-    """이미지 검색 실패 시 picsum 대체"""
-    seed = abs(hash(keyword)) % 10000
-    return f"https://picsum.photos/seed/{seed}/1200/630"
-
-
 # ─── Hugo 포스트 생성 ─────────────────────────────────────────────────────────
 def create_hugo_post(md_path, with_images=True, naver_creds=(None, None)):
     filename = md_path.name

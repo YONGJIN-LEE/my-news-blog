@@ -30,7 +30,7 @@ cd "$BLOG_DIR"
 if [ -d ".git" ]; then
     echo ""
     echo "Git 배포 중..."
-    git add content/ public/
+    git add content/
     git commit -m "포스트 추가: ${TIME_SLOT} $(date +%Y-%m-%d)" 2>/dev/null
     git push origin main 2>/dev/null
     if [ $? -eq 0 ]; then

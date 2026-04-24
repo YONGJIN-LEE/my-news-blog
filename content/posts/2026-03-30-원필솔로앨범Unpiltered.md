@@ -2,7 +2,7 @@
 title: "DAY6 원필 솔로앨범 Unpiltered 오늘 발매"
 date: 2026-03-30T14:00:00+09:00
 slug: "2026-03-30-원필솔로앨범Unpiltered"
-category: ""
+category: "연예"
 tags: ["원필", "DAY6", "Unpiltered", "사랑병동", "원필솔로", "데이식스원필", "원필컴백", "K팝", "케이팝신보", "오늘발매"]
 thumbnail: ""
 description: "DAY6 원필 솔로앨범 Unpiltered 오늘 발매"

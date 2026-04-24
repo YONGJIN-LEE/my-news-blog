@@ -2,7 +2,7 @@
 title: "아이린 정규 1집 Biggest Fan 오늘 발매"
 date: 2026-03-30T14:00:00+09:00
 slug: "2026-03-30-아이린Biggest-Fan"
-category: ""
+category: "연예"
 tags: ["아이린", "레드벨벳아이린", "BiggestFan", "아이린정규1집", "아이린솔로", "레드벨벳", "오늘신보", "K팝", "케이팝", "아이린컴백"]
 thumbnail: ""
 description: "아이린 정규 1집 Biggest Fan 오늘 발매"
