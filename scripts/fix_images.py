@@ -70,11 +70,18 @@ def fetch_naver_images(query, display=5):
         return []
 
 
+def force_https(url):
+    """모든 이미지 URL은 반드시 https — mixed content 차단 방지."""
+    if url and url.startswith("http://"):
+        return "https://" + url[len("http://"):]
+    return url
+
+
 def pick_best_image(items, keyword=""):
-    """허용 도메인 우선, 없으면 아무거나"""
+    """허용 도메인 우선, 없으면 아무거나 (반드시 https로 반환)"""
     # 1차: 허용 도메인에서 찾기
     for item in items:
-        link = item.get("link", "")
+        link = force_https(item.get("link", ""))
         try:
             domain = urllib.parse.urlparse(link).hostname
             if domain in ALLOWED_DOMAINS:
@@ -82,9 +89,9 @@ def pick_best_image(items, keyword=""):
         except:
             pass
 
-    # 2차: 아무 이미지나 (https만)
+    # 2차: 아무 이미지나
     for item in items:
-        link = item.get("link", "")
+        link = force_https(item.get("link", ""))
         if link.startswith("https://"):
             return link
 

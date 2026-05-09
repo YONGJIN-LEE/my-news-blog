@@ -197,6 +197,18 @@ def is_allowed_domain(domain):
     return False
 
 
+def force_https(url):
+    """이미지 URL을 https로 강제 변환 (mixed content 차단 방지).
+    네이버 이미지 검색 API는 종종 http:// URL을 반환하지만, 거의 모든 뉴스
+    이미지 CDN이 https도 지원한다. HTTPS 사이트에서 http 이미지를 그대로 쓰면
+    브라우저가 mixed content로 차단해서 썸네일이 사라진다."""
+    if not url:
+        return url
+    if url.startswith("http://"):
+        return "https://" + url[len("http://"):]
+    return url
+
+
 def fetch_naver_images(queries, client_id, client_secret, count=3):
     """네이버 이미지 검색 API — blogger_post.py와 동일 로직"""
     import requests
@@ -222,7 +234,7 @@ def fetch_naver_images(queries, client_id, client_secret, count=3):
             for item in resp.json().get("items", []):
                 if len(images) >= count:
                     break
-                img_url = item.get("link", "")
+                img_url = force_https(item.get("link", ""))
                 if not img_url or img_url in seen_urls:
                     continue
                 source_domain = urlparse(img_url).netloc.lower()
@@ -264,14 +276,20 @@ def create_hugo_post(md_path, with_images=True, naver_creds=(None, None)):
         existing_content = existing_post.read_text(encoding="utf-8")
         thumb_m = re.search(r'^thumbnail:\s*"([^"]*)"', existing_content, re.MULTILINE)
         if thumb_m and thumb_m.group(1) and "picsum.photos" not in thumb_m.group(1):
-            existing_thumbnail = thumb_m.group(1)
+            existing_thumbnail = force_https(thumb_m.group(1))
 
     # ─── 이미지 가져오기 (항상 시도) ───
     thumbnail = ""
     body_images = []
 
-    # 1) 본문에 이미 삽입된 이미지 URL 추출
-    inline_imgs = re.findall(r"!\[[^\]]*\]\(([^)]+)\)", content)
+    # 1) 본문에 이미 삽입된 이미지 URL 추출 (http→https 정규화)
+    inline_imgs = [force_https(u) for u in re.findall(r"!\[[^\]]*\]\(([^)]+)\)", content)]
+    # 본문 안의 http://(이미지 마크다운) 도 모두 https로 치환
+    content = re.sub(
+        r'(!\[[^\]]*\]\()http://',
+        r'\1https://',
+        content,
+    )
 
     # 2) 네이버 이미지 검색
     if naver_creds and naver_creds[0]:
@@ -292,6 +310,9 @@ def create_hugo_post(md_path, with_images=True, naver_creds=(None, None)):
     # 5) 최후 수단: fallback (picsum 대신 빈 문자열로 — 플레이스홀더 SVG 사용)
     if not thumbnail:
         thumbnail = ""
+
+    # 최종 안전장치: 모든 이미지 URL은 반드시 https
+    thumbnail = force_https(thumbnail)
 
     # 마크다운 정리
     content = strip_emojis(content)

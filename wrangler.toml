@@ -1,5 +1,15 @@
 name = "my-news-blog"
+main = "worker.js"
 compatibility_date = "2024-01-01"
 
 [assets]
 directory = "./public"
+binding = "ASSETS"
+
+# KV 네임스페이스 (좋아요/싫어요 저장)
+# 최초 1회 생성:
+#   npx wrangler kv namespace create LIKES
+# 출력된 id 값을 아래 id 필드에 붙여넣고 배포할 것
+[[kv_namespaces]]
+binding = "LIKES"
+id = "7b4571b14c34478b85f618a1517c984e"
