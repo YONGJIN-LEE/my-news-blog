@@ -3,7 +3,8 @@
 drafts/published → 개인 블로그 자동 포스팅 스크립트
 
 사용법:
-  python3 publish_to_blog.py [시간대] [--category general|it|sports|fashion]
+  python3 publish_to_blog.py [시간대] [--category focus|general|it|sports|fashion|xr]
+    focus: IT·XR 초안만, 실행당 1개 · 하루 3개 한도 (네이버 운영 방침, auto_post_blog.sh 기본값)
   python3 publish_to_blog.py --bulk          # drafts+published 전체 일괄 변환
   python3 publish_to_blog.py --bulk --with-images  # 이미지 포함 일괄 변환
 
@@ -27,7 +28,7 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 sys.path.insert(0, str(Path(__file__).parent.resolve()))
-from build_html import make_description  # noqa: E402
+from build_html import make_description, has_experience  # noqa: E402
 
 # ─── 경로 설정 ─────────────────────────────────────────────────────────────────
 SCRIPT_DIR = Path(__file__).parent.resolve()
@@ -44,6 +45,13 @@ LOG_FILE = PROJECT_DIR / "logs" / "blog-posting.log"
 # ─── 카테고리 / 시간대 ────────────────────────────────────────────────────────
 NON_GENERAL_TAGS = {"[IT]", "[Sports]", "[패션]", "[XR]"}
 CATEGORY_TAGS = {"general": None, "it": "[IT]", "sports": "[Sports]", "fashion": "[패션]", "xr": "[XR]"}
+
+# ─── 네이버 블로그 운영 방침 (2026-11) ─────────────────────────────────────
+# 주제 하나(IT·XR·AI)에 집중하고 하루 1~3개만 발행한다. (C-Rank 주제 일관성 + 대량 발행 저품질 방지)
+# --category focus (auto_post_blog.sh 기본값) 일 때 적용. 우선순위 순서.
+FOCUS_TAGS = [t.strip() for t in os.environ.get("FOCUS_TAGS", "[XR],[IT]").split(",") if t.strip()]
+MAX_POSTS_PER_DAY = int(os.environ.get("MAX_POSTS_PER_DAY", "3"))
+MAX_POSTS_PER_RUN = int(os.environ.get("MAX_POSTS_PER_RUN", "1"))
 CATEGORY_LABELS = {
     "[정치]": "정치", "[사회]": "사회", "[연예]": "연예",
     "[경제]": "경제", "[사건사고]": "사건사고", "[생활]": "생활",
@@ -460,19 +468,36 @@ def run_normal(time_slot, category):
     recent_topics = load_recent_topics()
     allow_dup = os.environ.get("ALLOW_DUP_TOPIC") == "1"
 
+    focus = category == "focus"
+    if focus:
+        posted_today = len(list(CONTENT_DIR.glob(f"{today}-*.md"))) if CONTENT_DIR.exists() else 0
+        remaining = min(MAX_POSTS_PER_RUN, MAX_POSTS_PER_DAY - posted_today)
+        if remaining <= 0:
+            log(f"오늘 발행 한도 도달 ({posted_today}/{MAX_POSTS_PER_DAY}개) — 건너뜀")
+            return 0
+        log(f"주제 집중 모드 {FOCUS_TAGS} · 오늘 {posted_today}/{MAX_POSTS_PER_DAY}개 · 이번 실행 최대 {remaining}개")
+
     candidates = []
-    # drafts와 published 양쪽에서 파일 탐색 (Blogger가 먼저 실행되어 published로 이동했을 수 있음)
+    skipped_off_topic = 0
+    # drafts와 published 양쪽에서 파일 탐색 (과거 Blogger 파이프라인이 published로 옮겨 둔 파일 포함)
     for search_dir in [DRAFTS_DIR, PUBLISHED_DIR]:
         if not search_dir.exists():
             continue
         for f in sorted(search_dir.glob(f"{today}*.md")):
             name = unicodedata.normalize("NFC", f.name)
-            if slot_key and slot_key not in name:
+            if focus:
+                # 시간대와 무관하게 오늘의 주력 주제 초안만 대상 (하루 한도로 분산)
+                if not any(t in name for t in FOCUS_TAGS):
+                    skipped_off_topic += 1
+                    continue
+            elif slot_key and slot_key not in name:
                 if any(t in name for t in TIME_SLOTS.values()):
                     continue
                 elif time_slot != "오전":
                     continue
-            if category == "general":
+            if focus:
+                pass
+            elif category == "general":
                 if any(tag in name for tag in NON_GENERAL_TAGS):
                     continue
             elif cat_tag and cat_tag not in name:
@@ -488,9 +513,22 @@ def run_normal(time_slot, category):
                 continue
             candidates.append(f)
 
+    if focus and skipped_off_topic:
+        log(f"  주력 주제 외 초안 {skipped_off_topic}개 건너뜀")
+
     if not candidates:
         log("포스팅할 파일 없음")
         return 0
+
+    if focus:
+        # 우선순위: FOCUS_TAGS 순서(XR 먼저) → 경험 문단을 써 둔 초안 → 파일명
+        def prio(f):
+            name = unicodedata.normalize("NFC", f.name)
+            tag_rank = next((i for i, t in enumerate(FOCUS_TAGS) if t in name), len(FOCUS_TAGS))
+            exp = 0 if has_experience(f.read_text(encoding="utf-8")) else 1
+            return (tag_rank, exp, name)
+        candidates.sort(key=prio)
+        candidates = candidates[:remaining]
 
     log(f"대상 {len(candidates)}개")
     posted = []
@@ -499,12 +537,21 @@ def run_normal(time_slot, category):
             log(f"  처리: {md_file.name}")
             post_path, _ = create_hugo_post(md_file, with_images=True, naver_creds=naver_creds)
             posted.append(md_file)
+            if not has_experience(md_file.read_text(encoding="utf-8")):
+                log(f"  ✍️  경험·의견 문단 없음 → 네이버 붙여넣기 후 직접 작성 필요: {post_path.name}")
         except Exception as e:
             log(f"  오류: {e}")
 
     if posted:
         build()
-        # 파일 이동은 하지 않음 — Blogger 포스팅 성공 시 blogger_post.py가 이동 처리
+        # Blogger 발행 중단(2026-11) 이후에는 이 스크립트가 drafts → published 이동을 담당
+        PUBLISHED_DIR.mkdir(parents=True, exist_ok=True)
+        for md_file in posted:
+            if md_file.parent == DRAFTS_DIR:
+                try:
+                    shutil.move(str(md_file), str(PUBLISHED_DIR / md_file.name))
+                except Exception as e:
+                    log(f"  이동 실패: {md_file.name} ({e})")
 
     log(f"═══ 완료: {len(posted)}개 ═══")
     return len(posted)
@@ -567,7 +614,7 @@ def main():
         return
 
     time_slot = None
-    category = "general"
+    category = "focus"
     for i, arg in enumerate(args):
         if arg in TIME_SLOTS:
             time_slot = arg

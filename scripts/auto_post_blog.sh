@@ -6,22 +6,20 @@
 #   auto_post_blog.sh 오전 sports    # 스포츠
 #   auto_post_blog.sh 오전 fashion   # 패션
 #   auto_post_blog.sh 오전 xr        # XR·AI (초안 파일명에 [XR] 태그)
-#   auto_post_blog.sh 오전 all       # 전체 카테고리
+#   auto_post_blog.sh 오전 all       # = focus (2026-11부터 IT·XR 주제 집중, 실행당 1개·하루 3개)
+#   auto_post_blog.sh 오전 focus     # 위와 동일
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 BLOG_DIR="$(dirname "$SCRIPT_DIR")"
 TIME_SLOT="${1:-오전}"
-CATEGORY="${2:-general}"
+CATEGORY="${2:-focus}"
 
 echo "═══ 개인 블로그 포스팅: ${TIME_SLOT} [${CATEGORY}] ═══"
 
 # 전체 카테고리 처리
-if [ "$CATEGORY" = "all" ]; then
-    for cat in general it sports fashion xr; do
-        echo "--- ${cat} ---"
-        python3 "$SCRIPT_DIR/publish_to_blog.py" "$TIME_SLOT" --category "$cat"
-        sleep 1
-    done
+# 네이버 블로그 운영 방침: 여러 분야를 돌지 않고 주력 주제(IT·XR)만 하루 1~3개 발행
+if [ "$CATEGORY" = "all" ] || [ "$CATEGORY" = "focus" ]; then
+    python3 "$SCRIPT_DIR/publish_to_blog.py" "$TIME_SLOT" --category focus
 else
     python3 "$SCRIPT_DIR/publish_to_blog.py" "$TIME_SLOT" --category "$CATEGORY"
 fi

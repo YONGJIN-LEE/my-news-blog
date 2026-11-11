@@ -72,10 +72,11 @@ git push -u origin main
 `~/blog/scripts/generate_all.sh`에 다음을 추가:
 
 ```bash
-# ─── 기존 Blogger 포스팅 후에 추가 ─────────────────
-# 개인 블로그 포스팅 (Blogger 실패 시 백업 + 네이버 복사용)
+# ─── Blogger 포스팅은 2026-11 중단 (네이버 유사문서 판정 방지) ───
+# blogger_post.py 호출 줄은 주석 처리할 것
+# 개인 블로그 포스팅 (네이버 복사용 원고, IT·XR 주제만 하루 최대 3개)
 echo "=== 개인 블로그 포스팅 ==="
-~/blog/my-blog/scripts/auto_post_blog.sh "$TIME_SLOT" all
+~/blog/my-blog/scripts/auto_post_blog.sh "$TIME_SLOT"
 ```
 
 ### 방법 B: 별도 실행 (수동)
@@ -179,5 +180,5 @@ BASE_URL=https://yourdomain.com GA4_ID=G-XXXX python3 scripts/build_html.py
 - [ ] `robots.txt`·`ads.txt`의 `yourdomain.com` 및 pub-ID 실제 값으로 교체
 - [ ] 기존 포스트의 외부 핫링크 이미지(예: dogdrip.net) 자체 자산으로 교체
 - [ ] 포스트 `category` 프론트매터 비어 있는 파일(`category: ""`) 일괄 채우기
-- [ ] Blogger/네이버/개인블로그 중 canonical 대상 1곳 지정
+- [x] Blogger/네이버/개인블로그 중 canonical 대상 1곳 지정 → 네이버 블로그 (Blogger 중단, 이 사이트는 Yeti 차단)
 - [ ] AdSense 신청 (운영 3~6개월, 포스트 품질 정비 후)

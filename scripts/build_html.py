@@ -196,6 +196,21 @@ def make_description(body_md, title="", max_len=150):
     return cut.rstrip() + "…"
 
 
+# 경험·의견 문단 감지 (네이버 D.I.A.+는 직접 경험이 담긴 글을 높게 평가).
+# AI 초안이 경험을 지어내면 안 되므로, 이 문단은 운영자가 직접 쓴다.
+EXPERIENCE_HEADING_RE = re.compile(
+    r"^#{2,3}\s*.*(직접|써\s?보니|써\s?본|사용기|사용\s?후기|실사용|현업|현장에서|PM\s?관점|내\s?생각|제\s?생각|개인적|경험)",
+    re.MULTILINE,
+)
+EXPERIENCE_TODO_MARKERS = ("(작성 필요)", "[직접 작성]")
+
+
+def has_experience(body_md):
+    if any(m in body_md for m in EXPERIENCE_TODO_MARKERS):
+        return False
+    return bool(EXPERIENCE_HEADING_RE.search(body_md))
+
+
 def tag_set(meta):
     tags = meta.get("tags", [])
     if isinstance(tags, str):
@@ -233,7 +248,7 @@ def find_related(post, by_cat, all_posts, limit=4):
     return picks[:limit]
 
 
-def naver_copy_toolbar_html(title, tags, thumbnail):
+def naver_copy_toolbar_html(title, tags, thumbnail, experience=True):
     """
     네이버 블로그 붙여넣기 전용 복사 도구.
     방문자에게는 숨기고, 운영자가 글 주소 뒤에 ?copy=1 을 붙여 한 번 열면 이후 계속 표시된다(?copy=0 으로 끔).
@@ -243,12 +258,14 @@ def naver_copy_toolbar_html(title, tags, thumbnail):
     tags_txt = html_attr(" ".join(f"#{t}" for t in list(tags)[:10]))
     return f"""
       <div class="naver-copy" id="naverCopy" hidden
-           data-title="{html_attr(title)}" data-tags="{tags_txt}" data-thumb="{html_attr(thumbnail)}">
+           data-title="{html_attr(title)}" data-tags="{tags_txt}" data-thumb="{html_attr(thumbnail)}"
+           data-experience="{'1' if experience else '0'}">
         <span class="naver-copy__label">네이버 블로그용</span>
         <button type="button" data-copy="title">제목 복사</button>
         <button type="button" data-copy="body">본문 복사</button>
         <button type="button" data-copy="tags">태그 복사</button>
         <span class="naver-copy__msg" aria-live="polite"></span>
+        {'' if experience else '<p class="naver-copy__warn">경험·의견 문단이 없습니다. 본문 복사 시 노란 작성 칸이 들어가니, 네이버 에디터에서 직접 2~3문장으로 채운 뒤 발행하세요.</p>'}
       </div>
       <script>
       (function () {{
@@ -268,6 +285,19 @@ def naver_copy_toolbar_html(title, tags, thumbnail):
           src.querySelectorAll('a').forEach(function (a) {{ a.replaceWith(document.createTextNode(a.textContent)); }});
           src.querySelectorAll('script, .ad-slot, ins').forEach(function (n) {{ n.remove(); }});
           src.querySelectorAll('[style]').forEach(function (n) {{ if (n.tagName !== 'IMG') n.removeAttribute('style'); }});
+          if (box.dataset.experience !== '1') {{
+            var note = document.createElement('p');
+            note.setAttribute('style', 'background:#fff3bf;padding:12px;border-left:4px solid #f59f00;');
+            note.innerHTML = '<strong>✍️ [직접 작성] 발행 전 이 칸을 지우고 직접 써 주세요.</strong><br>'
+              + '· 직접 써 보거나 현업(XR 프로젝트)에서 겪은 일<br>'
+              + '· PM/대학원생 관점에서 이 소식이 갖는 의미<br>'
+              + '· 독자에게 권하는 것 또는 아쉬운 점';
+            var h = document.createElement('h2'); h.textContent = '현업에서 보면';
+            var hs = src.querySelectorAll('h2');
+            var anchor = hs.length >= 2 ? hs[hs.length - 1] : null;
+            if (anchor) {{ src.insertBefore(h, anchor); src.insertBefore(note, anchor); }}
+            else {{ src.appendChild(h); src.appendChild(note); }}
+          }}
           var thumb = box.dataset.thumb;
           if (thumb && !src.querySelector('img[src="' + thumb + '"]')) {{
             var p = document.createElement('p'); var img = document.createElement('img');
@@ -806,7 +836,7 @@ def render_post(meta, body_html, related=None):
           <div class="post-tags">{tags_html}</div>
         </div>
       </header>
-      {naver_copy_toolbar_html(title, tags if isinstance(tags, list) else [], thumbnail)}
+      {naver_copy_toolbar_html(title, tags if isinstance(tags, list) else [], thumbnail, meta.get("_experience", True))}
       {hero}
       {ad_top}
       <div class="post-content">
@@ -1079,6 +1109,8 @@ def build():
         raw_cat = meta.get("category", "").strip()
         cat_slug = CATEGORY_TO_SLUG.get(raw_cat, "")
         display_cat = raw_cat if raw_cat else "일반"
+
+        meta["_experience"] = has_experience(body)
 
         # 메타 설명: 비어 있거나 제목과 같으면 본문에서 자동 생성
         desc = (meta.get("description") or "").strip()

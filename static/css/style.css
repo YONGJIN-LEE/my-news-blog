@@ -885,6 +885,12 @@ img { max-width: 100%; height: auto; display: block; }
 }
 .naver-copy button:hover { background: #02b351; }
 .naver-copy__msg { font-size: 0.8rem; color: var(--gray-700); }
+.naver-copy__warn {
+  flex-basis: 100%;
+  margin: 4px 0 0;
+  font-size: 0.8rem;
+  color: #a35b00;
+}
 
 /* ─── Related posts (내부 링크) ─── */
 .related-posts {
