@@ -859,6 +859,43 @@ img { max-width: 100%; height: auto; display: block; }
   margin: 4px 0;
 }
 
+/* ─── Related posts (내부 링크) ─── */
+.related-posts {
+  margin: 40px 0 8px;
+  padding-top: 24px;
+  border-top: 1px solid var(--gray-300);
+}
+.related-heading {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0 0 12px;
+  color: var(--black);
+}
+.related-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+.related-list a {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: var(--gray-100);
+  color: var(--black);
+}
+.related-list a:hover { background: var(--gray-300); }
+.related-cat {
+  flex-shrink: 0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--blue);
+}
+.related-title { font-size: 0.95rem; line-height: 1.4; }
+
 /* ─── Post disclaimer / ad slot ─── */
 .post-disclaimer {
   margin-top: 24px;

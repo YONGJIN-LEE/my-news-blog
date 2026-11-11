@@ -5,6 +5,7 @@
 #   auto_post_blog.sh 오전 it        # IT
 #   auto_post_blog.sh 오전 sports    # 스포츠
 #   auto_post_blog.sh 오전 fashion   # 패션
+#   auto_post_blog.sh 오전 xr        # XR·AI (초안 파일명에 [XR] 태그)
 #   auto_post_blog.sh 오전 all       # 전체 카테고리
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
@@ -16,7 +17,7 @@ echo "═══ 개인 블로그 포스팅: ${TIME_SLOT} [${CATEGORY}] ═══
 
 # 전체 카테고리 처리
 if [ "$CATEGORY" = "all" ]; then
-    for cat in general it sports fashion; do
+    for cat in general it sports fashion xr; do
         echo "--- ${cat} ---"
         python3 "$SCRIPT_DIR/publish_to_blog.py" "$TIME_SLOT" --category "$cat"
         sleep 1

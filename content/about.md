@@ -21,10 +21,10 @@ menu: "main"
 ## 운영자
 
 - **운영자**: 용진
-- **문의**: [문의 페이지](/contact/)
+- **문의**: [문의 페이지](/contact.html)
 
 ## 연관 페이지
 
-- [개인정보처리방침](/privacy/)
-- [면책조항](/disclaimer/)
-- [문의](/contact/)
+- [개인정보처리방침](/privacy.html)
+- [면책조항](/disclaimer.html)
+- [문의](/contact.html)

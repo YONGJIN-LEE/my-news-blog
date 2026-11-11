@@ -26,6 +26,9 @@ from datetime import datetime, date
 from pathlib import Path
 from urllib.parse import urlparse
 
+sys.path.insert(0, str(Path(__file__).parent.resolve()))
+from build_html import make_description  # noqa: E402
+
 # ─── 경로 설정 ─────────────────────────────────────────────────────────────────
 SCRIPT_DIR = Path(__file__).parent.resolve()
 BLOG_DIR = SCRIPT_DIR.parent
@@ -39,13 +42,14 @@ CREDENTIALS_FILE = PROJECT_DIR / ".credentials.json"
 LOG_FILE = PROJECT_DIR / "logs" / "blog-posting.log"
 
 # ─── 카테고리 / 시간대 ────────────────────────────────────────────────────────
-NON_GENERAL_TAGS = {"[IT]", "[Sports]", "[패션]"}
-CATEGORY_TAGS = {"general": None, "it": "[IT]", "sports": "[Sports]", "fashion": "[패션]"}
+NON_GENERAL_TAGS = {"[IT]", "[Sports]", "[패션]", "[XR]"}
+CATEGORY_TAGS = {"general": None, "it": "[IT]", "sports": "[Sports]", "fashion": "[패션]", "xr": "[XR]"}
 CATEGORY_LABELS = {
     "[정치]": "정치", "[사회]": "사회", "[연예]": "연예",
     "[경제]": "경제", "[사건사고]": "사건사고", "[생활]": "생활",
     "[건강]": "건강", "[자동차]": "자동차",  # 2026-05-10 추가
     "[IT]": "IT", "[Sports]": "스포츠", "[패션]": "패션",
+    "[XR]": "XR",  # 2026-11 추가: XR·메타버스·공간컴퓨팅·AI (운영자 전문 분야)
 }
 TIME_SLOTS = {"오전": "_오전_", "점심": "_점심_", "오후": "_오후_"}
 
@@ -342,6 +346,9 @@ def create_hugo_post(md_path, with_images=True, naver_creds=(None, None)):
     slug = re.sub(r"[^\w가-힣-]", "", meta["keyword"].replace(" ", "-"))
     slug = f"{meta['date']}-{slug}"
 
+    # 메타 설명: 제목 반복 대신 본문 첫 문단 요약 (검색 결과 스니펫 CTR 개선)
+    description = make_description(content, title).replace('"', "'")
+
     time_str = "06:00" if meta["time_slot"] == "오전" else "14:00" if meta["time_slot"] == "점심" else "19:00"
 
     front_matter = f"""---
@@ -351,7 +358,7 @@ slug: "{slug}"
 category: "{meta['category']}"
 tags: {json.dumps(tags, ensure_ascii=False)}
 thumbnail: "{thumbnail}"
-description: "{title}"
+description: "{description}"
 draft: false
 ---
 """
@@ -370,6 +377,50 @@ def get_existing_slugs():
     return {f.stem for f in CONTENT_DIR.glob("*.md")}
 
 
+# 같은 이슈를 며칠 간격으로 반복 게시하면(예: '손흥민세대교체론'/'손흥민세대교체')
+# 내 글끼리 같은 검색어를 두고 경쟁(키워드 카니발리제이션)해 둘 다 순위가 떨어진다.
+DUP_LOOKBACK_DAYS = 7
+DUP_TAG_JACCARD = 0.5
+
+
+def load_recent_topics(days=DUP_LOOKBACK_DAYS):
+    """최근 N일 포스트의 (slug, 제목, 태그집합) 목록"""
+    from datetime import timedelta
+    cutoff = (date.today() - timedelta(days=days)).isoformat()
+    topics = []
+    if not CONTENT_DIR.exists():
+        return topics
+    for f in CONTENT_DIR.glob("*.md"):
+        if f.name[:10] < cutoff:
+            continue
+        head = f.read_text(encoding="utf-8")[:1500]
+        t = re.search(r'^title:\s*"(.*)"', head, re.MULTILINE)
+        g = re.search(r'^tags:\s*(\[.*\])', head, re.MULTILINE)
+        try:
+            tags = set(json.loads(g.group(1))) if g else set()
+        except Exception:
+            tags = set()
+        topics.append((f.stem, t.group(1) if t else "", tags))
+    return topics
+
+
+def find_duplicate_topic(md_path, recent):
+    """태그 자카드 유사도 또는 키워드 포함 관계로 최근 동일 이슈 글을 찾는다."""
+    content = md_path.read_text(encoding="utf-8")
+    _, tags = parse_markdown(content)
+    tags = set(tags)
+    kw = re.sub(r"\s", "", parse_filename(md_path.name)["keyword"])
+    for slug, title, rtags in recent:
+        rkw = re.sub(r"^\d{4}-\d{2}-\d{2}-", "", slug)
+        if len(kw) >= 4 and len(rkw) >= 4 and (kw in rkw or rkw in kw):
+            return slug
+        if tags and rtags:
+            j = len(tags & rtags) / len(tags | rtags)
+            if j >= DUP_TAG_JACCARD:
+                return slug
+    return None
+
+
 def make_slug(filename):
     meta = parse_filename(filename)
     slug = re.sub(r"[^\w가-힣-]", "", meta["keyword"].replace(" ", "-"))
@@ -378,14 +429,9 @@ def make_slug(filename):
 
 # ─── 빌드 ────────────────────────────────────────────────────────────────────
 def build():
-    hugo_path = shutil.which("hugo")
-    if hugo_path:
-        log("Hugo 빌드...")
-        result = subprocess.run(["hugo", "--minify"], cwd=str(BLOG_DIR), capture_output=True, text=True)
-        if result.returncode == 0:
-            log(f"Hugo 빌드 성공")
-            return True
-
+    # 주의: 과거에는 hugo가 설치돼 있으면 Hugo로 빌드했는데, Hugo(permalinks=/:year/:month/:slug/)와
+    # Python 빌더(/slug.html)는 URL 구조가 달라 빌더가 바뀌는 순간 색인된 모든 URL이 404가 된다.
+    # 운영 사이트(worker.js·좋아요 API·sitemap)는 Python 빌더 기준이므로 항상 Python 빌더를 사용한다.
     builder = SCRIPT_DIR / "build_html.py"
     if builder.exists():
         log("Python 빌더...")
@@ -411,6 +457,8 @@ def run_normal(time_slot, category):
     cat_tag = CATEGORY_TAGS.get(category)
     naver_creds = load_naver_credentials()
     existing = get_existing_slugs()
+    recent_topics = load_recent_topics()
+    allow_dup = os.environ.get("ALLOW_DUP_TOPIC") == "1"
 
     candidates = []
     # drafts와 published 양쪽에서 파일 탐색 (Blogger가 먼저 실행되어 published로 이동했을 수 있음)
@@ -433,6 +481,10 @@ def run_normal(time_slot, category):
             slug = make_slug(f.name)
             if slug in existing:
                 log(f"  중복 건너뜀: {f.name}")
+                continue
+            dup = None if allow_dup else find_duplicate_topic(f, recent_topics)
+            if dup:
+                log(f"  유사 이슈 건너뜀: {f.name} ≈ {dup} (기존 글 보강 권장, 강제 게시: ALLOW_DUP_TOPIC=1)")
                 continue
             candidates.append(f)
 

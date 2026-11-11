@@ -52,11 +52,13 @@ CATEGORIES = {
     "economy": "경제",
     "entertainment": "연예",
     "life": "생활",
+    "accident": "사건사고",  # 2026-11 추가: 기존엔 카테고리 페이지가 없어 글이 고립됨
     "health": "건강",     # 2026-05-10 추가
     "auto": "자동차",     # 2026-05-10 추가
     "it": "IT",
     "sports": "스포츠",
     "fashion": "패션",
+    "xr": "XR·AI",       # 2026-11 추가: 운영자 전문 분야 (XR/메타버스/AI)
 }
 
 # 한글 카테고리명 → slug 매핑
@@ -66,12 +68,15 @@ CATEGORY_TO_SLUG = {
     "경제": "economy",
     "연예": "entertainment",
     "생활": "life",
+    "사건사고": "accident",
     "건강": "health",     # 2026-05-10 추가
     "자동차": "auto",     # 2026-05-10 추가
     "IT": "it",
     "스포츠": "sports",
     "패션": "fashion",
     "Sports": "sports",
+    "XR": "xr",
+    "XR·AI": "xr",
 }
 
 
@@ -154,6 +159,95 @@ def inline_fmt(text):
     return text
 
 
+def html_attr(text):
+    """meta 태그 속성값용 이스케이프"""
+    return (text or "").replace("&", "&amp;").replace('"', "&quot;").replace("<", "&lt;").replace(">", "&gt;")
+
+
+def make_description(body_md, title="", max_len=150):
+    """
+    본문에서 검색 결과용 메타 설명을 자동 생성.
+    기존에는 description = title 이라 검색 결과 스니펫이 제목 반복이 되어 CTR이 낮았다.
+    - 이미지/소제목/빈 줄 제외, 첫 번째 일반 문단(없으면 요약 불릿) 사용
+    - 마크다운 서식 제거 후 max_len 자에서 문장 단위로 자름
+    """
+    paras, bullets = [], []
+    for line in body_md.split("\n"):
+        st = line.strip()
+        if not st or st.startswith(("#", "!", ">", "|", "---")):
+            continue
+        st = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", st)
+        st = re.sub(r"[*_`]", "", st)
+        if st.startswith("- "):
+            bullets.append(st[2:].strip())
+        elif len(st) >= 40:
+            paras.append(st)
+    text = paras[0] if paras else " · ".join(bullets[:3])
+    text = re.sub(r"\s+", " ", text).strip()
+    if not text:
+        return title
+    if len(text) <= max_len:
+        return text
+    cut = text[:max_len]
+    # 문장 경계(다./요./. )에서 자르기
+    m = max(cut.rfind("다. "), cut.rfind("요. "), cut.rfind(". "))
+    if m >= max_len * 0.5:
+        return cut[:m + 2].strip()
+    return cut.rstrip() + "…"
+
+
+def tag_set(meta):
+    tags = meta.get("tags", [])
+    if isinstance(tags, str):
+        try: tags = json.loads(tags)
+        except Exception: tags = []
+    return {t for t in tags if t}
+
+
+def find_related(post, by_cat, all_posts, limit=4):
+    """
+    같은 카테고리 + 태그 겹침 기준 관련 글 추천 (내부 링크).
+    기존 글에는 내부 링크가 0개라 방문자가 한 페이지만 보고 이탈했고,
+    검색엔진도 4천여 개 글 간 관계를 파악할 수 없었다.
+    """
+    me = post["slug"]
+    tags = post["tags"]
+    pool = by_cat.get(post["cat_slug"], []) if post["cat_slug"] else all_posts[:300]
+    scored = []
+    for q in pool:
+        if q["slug"] == me:
+            continue
+        overlap = len(tags & q["tags"])
+        if overlap == 0:
+            continue
+        scored.append((overlap, q["date"][:19], q))
+    scored.sort(key=lambda x: (x[0], x[1]), reverse=True)
+    picks = [q for _, _, q in scored[:limit]]
+    # 부족하면 같은 카테고리 최신 글로 채움
+    if len(picks) < limit:
+        for q in pool:
+            if q["slug"] != me and q not in picks:
+                picks.append(q)
+            if len(picks) >= limit:
+                break
+    return picks[:limit]
+
+
+def related_html(related):
+    if not related:
+        return ""
+    items = "".join(
+        f'<li><a href="/{q["slug"]}.html"><span class="related-cat">{q["category"]}</span>'
+        f'<span class="related-title">{q["title"]}</span></a></li>'
+        for q in related
+    )
+    return f"""
+      <section class="related-posts" aria-label="관련 글">
+        <h2 class="related-heading">함께 읽으면 좋은 글</h2>
+        <ul class="related-list">{items}</ul>
+      </section>"""
+
+
 # ─── Front Matter ─────────────────────────────────────────────────────────────
 def parse_front_matter(content):
     meta = {}
@@ -193,7 +287,8 @@ def html_head(title, description="", thumbnail="", is_article=False, canonical_p
     og_type = "article" if is_article else "website"
     og_image = thumbnail if thumbnail else f"{BASE_URL}{DEFAULT_OG_IMAGE}"
     canonical = f"{BASE_URL}{canonical_path}" if canonical_path else BASE_URL + "/"
-    desc = description or SITE_DESCRIPTION
+    desc = html_attr(description or SITE_DESCRIPTION)
+    attr_title = html_attr(title)
 
     verify_google = f'\n  <meta name="google-site-verification" content="{GOOGLE_SITE_VERIFICATION}">' if GOOGLE_SITE_VERIFICATION else ""
     verify_naver = f'\n  <meta name="naver-site-verification" content="{NAVER_SITE_VERIFICATION}">' if NAVER_SITE_VERIFICATION else ""
@@ -252,20 +347,21 @@ def html_head(title, description="", thumbnail="", is_article=False, canonical_p
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{title}</title>
   <meta name="description" content="{desc}">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
   <meta name="author" content="{SITE_AUTHOR}">
   <link rel="canonical" href="{canonical}">
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="alternate" type="application/rss+xml" title="{SITE_TITLE}" href="{BASE_URL}/rss.xml">{verify_google}{verify_naver}
   <meta property="og:site_name" content="{SITE_TITLE}">
-  <meta property="og:title" content="{title}">
+  <meta property="og:title" content="{attr_title}">
   <meta property="og:description" content="{desc}">
   <meta property="og:url" content="{canonical}">
   <meta property="og:image" content="{og_image}">
   <meta property="og:type" content="{og_type}">
   <meta property="og:locale" content="ko_KR">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="{title}">
+  <meta name="twitter:title" content="{attr_title}">
   <meta name="twitter:description" content="{desc}">
   <meta name="twitter:image" content="{og_image}">{jsonld}
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
@@ -276,10 +372,16 @@ def html_head(title, description="", thumbnail="", is_article=False, canonical_p
 <body>"""
 
 
+# 글이 1개 이상 있는 카테고리 (build()에서 채움). 빈 카테고리 페이지는 얇은 콘텐츠로 평가되므로 노출하지 않는다.
+ACTIVE_CATEGORIES = set()
+
+
 def category_nav_html(active_slug="all"):
     """카테고리 네비게이션 바 생성"""
     nav_items = ""
     for slug, name in CATEGORIES.items():
+        if slug != "all" and ACTIVE_CATEGORIES and slug not in ACTIVE_CATEGORIES:
+            continue
         href = "index.html" if slug == "all" else f"category-{slug}.html"
         active = ' class="active"' if slug == active_slug else ""
         nav_items += f'<a href="{href}"{active}>{name}</a>\n        '
@@ -519,17 +621,21 @@ def render_static_page(meta, body_html, slug):
 def render_sitemap(posts, static_slugs):
     from datetime import timezone
     now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
-    urls = [f"{BASE_URL}/"]
+    # lastmod를 매 빌드 시각으로 일괄 기록하면 검색엔진이 lastmod 자체를 신뢰하지 않게 된다.
+    # 홈/카테고리만 빌드 시각, 개별 글은 실제 작성(수정) 시각을 기록한다.
+    entries = [(f"{BASE_URL}/", now)]
     for s in static_slugs:
-        urls.append(f"{BASE_URL}/{s}.html")
+        entries.append((f"{BASE_URL}/{s}.html", None))
     for cs in CATEGORIES:
-        if cs == "all":
+        if cs == "all" or (ACTIVE_CATEGORIES and cs not in ACTIVE_CATEGORIES):
             continue
-        urls.append(f"{BASE_URL}/category-{cs}.html")
+        entries.append((f"{BASE_URL}/category-{cs}.html", now))
     for p in posts:
-        urls.append(f"{BASE_URL}/{p['slug']}.html")
+        lm = (p.get("lastmod") or p.get("date") or "").strip()
+        entries.append((f"{BASE_URL}/{p['slug']}.html", lm or None))
     items = "\n".join(
-        f"  <url><loc>{u}</loc><lastmod>{now}</lastmod></url>" for u in urls
+        f"  <url><loc>{u}</loc><lastmod>{lm}</lastmod></url>" if lm else f"  <url><loc>{u}</loc></url>"
+        for u, lm in entries
     )
     return f"""<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -566,7 +672,7 @@ def render_rss(posts, limit=30):
 """
 
 
-def render_post(meta, body_html):
+def render_post(meta, body_html, related=None):
     title = meta.get("title", "")
     date_str = meta.get("date", "")[:10]
     category = meta.get("category", "")
@@ -614,7 +720,7 @@ def render_post(meta, body_html):
     canonical_path = f"/{slug}.html"
     article_meta = {
         "title": title,
-        "description": (meta.get("description") or title),
+        "description": meta.get("description") or title,
         "image": thumbnail or f"{BASE_URL}{DEFAULT_OG_IMAGE}",
         "date_published": meta.get("date", ""),
         "date_modified": meta.get("date", ""),
@@ -644,6 +750,7 @@ def render_post(meta, body_html):
       </div>
       {ad_bottom}
       {reactions}
+      {related_html(related or [])}
       <footer class="post-footer">
         <div class="post-tags-footer">{tags_footer}</div>
         <p class="post-disclaimer">본 기사는 공개 보도를 종합한 뉴스 브리핑입니다. 정정 요청은 <a href="/contact.html">문의</a>로 접수해 주세요.</p>
@@ -909,9 +1016,10 @@ def build():
         cat_slug = CATEGORY_TO_SLUG.get(raw_cat, "")
         display_cat = raw_cat if raw_cat else "일반"
 
-        page_html = render_post(meta, body_html)
-        out_path = PUBLIC_DIR / f"{slug}.html"
-        out_path.write_text(page_html, encoding="utf-8")
+        # 메타 설명: 비어 있거나 제목과 같으면 본문에서 자동 생성
+        desc = (meta.get("description") or "").strip()
+        if not desc or desc == meta.get("title", "").strip():
+            meta["description"] = make_description(body, meta.get("title", ""))
 
         # md 파일 생성 시간 (macOS: st_birthtime, Linux: st_mtime fallback)
         stat = md_file.stat()
@@ -931,13 +1039,31 @@ def build():
             "cat_slug": cat_slug,
             "thumbnail": meta.get("thumbnail", ""),
             "slug": slug,
-            "summary": summary,
+            "summary": meta.get("description") or summary,
             "file_ctime": file_ctime,
+            "lastmod": meta.get("lastmod", "") or meta.get("date", ""),
+            "tags": tag_set(meta),
+            "_meta": meta,
+            "_body_html": body_html,
         })
 
     # frontmatter date 전체 기준 역순 정렬 (최신 날짜+시간대 우선)
     # 같은 datetime이면 제목 가나다순
     posts.sort(key=lambda x: (x["date"][:19], x["title"]), reverse=True)
+
+    # ── 개별 글 페이지 (관련 글 계산을 위해 전체 수집 후 렌더링) ──
+    by_cat = defaultdict(list)
+    for p in posts:
+        if p["cat_slug"]:
+            by_cat[p["cat_slug"]].append(p)
+    ACTIVE_CATEGORIES.clear()
+    ACTIVE_CATEGORIES.update(by_cat.keys())
+    for p in posts:
+        related = find_related(p, by_cat, posts)
+        page_html = render_post(p["_meta"], p["_body_html"], related)
+        (PUBLIC_DIR / f"{p['slug']}.html").write_text(page_html, encoding="utf-8")
+        p.pop("_body_html", None)
+    print(f"  개별 글 페이지 {len(posts)}개 (관련 글 링크 포함)")
 
     # ── 메인 페이지 (페이지네이션) ──
     import math
@@ -960,6 +1086,8 @@ def build():
         if cat_slug == "all":
             continue
         cat_page_posts = cat_posts.get(cat_slug, [])
+        if not cat_page_posts:
+            continue
         total_cat_pages = max(1, math.ceil(len(cat_page_posts) / POSTS_PER_PAGE))
         for page_num in range(1, total_cat_pages + 1):
             cat_html = render_category_page(cat_slug, cat_name, cat_page_posts, page=page_num, total_pages=total_cat_pages)
