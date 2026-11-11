@@ -233,6 +233,69 @@ def find_related(post, by_cat, all_posts, limit=4):
     return picks[:limit]
 
 
+def naver_copy_toolbar_html(title, tags, thumbnail):
+    """
+    네이버 블로그 붙여넣기 전용 복사 도구.
+    방문자에게는 숨기고, 운영자가 글 주소 뒤에 ?copy=1 을 붙여 한 번 열면 이후 계속 표시된다(?copy=0 으로 끔).
+    - 본문 복사: 링크는 글자만 남기고(외부 링크 제거), 관련 글·광고·면책 문구·좋아요 버튼은 빼고 복사
+    - 제목/태그는 네이버 에디터의 별도 입력칸에 넣을 수 있게 따로 복사
+    """
+    tags_txt = html_attr(" ".join(f"#{t}" for t in list(tags)[:10]))
+    return f"""
+      <div class="naver-copy" id="naverCopy" hidden
+           data-title="{html_attr(title)}" data-tags="{tags_txt}" data-thumb="{html_attr(thumbnail)}">
+        <span class="naver-copy__label">네이버 블로그용</span>
+        <button type="button" data-copy="title">제목 복사</button>
+        <button type="button" data-copy="body">본문 복사</button>
+        <button type="button" data-copy="tags">태그 복사</button>
+        <span class="naver-copy__msg" aria-live="polite"></span>
+      </div>
+      <script>
+      (function () {{
+        var KEY = 'naverCopy.enabled';
+        var q = new URLSearchParams(location.search).get('copy');
+        try {{
+          if (q === '1') localStorage.setItem(KEY, '1');
+          if (q === '0') localStorage.removeItem(KEY);
+          if (localStorage.getItem(KEY) !== '1') return;
+        }} catch (e) {{ if (q !== '1') return; }}
+        var box = document.getElementById('naverCopy');
+        box.hidden = false;
+        var msg = box.querySelector('.naver-copy__msg');
+        function done(t) {{ msg.textContent = t; setTimeout(function () {{ msg.textContent = ''; }}, 2000); }}
+        function bodyHtml() {{
+          var src = document.querySelector('.post-content').cloneNode(true);
+          src.querySelectorAll('a').forEach(function (a) {{ a.replaceWith(document.createTextNode(a.textContent)); }});
+          src.querySelectorAll('script, .ad-slot, ins').forEach(function (n) {{ n.remove(); }});
+          src.querySelectorAll('[style]').forEach(function (n) {{ if (n.tagName !== 'IMG') n.removeAttribute('style'); }});
+          var thumb = box.dataset.thumb;
+          if (thumb && !src.querySelector('img[src="' + thumb + '"]')) {{
+            var p = document.createElement('p'); var img = document.createElement('img');
+            img.src = thumb; img.style.maxWidth = '100%'; p.appendChild(img); src.insertBefore(p, src.firstChild);
+          }}
+          return src;
+        }}
+        function copy(html, text) {{
+          if (html && window.ClipboardItem) {{
+            return navigator.clipboard.write([new ClipboardItem({{
+              'text/html': new Blob([html], {{ type: 'text/html' }}),
+              'text/plain': new Blob([text], {{ type: 'text/plain' }})
+            }})]);
+          }}
+          return navigator.clipboard.writeText(text);
+        }}
+        box.addEventListener('click', function (e) {{
+          var kind = e.target.getAttribute('data-copy'); if (!kind) return;
+          var p;
+          if (kind === 'title') p = copy(null, box.dataset.title);
+          else if (kind === 'tags') p = copy(null, box.dataset.tags);
+          else {{ var b = bodyHtml(); p = copy(b.innerHTML, b.innerText); }}
+          p.then(function () {{ done('복사됨'); }}, function () {{ done('복사 실패 — 직접 선택해 복사하세요'); }});
+        }});
+      }})();
+      </script>"""
+
+
 def related_html(related):
     if not related:
         return ""
@@ -743,6 +806,7 @@ def render_post(meta, body_html, related=None):
           <div class="post-tags">{tags_html}</div>
         </div>
       </header>
+      {naver_copy_toolbar_html(title, tags if isinstance(tags, list) else [], thumbnail)}
       {hero}
       {ad_top}
       <div class="post-content">

@@ -859,6 +859,33 @@ img { max-width: 100%; height: auto; display: block; }
   margin: 4px 0;
 }
 
+/* ─── 네이버 블로그 복사 도구 (?copy=1 일 때만 표시) ─── */
+.naver-copy {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 16px 0;
+  padding: 10px 12px;
+  border: 1px solid #03c75a;
+  border-radius: 10px;
+  background: #f0fbf4;
+}
+.naver-copy[hidden] { display: none; }
+.naver-copy__label { font-size: 0.8rem; font-weight: 700; color: #03a94d; }
+.naver-copy button {
+  padding: 6px 12px;
+  border: 0;
+  border-radius: 8px;
+  background: #03c75a;
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.naver-copy button:hover { background: #02b351; }
+.naver-copy__msg { font-size: 0.8rem; color: var(--gray-700); }
+
 /* ─── Related posts (내부 링크) ─── */
 .related-posts {
   margin: 40px 0 8px;
