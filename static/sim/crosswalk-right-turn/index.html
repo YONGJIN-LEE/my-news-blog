@@ -1,0 +1,878 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>우회전 횡단보도 이격 시뮬레이터</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="보행자 녹색신호 중 우회전 차량과 보행자의 상충을, 모퉁이 횡단보도와 20~30m 이격 횡단보도로 나눠 비교하는 시뮬레이션">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans+KR:wght@400;500;700&display=swap">
+<style>
+/* Layout: a traffic-engineering bench sheet. Two plan-view canvases side by side (A = 현행, B = 이격안),
+   shared controls on top, a long-run comparison table and the model's assumptions below. */
+:root {
+  --bg: #EDF0F3; --panel: #FFFFFF; --ink: #16202B; --muted: #5A6574; --line: #D3DAE2;
+  --asphalt: #3A414E; --sidewalk: #C8CFD7; --ground: #D9E2D6; --block: #E4E9E1;
+  --mark: #F5F6F1; --yellow: #E0AE33; --car: #EEF2F6; --car-edge: #1D2530;
+  --ped: #2F7CF6; --go: #13995B; --warn: #DC8312; --danger: #DD4036; --accent: #0E7466;
+  --chip: #EEF2F5;
+  --font-body: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+  --font-num: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0E1217; --panel: #161B22; --ink: #E5EAF0; --muted: #94A1B1; --line: #29313C;
+    --asphalt: #2B313B; --sidewalk: #404853; --ground: #18201A; --block: #1D251F;
+    --mark: #D8DBD3; --yellow: #C69A2F; --car: #DCE2E9; --car-edge: #0B0E12;
+    --ped: #5C9EFF; --go: #2EC07B; --warn: #F0A23A; --danger: #F2635A; --accent: #3EC0A9;
+    --chip: #1F2630; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0E1217; --panel: #161B22; --ink: #E5EAF0; --muted: #94A1B1; --line: #29313C;
+  --asphalt: #2B313B; --sidewalk: #404853; --ground: #18201A; --block: #1D251F;
+  --mark: #D8DBD3; --yellow: #C69A2F; --car: #DCE2E9; --car-edge: #0B0E12;
+  --ped: #5C9EFF; --go: #2EC07B; --warn: #F0A23A; --danger: #F2635A; --accent: #3EC0A9;
+  --chip: #1F2630; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.6;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 28px 56px;
+}
+.wrap { max-width: 1240px; margin: 0 auto; display: flex; flex-direction: column; gap: 28px; }
+header { display: flex; flex-direction: column; gap: 10px; max-width: 820px; }
+.eyebrow { font-size: 12.5px; letter-spacing: .08em; color: var(--muted); font-weight: 500; }
+h1 { font-size: clamp(24px, 3.4vw, 36px); line-height: 1.25; margin: 0; font-weight: 700; text-wrap: balance; letter-spacing: -0.01em; }
+.lead { margin: 0; color: var(--muted); max-width: 68ch; }
+h2 { font-size: 20px; margin: 0; font-weight: 700; text-wrap: balance; }
+h3 { font-size: 15.5px; margin: 0; font-weight: 700; }
+.num { font-family: var(--font-num); font-variant-numeric: tabular-nums; }
+
+/* controls */
+.bar { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.seg button { border: 0; background: transparent; color: var(--ink); font: inherit; font-size: 13.5px; padding: 7px 12px; cursor: pointer; }
+.seg button + button { border-left: 1px solid var(--line); }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--panel); }
+.btn { border: 1px solid var(--line); background: var(--chip); color: var(--ink); font: inherit; font-size: 13.5px; padding: 7px 14px; border-radius: 8px; cursor: pointer; }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--panel); font-weight: 500; }
+button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.bar .label { font-size: 12.5px; color: var(--muted); }
+.grp { display: inline-flex; align-items: center; gap: 8px; }
+.caption { font-size: 13.5px; color: var(--muted); margin: 0; flex-basis: 100%; }
+.caption b { color: var(--ink); font-weight: 500; }
+
+/* stage */
+.stage { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 880px) { .stage { grid-template-columns: 1fr; } }
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; min-width: 0; }
+.ph { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px 12px; padding: 12px 14px 10px; }
+.tag { display: flex; align-items: baseline; gap: 10px; min-width: 0; }
+.tag .k { font-family: var(--font-num); font-weight: 600; font-size: 13px; color: var(--panel); padding: 1px 8px; border-radius: 5px; }
+.A .tag .k { background: var(--danger); }
+.B .tag .k { background: var(--accent); }
+.tag .t { font-weight: 700; font-size: 15px; }
+.status { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; background: var(--chip); border-radius: 999px; padding: 4px 11px 4px 9px; max-width: 100%; }
+.status i { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); flex: none; }
+.status[data-s="glance"] i, .status[data-s="react"] i { background: var(--warn); }
+.status[data-s="hard"] i, .status[data-s="hit"] i { background: var(--danger); }
+.status[data-s="yield"] i, .status[data-s="stopped"] i { background: var(--go); }
+.status .meta { color: var(--muted); }
+canvas { display: block; width: 100%; aspect-ratio: 78 / 54; max-width: 100%; background: var(--ground); }
+.stats { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); border-top: 1px solid var(--line); }
+.stats div { padding: 10px 12px; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.stats div + div { border-left: 1px solid var(--line); }
+.stats span { font-size: 11.5px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.stats b { font-family: var(--font-num); font-variant-numeric: tabular-nums; font-size: 19px; font-weight: 600; }
+.stats b.bad { color: var(--danger); }
+.stats b.warn { color: var(--warn); }
+@media (max-width: 560px) {
+  .stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .stats div:nth-child(4) { border-left: 0; }
+  .stats div:nth-child(n+4) { border-top: 1px solid var(--line); }
+}
+
+/* params */
+.params { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px 22px; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 16px; }
+.param { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.param label { display: flex; justify-content: space-between; gap: 8px; font-size: 13.5px; font-weight: 500; }
+.param label output { font-family: var(--font-num); color: var(--accent); }
+.param small { color: var(--muted); font-size: 12px; line-height: 1.45; }
+input[type=range] { width: 100%; accent-color: var(--accent); }
+.check { display: flex; gap: 8px; align-items: flex-start; font-size: 13.5px; font-weight: 500; }
+.check input { margin-top: 4px; accent-color: var(--accent); }
+
+.legend { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 12.5px; color: var(--muted); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.sw { width: 18px; height: 10px; border-radius: 2px; display: inline-block; }
+
+/* results */
+section { display: flex; flex-direction: column; gap: 14px; }
+.sec-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 10px 16px; }
+.sec-head p { margin: 4px 0 0; color: var(--muted); font-size: 13.5px; max-width: 70ch; }
+.tablewrap { overflow-x: auto; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; }
+table { border-collapse: collapse; width: 100%; min-width: 600px; font-size: 14px; }
+th, td { text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+tr:last-child td { border-bottom: 0; }
+th { font-size: 12px; color: var(--muted); font-weight: 500; letter-spacing: .03em; }
+td.metric { width: 30%; }
+td.metric small { display: block; color: var(--muted); font-size: 12px; }
+.barcell { display: grid; grid-template-columns: 28px 1fr 76px; gap: 8px; align-items: center; }
+.barcell + .barcell { margin-top: 6px; }
+.barcell .k { font-family: var(--font-num); font-size: 12px; font-weight: 600; }
+.track { height: 12px; background: var(--chip); border-radius: 3px; overflow: hidden; }
+.fill { height: 100%; border-radius: 3px; transition: width .6s ease; }
+.fill.a { background: var(--danger); } .fill.b { background: var(--accent); }
+.barcell .v { font-family: var(--font-num); font-variant-numeric: tabular-nums; text-align: right; font-size: 13px; }
+td.verdict { width: 18%; font-size: 13px; }
+.pill { display: inline-block; font-size: 12px; padding: 2px 9px; border-radius: 999px; background: var(--chip); }
+.pill.good { color: var(--go); } .pill.bad { color: var(--danger); }
+.stale { color: var(--warn); font-size: 13px; }
+
+.cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.card p, .card li { margin: 0; color: var(--muted); font-size: 14px; }
+.card ul { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 6px; }
+.card .fig { font-family: var(--font-num); color: var(--ink); }
+.plus h3 { color: var(--accent); } .minus h3 { color: var(--warn); }
+.assume { font-size: 13px; color: var(--muted); background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 14px 18px; }
+.assume ul { margin: 6px 0 0; padding-left: 18px; display: grid; gap: 4px; }
+.assume b { color: var(--ink); font-weight: 500; }
+@media (prefers-reduced-motion: reduce) { .fill { transition: none; } }
+</style>
+</head>
+<body>
+
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">우회전 차량 × 보행자 녹색신호 · 평면 시뮬레이션</div>
+    <h1>횡단보도를 우회전 지점에서 25m 뒤로 옮기면, 정말 덜 부딪힐까?</h1>
+    <p class="lead">같은 교차로, 같은 차량과 보행자 흐름을 두 개의 화면에서 동시에 돌립니다. 왼쪽(A)은 모퉁이에 바로 붙은 현행 횡단보도, 오른쪽(B)은 회전을 끝낸 뒤 직진 구간에 둔 이격 횡단보도입니다. 운전자의 시선(부채꼴), 정지거리(차 앞의 선), 상충 사건이 실시간으로 표시됩니다.</p>
+  </header>
+
+  <div class="bar" role="group" aria-label="재생 제어">
+    <div class="seg" role="group" aria-label="모드">
+      <button type="button" id="modeRandom" aria-pressed="true">실제 교통 흐름</button>
+      <button type="button" id="modeScene" aria-pressed="false">같은 장면 재현</button>
+    </div>
+    <div class="grp">
+      <button type="button" class="btn" id="play">일시정지</button>
+      <button type="button" class="btn" id="reset">처음부터</button>
+    </div>
+    <div class="grp"><span class="label">배속</span>
+      <div class="seg" role="group" aria-label="배속" id="speeds">
+        <button type="button" data-v="0.5" aria-pressed="false">0.5×</button>
+        <button type="button" data-v="1" aria-pressed="true">1×</button>
+        <button type="button" data-v="3" aria-pressed="false">3×</button>
+        <button type="button" data-v="8" aria-pressed="false">8×</button>
+      </div>
+    </div>
+    <div class="grp"><span class="label">경과</span><span class="num" id="clock">00:00</span></div>
+    <p class="caption" id="caption"></p>
+  </div>
+
+  <div class="stage">
+    <div class="panel A">
+      <div class="ph">
+        <div class="tag"><span class="k">A</span><span class="t">현행 · 모퉁이 횡단보도</span></div>
+        <div class="status" id="stA" data-s="drive"><i></i><span class="s">주행</span><span class="meta"></span></div>
+      </div>
+      <canvas id="cvA" width="780" height="540" aria-label="A안 교차로 평면 애니메이션"></canvas>
+      <div class="stats" id="statsA"></div>
+    </div>
+    <div class="panel B">
+      <div class="ph">
+        <div class="tag"><span class="k">B</span><span class="t" id="titleB">이격 · 25m 뒤 횡단보도</span></div>
+        <div class="status" id="stB" data-s="drive"><i></i><span class="s">주행</span><span class="meta"></span></div>
+      </div>
+      <canvas id="cvB" width="780" height="540" aria-label="B안 교차로 평면 애니메이션"></canvas>
+      <div class="stats" id="statsB"></div>
+    </div>
+  </div>
+
+  <div class="legend" aria-label="범례">
+    <span><i class="sw" style="background:color-mix(in srgb, var(--go) 35%, transparent)"></i>운전자 전방 시선</span>
+    <span><i class="sw" style="background:color-mix(in srgb, var(--warn) 45%, transparent)"></i>좌측 확인 중(전방을 못 봄)</span>
+    <span><i class="sw" style="background:var(--mark)"></i>정지거리 (반응+제동)</span>
+    <span><i class="sw" style="background:var(--danger)"></i>정지거리가 횡단보도를 넘음</span>
+    <span><i class="sw" style="background:var(--ped);border-radius:50%;width:10px"></i>보행자</span>
+  </div>
+
+  <div class="params" aria-label="시뮬레이션 조건">
+    <div class="param">
+      <label for="pS">이격 거리 (B안) <output id="oS">25 m</output></label>
+      <input type="range" id="pS" min="10" max="30" step="1" value="25">
+      <small>회전 반경이 끝나는 지점에서 횡단보도까지의 거리.</small>
+    </div>
+    <div class="param">
+      <label for="pG">좌측 확인 시간 <output id="oG">1.0 초</output></label>
+      <input type="range" id="pG" min="0.4" max="2.0" step="0.1" value="1.0">
+      <small>회전 중 왼쪽에서 오는 차를 보느라 전방을 놓치는 시간. 두 안에 똑같이 적용.</small>
+    </div>
+    <div class="param">
+      <label for="pR">인지·반응 시간 <output id="oR">1.0 초</output></label>
+      <input type="range" id="pR" min="0.6" max="1.6" step="0.1" value="1.0">
+      <small>보행자를 본 뒤 브레이크를 밟기까지. 도로설계 기준은 보통 2.5초로 더 보수적입니다.</small>
+    </div>
+    <div class="param">
+      <label for="pC">우회전 차량 <output id="oC">10 대/분</output></label>
+      <input type="range" id="pC" min="4" max="16" step="1" value="10">
+      <small>실제 교통 흐름 모드에서만 적용.</small>
+    </div>
+    <div class="param">
+      <label for="pP">보행자 <output id="oP">6 명/분</output></label>
+      <input type="range" id="pP" min="2" max="14" step="1" value="6">
+      <small>양쪽 보도에서 각각 도착하는 인원.</small>
+    </div>
+    <div class="param">
+      <label class="check" for="pRaised"><input type="checkbox" id="pRaised">B안에 고원식 횡단보도(30km/h 유도) 적용</label>
+      <small>직진 구간에서 차가 다시 가속하는 문제를 줄이는 보완책.</small>
+    </div>
+  </div>
+
+  <section aria-labelledby="cmpH">
+    <div class="sec-head">
+      <div>
+        <h2 id="cmpH">3시간 누적 비교</h2>
+        <p>현재 조건으로 화면 없이 3시간(난수 3세트 × 1시간)을 빠르게 돌린 결과입니다. 차량 1,000대당 건수로 환산했습니다.</p>
+      </div>
+      <div class="grp"><span class="stale" id="stale" hidden>조건이 바뀌었습니다</span><button type="button" class="btn primary" id="runBatch">현재 조건으로 다시 계산</button></div>
+    </div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>지표</th><th>A 현행 vs B 이격</th><th>B안 변화</th></tr></thead>
+        <tbody id="cmpBody"><tr><td colspan="3">계산 중…</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section aria-labelledby="whyH">
+    <h2 id="whyH">왜 차이가 나는가, 그리고 대가는 무엇인가</h2>
+    <div class="cols">
+      <div class="card plus">
+        <h3>① 회전과 판단을 시간으로 분리</h3>
+        <p>모퉁이 횡단보도에서는 핸들을 돌리고, 왼쪽 차량을 확인하고, 보행자를 찾는 일이 같은 2~3초에 몰립니다. 이격하면 회전을 끝내고 바퀴가 곧게 선 뒤 정면에서 보행자를 봅니다.</p>
+      </div>
+      <div class="card plus">
+        <h3>② 정지거리를 확보</h3>
+        <p>18km/h로 회전 중인 차가 반응 1초 + 제동하면 약 <span class="fig">7m</span>가 필요하지만, 모퉁이 횡단보도까지 남은 거리는 회전 후반에 <span class="fig">5m</span> 안팎입니다. 25m 이격이면 시속 35km 안팎에서도 여유가 남습니다.</p>
+      </div>
+      <div class="card plus">
+        <h3>③ 보행자도 차를 본다</h3>
+        <p>모퉁이에서는 우회전 차가 보행자의 등 뒤에서 돌아 들어옵니다. 이격 지점에서는 차가 옆에서 곧게 다가와 보행자가 간격을 판단하기 쉽고, 대기 차량 1~3대가 교차로 밖에 설 공간도 생깁니다.</p>
+      </div>
+      <div class="card minus">
+        <h3>대가 ① 직진 후 다시 빨라지는 차</h3>
+        <p>회전을 마친 차는 가속합니다. 시뮬레이션에서도 B안의 횡단보도 진입 속도가 더 높게 나옵니다. 사고가 나면 더 크게 다칠 수 있어 고원식 횡단보도, 속도 제한 같은 보완이 함께 가야 합니다.</p>
+      </div>
+      <div class="card minus">
+        <h3>대가 ② 보행자 우회와 무단횡단</h3>
+        <p>모퉁이에서 바로 건너던 사람은 최대 <span class="fig" id="detour">50m</span>(약 <span class="fig" id="detourT">42초</span>)를 더 걷습니다. 원래 위치로 무단횡단하는 사람이 생기면 효과가 사라지므로 보행 울타리와 동선 설계가 필수입니다.</p>
+      </div>
+      <div class="card minus">
+        <h3>대가 ③ 공간과 신호 운영</h3>
+        <p>직진 구간이 25m 이상 확보되는 넓은 교차로에서만 가능하고, 이격 횡단보도에는 별도 신호 또는 보행자 작동 신호가 필요할 수 있습니다. 좁은 도심 교차로에는 우회전 전용 신호가 더 현실적인 경우가 많습니다.</p>
+      </div>
+    </div>
+    <div class="assume">
+      <b>모델 가정과 한계</b> — 이 화면은 원리를 보여주는 단순화된 모델이며, 실제 사고 감소율을 예측하지 않습니다.
+      <ul>
+        <li>운전자는 전방 ±35°(저속 시 ±75°), 45m 안의 보행자만 인지합니다. 회전 중간(차 방향 45° 지점)에 좌측 확인을 한 번 하며 그동안 전방을 보지 못합니다.</li>
+        <li>회전 속도 18km/h, 회전 후 최대 50km/h까지 1.5m/s²로 가속, 최대 제동 8m/s². 감속도 3.5m/s² 초과를 급제동으로 셉니다.</li>
+        <li>보행자는 녹색신호(30초, 점멸 6초, 적색 34초)에 1.0~1.5m/s로 건넙니다. 측면에서 곧게 오는 차는 보고 3초 간격을 지키지만, 등 뒤에서 회전해 오는 차는 9m 안에 들어와야 알아챕니다. 막 내려선 직후 차가 코앞이면 되돌아섭니다(아차사고로 집계).</li>
+        <li>‘통행 중 진입’은 보행자가 차로 위에 있거나 진입하려는 순간 차가 횡단보도에 들어간 경우입니다(도로교통법상 일시정지 의무 위반 상황).</li>
+        <li>건너편 차로의 직진·좌회전 차량, 자전거, 야간·우천 시야, 운전자 개인차는 모델에 없습니다.</li>
+      </ul>
+    </div>
+  </section>
+</div>
+
+<script>
+// ===== Simulation core (units: m, s) =====
+const L1 = 54.75, R = 10, L2 = Math.PI * R / 2, CX = 15.25, CY = -15.25;
+const S_ARC_END = L1 + L2;
+const HALF_L = 2.25, HALF_W = 0.9, PED_R = 0.3;
+const CYCLE = 70, GREEN = 30, FLASH = 36;
+const DEG = Math.PI / 180;
+
+function pathPos(s) {
+  if (s < L1) return { x: 5.25, y: -70 + s, h: Math.PI / 2 };
+  if (s < S_ARC_END) {
+    const th = Math.PI - (s - L1) / R;
+    return { x: CX + R * Math.cos(th), y: CY + R * Math.sin(th), h: th - Math.PI / 2 };
+  }
+  return { x: 15.25 + (s - S_ARC_END), y: -5.25, h: 0 };
+}
+function mulberry32(a) {
+  return function () {
+    a |= 0; a = a + 0x6D2B79F5 | 0;
+    let t = Math.imul(a ^ a >>> 15, 1 | a);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  };
+}
+function wrapAng(a) { while (a > Math.PI) a -= 2 * Math.PI; while (a < -Math.PI) a += 2 * Math.PI; return a; }
+function clamp(v, lo, hi) { return v < lo ? lo : v > hi ? hi : v; }
+
+// A pedestrian is "relevant" when they are in, or about to enter, the right-turn car's lane band.
+function isRelevant(p) {
+  if (p.state !== 'cross' && p.state !== 'hit') return false;
+  if (p.dir > 0) return p.y < -3.0;
+  return p.y < 3.0 && p.y > -7.8;
+}
+
+class Sim {
+  constructor(opts) {
+    this.o = Object.assign({
+      xcw: 17, carRate: 10, pedRate: 6, glance: 1.0, rt: 1.0,
+      raised: false, seed: 1, scenario: false,
+    }, opts);
+    this.reset();
+  }
+  reset() {
+    const o = this.o;
+    this.rng = mulberry32(o.seed);
+    this.t = 0; this.cars = []; this.peds = []; this.fx = [];
+    this.nextId = 1;
+    this.phase0 = o.scenario ? 0 : this.rng() * CYCLE;
+    this.nextCarT = o.scenario ? Infinity : this.rng() * 3;
+    this.nextPedT = [this.rng() * 5, this.rng() * 5];
+    this.sEntry = S_ARC_END + (o.xcw - 15.25);
+    this.st = { passed: 0, smooth: 0, hard: 0, viol: 0, near: 0, coll: 0, entrySum: 0, entryN: 0, impact: [] };
+    this.done = false; this.doneT = 0;
+    if (o.scenario) this.setupScenario();
+  }
+  setupScenario() {
+    const c = this.makeCar(28, 9);
+    c.glanceDur = this.o.glance; c.rt = this.o.rt;
+    this.cars.push(c);
+    this.peds.push({ id: this.nextId++, x: this.o.xcw + 2, y: -7.6, dir: 1, state: 'wait', speed: 1.3, held: true, timer: 0 });
+  }
+  setParam(k, v) { this.o[k] = v; if (k === 'xcw') this.sEntry = S_ARC_END + (v - 15.25); }
+  signal() {
+    if (this.o.scenario) return 'green';
+    const ph = (this.t + this.phase0) % CYCLE;
+    return ph < GREEN ? 'green' : ph < FLASH ? 'flash' : 'red';
+  }
+  signalRemain() { const ph = (this.t + this.phase0) % CYCLE; return ph < GREEN ? GREEN - ph : ph < FLASH ? FLASH - ph : CYCLE - ph; }
+  expo(mean) { return -Math.log(1 - this.rng()) * mean; }
+  makeCar(s, v) {
+    const r = this.rng;
+    return {
+      id: this.nextId++, s, v, a: 0,
+      glanceDur: this.o.glance * (0.6 + 0.8 * r()), rt: this.o.rt * (0.8 + 0.4 * r()),
+      glanceStart: null, noticed: new Map(), seen: new Set(), yielding: false, yieldStarted: false, maxDecel: 0,
+      entered: false, counted: false, hitHold: 0, near: new Set(), hitPeds: new Set(), viol: false,
+      status: 'drive',
+    };
+  }
+  step(dt) {
+    const o = this.o; this.t += dt; const t = this.t; const r = this.rng;
+    const sig = this.signal();
+    // --- spawn
+    if (!o.scenario) {
+      if (t >= this.nextCarT) {
+        if (!this.cars.some(c => c.s < 12)) { this.cars.push(this.makeCar(0, 9)); this.nextCarT = t + Math.max(2.5, this.expo(60 / o.carRate)); }
+        else this.nextCarT = t + 0.5;
+      }
+      for (let i = 0; i < 2; i++) {
+        if (t >= this.nextPedT[i]) {
+          const side = i === 0 ? -1 : 1;
+          this.peds.push({ id: this.nextId++, x: o.xcw + 0.6 + r() * 2.8, y: side * 11, dir: -side, state: 'approach', speed: 1.0 + r() * 0.5, timer: 0 });
+          this.nextPedT[i] = t + this.expo(60 / o.pedRate);
+        }
+      }
+    }
+    // --- peds
+    for (const p of this.peds) {
+      if (p.state === 'approach') {
+        const wy = -p.dir * 7.6; const d = wy - p.y;
+        const stepv = p.speed * dt;
+        if (Math.abs(d) <= stepv) { p.y = wy; p.state = 'wait'; } else p.y += Math.sign(d) * stepv;
+      } else if (p.state === 'wait') {
+        if (p.held) {
+          const c = this.cars[0];
+          if (c && c.s >= L1 + L2 * 0.5 - 1.5) { p.held = false; p.state = 'cross'; }
+        } else if (sig === 'green') {
+          // Gap acceptance at the near curb. A pedestrian sees a car coming straight at the crossing
+          // from the side, but a car turning in from behind them is picked up only when it is close.
+          let blocked = false;
+          if (p.dir > 0) for (const c of this.cars) {
+            const fs = c.s + HALF_L;
+            if (c.s - HALF_L > this.sEntry + 4.5) continue;
+            if (fs > this.sEntry - 0.5) { blocked = true; continue; }
+            if (c.v < 0.5) continue;
+            const Pc = pathPos(c.s);
+            const visible = c.s >= S_ARC_END - 3 || Math.hypot(Pc.x - p.x, Pc.y - p.y) < 9;
+            if (visible && (this.sEntry - fs) / c.v < 3.0) blocked = true;
+          }
+          if (!blocked) p.state = 'cross';
+        }
+      } else if (p.state === 'cross') {
+        // A pedestrian who has just stepped off the curb jumps back if a moving car is about to hit them.
+        if (p.dir > 0 && p.y < -6.0 && !p.held) {
+          for (const c of this.cars) {
+            if (c.v < 1.5) continue;
+            const Q = pathPos(c.s), qc = Math.cos(Q.h), qs = Math.sin(Q.h);
+            const dx = p.x - (Q.x + qc * HALF_L), dy = p.y - (Q.y + qs * HALF_L);
+            const lx = dx * qc + dy * qs, ly = -dx * qs + dy * qc;
+            if (lx > -HALF_L * 2 && lx < 3.5 && Math.abs(ly) < 1.6) {
+              p.state = 'wait'; p.y = -7.6; p.evaded = (p.evaded || 0) + 1;
+              this.st.near++; this.fx.push({ x: p.x, y: p.y, t, type: 'near' });
+              break;
+            }
+          }
+          if (p.state !== 'cross') continue;
+        }
+        p.y += p.dir * p.speed * dt;
+      } else if (p.state === 'hit') { p.timer += dt; }
+    }
+    this.peds = this.peds.filter(p => !(p.state === 'cross' && Math.abs(p.y) > 11) && !(p.state === 'hit' && p.timer > 3));
+
+    // --- cars (leader first)
+    this.cars.sort((a, b) => b.s - a.s);
+    for (let i = 0; i < this.cars.length; i++) {
+      const c = this.cars[i], leader = i > 0 ? this.cars[i - 1] : null;
+      const P = pathPos(c.s), ch = Math.cos(P.h), sh = Math.sin(P.h);
+      const fx = P.x + ch * HALF_L, fy = P.y + sh * HALF_L;
+      if (c.glanceStart === null && c.s >= L1 + L2 * 0.5) c.glanceStart = t;
+      const glancing = c.glanceStart !== null && t < c.glanceStart + c.glanceDur;
+      c.glancing = glancing;
+      // perception
+      // Drivers register a hazard only when they actually look at a pedestrian who is crossing
+      // (or about to). Someone already spotted on the curb is easier to pick up (wider cone).
+      if (!glancing) {
+        const base = (c.v < 3 ? 75 : 35) * DEG;
+        for (const p of this.peds) {
+          if (c.noticed.has(p.id) || p.state === 'approach') continue;
+          const dx = p.x - fx, dy = p.y - fy, d = Math.hypot(dx, dy);
+          if (d > 45) continue;
+          const ang = Math.abs(wrapAng(Math.atan2(dy, dx) - P.h));
+          const half = c.seen.has(p.id) ? Math.max(base, 55 * DEG) : base;
+          if (ang <= half) { c.seen.add(p.id); if (isRelevant(p)) c.noticed.set(p.id, t); }
+        }
+      }
+      let pending = false, yieldNeed = false;
+      for (const p of this.peds) {
+        if (!isRelevant(p)) continue;
+        const nt = c.noticed.get(p.id);
+        if (nt === undefined) continue;
+        if (t >= nt + c.rt) yieldNeed = true; else pending = true;
+      }
+      const sf = c.s + HALF_L;
+      const dist = (this.sEntry - 1.0) - sf;
+      // cruise
+      let vdes;
+      if (sf < L1) vdes = Math.min(9, Math.sqrt(25 + 4 * Math.max(0, L1 - sf)));
+      else if (c.s < S_ARC_END) vdes = 5;
+      else {
+        vdes = 13.9;
+        if (o.raised && sf < this.sEntry + 4) vdes = Math.min(vdes, Math.sqrt(8.33 * 8.33 + 4 * Math.max(0, (this.sEntry - 25) - sf)));
+      }
+      let a = clamp((vdes - c.v) * 1.5, -3, 1.5);
+      if (leader) {
+        const gap = leader.s - c.s - 2 * HALF_L;
+        if (gap < 30) { const vg = Math.sqrt(Math.max(0, 2 * 3.5 * (gap - 2.5))); a = Math.min(a, gap < 2.2 ? -8 : clamp((vg - c.v) * 2, -8, 1.5)); }
+      }
+      c.yielding = false;
+      if (yieldNeed && dist > -0.3) {
+        let aY;
+        if (dist <= 0.05) aY = -c.v / dt;
+        else {
+          const aReq = c.v * c.v / (2 * dist);
+          aY = aReq > 2.0 ? -Math.min(aReq, 8) : clamp((Math.sqrt(4 * dist) - c.v) * 1.5, -8, 1.5);
+          if (c.v > 1) c.maxDecel = Math.max(c.maxDecel, Math.min(aReq, 8));
+        }
+        if (aY < a) a = aY;
+        c.yielding = true; c.yieldStarted = true;
+      }
+      // emergency: noticed ped directly in path
+      for (const p of this.peds) {
+        if (p.state !== 'cross') continue;
+        const nt = c.noticed.get(p.id); if (nt === undefined || t < nt + c.rt) continue;
+        const dx = p.x - fx, dy = p.y - fy;
+        const lx = dx * ch + dy * sh, ly = -dx * sh + dy * ch;
+        if (lx > -0.5 && lx < 12 && Math.abs(ly) < 1.5) {
+          const ae = -Math.min(8, c.v * c.v / (2 * Math.max(0.3, lx - 0.6)));
+          if (ae < a) { a = ae; c.yielding = true; c.yieldStarted = true; if (c.v > 1) c.maxDecel = Math.max(c.maxDecel, -ae); }
+        }
+      }
+      if (c.hitHold > 0) { c.hitHold -= dt; a = 0; c.v = 0; }
+      c.a = a;
+      c.v = Math.max(0, c.v + a * dt);
+      c.s += c.v * dt;
+      // status (for narration)
+      c.status = c.hitHold > 0 ? 'hit' : glancing ? 'glance' : (c.yielding && c.v < 0.3) ? 'stopped' : (c.yielding && -a > 3.5) ? 'hard' : c.yielding ? 'yield' : pending ? 'react' : 'drive';
+      // crosswalk entry
+      const nsf = c.s + HALF_L;
+      if (!c.entered && nsf >= this.sEntry) {
+        c.entered = true;
+        this.st.entrySum += c.v * 3.6; this.st.entryN++;
+        if (this.peds.some(isRelevant)) { c.viol = true; this.st.viol++; const Q = pathPos(c.s); this.fx.push({ x: Q.x + HALF_L, y: Q.y, t, type: 'viol' }); }
+      }
+      // collisions & near-misses
+      const Q = pathPos(c.s), qc = Math.cos(Q.h), qs = Math.sin(Q.h);
+      for (const p of this.peds) {
+        if (p.state !== 'cross') continue;
+        const dx = p.x - Q.x, dy = p.y - Q.y;
+        const lx = dx * qc + dy * qs, ly = -dx * qs + dy * qc;
+        if (Math.abs(lx) < HALF_L + PED_R && Math.abs(ly) < HALF_W + PED_R && c.v > 0.3) {
+          if (!c.hitPeds.has(p.id)) {
+            c.hitPeds.add(p.id); this.st.coll++; this.st.impact.push(c.v * 3.6);
+            p.state = 'hit'; p.timer = 0; c.hitHold = 2.5; c.impactV = c.v; c.v = 0;
+            this.fx.push({ x: p.x, y: p.y, t, type: 'coll' });
+          }
+        } else {
+          const dd = Math.hypot(Math.max(Math.abs(lx) - HALF_L, 0), Math.max(Math.abs(ly) - HALF_W, 0));
+          if (dd < 1.0 && c.v > 1.5 && !c.near.has(p.id) && !c.hitPeds.has(p.id)) {
+            c.near.add(p.id); this.st.near++; this.fx.push({ x: p.x, y: p.y, t, type: 'near' });
+          }
+        }
+      }
+      if (!c.counted && c.s - HALF_L > this.sEntry + 4) {
+        c.counted = true; this.st.passed++;
+        if (c.yieldStarted) { if (c.maxDecel > 3.5) this.st.hard++; else this.st.smooth++; }
+      }
+    }
+    this.cars = this.cars.filter(c => c.s < S_ARC_END + 60);
+    this.fx = this.fx.filter(f => t - f.t < 2.2);
+    if (o.scenario && !this.done && this.cars.length === 0) { this.done = true; this.doneT = t; }
+  }
+}
+
+</script>
+<script>
+(() => {
+  const VX0 = -22, VX1 = 56, VY0 = -40, VY1 = 14;
+  const STEP = 0.02;
+  const $ = id => document.getElementById(id);
+  const params = { S: 25, glance: 1.0, rt: 1.0, carRate: 10, pedRate: 6, raised: false };
+  let mode = 'random', speed = 1, playing = true, seed = 7;
+  let simA, simB, sceneWait = 0;
+
+  function makeSims() {
+    const scen = mode === 'scene';
+    const base = { carRate: params.carRate, pedRate: params.pedRate, glance: params.glance, rt: params.rt, seed, scenario: scen };
+    simA = new Sim(Object.assign({}, base, { xcw: 17, raised: false }));
+    simB = new Sim(Object.assign({}, base, { xcw: 16 + params.S, raised: params.raised }));
+    sceneWait = 0;
+  }
+
+  // ---------- theme tokens for canvas
+  let T = {};
+  function readTokens() {
+    const cs = getComputedStyle(document.documentElement);
+    for (const k of ['asphalt','sidewalk','ground','block','mark','yellow','car','car-edge','ped','go','warn','danger','accent','ink','muted','panel'])
+      T[k] = cs.getPropertyValue('--' + k).trim();
+  }
+  readTokens();
+  try { matchMedia('(prefers-color-scheme: dark)').addEventListener('change', readTokens); } catch (e) {}
+  new MutationObserver(readTokens).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme', 'class'] });
+
+  function alpha(hex, a) {
+    const h = hex.replace('#', '');
+    const n = parseInt(h.length === 3 ? h.split('').map(c => c + c).join('') : h, 16);
+    return `rgba(${n >> 16 & 255},${n >> 8 & 255},${n & 255},${a})`;
+  }
+
+  // ---------- drawing
+  function setupCanvas(cv) {
+    const ctx = cv.getContext('2d');
+    function fit() {
+      const r = cv.getBoundingClientRect();
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const w = Math.max(320, Math.round(r.width * dpr));
+      cv.width = w; cv.height = Math.round(w * (VY1 - VY0) / (VX1 - VX0));
+    }
+    fit();
+    return { cv, ctx, fit };
+  }
+  const views = [setupCanvas($('cvA')), setupCanvas($('cvB'))];
+  let rsT; window.addEventListener('resize', () => { clearTimeout(rsT); rsT = setTimeout(() => views.forEach(v => v.fit()), 100); });
+
+  function draw(view, sim, isB) {
+    const { cv, ctx } = view;
+    const k = cv.width / (VX1 - VX0);
+    const X = x => (x - VX0) * k, Y = y => (VY1 - y) * k;
+    ctx.save();
+    ctx.fillStyle = T.asphalt; ctx.fillRect(0, 0, cv.width, cv.height);
+    // city blocks: sidewalk ring + block interior, rounded at the intersection corner
+    const blocks = [[7, 7, 1, 1], [-7, 7, -1, 1], [-7, -7, -1, -1], [7, -7, 1, -1]];
+    for (const [cx, cy, sx, sy] of blocks) {
+      blockShape(ctx, X, Y, cx, cy, sx, sy, 8); ctx.fillStyle = T.sidewalk; ctx.fill();
+      blockShape(ctx, X, Y, cx + sx * 3, cy + sy * 3, sx, sy, 5); ctx.fillStyle = T.block; ctx.fill();
+    }
+    // lane markings
+    ctx.lineWidth = Math.max(1, 0.15 * k);
+    ctx.strokeStyle = T.yellow;
+    for (const o of [-0.18, 0.18]) {
+      line(ctx, X(o), Y(VY0), X(o), Y(-7)); line(ctx, X(o), Y(7), X(o), Y(VY1));
+      line(ctx, X(VX0), Y(o), X(-7), Y(o)); line(ctx, X(7), Y(o), X(VX1), Y(o));
+    }
+    ctx.strokeStyle = alpha(T.mark, 0.75); ctx.setLineDash([3 * k, 3 * k]);
+    for (const o of [-3.5, 3.5]) {
+      line(ctx, X(o), Y(VY0), X(o), Y(-8)); line(ctx, X(o), Y(8), X(o), Y(VY1));
+      line(ctx, X(VX0), Y(o), X(-8), Y(o)); line(ctx, X(8), Y(o), X(VX1), Y(o));
+    }
+    ctx.setLineDash([]);
+    // right-turn guide arrow on the approach lane
+    ctx.fillStyle = alpha(T.mark, 0.8);
+    turnArrow(ctx, X, Y, k, 5.25, -32);
+
+    const xc = sim.o.xcw;
+    // old crosswalk ghost + dimension (B only)
+    if (isB) {
+      ctx.setLineDash([0.6 * k, 0.6 * k]); ctx.strokeStyle = alpha(T.mark, 0.55); ctx.lineWidth = Math.max(1, 0.12 * k);
+      ctx.strokeRect(X(17), Y(7), 4 * k, 14 * k); ctx.setLineDash([]);
+      ctx.fillStyle = alpha(T.mark, 0.7); ctx.font = `500 ${Math.max(10, 1.3 * k)}px ${getComputedStyle(document.body).fontFamily}`;
+      ctx.textAlign = 'center'; ctx.fillText('기존 위치', X(19), Y(8.3) - 0.2 * k);
+      // dimension line on the north sidewalk
+      const dy = 11.6; ctx.strokeStyle = T.ink; ctx.fillStyle = T.ink; ctx.lineWidth = Math.max(1, 0.1 * k);
+      line(ctx, X(15.25), Y(dy), X(xc), Y(dy));
+      line(ctx, X(15.25), Y(dy - 0.7), X(15.25), Y(dy + 0.7)); line(ctx, X(xc), Y(dy - 0.7), X(xc), Y(dy + 0.7));
+      ctx.font = `600 ${Math.max(11, 1.5 * k)}px ${getComputedStyle(document.body).fontFamily}`;
+      ctx.fillText(`${Math.round(xc - 16)} m 이격`, X((15.25 + xc) / 2), Y(dy + 0.6));
+    }
+    // crosswalk stripes
+    ctx.fillStyle = T.mark;
+    for (let yy = -6.75; yy < 7; yy += 1.0) ctx.fillRect(X(xc), Y(yy + 0.5), 4 * k, 0.5 * k);
+
+    // pedestrian signal
+    const sig = sim.signal();
+    const sx = X(xc - 1.4), sy = Y(-8.6), r = 0.8 * k;
+    ctx.fillStyle = T['car-edge']; roundRect(ctx, sx - r * 1.3, sy - r * 1.3, r * 2.6, r * 2.6, r * 0.5); ctx.fill();
+    const on = sig === 'green' || (sig === 'flash' && Math.floor(sim.t * 2.5) % 2 === 0);
+    ctx.fillStyle = on ? T.go : (sig === 'red' ? T.danger : alpha(T.go, 0.25));
+    ctx.beginPath(); ctx.arc(sx, sy, r, 0, Math.PI * 2); ctx.fill();
+    if (!sim.o.scenario) {
+      ctx.fillStyle = T.ink; ctx.font = `600 ${Math.max(10, 1.25 * k)}px ui-monospace, monospace`; ctx.textAlign = 'left';
+      ctx.fillText(Math.ceil(sim.signalRemain()) + 's', sx + r * 1.6, sy + r * 0.45);
+    }
+
+    // focus car (next to reach the crosswalk)
+    const focus = focusCar(sim);
+
+    // stopping-distance projection & gaze cones
+    for (const c of sim.cars) {
+      if (c.s < L1 - 30) continue;
+      const P = pathPos(c.s), fxw = P.x + Math.cos(P.h) * 2.25, fyw = P.y + Math.sin(P.h) * 2.25;
+      // gaze
+      const dir = c.glancing ? P.h + 80 * DEG : P.h;
+      const half = (c.glancing ? 30 : (c.v < 3 ? 75 : 35)) * DEG;
+      const rad = (c === focus ? 16 : 10) * k;
+      ctx.fillStyle = c.glancing ? alpha(T.warn, 0.32) : alpha(T.go, c === focus ? 0.22 : 0.12);
+      ctx.beginPath(); ctx.moveTo(X(fxw), Y(fyw));
+      ctx.arc(X(fxw), Y(fyw), rad, -(dir + half), -(dir - half)); ctx.closePath(); ctx.fill();
+      // stopping distance
+      const sf = c.s + 2.25;
+      if (sf < sim.sEntry + 1 && c.v > 0.5) {
+        const d = c.v * c.rt + c.v * c.v / (2 * 6);
+        const over = sf + d > sim.sEntry - 0.5;
+        ctx.strokeStyle = over ? T.danger : alpha(T.mark, 0.9);
+        ctx.lineWidth = Math.max(2, 0.35 * k); ctx.lineCap = 'round';
+        ctx.beginPath();
+        for (let q = 0; q <= 24; q++) { const Q = pathPos(sf + d * q / 24); q ? ctx.lineTo(X(Q.x), Y(Q.y)) : ctx.moveTo(X(Q.x), Y(Q.y)); }
+        ctx.stroke();
+        const E = pathPos(sf + d);
+        ctx.beginPath(); ctx.arc(X(E.x), Y(E.y), Math.max(2.5, 0.4 * k), 0, Math.PI * 2); ctx.fillStyle = ctx.strokeStyle; ctx.fill();
+      }
+    }
+    // cars
+    for (const c of sim.cars) {
+      const P = pathPos(c.s);
+      ctx.save(); ctx.translate(X(P.x), Y(P.y)); ctx.rotate(-P.h);
+      const L = 4.5 * k, W = 1.8 * k;
+      ctx.fillStyle = T['car-edge']; roundRect(ctx, -L / 2 - 0.12 * k, -W / 2 - 0.12 * k, L + 0.24 * k, W + 0.24 * k, 0.55 * k); ctx.fill();
+      ctx.fillStyle = c.status === 'hit' ? T.danger : T.car; roundRect(ctx, -L / 2, -W / 2, L, W, 0.45 * k); ctx.fill();
+      ctx.fillStyle = alpha(T['car-edge'], 0.55); roundRect(ctx, 0.25 * k, -W / 2 + 0.22 * k, 1.0 * k, W - 0.44 * k, 0.2 * k); ctx.fill();
+      ctx.fillStyle = alpha(T['car-edge'], 0.35); roundRect(ctx, -1.7 * k, -W / 2 + 0.25 * k, 0.7 * k, W - 0.5 * k, 0.2 * k); ctx.fill();
+      if (c.a < -1 || c.v < 0.2) { ctx.fillStyle = T.danger; ctx.fillRect(-L / 2 - 0.1 * k, -W / 2 + 0.1 * k, 0.28 * k, 0.45 * k); ctx.fillRect(-L / 2 - 0.1 * k, W / 2 - 0.55 * k, 0.28 * k, 0.45 * k); }
+      if (c === focus) { ctx.strokeStyle = T.ink; ctx.lineWidth = Math.max(1.5, 0.18 * k); ctx.setLineDash([0.5 * k, 0.4 * k]); roundRect(ctx, -L / 2 - 0.6 * k, -W / 2 - 0.6 * k, L + 1.2 * k, W + 1.2 * k, 0.8 * k); ctx.stroke(); ctx.setLineDash([]); }
+      ctx.restore();
+    }
+    // pedestrians
+    for (const p of sim.peds) {
+      const px = X(p.x), py = Y(p.y), pr = Math.max(3.5, 0.5 * k);
+      const seen = focus && focus.noticed.has(p.id);
+      if (p.state === 'hit') {
+        ctx.strokeStyle = T.danger; ctx.lineWidth = Math.max(2, 0.3 * k);
+        line(ctx, px - pr, py - pr, px + pr, py + pr); line(ctx, px + pr, py - pr, px - pr, py + pr);
+        continue;
+      }
+      ctx.fillStyle = T.ped; ctx.beginPath(); ctx.arc(px, py, pr, 0, Math.PI * 2); ctx.fill();
+      ctx.strokeStyle = T.panel; ctx.lineWidth = Math.max(1, 0.12 * k); ctx.stroke();
+      if (p.state === 'cross') { ctx.fillStyle = T.panel; ctx.beginPath(); ctx.arc(px, py - p.dir * pr * 0.45, pr * 0.32, 0, Math.PI * 2); ctx.fill(); }
+      if (seen) { ctx.strokeStyle = T.go; ctx.lineWidth = Math.max(1.5, 0.15 * k); ctx.beginPath(); ctx.arc(px, py, pr + 0.45 * k, 0, Math.PI * 2); ctx.stroke(); }
+    }
+    // event effects
+    for (const f of sim.fx) {
+      const age = sim.t - f.t, a = Math.max(0, 1 - age / 2.2);
+      const col = f.type === 'coll' ? T.danger : f.type === 'near' ? T.warn : T.yellow;
+      ctx.strokeStyle = alpha(col, a); ctx.lineWidth = Math.max(2, 0.3 * k);
+      ctx.beginPath(); ctx.arc(X(f.x), Y(f.y), (1 + age * 2.2) * k, 0, Math.PI * 2); ctx.stroke();
+      const lbl = f.type === 'coll' ? '충돌' : f.type === 'near' ? '아차사고' : '통행 중 진입';
+      ctx.font = `700 ${Math.max(11, 1.5 * k)}px ${getComputedStyle(document.body).fontFamily}`; ctx.textAlign = 'center';
+      const ty = Y(f.y) - (2.4 + age * 1.2) * k;
+      ctx.lineWidth = 3; ctx.strokeStyle = alpha(T['car-edge'], a * 0.8); ctx.strokeText(lbl, X(f.x), ty);
+      ctx.fillStyle = alpha(col, a); ctx.fillText(lbl, X(f.x), ty);
+    }
+    ctx.restore();
+  }
+  function blockShape(ctx, X, Y, cx, cy, sx, sy, r) {
+    const far = 300;
+    ctx.beginPath();
+    ctx.moveTo(X(cx + sx * r), Y(cy));
+    ctx.lineTo(X(cx + sx * far), Y(cy));
+    ctx.lineTo(X(cx + sx * far), Y(cy + sy * far));
+    ctx.lineTo(X(cx), Y(cy + sy * far));
+    ctx.lineTo(X(cx), Y(cy + sy * r));
+    ctx.arcTo(X(cx), Y(cy), X(cx + sx * r), Y(cy), Math.abs(X(r) - X(0)));
+    ctx.closePath();
+  }
+  function line(ctx, a, b, c, d) { ctx.beginPath(); ctx.moveTo(a, b); ctx.lineTo(c, d); ctx.stroke(); }
+  function roundRect(ctx, x, y, w, h, r) {
+    ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r);
+    ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath();
+  }
+  function turnArrow(ctx, X, Y, k, x, y) {
+    ctx.beginPath();
+    ctx.moveTo(X(x - 0.25), Y(y)); ctx.lineTo(X(x - 0.25), Y(y + 3)); ctx.quadraticCurveTo(X(x - 0.25), Y(y + 4.2), X(x + 0.9), Y(y + 4.2));
+    ctx.lineTo(X(x + 0.9), Y(y + 4.9)); ctx.lineTo(X(x + 2.1), Y(y + 3.95)); ctx.lineTo(X(x + 0.9), Y(y + 3.0)); ctx.lineTo(X(x + 0.9), Y(y + 3.7));
+    ctx.quadraticCurveTo(X(x + 0.25), Y(y + 3.7), X(x + 0.25), Y(y + 3)); ctx.lineTo(X(x + 0.25), Y(y)); ctx.closePath(); ctx.fill();
+  }
+  function focusCar(sim) {
+    let best = null;
+    for (const c of sim.cars) if (c.s + 2.25 < sim.sEntry + 4.5 && c.s > L1 - 35 && (!best || c.s > best.s)) best = c;
+    return best;
+  }
+
+  // ---------- HUD
+  const STATUS = { drive: '주행', glance: '좌측 차량 확인 중 · 전방 미주시', react: '보행자 인지 · 반응 중', yield: '감속 · 양보', hard: '급제동', stopped: '정지 · 보행자 대기', hit: '충돌' };
+  const STATS = [['passed', '통과 차량'], ['hard', '급제동'], ['viol', '통행 중 진입'], ['near', '아차사고'], ['coll', '충돌'], ['entry', '진입속도 평균']];
+  function buildStats(el) { el.innerHTML = STATS.map(([k, l]) => `<div><span>${l}</span><b data-k="${k}">0</b></div>`).join(''); }
+  buildStats($('statsA')); buildStats($('statsB'));
+  function hud(sim, stEl, statsEl) {
+    const c = focusCar(sim);
+    const s = c ? c.status : 'none';
+    stEl.dataset.s = s;
+    stEl.querySelector('.s').textContent = c ? STATUS[s] : '접근 차량 없음';
+    stEl.querySelector('.meta').textContent = c ? `· 횡단보도까지 ${Math.max(0, sim.sEntry - c.s - 2.25).toFixed(1)}m · ${(c.v * 3.6).toFixed(0)}km/h` : '';
+    const st = sim.st;
+    for (const b of statsEl.querySelectorAll('b')) {
+      const kk = b.dataset.k;
+      if (kk === 'entry') b.textContent = st.entryN ? (st.entrySum / st.entryN).toFixed(0) + 'km/h' : '–';
+      else b.textContent = st[kk];
+      b.className = (kk === 'coll' && st.coll) ? 'bad' : ((kk === 'near' || kk === 'viol' || kk === 'hard') && st[kk]) ? 'warn' : '';
+    }
+  }
+  function fmtClock(t) { const m = Math.floor(t / 60), s = Math.floor(t % 60); return String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0'); }
+
+  // ---------- loop
+  let last = performance.now(), acc = 0, hudT = 0;
+  function frame(now) {
+    const real = Math.min(0.1, (now - last) / 1000); last = now;
+    if (playing) {
+      acc += real * speed;
+      let n = 0;
+      while (acc >= STEP && n < 600) { simA.step(STEP); simB.step(STEP); acc -= STEP; n++; }
+      if (mode === 'scene') {
+        const fin = (simA.done && simB.done) || simA.t > 16;
+        if (fin) { sceneWait += real * speed; if (sceneWait > 1.8) makeSims(); }
+      }
+    }
+    draw(views[0], simA, false); draw(views[1], simB, true);
+    hudT -= real;
+    if (hudT <= 0) { hud(simA, $('stA'), $('statsA')); hud(simB, $('stB'), $('statsB')); $('clock').textContent = fmtClock(simA.t); hudT = 0.12; }
+    requestAnimationFrame(frame);
+  }
+
+  // ---------- controls
+  function setCaption() {
+    $('caption').innerHTML = mode === 'scene'
+      ? `<b>같은 장면:</b> 보행 신호는 녹색. 운전자가 회전 중 왼쪽을 확인하려는 순간 보행자가 연석에서 내려섭니다. 두 화면의 차이는 횡단보도 위치 하나뿐입니다. 장면은 자동으로 반복됩니다.`
+      : `<b>실제 교통 흐름:</b> 무작위로 도착하는 우회전 차량과 보행자, 70초 주기 보행 신호. 두 화면은 같은 난수로 차량과 보행자를 만듭니다.`;
+  }
+  function setMode(m) {
+    mode = m; $('modeRandom').setAttribute('aria-pressed', m === 'random'); $('modeScene').setAttribute('aria-pressed', m === 'scene');
+    if (m === 'scene' && speed > 1) setSpeed(1);
+    setCaption(); makeSims();
+  }
+  function setSpeed(v) { speed = v; for (const b of $('speeds').children) b.setAttribute('aria-pressed', Number(b.dataset.v) === v); }
+  $('modeRandom').onclick = () => setMode('random');
+  $('modeScene').onclick = () => setMode('scene');
+  $('play').onclick = () => { playing = !playing; $('play').textContent = playing ? '일시정지' : '재생'; };
+  $('reset').onclick = () => { makeSims(); };
+  for (const b of $('speeds').children) b.onclick = () => setSpeed(Number(b.dataset.v));
+
+  function bindRange(id, out, key, fmt, apply) {
+    const el = $(id);
+    el.addEventListener('input', () => { params[key] = Number(el.value); $(out).textContent = fmt(params[key]); apply(); markStale(); });
+    $(out).textContent = fmt(Number(el.value)); params[key] = Number(el.value);
+  }
+  function updateDetour() { $('detour').textContent = (2 * params.S) + 'm'; $('detourT').textContent = Math.round(2 * params.S / 1.2) + '초'; $('titleB').textContent = `이격 · ${params.S}m 뒤 횡단보도`; }
+  bindRange('pS', 'oS', 'S', v => v + ' m', () => { updateDetour(); makeSims(); });
+  bindRange('pG', 'oG', 'glance', v => v.toFixed(1) + ' 초', () => { if (mode === 'scene') makeSims(); else { simA.setParam('glance', params.glance); simB.setParam('glance', params.glance); } });
+  bindRange('pR', 'oR', 'rt', v => v.toFixed(1) + ' 초', () => { if (mode === 'scene') makeSims(); else { simA.setParam('rt', params.rt); simB.setParam('rt', params.rt); } });
+  bindRange('pC', 'oC', 'carRate', v => v + ' 대/분', () => { simA.setParam('carRate', params.carRate); simB.setParam('carRate', params.carRate); });
+  bindRange('pP', 'oP', 'pedRate', v => v + ' 명/분', () => { simA.setParam('pedRate', params.pedRate); simB.setParam('pedRate', params.pedRate); });
+  $('pRaised').addEventListener('change', e => { params.raised = e.target.checked; simB.setParam('raised', params.raised); markStale(); });
+  function markStale() { $('stale').hidden = false; }
+
+  // ---------- batch comparison
+  function runBatch() {
+    $('runBatch').disabled = true; $('runBatch').textContent = '계산 중…';
+    setTimeout(() => {
+      const res = [0, 1].map(which => {
+        const tot = { passed: 0, smooth: 0, hard: 0, viol: 0, near: 0, coll: 0, es: 0, en: 0 };
+        for (let h = 0; h < 3; h++) {
+          const s = new Sim({ xcw: which ? 16 + params.S : 17, raised: which ? params.raised : false, carRate: params.carRate, pedRate: params.pedRate, glance: params.glance, rt: params.rt, seed: 1000 + h });
+          for (let i = 0; i < 72000; i++) s.step(0.05);
+          for (const kk of ['passed', 'smooth', 'hard', 'viol', 'near', 'coll']) tot[kk] += s.st[kk];
+          tot.es += s.st.entrySum; tot.en += s.st.entryN;
+        }
+        return tot;
+      });
+      renderBatch(res[0], res[1]);
+      $('runBatch').disabled = false; $('runBatch').textContent = '현재 조건으로 다시 계산'; $('stale').hidden = true;
+    }, 30);
+  }
+  function renderBatch(a, b) {
+    const per = (t, kk) => t.passed ? t[kk] / t.passed * 1000 : 0;
+    const rows = [
+      ['충돌', '보행자와 차량 접촉', per(a, 'coll'), per(b, 'coll'), 1, '건', true],
+      ['아차사고', '1m 이내 근접 통과 · 보행자 회피', per(a, 'near'), per(b, 'near'), 1, '건', true],
+      ['통행 중 진입', '보행자가 차로에 있을 때 진입', per(a, 'viol'), per(b, 'viol'), 1, '건', true],
+      ['급제동', '감속도 3.5m/s² 초과', per(a, 'hard'), per(b, 'hard'), 1, '건', true],
+      ['횡단보도 진입속도', '평균, 낮을수록 사고 시 피해 작음', a.es / a.en, b.es / b.en, 0, 'km/h', true],
+    ];
+    $('cmpBody').innerHTML = rows.map(([name, sub, va, vb, dec, unit, lowerBetter]) => {
+      const max = Math.max(va, vb, 1e-9);
+      const fmt = v => (unit === 'km/h' ? v.toFixed(0) : v.toFixed(1)) + (unit === '건' ? '' : ' ' + unit);
+      let verdict;
+      if (va === 0 && vb === 0) verdict = '<span class="pill">둘 다 0</span>';
+      else {
+        const ch = va ? (vb - va) / va * 100 : 100;
+        const good = lowerBetter ? vb < va : vb > va;
+        verdict = `<span class="pill ${good ? 'good' : 'bad'}">${ch > 0 ? '+' : ''}${ch.toFixed(0)}%</span>`;
+      }
+      return `<tr><td class="metric">${name}${unit === '건' ? ' <span class="num" style="color:var(--muted);font-size:12px">/1,000대</span>' : ''}<small>${sub}</small></td>
+        <td><div class="barcell"><span class="k">A</span><div class="track"><div class="fill a" style="width:${va / max * 100}%"></div></div><span class="v">${fmt(va)}</span></div>
+            <div class="barcell"><span class="k">B</span><div class="track"><div class="fill b" style="width:${vb / max * 100}%"></div></div><span class="v">${fmt(vb)}</span></div></td>
+        <td class="verdict">${verdict}</td></tr>`;
+    }).join('') + `<tr><td colspan="3" style="font-size:12.5px;color:var(--muted)">통과 차량 A ${a.passed.toLocaleString()}대 · B ${b.passed.toLocaleString()}대 (3시간)</td></tr>`;
+  }
+  $('runBatch').onclick = runBatch;
+
+  setCaption(); updateDetour(); makeSims();
+  requestAnimationFrame(t => { last = t; frame(t); });
+  setTimeout(runBatch, 250);
+})();
+</script>
+
+</body>
+</html>
