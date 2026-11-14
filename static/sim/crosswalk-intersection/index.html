@@ -1,0 +1,876 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>사거리 횡단보도 이격 시뮬레이터</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="사거리 네 방향 횡단보도를 모두 20~30m 이격했을 때 차량 흐름, 지체, 보행자 상충이 어떻게 달라지는지 비교하는 시뮬레이션">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans+KR:wght@400;500;700&display=swap">
+<style>
+/* Layout: traffic-engineering bench sheet. Shared signal timeline on top, two square plan views
+   (A = 현행, B = 네 방향 이격), then a one-hour comparison table grouped into 흐름 / 안전 / 대가. */
+:root {
+  --bg: #EDF0F3; --panel: #FFFFFF; --ink: #16202B; --muted: #5A6574; --line: #D3DAE2;
+  --asphalt: #3A414E; --sidewalk: #C8CFD7; --block: #E1E8DE;
+  --mark: #F5F6F1; --yellow: #E0AE33; --car: #EEF2F6; --car-edge: #1D2530;
+  --rt: #F08A24; --lt: #9B7BEA; --ped: #2F7CF6;
+  --go: #13995B; --warn: #DC8312; --danger: #DD4036; --accent: #0E7466; --chip: #EEF2F5;
+  --font-body: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+  --font-num: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0E1217; --panel: #161B22; --ink: #E5EAF0; --muted: #94A1B1; --line: #29313C;
+    --asphalt: #2B313B; --sidewalk: #404853; --block: #1B231D;
+    --mark: #D8DBD3; --yellow: #C69A2F; --car: #DCE2E9; --car-edge: #0B0E12;
+    --rt: #F59B3D; --lt: #A88CF0; --ped: #5C9EFF;
+    --go: #2EC07B; --warn: #F0A23A; --danger: #F2635A; --accent: #3EC0A9; --chip: #1F2630; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0E1217; --panel: #161B22; --ink: #E5EAF0; --muted: #94A1B1; --line: #29313C;
+  --asphalt: #2B313B; --sidewalk: #404853; --block: #1B231D;
+  --mark: #D8DBD3; --yellow: #C69A2F; --car: #DCE2E9; --car-edge: #0B0E12;
+  --rt: #F59B3D; --lt: #A88CF0; --ped: #5C9EFF;
+  --go: #2EC07B; --warn: #F0A23A; --danger: #F2635A; --accent: #3EC0A9; --chip: #1F2630; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.6;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 28px 56px;
+}
+.wrap { max-width: 1240px; margin: 0 auto; display: flex; flex-direction: column; gap: 26px; }
+header { display: flex; flex-direction: column; gap: 10px; max-width: 840px; }
+.eyebrow { font-size: 12.5px; letter-spacing: .08em; color: var(--muted); font-weight: 500; }
+h1 { font-size: clamp(24px, 3.4vw, 36px); line-height: 1.25; margin: 0; font-weight: 700; text-wrap: balance; letter-spacing: -0.01em; }
+.lead { margin: 0; color: var(--muted); max-width: 70ch; }
+h2 { font-size: 20px; margin: 0; font-weight: 700; text-wrap: balance; }
+h3 { font-size: 15.5px; margin: 0; font-weight: 700; }
+.num { font-family: var(--font-num); font-variant-numeric: tabular-nums; }
+
+.bar { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.seg button { border: 0; background: transparent; color: var(--ink); font: inherit; font-size: 13.5px; padding: 7px 12px; cursor: pointer; }
+.seg button + button { border-left: 1px solid var(--line); }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--panel); }
+.btn { border: 1px solid var(--line); background: var(--chip); color: var(--ink); font: inherit; font-size: 13.5px; padding: 7px 14px; border-radius: 8px; cursor: pointer; }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--panel); font-weight: 500; }
+.btn:disabled { opacity: .6; cursor: progress; }
+button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.label { font-size: 12.5px; color: var(--muted); }
+.grp { display: inline-flex; align-items: center; gap: 8px; }
+
+/* signal timeline */
+.timeline { flex-basis: 100%; display: flex; flex-direction: column; gap: 6px; }
+.phases { position: relative; display: grid; grid-template-columns: 42fr 18fr 42fr 18fr; height: 30px; border-radius: 6px; overflow: hidden; border: 1px solid var(--line); }
+.phases div { display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 500; color: var(--muted); background: var(--chip); white-space: nowrap; overflow: hidden; padding: 0 4px; min-width: 0; }
+.phases div + div { border-left: 1px solid var(--line); }
+.phases div.on { background: color-mix(in srgb, var(--go) 18%, var(--panel)); color: var(--ink); }
+.marker { position: absolute; top: -2px; bottom: -2px; width: 2px; background: var(--ink); left: 0; }
+.phase-now { font-size: 13px; color: var(--muted); }
+.phase-now b { color: var(--ink); font-weight: 500; }
+@media (max-width: 560px) { .phases div span.long { display: none; } }
+
+.stage { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 880px) { .stage { grid-template-columns: 1fr; } }
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; min-width: 0; }
+.ph { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 6px 12px; padding: 12px 14px 10px; }
+.tag { display: flex; align-items: baseline; gap: 10px; min-width: 0; }
+.tag .k { font-family: var(--font-num); font-weight: 600; font-size: 13px; color: var(--panel); padding: 1px 8px; border-radius: 5px; }
+.A .tag .k { background: var(--danger); } .B .tag .k { background: var(--accent); }
+.tag .t { font-weight: 700; font-size: 15px; }
+.ph small { color: var(--muted); font-size: 12.5px; }
+canvas { display: block; width: 100%; aspect-ratio: 1 / 1; max-width: 100%; background: var(--asphalt); }
+.stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--line); }
+.stats div { padding: 9px 12px; display: flex; flex-direction: column; gap: 1px; min-width: 0; border-left: 1px solid var(--line); }
+.stats div:nth-child(3n+1) { border-left: 0; }
+.stats div:nth-child(n+4) { border-top: 1px solid var(--line); }
+.stats span { font-size: 11.5px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.stats b { font-family: var(--font-num); font-variant-numeric: tabular-nums; font-size: 18px; font-weight: 600; }
+.stats b small { font-size: 12px; color: var(--muted); font-weight: 500; margin-left: 2px; }
+
+.legend { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 12.5px; color: var(--muted); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.sw { width: 18px; height: 10px; border-radius: 2px; display: inline-block; }
+
+.params { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px 22px; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 16px; }
+.param { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.param label { display: flex; justify-content: space-between; gap: 8px; font-size: 13.5px; font-weight: 500; }
+.param label output { font-family: var(--font-num); color: var(--accent); white-space: nowrap; }
+.param small { color: var(--muted); font-size: 12px; line-height: 1.45; }
+input[type=range] { width: 100%; accent-color: var(--accent); }
+.check { display: flex; gap: 8px; align-items: flex-start; font-size: 13.5px; font-weight: 500; }
+.check input { margin-top: 4px; accent-color: var(--accent); }
+
+section { display: flex; flex-direction: column; gap: 14px; }
+.sec-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 10px 16px; }
+.sec-head p { margin: 4px 0 0; color: var(--muted); font-size: 13.5px; max-width: 72ch; }
+.stale { color: var(--warn); font-size: 13px; }
+.findings { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 14px; }
+.find { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.find .h { font-size: 12px; font-weight: 600; letter-spacing: .04em; }
+.find.good .h { color: var(--go); } .find.flat .h { color: var(--muted); } .find.bad .h { color: var(--warn); }
+.find p { margin: 0; font-size: 14px; color: var(--muted); }
+.find p b { color: var(--ink); font-weight: 600; font-family: var(--font-num); }
+.tablewrap { overflow-x: auto; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; }
+table { border-collapse: collapse; width: 100%; min-width: 640px; font-size: 14px; }
+th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+tr:last-child td { border-bottom: 0; }
+th { font-size: 12px; color: var(--muted); font-weight: 500; letter-spacing: .03em; }
+tr.grouphead td { background: var(--chip); font-size: 12.5px; font-weight: 700; letter-spacing: .04em; padding-block: 7px; }
+td.metric { width: 30%; } td.metric small { display: block; color: var(--muted); font-size: 12px; }
+td.metric.sub { padding-left: 30px; }
+.barcell { display: grid; grid-template-columns: 22px 1fr 84px; gap: 8px; align-items: center; }
+.barcell + .barcell { margin-top: 5px; }
+.barcell .k { font-family: var(--font-num); font-size: 12px; font-weight: 600; }
+.track { height: 11px; background: var(--chip); border-radius: 3px; overflow: hidden; }
+.fill { height: 100%; border-radius: 3px; transition: width .6s ease; }
+.fill.a { background: var(--danger); } .fill.b { background: var(--accent); }
+.barcell .v { font-family: var(--font-num); font-variant-numeric: tabular-nums; text-align: right; font-size: 13px; }
+td.verdict { width: 14%; }
+.pill { display: inline-block; font-size: 12px; padding: 2px 9px; border-radius: 999px; background: var(--chip); font-family: var(--font-num); }
+.pill.good { color: var(--go); } .pill.bad { color: var(--danger); }
+
+.cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.card p { margin: 0; color: var(--muted); font-size: 14px; }
+.assume { font-size: 13px; color: var(--muted); background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 14px 18px; }
+.assume ul { margin: 6px 0 0; padding-left: 18px; display: grid; gap: 4px; }
+.assume b { color: var(--ink); font-weight: 500; }
+@media (prefers-reduced-motion: reduce) { .fill { transition: none; } }
+</style>
+</head>
+<body>
+
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">사거리 전체 흐름 · 4현시 신호 · 3차로 × 4방향</div>
+    <h1>네 방향 횡단보도를 모두 25m씩 옮기면 사거리는 어떻게 움직일까?</h1>
+    <p class="lead">왼쪽(A)은 모퉁이에 붙은 지금의 횡단보도, 오른쪽(B)은 네 방향 모두 회전 반경이 끝난 지점에서 25m 뒤로 옮긴 횡단보도입니다. 차량 수요, 신호 주기, 보행자 도착은 두 화면이 똑같습니다. 우회전 차는 주황, 좌회전 차는 보라, 직진 차는 흰색입니다.</p>
+  </header>
+
+  <div class="bar" role="group" aria-label="재생 제어">
+    <div class="grp">
+      <button type="button" class="btn" id="play">일시정지</button>
+      <button type="button" class="btn" id="reset">처음부터</button>
+    </div>
+    <div class="grp"><span class="label">배속</span>
+      <div class="seg" role="group" aria-label="배속" id="speeds">
+        <button type="button" data-v="1" aria-pressed="false">1×</button>
+        <button type="button" data-v="3" aria-pressed="true">3×</button>
+        <button type="button" data-v="8" aria-pressed="false">8×</button>
+        <button type="button" data-v="20" aria-pressed="false">20×</button>
+      </div>
+    </div>
+    <div class="grp"><span class="label">경과</span><span class="num" id="clock">00:00</span></div>
+    <div class="timeline">
+      <div class="phases" id="phases" aria-label="신호 주기 120초">
+        <div data-p="A"><span>남북 직진·우회전</span>&nbsp;<span class="long num">42s</span></div>
+        <div data-p="B"><span>남북 좌회전</span></div>
+        <div data-p="C"><span>동서 직진·우회전</span>&nbsp;<span class="long num">42s</span></div>
+        <div data-p="D"><span>동서 좌회전</span></div>
+        <i class="marker" id="marker"></i>
+      </div>
+      <div class="phase-now" id="phaseNow"></div>
+    </div>
+  </div>
+
+  <div class="stage">
+    <div class="panel A">
+      <div class="ph"><div class="tag"><span class="k">A</span><span class="t">현행 · 모퉁이 횡단보도</span></div><small>정지선은 횡단보도 바로 앞</small></div>
+      <canvas id="cvA" width="720" height="720" aria-label="A안 사거리 평면 애니메이션"></canvas>
+      <div class="stats" id="statsA"></div>
+    </div>
+    <div class="panel B">
+      <div class="ph"><div class="tag"><span class="k">B</span><span class="t" id="titleB">네 방향 25m 이격</span></div><small>정지선은 교차로 쪽으로 당김</small></div>
+      <canvas id="cvB" width="720" height="720" aria-label="B안 사거리 평면 애니메이션"></canvas>
+      <div class="stats" id="statsB"></div>
+    </div>
+  </div>
+
+  <div class="legend" aria-label="범례">
+    <span><i class="sw" style="background:var(--car)"></i>직진</span>
+    <span><i class="sw" style="background:var(--rt)"></i>우회전</span>
+    <span><i class="sw" style="background:var(--lt)"></i>좌회전</span>
+    <span><i class="sw" style="background:var(--ped);border-radius:50%;width:10px"></i>보행자</span>
+    <span><i class="sw" style="background:color-mix(in srgb, var(--go) 40%, transparent)"></i>우회전 운전자 시선</span>
+    <span><i class="sw" style="background:color-mix(in srgb, var(--warn) 50%, transparent)"></i>좌측 확인 중</span>
+    <span><i class="sw" style="background:var(--danger)"></i>정지거리가 횡단보도를 넘음</span>
+  </div>
+
+  <div class="params" aria-label="시뮬레이션 조건">
+    <div class="param"><label for="pS">이격 거리 (B안) <output id="oS"></output></label><input type="range" id="pS" min="10" max="30" step="1" value="25"><small>네 방향 모두 같은 거리만큼 옮깁니다.</small></div>
+    <div class="param"><label for="pV">방향별 교통량 <output id="oV"></output></label><input type="range" id="pV" min="250" max="750" step="10" value="520"><small>한 방향 유입 차량. 출퇴근 시간 간선도로는 600~700대/시 수준.</small></div>
+    <div class="param"><label for="pR">우회전 비율 <output id="oR"></output></label><input type="range" id="pR" min="0.1" max="0.4" step="0.01" value="0.25"><small>좌회전은 20% 고정, 나머지는 직진.</small></div>
+    <div class="param"><label for="pP">보행자 <output id="oP"></output></label><input type="range" id="pP" min="1" max="10" step="1" value="4"><small>횡단보도 한쪽 끝마다 분당 도착 인원.</small></div>
+    <div class="param"><label for="pG">좌측 확인 시간 <output id="oG"></output></label><input type="range" id="pG" min="0.4" max="2.0" step="0.1" value="1.0"><small>우회전 중 전방을 놓치는 시간.</small></div>
+    <div class="param"><label for="pT">인지·반응 시간 <output id="oT"></output></label><input type="range" id="pT" min="0.6" max="1.6" step="0.1" value="1.0"><small>보행자를 보고 제동을 시작하기까지.</small></div>
+    <div class="param">
+      <label class="check" for="pRtor"><input type="checkbox" id="pRtor" checked>적신호 우회전 허용 (일시정지 후)</label>
+      <label class="check" for="pRaised"><input type="checkbox" id="pRaised">B안에 고원식 횡단보도 적용</label>
+      <small>고원식은 이격 횡단보도 앞 차량 속도를 30km/h로 낮춥니다.</small>
+    </div>
+  </div>
+
+  <section aria-labelledby="cmpH">
+    <div class="sec-head">
+      <div>
+        <h2 id="cmpH">1시간 비교</h2>
+        <p>현재 조건으로 화면 없이 1시간을 돌린 결과입니다. 두 안은 같은 차량·보행자 도착 순서를 씁니다. 보행자 상충과 급제동은 차량 1,000대당 건수입니다.</p>
+      </div>
+      <div class="grp"><span class="stale" id="stale" hidden>조건이 바뀌었습니다</span><button type="button" class="btn primary" id="runBatch">현재 조건으로 다시 계산</button></div>
+    </div>
+    <div class="findings" id="findings"></div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>지표</th><th>A 현행 vs B 이격</th><th>B안 변화</th></tr></thead>
+        <tbody id="cmpBody"><tr><td colspan="3">계산 중…</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section aria-labelledby="whyH">
+    <h2 id="whyH">네 방향에 모두 적용하면 생기는 일</h2>
+    <div class="cols">
+      <div class="card"><h3>유출 측: 우회전 상충이 사라진다</h3><p>우회전 차가 빠져나가는 쪽에서는 회전을 끝내고 정면으로 보행자를 봅니다. 대기 공간이 생겨 우회전 차가 직진·우회전 공용차로를 막는 시간도 줄어듭니다.</p></div>
+      <div class="card"><h3>유입 측: 새로운 위험이 생긴다</h3><p>횡단보도 하나는 들어오는 차로와 나가는 차로를 함께 가로지릅니다. 25m 옮긴 횡단보도는 교차로로 들어오는 차가 시속 50km로 달려오는 구간 한가운데에 놓입니다. 신호를 기다리며 감속하기 전이라 급제동과 보행자 통행 중 진입이 늘어납니다.</p></div>
+      <div class="card"><h3>정지선 앞 대기공간이 줄어든다</h3><p>유입 측 횡단보도와 정지선 사이에는 차로당 3~4대만 설 수 있습니다. 그보다 긴 대기열은 횡단보도 앞에서 끊기고, 녹색이 짧은 좌회전 현시에서는 뒤쪽 차가 신호를 놓쳐 지체가 늘어납니다.</p></div>
+      <div class="card"><h3>그래서 실제 대안은</h3><p>유출 측만 이격하는 지그재그(엇갈린) 횡단보도와 중앙 보행섬, 유입 측 고원식 횡단보도와 감속 시설, 우회전 전용 신호 등을 교차로 조건에 맞게 조합합니다. 네 방향에 똑같이 적용하는 방식은 장단점이 분명히 갈립니다.</p></div>
+    </div>
+    <div class="assume">
+      <b>모델 가정과 한계</b>: 원리를 보여주는 단순화 모델이며 실제 교차로의 사고율이나 지체를 예측하지 않습니다.
+      <ul>
+        <li>4방향 모두 편도 3차로(좌회전 전용, 직진, 직진·우회전 공용), 신호 120초 주기 4현시(직진·우회전 38초, 보호 좌회전 14초, 황색 3초, 전적색 1초).</li>
+        <li>보행 신호는 평행한 직진 현시에 켜집니다(녹색 20초, 점멸 16초). 보행자는 1.1~1.5m/s로 21m를 건넙니다.</li>
+        <li>운전자는 전방 ±35°(저속 시 ±75°), 45m 안의 보행자만 인지합니다. 우회전 차는 회전 중간에 좌측 확인을 하는 동안 전방을 보지 못합니다. 최고 속도 50km/h, 우회전 18km/h, 좌회전 25km/h.</li>
+        <li>적신호 우회전은 정지선에서 1초 이상 멈춘 뒤, 왼쪽 직진 차량과 합류 간격이 충분할 때만 합니다. 차량은 횡단보도·교차로를 빠져나갈 공간이 없으면 진입하지 않습니다.</li>
+        <li>지체 = 실제 통과 시간 − 신호·보행자 없이 혼자 달릴 때의 시간. 자전거, 버스, 주정차, 운전자 개인차, 야간·우천은 반영하지 않았습니다.</li>
+      </ul>
+    </div>
+  </section>
+</div>
+
+<script>
+// ===== Four-leg intersection simulation (units: m, s). x east, y north, right-hand traffic.
+// Approach k: 0 = from south (northbound), 1 = from east, 2 = from north, 3 = from west.
+// Leg j uses the same numbering. Everything is defined for approach 0 and rotated by k*90° CCW.
+const SPAWN = 110, HALF_L = 2.25, HALF_W = 0.9, PED_R = 0.3, DEG = Math.PI / 180;
+const CYC = 120, PH = [['A', 42, 38], ['B', 18, 14], ['C', 42, 38], ['D', 18, 14]]; // name, length, green
+const PED_WALK = 20, PED_FLASH = 36;
+
+function mulberry32(a) { return function () { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+function rot(k, x, y) { k = ((k % 4) + 4) % 4; return k === 0 ? [x, y] : k === 1 ? [-y, x] : k === 2 ? [-x, -y] : [y, -x]; }
+function clamp(v, lo, hi) { return v < lo ? lo : v > hi ? hi : v; }
+function wrapAng(a) { while (a > Math.PI) a -= 2 * Math.PI; while (a < -Math.PI) a += 2 * Math.PI; return a; }
+
+// ---- geometry: 3 lanes each way (inbound x = 1.75 left-only, 5.25 through, 8.75 through+right)
+const HW = 10.5, LANE = { i: 1.75, m: 5.25, o: 8.75 };
+const CURB_R = 8, CORNER = HW + CURB_R; // curb return ends 18.5 m from centre
+function buildPath(k, mov, design) {
+  const pieces = []; let segs = [];
+  const line = (x0, y0, x1, y1) => { const len = Math.hypot(x1 - x0, y1 - y0); pieces.push({ t: 'L', x0, y0, dx: (x1 - x0) / len, dy: (y1 - y0) / len, len }); return len; };
+  const arc = (cx, cy, r, a0, dir) => { const len = r * Math.PI / 2; pieces.push({ t: 'A', cx, cy, r, a0, dir, len }); return len; };
+  let exitLeg, arcV = 0, arcS0 = 0, arcS1 = 0, ln;
+  const K = String(k);
+  if (mov === 'Tm' || mov === 'To') {
+    ln = mov === 'Tm' ? 'm' : 'o'; const x = LANE[ln];
+    line(x, -SPAWN, x, SPAWN); exitLeg = (k + 2) % 4;
+    segs = [{ s0: 0, s1: SPAWN - HW, lane: 'A' + K + ln, c0: 0 }, { s0: SPAWN - HW, s1: SPAWN + HW, lane: 'M' + K + mov, c0: SPAWN - HW },
+      { s0: SPAWN + HW, s1: 2 * SPAWN, lane: 'X' + exitLeg + ln, c0: HW }];
+  } else if (mov === 'R') {
+    ln = 'o'; const R = 10, c = LANE.o + R;
+    const a = line(LANE.o, -SPAWN, LANE.o, -c), b = arc(c, -c, R, Math.PI, -1), d = line(c, -LANE.o, SPAWN, -LANE.o);
+    exitLeg = (k + 1) % 4; arcV = 5; arcS0 = a; arcS1 = a + b;
+    segs = [{ s0: 0, s1: a, lane: 'A' + K + 'o', c0: 0 }, { s0: a, s1: a + b, lane: 'M' + K + 'R', c0: a }, { s0: a + b, s1: a + b + d, lane: 'X' + exitLeg + 'o', c0: c }];
+  } else { // L
+    ln = 'i'; const R = HW + LANE.i;
+    const a = line(LANE.i, -SPAWN, LANE.i, -HW), b = arc(-HW, -HW, R, 0, 1), d = line(-HW, LANE.i, -SPAWN, LANE.i);
+    exitLeg = (k + 3) % 4; arcV = 7; arcS0 = a; arcS1 = a + b;
+    segs = [{ s0: 0, s1: a, lane: 'A' + K + 'i', c0: 0 }, { s0: a, s1: a + b, lane: 'M' + K + 'L', c0: a }, { s0: a + b, s1: a + b + d, lane: 'X' + exitLeg + 'i', c0: HW }];
+  }
+  const len = pieces.reduce((q, p) => q + p.len, 0);
+  const pos = s => {
+    let acc = 0;
+    for (let n = 0; n < pieces.length; n++) {
+      const p = pieces[n];
+      if (s <= acc + p.len || n === pieces.length - 1) {
+        const u = s - acc; let x, y, h;
+        if (p.t === 'L') { x = p.x0 + p.dx * u; y = p.y0 + p.dy * u; h = Math.atan2(p.dy, p.dx); }
+        else { const th = p.a0 + p.dir * u / p.r; x = p.cx + p.r * Math.cos(th); y = p.cy + p.r * Math.sin(th); h = th + p.dir * Math.PI / 2; }
+        const [gx, gy] = rot(k, x, y); return { x: gx, y: gy, h: h + k * Math.PI / 2 };
+      }
+      acc += p.len;
+    }
+  };
+  const c0 = design.cw0, cws = [], exitSeg = segs[2];
+  cws.push({ leg: k, sEntry: SPAWN - (c0 + 4), sExit: SPAWN - c0, laneQ: LANE[ln] });
+  cws.push({ leg: exitLeg, sEntry: exitSeg.s0 + (c0 - exitSeg.c0), sExit: exitSeg.s0 + (c0 + 4 - exitSeg.c0), laneQ: -LANE[ln], exit: true });
+  return { k, mov, ln, pos, len, segs, cws, sStop: SPAWN - design.stopD, exitLeg, arcV, arcS0, arcS1, boxS0: segs[1].s0, boxS1: segs[1].s1, entryD: exitSeg.c0, exitLane: exitSeg.lane };
+}
+const MOVS = ['L', 'Tm', 'To', 'R'];
+
+function pedLegPos(j, q, yl) { return rot(j, q, yl); }
+
+class Sim4 {
+  constructor(opts) {
+    this.o = Object.assign({ setback: false, S: 25, vph: 520, rShare: 0.25, lShare: 0.2, pedRate: 4, glance: 1.0, rt: 1.0, rtor: true, raised: false, seed: 1 }, opts);
+    this.reset();
+  }
+  reset() {
+    const o = this.o;
+    this.design = o.setback ? { cw0: CORNER + 1 + o.S, stopD: CORNER + 1.5 } : { cw0: CORNER + 1, stopD: CORNER + 6 };
+    this.paths = {};
+    for (let k = 0; k < 4; k++) for (const m of MOVS) this.paths[k + m] = buildPath(k, m, this.design);
+    this.free = {}; for (const key in this.paths) this.free[key] = this.freeTime(this.paths[key]);
+    this.rng = mulberry32(o.seed); this.t = 0; this.cars = []; this.peds = []; this.fx = []; this.nextId = 1;
+    this.nextCar = [0, 1, 2, 3].map(() => this.rng() * 4);
+    this.backlog = {}; for (let k = 0; k < 4; k++) for (const l of 'imo') this.backlog[k + l] = [];
+    this.nextPed = []; for (let j = 0; j < 4; j++) this.nextPed.push([this.rng() * 8, this.rng() * 8]);
+    this.st = { exited: 0, delaySum: 0, near: 0, coll: 0, viol: 0, hard: 0, hardIn: 0, hardOut: 0, violIn: 0, violOut: 0, nearRt: 0, collRt: 0, rtEntrySum: 0, rtEntryN: 0, greenLoss: 0, cwOcc: 0, cwOccGreen: 0, boxStop: 0, queueMax: [0, 0, 0, 0], queueSum: 0, queueN: 0, pedWait: 0, pedN: 0, rtorN: 0, exitedBy: { T: 0, R: 0, L: 0 }, delayBy: { T: 0, R: 0, L: 0 } };
+    this.qT = 0;
+  }
+  setParam(k, v) { this.o[k] = v; }
+  freeTime(P) { // lone car, no signals / peds
+    let s = 0, v = 11, t = 0; const dt = 0.05;
+    while (s < P.len - 1 && t < 200) { const a = clamp((this.vdes(P, s + HALF_L, s) - v) * 1.5, -3, 1.5); v = Math.max(0, v + a * dt); s += v * dt; t += dt; }
+    return t;
+  }
+  vdes(P, sf, s) {
+    let v = 13.9;
+    if (P.arcV) { if (sf < P.arcS0) v = Math.min(v, Math.sqrt(P.arcV * P.arcV + 4 * (P.arcS0 - sf))); else if (s < P.arcS1) v = P.arcV; }
+    if (this.o.raised && this.o.setback) for (const cw of P.cws) if (sf < cw.sExit + 2) v = Math.min(v, Math.sqrt(8.33 * 8.33 + 4 * Math.max(0, cw.sEntry - 20 - sf)));
+    return v;
+  }
+  phase(t = this.t) {
+    let u = t % CYC;
+    for (const [n, L, g] of PH) { if (u < L) return { n, u, stage: u < g ? 'G' : u < g + 3 ? 'Y' : 'AR', g, L }; u -= L; }
+  }
+  vehSig(k, mov) {
+    const p = this.phase(); const want = mov === 'L' ? (k % 2 === 0 ? 'B' : 'D') : (k % 2 === 0 ? 'A' : 'C');
+    if (p.n !== want) return 'R'; return p.stage === 'G' ? 'G' : p.stage === 'Y' ? 'Y' : 'R';
+  }
+  pedSig(j) {
+    const p = this.phase(); const want = j % 2 === 1 ? 'A' : 'C';
+    if (p.n !== want) return 'R'; return p.u < PED_WALK ? 'G' : p.u < PED_FLASH ? 'F' : 'R';
+  }
+  expo(m) { return -Math.log(1 - this.rng()) * m; }
+  relevant(p, laneQ) {
+    if (p.state !== 'cross') return false;
+    const ahead = (laneQ - p.q) * p.dir;
+    return ahead > -2.3 && ahead < 7;
+  }
+  step(dt) {
+    const o = this.o, r = this.rng; this.t += dt; const t = this.t;
+    // ---- demand
+    for (let k = 0; k < 4; k++) {
+      while (t >= this.nextCar[k]) {
+        const u = r(); const mov = u < o.lShare ? 'L' : u < o.lShare + o.rShare ? 'R' : (r() < 0.5 ? 'Tm' : 'To');
+        const lane = mov === 'L' ? 'i' : mov === 'Tm' ? 'm' : 'o';
+        this.backlog[k + lane].push({ mov, t0: this.nextCar[k], glance: o.glance * (0.6 + 0.8 * r()), rt: o.rt * (0.8 + 0.4 * r()) });
+        this.nextCar[k] += this.expo(3600 / o.vph);
+      }
+    }
+    // lane occupancy maps
+    const lanes = {};
+    for (const c of this.cars) { const sg = this.segOf(c); c.seg = sg; (lanes[sg.lane] || (lanes[sg.lane] = [])).push(c); c.coord = sg.c0 + (c.s - sg.s0); }
+    for (const key in this.backlog) {
+      const q = this.backlog[key]; if (!q.length) continue;
+      const L = lanes['A' + key]; if (L && L.some(c => c.coord < 9)) continue;
+      const b = q.shift(); const P = this.paths[key[0] + b.mov];
+      const c = { id: this.nextId++, P, k: P.k, mov: b.mov, s: 0, v: 11, a: 0, t0: b.t0, glanceDur: b.glance, rt: b.rt, glanceStart: null, noticed: new Map(), seen: new Set(), stopT: 0, rtorOK: false, yDec: null, entered: new Set(), md: [0, 0], yieldStarted: false, status: 'drive', hitHold: 0, near: new Set(), hit: new Set() };
+      this.cars.push(c); c.seg = P.segs[0]; c.coord = 0; (lanes[c.seg.lane] || (lanes[c.seg.lane] = [])).push(c);
+    }
+    // ---- pedestrians
+    for (let j = 0; j < 4; j++) for (let side = 0; side < 2; side++) {
+      if (t >= this.nextPed[j][side]) {
+        const sgn = side ? 1 : -1;
+        this.peds.push({ id: this.nextId++, leg: j, q: sgn * (HW + 4), yl: -(this.design.cw0 + 0.6 + r() * 2.8), dir: -sgn, state: 'approach', speed: 1.1 + r() * 0.4, timer: 0, waitT: 0 });
+        this.nextPed[j][side] = t + this.expo(60 / o.pedRate);
+      }
+    }
+    const pedSig = [0, 1, 2, 3].map(j => this.pedSig(j));
+    this.carsByLeg = [[], [], [], []]; for (const c of this.cars) if (c.cw) this.carsByLeg[c.cw.leg].push(c);
+    for (const p of this.peds) {
+      if (p.state === 'approach') {
+        const wq = -p.dir * (HW + 0.6), d = wq - p.q, sv = p.speed * dt;
+        if (Math.abs(d) <= sv) { p.q = wq; p.state = 'wait'; } else p.q += Math.sign(d) * sv;
+      } else if (p.state === 'wait') {
+        p.waitT += dt;
+        if (pedSig[p.leg] === 'G' && (p.chk = (p.chk || 0) - dt) <= 0 && (p.chk = 0.25) && !this.pedBlocked(p)) { p.state = 'cross'; this.st.pedWait += p.waitT; this.st.pedN++; }
+      } else if (p.state === 'cross') {
+        if (p.q * p.dir < -(HW - 1.5) && this.pedEvade(p)) { p.state = 'wait'; p.q = -p.dir * (HW + 0.6); this.st.near++; const [gx, gy] = pedLegPos(p.leg, p.q, p.yl); this.fx.push({ x: gx, y: gy, t, type: 'near' }); continue; }
+        p.q += p.dir * p.speed * dt;
+      } else if (p.state === 'hit') p.timer += dt;
+    }
+    this.peds = this.peds.filter(p => !(p.state === 'cross' && Math.abs(p.q) > HW + 4) && !(p.state === 'hit' && p.timer > 3));
+    for (const p of this.peds) { const g = pedLegPos(p.leg, p.q, p.yl); p.x = g[0]; p.y = g[1]; }
+    const pedsByLeg = [[], [], [], []]; for (const p of this.peds) pedsByLeg[p.leg].push(p);
+
+    // ---- cars
+    for (const c of this.cars) {
+      const P = c.P, Q = P.pos(c.s), ch = Math.cos(Q.h), sh = Math.sin(Q.h);
+      c.x = Q.x; c.y = Q.y; c.h = Q.h;
+      const fx = Q.x + ch * HALF_L, fy = Q.y + sh * HALF_L, sf = c.s + HALF_L;
+      // glance: right-turners check traffic on their left mid-turn
+      if (c.mov === 'R' && c.glanceStart === null && c.s >= (P.arcS0 + P.arcS1) / 2) c.glanceStart = t;
+      const glancing = c.glanceStart !== null && t < c.glanceStart + c.glanceDur; c.glancing = glancing;
+      // next crosswalk
+      let cw = null; c.cwi = -1; for (let i = 0; i < P.cws.length; i++) { const w = P.cws[i]; if (sf < w.sExit + 0.2) { cw = w; c.cwi = i; break; } }
+      c.cw = cw;
+      let yieldNeed = false, pending = false;
+      if (cw && cw.sEntry - sf < 45) {
+        const legPeds = pedsByLeg[cw.leg];
+        if (!glancing) {
+          const base = (c.v < 3 ? 75 : 35) * DEG;
+          for (const p of legPeds) {
+            if (c.noticed.has(p.id) || p.state === 'approach') continue;
+            const dx = p.x - fx, dy = p.y - fy; if (dx * dx + dy * dy > 2025) continue;
+            const ang = Math.abs(wrapAng(Math.atan2(dy, dx) - Q.h));
+            const half = c.seen.has(p.id) ? Math.max(base, 55 * DEG) : base;
+            if (ang <= half) { c.seen.add(p.id); if (this.relevant(p, cw.laneQ)) c.noticed.set(p.id, t); }
+          }
+        }
+        for (const p of legPeds) { if (!this.relevant(p, cw.laneQ)) continue; const nt = c.noticed.get(p.id); if (nt === undefined) continue; if (t >= nt + c.rt) yieldNeed = true; else pending = true; }
+      }
+      // leader
+      const L = this.leader(c, lanes); c.leaderGap = L ? L.gap : Infinity;
+      let a = clamp((this.vdes(P, sf, c.s) - c.v) * 1.5, -3, 1.5);
+      if (L && L.gap < 40) { const vg = Math.sqrt(Math.max(0, 2 * 3.5 * (L.gap - 2.5))); a = Math.min(a, L.gap < 2.2 ? -8 : clamp((vg - c.v) * 2, -8, 1.5)); }
+      const stopAt = target => { const d = target - sf; if (d <= 0.05) return -c.v / dt; const ar = c.v * c.v / (2 * d); return ar > 2 ? -Math.min(ar, 8) : clamp((Math.sqrt(4 * d) - c.v) * 1.5, -8, 1.5); };
+      // signal / stop line
+      c.waitingLine = false;
+      if (sf < P.sStop + 0.3) {
+        const sig = this.vehSig(c.k, c.mov); let must = false;
+        if (sig === 'G') { c.yDec = null; }
+        else if (sig === 'Y' && c.yDec === null) c.yDec = c.v * c.v / (2 * Math.max(0.1, P.sStop - sf)) > 3.5 ? 'go' : 'stop';
+        if (sig !== 'G' && !(sig === 'Y' && c.yDec === 'go')) {
+          if (c.mov === 'R' && o.rtor) {
+            if (!c.rtorOK) {
+              must = true;
+              if (c.v < 0.3 && P.sStop - sf < 2) { c.stopT += dt; if (c.stopT >= 1 && this.mergeClear(c, lanes)) { c.rtorOK = true; this.st.rtorN++; } }
+            }
+          } else must = true;
+        }
+        if (!must && this.exitSpace(c, lanes) < 5.5) must = true;
+        if (must) { a = Math.min(a, stopAt(P.sStop)); c.waitingLine = true; }
+      }
+      // crosswalk: yield & keep-clear
+      c.yielding = false;
+      if (cw) {
+        const dist = cw.sEntry - 1 - sf;
+        if (dist > -0.3) {
+          if (yieldNeed) { const aY = stopAt(cw.sEntry - 1); if (aY < a) a = aY; c.yielding = true; c.yieldStarted = true; if (c.v > 1) c.md[c.cwi] = Math.max(c.md[c.cwi], Math.min(8, c.v * c.v / (2 * Math.max(0.05, dist)))); }
+          if (L && L.v < 3 && sf + L.gap < cw.sExit + 5.5 && cw.sEntry - sf < 30) { const aK = stopAt(cw.sEntry - 1); if (aK < a) a = aK; }
+        }
+        // emergency
+        for (const p of pedsByLeg[cw.leg]) {
+          if (p.state !== 'cross') continue; const nt = c.noticed.get(p.id); if (nt === undefined || t < nt + c.rt) continue;
+          const dx = p.x - fx, dy = p.y - fy, lx = dx * ch + dy * sh, ly = -dx * sh + dy * ch;
+          if (lx > -0.5 && lx < 12 && Math.abs(ly) < 1.5) { const ae = -Math.min(8, c.v * c.v / (2 * Math.max(0.3, lx - 0.6))); if (ae < a) { a = ae; c.yielding = true; c.yieldStarted = true; if (c.v > 1) c.md[c.cwi] = Math.max(c.md[c.cwi], -ae); } }
+        }
+      }
+      if (c.hitHold > 0) { c.hitHold -= dt; a = 0; c.v = 0; }
+      c.a = a; c.pending = pending;
+    }
+    // integrate + events
+    for (const c of this.cars) {
+      const P = c.P;
+      c.v = Math.max(0, c.v + c.a * dt); c.s += c.v * dt;
+      const sf = c.s + HALF_L;
+      c.status = c.hitHold > 0 ? 'hit' : c.glancing ? 'glance' : (c.yielding && c.v < 0.3) ? 'stopped' : (c.yielding && -c.a > 3.5) ? 'hard' : c.yielding ? 'yield' : c.pending ? 'react' : 'drive';
+      for (let i = 0; i < P.cws.length; i++) {
+        const w = P.cws[i];
+        if (!c.entered.has(i) && sf >= w.sEntry) {
+          c.entered.add(i);
+          if (c.mov === 'R' && w.exit) { this.st.rtEntrySum += c.v * 3.6; this.st.rtEntryN++; }
+          if (pedsByLeg[w.leg].some(p => this.relevant(p, w.laneQ))) { this.st.viol++; this.st[w.exit ? 'violOut' : 'violIn']++; this.fx.push({ x: c.x, y: c.y, t, type: 'viol' }); }
+        }
+        // occupancy of a crosswalk by a stopped car
+        if (c.v < 0.5 && c.s + HALF_L > w.sEntry + 0.3 && c.s - HALF_L < w.sExit - 0.3) { this.st.cwOcc += dt; if (pedSig[w.leg] !== 'R') this.st.cwOccGreen += dt; }
+      }
+      if (c.v < 0.5 && Math.abs(c.x) < HW && Math.abs(c.y) < HW) this.st.boxStop += dt;
+      if ((c.mov === 'Tm' || c.mov === 'To') && c.v < 0.5 && sf < P.sStop + 0.3 && this.vehSig(c.k, c.mov) === 'G') this.st.greenLoss += dt;
+      // collisions / near
+      const cw = c.cw; if (!cw) continue;
+      const Q = P.pos(c.s), qc = Math.cos(Q.h), qs = Math.sin(Q.h);
+      for (const p of pedsByLeg[cw.leg]) {
+        if (p.state !== 'cross') continue;
+        const dx = p.x - Q.x, dy = p.y - Q.y; if (dx * dx + dy * dy > 30) continue;
+        const lx = dx * qc + dy * qs, ly = -dx * qs + dy * qc;
+        if (Math.abs(lx) < HALF_L + PED_R && Math.abs(ly) < HALF_W + PED_R && c.v > 0.3) {
+          if (!c.hit.has(p.id)) { c.hit.add(p.id); this.st.coll++; if (c.mov === 'R') this.st.collRt++; p.state = 'hit'; p.timer = 0; c.hitHold = 2.5; c.v = 0; this.fx.push({ x: p.x, y: p.y, t, type: 'coll' }); }
+        } else {
+          const dd = Math.hypot(Math.max(Math.abs(lx) - HALF_L, 0), Math.max(Math.abs(ly) - HALF_W, 0));
+          if (dd < 1.0 && c.v > 1.5 && !c.near.has(p.id) && !c.hit.has(p.id)) { c.near.add(p.id); this.st.near++; if (c.mov === 'R') this.st.nearRt++; this.fx.push({ x: p.x, y: p.y, t, type: 'near' }); }
+        }
+      }
+    }
+    // exits
+    const keep = [];
+    for (const c of this.cars) {
+      if (c.s >= c.P.len - 3) {
+        const d = (t - c.t0) - this.free[c.k + c.mov]; const m = c.mov[0];
+        this.st.exited++; this.st.delaySum += d; this.st.exitedBy[m]++; this.st.delayBy[m] += d;
+        if (c.md[0] > 3.5) { this.st.hard++; this.st.hardIn++; } else if (c.md[1] > 3.5) { this.st.hard++; this.st.hardOut++; }
+      } else keep.push(c);
+    }
+    this.cars = keep;
+    // queues (sampled each second)
+    this.qT += dt;
+    if (this.qT >= 1) {
+      this.qT = 0;
+      for (let k = 0; k < 4; k++) {
+        let q = 0;
+        for (const key of [k + 'i', k + 'm', k + 'o']) {
+          const arr = (lanes['A' + key] || []).filter(c => c.v < 1.5).map(c => SPAWN - c.coord + HALF_L);
+          if (arr.length) q = Math.max(q, Math.max(...arr) - this.design.stopD);
+          q += this.backlog[key].length * 7 * 0; // backlog shown separately
+          if (this.backlog[key].length) q = Math.max(q, SPAWN - this.design.stopD + this.backlog[key].length * 7);
+        }
+        this.st.queueMax[k] = Math.max(this.st.queueMax[k], q); this.st.queueSum += q; this.st.queueN++;
+      }
+    }
+    this.fx = this.fx.filter(f => t - f.t < 2.2);
+  }
+  segOf(c) { const sg = c.P.segs; for (let i = 0; i < sg.length; i++) if (c.s < sg[i].s1 || i === sg.length - 1) return sg[i]; }
+  leader(c, lanes) {
+    const P = c.P; let best = null; const idx = P.segs.indexOf(c.seg);
+    for (let i = idx; i < P.segs.length; i++) {
+      const sg = P.segs[i]; const off = i === idx ? 0 : sg.s0 - c.s; if (off > 45) break;
+      const ref = i === idx ? c.coord : sg.c0;
+      const arr = lanes[sg.lane]; if (!arr) continue;
+      for (const o of arr) {
+        if (o === c) continue;
+        if (i === idx ? o.coord <= ref : o.coord < ref - 1) continue;
+        const gap = off + (o.coord - ref) - 2 * HALF_L;
+        if (!best || gap < best.gap) best = { gap, v: o.v, car: o };
+      }
+      if (best) break;
+    }
+    return best;
+  }
+  exitSpace(c, lanes) {
+    const P = c.P, arr = lanes[P.exitLane]; if (!arr) return 99;
+    let m = 99; for (const o of arr) { if (o.v > 2) continue; const sp = (o.coord - HALF_L) - P.entryD; if (sp > -3 && sp < m) m = sp; }
+    return m;
+  }
+  mergeClear(c, lanes) {
+    // right turn on red: through traffic from the left approach shares the exit lane
+    const kl = (c.k + 3) % 4;
+    for (const o of this.cars) {
+      if (o.k !== kl || o.mov !== 'To') continue;
+      const mergeS = SPAWN + CORNER + 0.25; if (o.s > mergeS + 3) continue;
+      if (o.s > o.P.boxS0 - 2) return false;
+      if ((mergeS - o.s) / Math.max(o.v, 3) < 6) return false;
+    }
+    const arr = lanes[c.P.exitLane] || [];
+    for (const o of arr) if (o.coord < CORNER + 8 && o.coord > HW - 3) return false;
+    return true;
+  }
+  pedBlocked(p) {
+    for (const c of this.carsByLeg[p.leg]) {
+      const cw = c.cw; if (!cw || cw.leg !== p.leg) continue;
+      if (Math.sign(cw.laneQ) !== Math.sign(p.q)) continue; // only the half of the road next to this curb
+      const sf = c.s + HALF_L;
+      if (sf > cw.sEntry - 0.5 && c.s - HALF_L < cw.sExit + 0.5) return true;
+      if (c.v < 0.5) continue;
+      const onArc = c.s > c.P.arcS0 - 0.1 && c.s < c.P.arcS1 && c.P.arcV;
+      const close = Math.hypot(c.x - p.x, c.y - p.y) < 9;
+      if ((!onArc || close) && (cw.sEntry - sf) / c.v < 3.0) return true;
+    }
+    return false;
+  }
+  pedEvade(p) {
+    for (const c of this.carsByLeg[p.leg]) {
+      if (c.v < 1.5 || !c.cw || c.cw.leg !== p.leg) continue;
+      const ch = Math.cos(c.h), sh = Math.sin(c.h);
+      const dx = p.x - (c.x + ch * HALF_L), dy = p.y - (c.y + sh * HALF_L);
+      const lx = dx * ch + dy * sh, ly = -dx * sh + dy * ch;
+      if (lx > -2 * HALF_L && lx < 3.5 && Math.abs(ly) < 1.6) return true;
+    }
+    return false;
+  }
+}
+
+</script>
+<script>
+(() => {
+  const VIEW = 74, STEP = 0.05;
+  const $ = id => document.getElementById(id);
+  const params = { S: 25, vph: 520, rShare: 0.25, pedRate: 4, glance: 1.0, rt: 1.0, rtor: true, raised: false };
+  let speed = 3, playing = true, seed = 21, simA, simB;
+  function opts(setback) { return { setback, S: params.S, vph: params.vph, rShare: params.rShare, pedRate: params.pedRate, glance: params.glance, rt: params.rt, rtor: params.rtor, raised: params.raised, seed }; }
+  function makeSims() { simA = new Sim4(opts(false)); simB = new Sim4(opts(true)); }
+
+  let T = {};
+  function readTokens() { const cs = getComputedStyle(document.documentElement); for (const k of ['asphalt','sidewalk','block','mark','yellow','car','car-edge','rt','lt','ped','go','warn','danger','ink','panel']) T[k] = cs.getPropertyValue('--' + k).trim(); }
+  readTokens();
+  try { matchMedia('(prefers-color-scheme: dark)').addEventListener('change', readTokens); } catch (e) {}
+  new MutationObserver(readTokens).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme', 'class'] });
+  function alpha(hex, a) { const h = hex.replace('#', ''); const n = parseInt(h.length === 3 ? h.split('').map(c => c + c).join('') : h, 16); return `rgba(${n >> 16 & 255},${n >> 8 & 255},${n & 255},${a})`; }
+  const FONT = getComputedStyle(document.body).fontFamily;
+
+  function setupCanvas(cv) {
+    const ctx = cv.getContext('2d');
+    const fit = () => { const r = cv.getBoundingClientRect(); const dpr = Math.min(window.devicePixelRatio || 1, 2); const w = Math.max(320, Math.round(r.width * dpr)); cv.width = w; cv.height = w; };
+    fit(); return { cv, ctx, fit };
+  }
+  const views = [setupCanvas($('cvA')), setupCanvas($('cvB'))];
+  let rsT; window.addEventListener('resize', () => { clearTimeout(rsT); rsT = setTimeout(() => views.forEach(v => v.fit()), 100); });
+
+  // ---------- drawing
+  function draw(view, sim, isB) {
+    const { cv, ctx } = view, k = cv.width / (2 * VIEW);
+    const X = x => (x + VIEW) * k, Y = y => (VIEW - y) * k;
+    const W = (j, x, y) => { const [gx, gy] = rot(j, x, y); return [X(gx), Y(gy)]; };
+    const poly = (j, pts) => { ctx.beginPath(); pts.forEach(([x, y], i) => { const [a, b] = W(j, x, y); i ? ctx.lineTo(a, b) : ctx.moveTo(a, b); }); };
+    const D = sim.design;
+    ctx.fillStyle = T.asphalt; ctx.fillRect(0, 0, cv.width, cv.height);
+    // blocks
+    for (const [sx, sy] of [[1, 1], [-1, 1], [-1, -1], [1, -1]]) {
+      block(ctx, X, Y, sx * HW, sy * HW, sx, sy, 8); ctx.fillStyle = T.sidewalk; ctx.fill();
+      block(ctx, X, Y, sx * (HW + 3), sy * (HW + 3), sx, sy, 5); ctx.fillStyle = T.block; ctx.fill();
+    }
+    const lw = m => Math.max(1, m * k);
+    for (let j = 0; j < 4; j++) {
+      // centre line
+      ctx.strokeStyle = T.yellow; ctx.lineWidth = lw(0.15);
+      for (const o of [-0.18, 0.18]) { poly(j, [[o, -HW - 0.5], [o, -VIEW - 2]]); ctx.stroke(); }
+      // lane lines: solid near the stop line, dashed further out
+      ctx.strokeStyle = alpha(T.mark, 0.75); ctx.lineWidth = lw(0.13);
+      for (const o of [3.5, 7, -3.5, -7]) {
+        const solidEnd = o > 0 ? D.stopD + 18 : CORNER;
+        poly(j, [[o, -(o > 0 ? D.stopD : CORNER)], [o, -solidEnd]]); ctx.stroke();
+        ctx.setLineDash([3 * k, 3 * k]); poly(j, [[o, -solidEnd], [o, -VIEW - 2]]); ctx.stroke(); ctx.setLineDash([]);
+      }
+      // stop line
+      ctx.fillStyle = T.mark; ctx.beginPath(); { const [a, b] = W(j, 0.3, -D.stopD); const [c2, d2] = W(j, HW, -D.stopD - 0.5); ctx.rect(Math.min(a, c2), Math.min(b, d2), Math.abs(c2 - a), Math.abs(d2 - b)); } ctx.fill();
+      // lane arrows
+      ctx.strokeStyle = alpha(T.mark, 0.85); ctx.fillStyle = alpha(T.mark, 0.85); ctx.lineWidth = lw(0.3); ctx.lineCap = 'round';
+      const ay = -(D.stopD + 7);
+      arrow(j, [[1.75, ay - 1.6], [1.75, ay + 0.2], [0.9, ay + 1.1], [0.2, ay + 1.1]], 'L');
+      arrow(j, [[5.25, ay - 1.6], [5.25, ay + 1.4]], 'T');
+      arrow(j, [[8.75, ay - 1.6], [8.75, ay + 1.4]], 'T');
+      arrow(j, [[8.75, ay - 0.6], [9.4, ay + 0.3], [9.9, ay + 0.4]], 'R');
+      // crosswalk
+      if (isB) { ctx.setLineDash([0.6 * k, 0.6 * k]); ctx.strokeStyle = alpha(T.mark, 0.5); ctx.lineWidth = lw(0.1); poly(j, [[-HW, -(CORNER + 1)], [HW, -(CORNER + 1)], [HW, -(CORNER + 5)], [-HW, -(CORNER + 5)]]); ctx.closePath(); ctx.stroke(); ctx.setLineDash([]); }
+      ctx.fillStyle = T.mark;
+      for (let q = -HW + 0.25; q < HW - 0.2; q += 1) { poly(j, [[q, -D.cw0], [q + 0.5, -D.cw0], [q + 0.5, -D.cw0 - 4], [q, -D.cw0 - 4]]); ctx.closePath(); ctx.fill(); }
+      // ped signals at both ends
+      const ps = sim.pedSig(j); const on = ps === 'G' || (ps === 'F' && Math.floor(sim.t * 2.5) % 2 === 0);
+      for (const q of [-(HW + 1.3), HW + 1.3]) { const [a, b] = W(j, q, -D.cw0 - 2); ctx.fillStyle = T['car-edge']; ctx.beginPath(); ctx.arc(a, b, Math.max(4, 0.95 * k), 0, 7); ctx.fill(); ctx.fillStyle = on ? T.go : ps === 'R' ? T.danger : alpha(T.go, 0.3); ctx.beginPath(); ctx.arc(a, b, Math.max(2.6, 0.65 * k), 0, 7); ctx.fill(); }
+      // vehicle signal head: left arrow lamp + through lamp
+      const sl = sim.vehSig(j, 'L'), st = sim.vehSig(j, 'Tm');
+      const col = s => s === 'G' ? T.go : s === 'Y' ? T.yellow : T.danger;
+      const [hx, hy] = W(j, HW + 1.6, -D.stopD + 0.6), [hx2, hy2] = W(j, HW + 1.6, -D.stopD - 1.6);
+      ctx.fillStyle = T['car-edge']; for (const [a, b] of [[hx, hy], [hx2, hy2]]) { ctx.beginPath(); ctx.arc(a, b, Math.max(4, 0.95 * k), 0, 7); ctx.fill(); }
+      ctx.fillStyle = col(sl); ctx.beginPath(); ctx.arc(hx, hy, Math.max(2.6, 0.65 * k), 0, 7); ctx.fill();
+      ctx.fillStyle = col(st); ctx.beginPath(); ctx.arc(hx2, hy2, Math.max(2.6, 0.65 * k), 0, 7); ctx.fill();
+    }
+    if (isB) {
+      ctx.fillStyle = T.ink; ctx.font = `600 ${Math.max(11, 1.7 * k)}px ${FONT}`; ctx.textAlign = 'center';
+      const [a, b] = W(0, HW + 8.5, -(CORNER + 1 + D.cw0) / 2 - 2); ctx.fillText(`${sim.o.S}m`, a, b);
+      ctx.strokeStyle = T.ink; ctx.lineWidth = lw(0.12);
+      poly(0, [[HW + 6, -(CORNER + 1)], [HW + 6, -D.cw0]]); ctx.stroke();
+      for (const yy of [CORNER + 1, D.cw0]) { poly(0, [[HW + 5.3, -yy], [HW + 6.7, -yy]]); ctx.stroke(); }
+    }
+    // right-turn gaze + stopping distance
+    for (const c of sim.cars) {
+      if (c.mov !== 'R' || !c.cw || !c.cw.exit) continue;
+      const sf = c.s + 2.25; if (c.cw.sEntry - sf > 30 || c.s < c.P.arcS0 - 12) continue;
+      const fx = c.x + Math.cos(c.h) * 2.25, fy = c.y + Math.sin(c.h) * 2.25;
+      const dir = c.glancing ? c.h + 80 * DEG : c.h, half = (c.glancing ? 30 : c.v < 3 ? 75 : 35) * DEG;
+      ctx.fillStyle = c.glancing ? alpha(T.warn, 0.34) : alpha(T.go, 0.2);
+      ctx.beginPath(); ctx.moveTo(X(fx), Y(fy)); ctx.arc(X(fx), Y(fy), 12 * k, -(dir + half), -(dir - half)); ctx.closePath(); ctx.fill();
+      if (sf < c.cw.sEntry + 1 && c.v > 0.5) {
+        const d = c.v * c.rt + c.v * c.v / 12, over = sf + d > c.cw.sEntry - 0.5;
+        ctx.strokeStyle = over ? T.danger : alpha(T.mark, 0.9); ctx.lineWidth = Math.max(2, 0.32 * k); ctx.lineCap = 'round'; ctx.beginPath();
+        for (let q = 0; q <= 16; q++) { const Q = c.P.pos(sf + d * q / 16); q ? ctx.lineTo(X(Q.x), Y(Q.y)) : ctx.moveTo(X(Q.x), Y(Q.y)); }
+        ctx.stroke();
+      }
+    }
+    // cars
+    for (const c of sim.cars) {
+      if (c.x === undefined) continue;
+      if (Math.abs(c.x) > VIEW + 4 || Math.abs(c.y) > VIEW + 4) continue;
+      ctx.save(); ctx.translate(X(c.x), Y(c.y)); ctx.rotate(-c.h);
+      const L = 4.5 * k, Wd = 1.8 * k;
+      ctx.fillStyle = T['car-edge']; rr(ctx, -L / 2 - 0.12 * k, -Wd / 2 - 0.12 * k, L + 0.24 * k, Wd + 0.24 * k, 0.5 * k); ctx.fill();
+      ctx.fillStyle = c.status === 'hit' ? T.danger : c.mov === 'R' ? T.rt : c.mov === 'L' ? T.lt : T.car; rr(ctx, -L / 2, -Wd / 2, L, Wd, 0.42 * k); ctx.fill();
+      ctx.fillStyle = alpha(T['car-edge'], 0.5); rr(ctx, 0.25 * k, -Wd / 2 + 0.22 * k, 1.0 * k, Wd - 0.44 * k, 0.2 * k); ctx.fill();
+      if (c.a < -1 || c.v < 0.2) { ctx.fillStyle = T.danger; ctx.fillRect(-L / 2 - 0.1 * k, -Wd / 2 + 0.1 * k, 0.3 * k, 0.45 * k); ctx.fillRect(-L / 2 - 0.1 * k, Wd / 2 - 0.55 * k, 0.3 * k, 0.45 * k); }
+      ctx.restore();
+    }
+    // peds
+    for (const p of sim.peds) {
+      if (p.x === undefined) continue;
+      const px = X(p.x), py = Y(p.y), pr = Math.max(3, 0.5 * k);
+      if (p.state === 'hit') { ctx.strokeStyle = T.danger; ctx.lineWidth = Math.max(2, 0.3 * k); line(ctx, px - pr, py - pr, px + pr, py + pr); line(ctx, px + pr, py - pr, px - pr, py + pr); continue; }
+      ctx.fillStyle = T.ped; ctx.beginPath(); ctx.arc(px, py, pr, 0, 7); ctx.fill(); ctx.strokeStyle = T.panel; ctx.lineWidth = Math.max(1, 0.12 * k); ctx.stroke();
+    }
+    // fx
+    for (const f of sim.fx) {
+      const age = sim.t - f.t, a = Math.max(0, 1 - age / 2.2), col = f.type === 'coll' ? T.danger : f.type === 'near' ? T.warn : T.yellow;
+      ctx.strokeStyle = alpha(col, a); ctx.lineWidth = Math.max(2, 0.3 * k); ctx.beginPath(); ctx.arc(X(f.x), Y(f.y), (1 + age * 2.2) * k, 0, 7); ctx.stroke();
+      const lbl = f.type === 'coll' ? '충돌' : f.type === 'near' ? '아차사고' : '통행 중 진입';
+      ctx.font = `700 ${Math.max(11, 1.8 * k)}px ${FONT}`; ctx.textAlign = 'center'; const ty = Y(f.y) - (2.6 + age) * k;
+      ctx.lineWidth = 3; ctx.strokeStyle = alpha(T['car-edge'], a * 0.8); ctx.strokeText(lbl, X(f.x), ty); ctx.fillStyle = alpha(col, a); ctx.fillText(lbl, X(f.x), ty);
+    }
+    function arrow(j, pts, kind) {
+      poly(j, pts); ctx.stroke();
+      const n = pts.length, [x1, y1] = pts[n - 2], [x2, y2] = pts[n - 1], ang = Math.atan2(y2 - y1, x2 - x1), s = 0.75;
+      poly(j, [[x2 + Math.cos(ang) * s, y2 + Math.sin(ang) * s], [x2 + Math.cos(ang + 2.3) * s, y2 + Math.sin(ang + 2.3) * s], [x2 + Math.cos(ang - 2.3) * s, y2 + Math.sin(ang - 2.3) * s]]); ctx.closePath(); ctx.fill();
+    }
+  }
+  function block(ctx, X, Y, cx, cy, sx, sy, r) {
+    const far = 300; ctx.beginPath();
+    ctx.moveTo(X(cx + sx * r), Y(cy)); ctx.lineTo(X(cx + sx * far), Y(cy)); ctx.lineTo(X(cx + sx * far), Y(cy + sy * far)); ctx.lineTo(X(cx), Y(cy + sy * far)); ctx.lineTo(X(cx), Y(cy + sy * r));
+    ctx.arcTo(X(cx), Y(cy), X(cx + sx * r), Y(cy), Math.abs(X(r) - X(0))); ctx.closePath();
+  }
+  function line(ctx, a, b, c, d) { ctx.beginPath(); ctx.moveTo(a, b); ctx.lineTo(c, d); ctx.stroke(); }
+  function rr(ctx, x, y, w, h, r) { ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r); ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath(); }
+
+  // ---------- HUD
+  const STATS = [['exited', '통과 차량'], ['delay', '평균 지체'], ['greenLoss', '직진 녹색 중 정지'], ['cwOcc', '횡단보도 위 정차'], ['conf', '아차사고+충돌'], ['hard', '급제동']];
+  for (const id of ['statsA', 'statsB']) $(id).innerHTML = STATS.map(([kk, l]) => `<div><span>${l}</span><b data-k="${kk}">0</b></div>`).join('');
+  function hud(sim, el) {
+    const st = sim.st;
+    for (const b of el.querySelectorAll('b')) {
+      const kk = b.dataset.k;
+      if (kk === 'delay') b.innerHTML = st.exited ? (st.delaySum / st.exited).toFixed(1) + '<small>초</small>' : '–';
+      else if (kk === 'greenLoss' || kk === 'cwOcc') b.innerHTML = Math.round(st[kk]) + '<small>초</small>';
+      else if (kk === 'conf') b.textContent = st.near + st.coll;
+      else b.innerHTML = st[kk] + (kk === 'exited' ? '<small>대</small>' : '');
+    }
+  }
+  const PHN = { A: '남북 직진·우회전', B: '남북 좌회전', C: '동서 직진·우회전', D: '동서 좌회전' };
+  const PEDN = { A: '동·서쪽 횡단보도', C: '남·북쪽 횡단보도' };
+  function phaseHud() {
+    const p = simA.phase(), u = simA.t % CYC;
+    $('marker').style.left = (u / CYC * 100) + '%';
+    for (const d of $('phases').children) if (d.dataset && d.dataset.p) d.classList.toggle('on', d.dataset.p === p.n);
+    const stg = p.stage === 'G' ? '녹색' : p.stage === 'Y' ? '황색' : '전적색';
+    const ped = PEDN[p.n] && p.u < 36 ? ` · 보행 ${p.u < 20 ? '녹색' : '점멸'}: <b>${PEDN[p.n]}</b>` : ' · 보행 신호: 모두 적색';
+    $('phaseNow').innerHTML = `차량: <b>${PHN[p.n]} ${stg}</b>${ped}`;
+  }
+  const fmtClock = t => String(Math.floor(t / 60)).padStart(2, '0') + ':' + String(Math.floor(t % 60)).padStart(2, '0');
+
+  let last = performance.now(), acc = 0, hudT = 0;
+  function frame(now) {
+    const real = Math.min(0.1, (now - last) / 1000); last = now;
+    if (playing) { acc += real * speed; let n = 0; while (acc >= STEP && n < 800) { simA.step(STEP); simB.step(STEP); acc -= STEP; n++; } if (n >= 800) acc = 0; }
+    draw(views[0], simA, false); draw(views[1], simB, true);
+    hudT -= real; if (hudT <= 0) { hud(simA, $('statsA')); hud(simB, $('statsB')); phaseHud(); $('clock').textContent = fmtClock(simA.t); hudT = 0.15; }
+    requestAnimationFrame(frame);
+  }
+
+  // ---------- controls
+  function setSpeed(v) { speed = v; for (const b of $('speeds').children) b.setAttribute('aria-pressed', Number(b.dataset.v) === v); }
+  for (const b of $('speeds').children) b.onclick = () => setSpeed(Number(b.dataset.v));
+  $('play').onclick = () => { playing = !playing; $('play').textContent = playing ? '일시정지' : '재생'; };
+  $('reset').onclick = makeSims;
+  const live = (key) => { simA.setParam(key, params[key]); simB.setParam(key, params[key]); };
+  function bind(id, out, key, fmt, rebuild) {
+    const el = $(id), show = () => { $(out).textContent = fmt(params[key]); };
+    params[key] = Number(el.value); show();
+    el.addEventListener('input', () => { params[key] = Number(el.value); show(); if (rebuild) makeSims(); else live(key); if (key === 'S') $('titleB').textContent = `네 방향 ${params.S}m 이격`; $('stale').hidden = false; });
+  }
+  bind('pS', 'oS', 'S', v => v + ' m', true);
+  bind('pV', 'oV', 'vph', v => v + ' 대/시', false);
+  bind('pR', 'oR', 'rShare', v => Math.round(v * 100) + ' %', false);
+  bind('pP', 'oP', 'pedRate', v => v + ' 명/분', false);
+  bind('pG', 'oG', 'glance', v => v.toFixed(1) + ' 초', false);
+  bind('pT', 'oT', 'rt', v => v.toFixed(1) + ' 초', false);
+  $('pRtor').addEventListener('change', e => { params.rtor = e.target.checked; live('rtor'); $('stale').hidden = false; });
+  $('pRaised').addEventListener('change', e => { params.raised = e.target.checked; live('raised'); $('stale').hidden = false; });
+
+  // ---------- batch
+  let batchToken = 0;
+  function runBatch() {
+    const token = ++batchToken, btn = $('runBatch');
+    btn.disabled = true;
+    const a = new Sim4(Object.assign(opts(false), { seed: 500 })), b = new Sim4(Object.assign(opts(true), { seed: 500 }));
+    const total = 72000; let done = 0;
+    const chunk = () => {
+      if (token !== batchToken) return;
+      const end = Math.min(total, done + 1800);
+      for (; done < end; done++) { a.step(0.05); b.step(0.05); }
+      btn.textContent = `계산 중… ${Math.round(done / total * 100)}%`;
+      if (done < total) setTimeout(chunk, 0);
+      else { render(a, b); btn.disabled = false; btn.textContent = '현재 조건으로 다시 계산'; $('stale').hidden = true; }
+    };
+    setTimeout(chunk, 20);
+  }
+  function summarize(s) {
+    const st = s.st, per = v => st.exited ? v / st.exited * 1000 : 0, dl = m => st.exitedBy[m] ? st.delayBy[m] / st.exitedBy[m] : 0;
+    return {
+      thr: st.exited, delay: st.delaySum / st.exited, dT: dl('T'), dR: dl('R'), dL: dl('L'),
+      green: st.greenLoss, queue: st.queueSum / st.queueN, cwOcc: st.cwOcc,
+      conf: per(st.near + st.coll), coll: per(st.coll),
+      violOut: per(st.violOut), violIn: per(st.violIn), hardOut: per(st.hardOut), hardIn: per(st.hardIn),
+      rtV: st.rtEntryN ? st.rtEntrySum / st.rtEntryN : 0,
+    };
+  }
+  function render(sa, sb) {
+    const A = summarize(sa), B = summarize(sb), S = params.S;
+    const rows = [
+      ['g', '차량 흐름'],
+      ['r', '처리 차량', '1시간 동안 교차로를 빠져나간 차', 'thr', '대', 0, false],
+      ['r', '평균 지체', '신호·보행자가 없을 때보다 더 걸린 시간', 'delay', '초', 1, true],
+      ['s', '직진 차량', '', 'dT', '초', 1, true],
+      ['s', '우회전 차량', '', 'dR', '초', 1, true],
+      ['s', '좌회전 차량', '', 'dL', '초', 1, true],
+      ['r', '직진 녹색 중 정지', '녹색인데 앞차 때문에 서 있던 시간 합계', 'green', '초', 0, true],
+      ['r', '평균 대기행렬', '방향별 정지선부터 대기 차량 끝까지', 'queue', 'm', 1, true],
+      ['r', '횡단보도 위 정차', '차가 횡단보도를 막고 서 있던 시간 합계', 'cwOcc', '초', 0, true],
+      ['g', '보행자 안전 (차량 1,000대당)'],
+      ['r', '아차사고+충돌', '1m 이내 근접, 보행자 회피, 접촉', 'conf', '건', 1, true],
+      ['s', '그중 충돌', '', 'coll', '건', 1, true],
+      ['r', '통행 중 진입 · 유출 측', '보행자가 차로에 있을 때 진입 (교차로를 나가는 쪽)', 'violOut', '건', 1, true],
+      ['r', '통행 중 진입 · 유입 측', '교차로로 들어오는 쪽', 'violIn', '건', 1, true],
+      ['r', '급제동 · 유출 측', '횡단보도 앞 감속도 3.5m/s² 초과', 'hardOut', '건', 1, true],
+      ['r', '급제동 · 유입 측', '', 'hardIn', '건', 1, true],
+      ['g', '대가'],
+      ['r', '우회전 차 횡단보도 진입속도', '평균, 사고 시 피해 크기와 직결', 'rtV', 'km/h', 0, true],
+    ];
+    const fmt = (v, u, d) => v.toFixed(d) + (u === '건' ? '' : ' ' + u);
+    let html = rows.map(r => {
+      if (r[0] === 'g') return `<tr class="grouphead"><td colspan="3">${r[1]}</td></tr>`;
+      const [kind, name, sub, key, unit, dec, lower] = r, va = A[key], vb = B[key], max = Math.max(va, vb, 1e-9);
+      let verdict;
+      if (Math.abs(va) < 1e-9 && Math.abs(vb) < 1e-9) verdict = '<span class="pill">둘 다 0</span>';
+      else {
+        const ch = va ? (vb - va) / Math.abs(va) * 100 : 100; const good = lower ? vb < va : vb > va; const flat = Math.abs(ch) < 2;
+        // a percentage over a near-zero base reads as noise, so show the absolute change instead
+        const txt = (unit === '건' && Math.abs(va) < 3) ? `${vb - va > 0 ? '+' : ''}${(vb - va).toFixed(1)}건` : `${ch > 0 ? '+' : ''}${ch.toFixed(0)}%`;
+        verdict = `<span class="pill ${flat ? '' : good ? 'good' : 'bad'}">${txt}</span>`;
+      }
+      return `<tr><td class="metric${kind === 's' ? ' sub' : ''}">${name}${sub ? `<small>${sub}</small>` : ''}</td>
+        <td><div class="barcell"><span class="k">A</span><div class="track"><div class="fill a" style="width:${va / max * 100}%"></div></div><span class="v">${fmt(va, unit, dec)}</span></div>
+        <div class="barcell"><span class="k">B</span><div class="track"><div class="fill b" style="width:${vb / max * 100}%"></div></div><span class="v">${fmt(vb, unit, dec)}</span></div></td>
+        <td class="verdict">${verdict}</td></tr>`;
+    }).join('');
+    html += `<tr><td class="metric">보행자 최대 우회 거리<small>모퉁이에서 바로 건너던 사람이 돌아가는 거리</small></td><td><div class="barcell"><span class="k">A</span><div class="track"><div class="fill a" style="width:0%"></div></div><span class="v">0 m</span></div><div class="barcell"><span class="k">B</span><div class="track"><div class="fill b" style="width:100%"></div></div><span class="v">${2 * S} m</span></div></td><td class="verdict"><span class="pill bad">+${Math.round(2 * S / 1.2)}초</span></td></tr>`;
+    $('cmpBody').innerHTML = html;
+    const pct = (a, b) => a ? Math.round((b - a) / a * 100) : 0;
+    const outA = A.violOut + A.hardOut, outB = B.violOut + B.hardOut, inA = A.violIn + A.hardIn, inB = B.violIn + B.hardIn;
+    $('findings').innerHTML = `
+      <div class="find good"><div class="h">유출 측 안전</div><p>아차사고·충돌이 1,000대당 <b>${A.conf.toFixed(1)}</b> → <b>${B.conf.toFixed(1)}</b>건으로 줄고, 유출 측 통행 중 진입과 급제동은 합쳐서 <b>${pct(outA, outB)}%</b> 바뀌었습니다.</p></div>
+      <div class="find ${Math.abs(pct(A.delay, B.delay)) < 3 ? 'flat' : B.delay < A.delay ? 'good' : 'bad'}"><div class="h">전체 흐름</div><p>평균 지체 <b>${A.delay.toFixed(1)}</b> → <b>${B.delay.toFixed(1)}</b>초, 처리 차량 <b>${A.thr}</b> → <b>${B.thr}</b>대. 교차로 용량은 신호 현시가 정하기 때문에 전체 흐름은 크게 바뀌지 않습니다. 직진은 <b>${pct(A.dT, B.dT)}%</b>, 좌회전은 <b>${pct(A.dL, B.dL) > 0 ? '+' : ''}${pct(A.dL, B.dL)}%</b>입니다.</p></div>
+      <div class="find bad"><div class="h">유입 측의 새 위험</div><p>들어오는 차로에서 통행 중 진입·급제동이 1,000대당 <b>${inA.toFixed(1)}</b> → <b>${inB.toFixed(1)}</b>건으로 늘었습니다. 우회전 차 진입속도도 <b>${A.rtV.toFixed(0)}</b> → <b>${B.rtV.toFixed(0)}km/h</b>로 높아졌습니다.</p></div>`;
+  }
+  $('runBatch').onclick = runBatch;
+
+  makeSims(); setSpeed(3);
+  requestAnimationFrame(t => { last = t; frame(t); });
+  setTimeout(runBatch, 300);
+})();
+</script>
+
+</body>
+</html>
