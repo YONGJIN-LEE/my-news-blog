@@ -591,6 +591,61 @@ img { max-width: 100%; height: auto; display: block; }
   text-align: center;
 }
 
+/* ─── Related Posts ─── */
+.related-posts {
+  margin: 40px 0 8px;
+  padding-top: 28px;
+  border-top: 1px solid var(--gray-300);
+}
+
+.related-posts h2 {
+  font-size: 1.15rem;
+  margin: 0 0 12px;
+  color: var(--black);
+}
+
+.related-posts ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.related-posts li a {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: baseline;
+  gap: 10px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--gray-100);
+  color: var(--gray-900);
+  text-decoration: none;
+}
+
+.related-posts li a:hover .related-title { color: var(--blue); }
+
+.related-cat {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--blue);
+  white-space: nowrap;
+}
+
+.related-title {
+  font-size: 0.95rem;
+  line-height: 1.45;
+  min-width: 0;
+}
+
+.related-date {
+  font-size: 0.8rem;
+  color: var(--gray-500);
+  white-space: nowrap;
+}
+
+@media (max-width: 560px) {
+  .related-posts li a { grid-template-columns: 1fr; gap: 4px; }
+}
+
 /* ─── Popular Posts Sidebar ─── */
 .popular-sidebar {
   position: fixed;

@@ -8,7 +8,9 @@ content/posts/*.md → public/*.html
 import os
 import re
 import json
+import math
 import unicodedata
+from html import escape
 from pathlib import Path
 from datetime import datetime
 from collections import defaultdict
@@ -50,6 +52,7 @@ CATEGORIES = {
     "politics": "정치",
     "society": "사회",
     "economy": "경제",
+    "accident": "사건사고",
     "entertainment": "연예",
     "life": "생활",
     "health": "건강",     # 2026-05-10 추가
@@ -64,6 +67,7 @@ CATEGORY_TO_SLUG = {
     "정치": "politics",
     "사회": "society",
     "경제": "economy",
+    "사건사고": "accident",
     "연예": "entertainment",
     "생활": "life",
     "건강": "health",     # 2026-05-10 추가
@@ -167,7 +171,14 @@ def parse_front_matter(content):
                 if ":" in line:
                     key, val = line.split(":", 1)
                     key = key.strip()
-                    val = val.strip().strip('"').strip("'")
+                    val = val.strip()
+                    if len(val) >= 2 and val[0] == val[-1] == '"':
+                        try:
+                            val = json.loads(val)
+                        except ValueError:
+                            val = val.strip('"')
+                    else:
+                        val = val.strip("'")
                     if val.startswith("[") and val.endswith("]"):
                         try:
                             val = json.loads(val)
@@ -177,11 +188,47 @@ def parse_front_matter(content):
     return meta, body
 
 
+def make_description(meta, body, limit=150):
+    """front matter description이 제목 복사본이면 본문 도입부로 검색 스니펫용 요약 생성."""
+    desc = (meta.get("description") or "").strip()
+    if desc and desc != (meta.get("title") or "").strip():
+        return desc
+    parts = []
+    for block in re.split(r"\n\s*\n", body):
+        lines = [
+            re.sub(r"^\s*(?:[-*]|\d+\.)\s+", "", ln)
+            for ln in block.strip().split("\n")
+            if ln.strip() and not ln.lstrip().startswith(("#", "![", "|", ">"))
+        ]
+        b = " ".join(lines)
+        b = re.sub(r"!\[[^\]]*\]\([^)]*\)", "", b)
+        b = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", b)
+        b = re.sub(r"[*_`]+", "", b)
+        b = re.sub(r"\s+", " ", b).strip()
+        if b:
+            parts.append(b)
+        if sum(len(p) for p in parts) >= limit:
+            break
+    text = " ".join(parts)
+    if len(text) <= limit:
+        return text or meta.get("title", "")
+    cut = text[:limit]
+    end = max(cut.rfind(". "), cut.rfind("? "), cut.rfind("! "))
+    if end >= limit // 2:
+        return cut[:end + 1].strip()
+    return cut.rstrip() + "…"
+
+
 # ─── HTML Templates (Apple-inspired) ─────────────────────────────────────────
 def get_css():
     if CSS_FILE.exists():
         return CSS_FILE.read_text(encoding="utf-8")
     return ""
+
+
+def jsonld_script(obj):
+    data = json.dumps(obj, ensure_ascii=False).replace("</", "<\\/")
+    return f'\n  <script type="application/ld+json">{data}</script>'
 
 
 def html_head(title, description="", thumbnail="", is_article=False, canonical_path="", article_meta=None):
@@ -233,7 +280,7 @@ def html_head(title, description="", thumbnail="", is_article=False, canonical_p
             },
             "mainEntityOfPage": {"@type": "WebPage", "@id": am.get("url", canonical)}
         }
-        jsonld = f'\n  <script type="application/ld+json">{json.dumps(jsonld_obj, ensure_ascii=False)}</script>'
+        jsonld = jsonld_script(jsonld_obj)
     elif not is_article:
         jsonld_obj = {
             "@context": "https://schema.org",
@@ -243,30 +290,32 @@ def html_head(title, description="", thumbnail="", is_article=False, canonical_p
             "description": SITE_DESCRIPTION,
             "inLanguage": "ko-KR"
         }
-        jsonld = f'\n  <script type="application/ld+json">{json.dumps(jsonld_obj, ensure_ascii=False)}</script>'
+        jsonld = jsonld_script(jsonld_obj)
 
+    h_title = escape(title)
+    h_desc = escape(desc)
     return f"""<!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{title}</title>
-  <meta name="description" content="{desc}">
+  <title>{h_title}</title>
+  <meta name="description" content="{h_desc}">
   <meta name="author" content="{SITE_AUTHOR}">
   <link rel="canonical" href="{canonical}">
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="alternate" type="application/rss+xml" title="{SITE_TITLE}" href="{BASE_URL}/rss.xml">{verify_google}{verify_naver}
   <meta property="og:site_name" content="{SITE_TITLE}">
-  <meta property="og:title" content="{title}">
-  <meta property="og:description" content="{desc}">
+  <meta property="og:title" content="{h_title}">
+  <meta property="og:description" content="{h_desc}">
   <meta property="og:url" content="{canonical}">
   <meta property="og:image" content="{og_image}">
   <meta property="og:type" content="{og_type}">
   <meta property="og:locale" content="ko_KR">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="{title}">
-  <meta name="twitter:description" content="{desc}">
+  <meta name="twitter:title" content="{h_title}">
+  <meta name="twitter:description" content="{h_desc}">
   <meta name="twitter:image" content="{og_image}">{jsonld}
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
@@ -517,19 +566,23 @@ def render_static_page(meta, body_html, slug):
 
 
 def render_sitemap(posts, static_slugs):
-    from datetime import timezone
-    now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
-    urls = [f"{BASE_URL}/"]
+    # lastmod를 빌드 시각으로 일괄 갱신하면 검색엔진이 lastmod 자체를 무시하게 되므로 실제 날짜만 기록
+    latest = posts[0]["date"][:25] if posts else ""
+    latest_by_cat = {}
+    for p in posts:
+        latest_by_cat.setdefault(p["cat_slug"], p["date"][:25])
+    entries = [(f"{BASE_URL}/", latest)]
     for s in static_slugs:
-        urls.append(f"{BASE_URL}/{s}.html")
+        entries.append((f"{BASE_URL}/{s}.html", ""))
     for cs in CATEGORIES:
         if cs == "all":
             continue
-        urls.append(f"{BASE_URL}/category-{cs}.html")
+        entries.append((f"{BASE_URL}/category-{cs}.html", latest_by_cat.get(cs, "")))
     for p in posts:
-        urls.append(f"{BASE_URL}/{p['slug']}.html")
+        entries.append((f"{BASE_URL}/{p['slug']}.html", p["date"][:25]))
     items = "\n".join(
-        f"  <url><loc>{u}</loc><lastmod>{now}</lastmod></url>" for u in urls
+        f"  <url><loc>{escape(u)}</loc>" + (f"<lastmod>{d}</lastmod>" if d else "") + "</url>"
+        for u, d in entries
     )
     return f"""<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -538,18 +591,22 @@ def render_sitemap(posts, static_slugs):
 """
 
 
-def render_rss(posts, limit=30):
+def render_rss(posts, limit=50):
     from email.utils import format_datetime
     from datetime import timezone
     now = format_datetime(datetime.now(timezone.utc))
     items_xml = []
     for p in posts[:limit]:
-        link = f"{BASE_URL}/{p['slug']}.html"
-        title = p.get("title", "").replace("&", "&amp;").replace("<", "&lt;")
-        desc = (p.get("summary", "") or "").replace("&", "&amp;").replace("<", "&lt;")
+        link = escape(f"{BASE_URL}/{p['slug']}.html")
+        title = escape(p.get("title", ""))
+        desc = escape(p.get("description") or p.get("summary", "") or "")
+        try:
+            pub = f"<pubDate>{format_datetime(datetime.fromisoformat(p['date'][:25]))}</pubDate>"
+        except ValueError:
+            pub = ""
         items_xml.append(
             f"    <item><title>{title}</title><link>{link}</link>"
-            f"<guid>{link}</guid><description>{desc}</description></item>"
+            f"<guid>{link}</guid>{pub}<description>{desc}</description></item>"
         )
     items = "\n".join(items_xml)
     return f"""<?xml version="1.0" encoding="UTF-8"?>
@@ -566,8 +623,9 @@ def render_rss(posts, limit=30):
 """
 
 
-def render_post(meta, body_html):
+def render_post(meta, body_html, related_html=""):
     title = meta.get("title", "")
+    h_title = escape(title)
     date_str = meta.get("date", "")[:10]
     category = meta.get("category", "")
     tags = meta.get("tags", [])
@@ -596,7 +654,7 @@ def render_post(meta, body_html):
     reactions = f"""
       <div class="post-reactions"
            data-slug="{slug}"
-           data-title="{title}"
+           data-title="{h_title}"
            data-thumbnail="{thumb_for_data}"
            data-category="{category}">
         <button type="button" class="reaction-btn like-btn" data-action="like" aria-label="좋아요">
@@ -629,7 +687,7 @@ def render_post(meta, body_html):
     <article class="post-single">
       <header class="post-header">
         <span class="post-category">{category}</span>
-        <h1>{title}</h1>
+        <h1>{h_title}</h1>
         <div class="post-meta">
           <div class="post-date-group">
             <time datetime="{date_str}">{date_str}</time>
@@ -648,6 +706,7 @@ def render_post(meta, body_html):
         <div class="post-tags-footer">{tags_footer}</div>
         <p class="post-disclaimer">본 기사는 공개 보도를 종합한 뉴스 브리핑입니다. 정정 요청은 <a href="/contact.html">문의</a>로 접수해 주세요.</p>
       </footer>
+      {related_html}
     </article>
   </main>
 {html_footer()}"""
@@ -690,7 +749,7 @@ def img_with_fallback(src, alt, category, loading="lazy", extra_class=""):
     if not src or src.startswith("data:"):
         return ""
     cls = f' class="{extra_class}"' if extra_class else ''
-    return f'<img src="{src}" alt="{alt}" loading="{loading}"{cls} onerror="this.style.display=\'none\'">'
+    return f'<img src="{src}" alt="{escape(alt)}" loading="{loading}"{cls} onerror="this.style.display=\'none\'">'
 
 
 def render_post_cards(posts, show_featured=True):
@@ -838,6 +897,74 @@ def render_category_page(cat_slug, cat_name, all_posts, page=1, total_pages=1):
 
 
 # ─── Build ────────────────────────────────────────────────────────────────────
+def _post_day(p):
+    try:
+        return datetime.fromisoformat(p["date"][:10]).toordinal()
+    except ValueError:
+        return 0
+
+
+def compute_related(posts, k=6, max_days=90):
+    """태그(희소할수록 가중) + 같은 카테고리 + 날짜 근접도로 관련 기사 선정. posts는 최신순 정렬 상태."""
+    days = [_post_day(p) for p in posts]
+    tag_index = defaultdict(list)
+    for i, p in enumerate(posts):
+        for t in set(p["tags"]):
+            tag_index[t].append(i)
+    idf = {t: 1.0 / math.log(2 + len(ix)) for t, ix in tag_index.items()}
+
+    cat_index = defaultdict(list)
+    for i, p in enumerate(posts):
+        cat_index[p["cat_slug"]].append(i)
+
+    result = []
+    for i, p in enumerate(posts):
+        scores = defaultdict(float)
+        for t in set(p["tags"]):
+            if len(tag_index[t]) > 400:
+                continue
+            for j in tag_index[t]:
+                if j != i:
+                    scores[j] += idf[t]
+        picked, seen_titles = [], {p["title"]}
+        ranked = sorted(
+            (j for j in scores if abs(days[j] - days[i]) <= max_days),
+            key=lambda j: -(scores[j] + (0.3 if posts[j]["cat_slug"] == p["cat_slug"] else 0))
+            / (1 + abs(days[j] - days[i]) / 30),
+        )
+        # 같은 카테고리에서 날짜가 가까운 글로 부족분 채움
+        same_cat = sorted(
+            (j for j in cat_index[p["cat_slug"]] if j != i),
+            key=lambda j: abs(days[j] - days[i]),
+        ) if p["cat_slug"] else []
+        for j in ranked + same_cat[:k * 2]:
+            if posts[j]["title"] in seen_titles:
+                continue
+            seen_titles.add(posts[j]["title"])
+            picked.append(posts[j])
+            if len(picked) >= k:
+                break
+        result.append(picked)
+    return result
+
+
+def render_related(items):
+    if not items:
+        return ""
+    lis = "".join(
+        f'<li><a href="{p["slug"]}.html">'
+        f'<span class="related-cat">{escape(p["category"])}</span>'
+        f'<span class="related-title">{escape(p["title"])}</span>'
+        f'<span class="related-date">{p["date"][:10]}</span></a></li>'
+        for p in items
+    )
+    return f"""
+      <section class="related-posts" aria-label="관련 기사">
+        <h2>관련 기사</h2>
+        <ul>{lis}</ul>
+      </section>"""
+
+
 def build():
     print(f"빌드: {CONTENT_DIR} → {PUBLIC_DIR}")
 
@@ -866,6 +993,7 @@ def build():
                 shutil.copy2(src, dest)
 
     posts = []
+    seen_slugs = set()
     md_files = sorted(CONTENT_DIR.glob("*.md"))
     print(f"  포스트 {len(md_files)}개")
 
@@ -884,6 +1012,10 @@ def build():
         body_html = re.sub(r'(<img[^>]*\ssrc=")http://', r'\1https://', body_html)
 
         slug = nfc(meta.get("slug", md_file.stem).strip('"'))
+        # macOS NFD 파일명·Finder 복사본(" 2.md")으로 같은 글이 중복 저장된 경우 한 번만 출력
+        if slug in seen_slugs:
+            continue
+        seen_slugs.add(slug)
         meta["slug"] = slug  # 정규화된 값으로 갱신 (render_post가 재사용)
 
         # 상세 페이지 히어로 이미지와 본문 첫 이미지 중복 제거
@@ -903,15 +1035,16 @@ def build():
                 body_html = re.sub(r'<figure[^>]*>\s*<img[^>]*>\s*</figure>', '', body_html, count=1)
 
         summary = re.sub(r"<[^>]+>", "", body_html)[:180] + "..."
+        meta["description"] = make_description(meta, body)
 
         # 카테고리 정규화
         raw_cat = meta.get("category", "").strip()
         cat_slug = CATEGORY_TO_SLUG.get(raw_cat, "")
         display_cat = raw_cat if raw_cat else "일반"
 
-        page_html = render_post(meta, body_html)
-        out_path = PUBLIC_DIR / f"{slug}.html"
-        out_path.write_text(page_html, encoding="utf-8")
+        tags = meta.get("tags", [])
+        if not isinstance(tags, list):
+            tags = []
 
         # md 파일 생성 시간 (macOS: st_birthtime, Linux: st_mtime fallback)
         stat = md_file.stat()
@@ -932,15 +1065,26 @@ def build():
             "thumbnail": meta.get("thumbnail", ""),
             "slug": slug,
             "summary": summary,
+            "description": meta["description"],
+            "tags": tags,
             "file_ctime": file_ctime,
+            "_meta": meta,
+            "_body_html": body_html,
         })
 
     # frontmatter date 전체 기준 역순 정렬 (최신 날짜+시간대 우선)
     # 같은 datetime이면 제목 가나다순
     posts.sort(key=lambda x: (x["date"][:19], x["title"]), reverse=True)
 
+    # ── 상세 페이지 (관련 기사 내부 링크 포함) ──
+    related = compute_related(posts)
+    for i, p in enumerate(posts):
+        page_html = render_post(p["_meta"], p["_body_html"], render_related(related[i]))
+        (PUBLIC_DIR / f"{p['slug']}.html").write_text(page_html, encoding="utf-8")
+        del p["_meta"], p["_body_html"]
+    print(f"  상세 페이지: {len(posts)}개 (관련 기사 링크 포함)")
+
     # ── 메인 페이지 (페이지네이션) ──
-    import math
     total_main_pages = max(1, math.ceil(len(posts) / POSTS_PER_PAGE))
     for page_num in range(1, total_main_pages + 1):
         page_html = render_index(posts, page=page_num, total_pages=total_main_pages)

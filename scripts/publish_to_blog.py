@@ -26,6 +26,8 @@ from datetime import datetime, date
 from pathlib import Path
 from urllib.parse import urlparse
 
+from build_html import make_description
+
 # ─── 경로 설정 ─────────────────────────────────────────────────────────────────
 SCRIPT_DIR = Path(__file__).parent.resolve()
 BLOG_DIR = SCRIPT_DIR.parent
@@ -344,14 +346,17 @@ def create_hugo_post(md_path, with_images=True, naver_creds=(None, None)):
 
     time_str = "06:00" if meta["time_slot"] == "오전" else "14:00" if meta["time_slot"] == "점심" else "19:00"
 
+    description = make_description({"title": title}, content)
+    q = lambda s: json.dumps(s, ensure_ascii=False)
+
     front_matter = f"""---
-title: "{title}"
+title: {q(title)}
 date: {meta['date']}T{time_str}:00+09:00
-slug: "{slug}"
-category: "{meta['category']}"
-tags: {json.dumps(tags, ensure_ascii=False)}
-thumbnail: "{thumbnail}"
-description: "{title}"
+slug: {q(slug)}
+category: {q(meta['category'])}
+tags: {q(tags)}
+thumbnail: {q(thumbnail)}
+description: {q(description)}
 draft: false
 ---
 """
